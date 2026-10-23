@@ -28,18 +28,9 @@ CASES = SET["cases"]
 RULE = "espmap-sesiidae-001/range_partition_sign_v1"
 
 # --- what the card gets wrong today (measured, not intended) -------------------
-UNSAFE_NOW = {
-    # probe round 2 of #11: a boolean passes as a number (delta, partition,
-    # interval, and through the all-member row); a not-evaluable row's garbage
-    # range crashes the card
-    "malformed_bool_delta", "malformed_bool_partition", "malformed_bool_interval",
-    "malformed_bool_in_all_member_row", "not_evaluable_range_garbage",
-}
+UNSAFE_NOW = set()      # empty since the card met the probe rounds of #11; a new failing case goes here
 NOT_PREFERRED_NOW = set(UNSAFE_NOW)
-REQUIRES_MISSING_NOW = {
-    # a not-evaluable row shows an infinite range
-    ("not_evaluable_range_infinite", 1),
-}
+REQUIRES_MISSING_NOW = set()
 
 
 def _mark(ids, cid):

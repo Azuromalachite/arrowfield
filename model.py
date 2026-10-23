@@ -507,6 +507,14 @@ def study_row_inconsistency(rule, outcome, cond, interval):
     return None
 
 
+def real_number(x):
+    """A finite real measurement: an int, float or numpy float, never a bool
+    (Python counts True as 1; probe round 2 of #11) and never NaN or inf."""
+    import math
+    import numbers
+    return isinstance(x, numbers.Real) and not isinstance(x, bool) and math.isfinite(float(x))
+
+
 def _bad_pair(p):
     """None for a finite (low, high) pair with low <= high, or for None;
     else what is wrong with it (probe of #11: a reversed interval read as
@@ -514,7 +522,7 @@ def _bad_pair(p):
     import math
     if p is None:
         return None
-    if len(p) != 2 or not all(isinstance(v, (int, float)) and math.isfinite(v) for v in p):
+    if len(p) != 2 or not all(real_number(v) for v in p):
         return "not a pair of finite numbers"
     return "reversed (low above high)" if p[0] > p[1] else None
 
@@ -530,7 +538,7 @@ def study_row_malformed(row):
         return None
     for name in ("delta", "delta_other_rule", "partition", "partition_max_member", "mean_x", "mean_y"):
         v = getattr(row, name)
-        if v is not None and not (isinstance(v, (int, float)) and math.isfinite(v)):
+        if v is not None and not real_number(v):
             return f"{name} {v!r} is not a finite number"
     if row.partition is not None and row.partition < 0:
         return f"partition {row.partition} is negative"

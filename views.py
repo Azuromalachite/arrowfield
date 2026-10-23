@@ -342,7 +342,15 @@ def _sfmt(x, fmt="+.2f"):
 
 
 def _span(r):
-    return "–" if r is None else f"{_sfmt(r[0])} … {_sfmt(r[1])}"
+    """A (low, high) range, or why it is not shown: a not-evaluable row may
+    carry anything, and only a finite ordered pair is displayed (probe round
+    2 of #11: a string range crashed the card, an infinite one was shown)."""
+    from model import _bad_pair
+    if r is None:
+        return "–"
+    if _bad_pair(r):
+        return "not shown (not a finite range)"
+    return f"{_sfmt(r[0])} … {_sfmt(r[1])}"
 
 
 def study_card_html(row, context):
