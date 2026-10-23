@@ -6,13 +6,14 @@ computed ESP surfaces. Its rules for contributors (and for AI agents) are in
 
 ## Set up
 
-Python 3.10 or newer, with:
+Python 3.10 or newer, with the versions CI uses:
 
 ```bash
-pip install numpy pyyaml rdkit
+pip install -r requirements-ci.txt
 ```
 
-That is enough for the manifest and the tests. Computing or rendering
+That is enough for the manifest and the tests, which CI runs on every push
+and pull request (`.github/workflows/ci.yml`). Computing or rendering
 records (`compute_records.py`, `build_p3.py`, `build_demo.py`) also needs
 espmap at the pinned tag:
 
@@ -33,6 +34,8 @@ pip install "espmap @ git+https://github.com/Azuromalachite/espmap@v0.2.1"
 | `records/`, `geometries/` | computed small-molecule records, a DFT geometry | regenerate, don't edit |
 | `demo/` | rendered pages | generated, not committed |
 | `pilot/` | the Sesiidae pilot's scripts and raw results | add, don't rewrite |
+| `requirements-ci.txt` | the pinned versions CI installs | yes, with a rebuilt manifest |
+| `.github/` | CI workflow and the pull request template | yes |
 
 ## Definition of done
 

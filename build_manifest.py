@@ -113,14 +113,23 @@ ENTRIES = [
          role="atlas_observed", atlas_compound="spa.cmpd.e2_z13_18_oac"),
 ]
 
-# The Atlas's InChIKey for each atlas_compound, checked against the structure
-# here when the manifest is built (2026-10-23, Atlas 6775875). A mismatch means
-# the two repositories disagree on what the compound is.
-ATLAS_INCHIKEY = {
-    "spa.cmpd.z3_z13_18_oh": "QBNCGBJHGBGHLS-NCCHCWSYSA-N",
-    "spa.cmpd.z3_z13_18_oac": "VVJPJXKHBZNADP-DNNFRFAMSA-N",
-    "spa.cmpd.e3_z13_18_oac": "VVJPJXKHBZNADP-ZSTZHTMOSA-N",
-    "spa.cmpd.e2_z13_18_oac": "NWRSOYAGXTXEMK-NHRIVICHSA-N",
+# The Atlas's canonical isomeric SMILES and InChIKey for each atlas_compound,
+# from its derived/compounds.jsonl (Atlas e8ca212, 2026-10-23), checked
+# against the structure here when the manifest is built. A mismatch means the
+# two repositories disagree on what the compound is. The SMILES is the
+# identity: a standard InChIKey merges some tautomers (2-hydroxypyridine and
+# 2-pyridone share one, espmap #72), so the key is only a second check. The
+# Atlas's SMILES is re-canonicalised here, so an RDKit upgrade that changes
+# canonical strings changes both sides alike.
+ATLAS_COMPOUND = {
+    "spa.cmpd.z3_z13_18_oh": ("CCCC/C=C\\CCCCCCCC/C=C\\CCO",
+                              "QBNCGBJHGBGHLS-NCCHCWSYSA-N"),
+    "spa.cmpd.z3_z13_18_oac": ("CCCC/C=C\\CCCCCCCC/C=C\\CCOC(C)=O",
+                               "VVJPJXKHBZNADP-DNNFRFAMSA-N"),
+    "spa.cmpd.e3_z13_18_oac": ("CCCC/C=C\\CCCCCCCC/C=C/CCOC(C)=O",
+                               "VVJPJXKHBZNADP-ZSTZHTMOSA-N"),
+    "spa.cmpd.e2_z13_18_oac": ("CCCC/C=C\\CCCCCCCCC/C=C/COC(C)=O",
+                               "NWRSOYAGXTXEMK-NHRIVICHSA-N"),
 }
 
 
@@ -152,15 +161,18 @@ def check(e):
     plain = Chem.Mol(m)
     for a in plain.GetAtoms():
         a.SetAtomMapNum(0)
-    key = Chem.MolToInchiKey(plain)
+    key, smiles = Chem.MolToInchiKey(plain), Chem.MolToSmiles(plain)
     if e["lesson"].startswith("sesiidae"):                      # who says what it is
         assert e.get("role") in ("atlas_observed", "teaching_control"), e["id"]
         if e["role"] == "atlas_observed":
-            assert ATLAS_INCHIKEY.get(e["atlas_compound"]) == key, \
-                f"{e['id']}: not the Atlas's {e['atlas_compound']}"
+            assert e["atlas_compound"] in ATLAS_COMPOUND, f"{e['id']}: unknown Atlas id"
+            atlas_smiles, atlas_key = ATLAS_COMPOUND[e["atlas_compound"]]
+            assert Chem.MolToSmiles(Chem.MolFromSmiles(atlas_smiles)) == smiles, \
+                f"{e['id']}: not the Atlas's {e['atlas_compound']} (SMILES)"
+            assert atlas_key == key, f"{e['id']}: not the Atlas's {e['atlas_compound']} (InChIKey)"
         else:
             assert e["atlas_compound"] is None and "teaching control" in e["note"], e["id"]
-    return dict(canonical_smiles=Chem.MolToSmiles(plain), inchikey=key,
+    return dict(canonical_smiles=smiles, inchikey=key,
                 formula=rdMolDescriptors.CalcMolFormula(plain))
 
 

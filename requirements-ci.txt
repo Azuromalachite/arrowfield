@@ -1,0 +1,7 @@
+# What CI installs: the versions the manifest was built and checked with
+# (2026-10-23). Computing or rendering records also needs espmap at its
+# pinned tag; see CONTRIBUTING.md.
+rdkit==2026.9.1
+numpy==2.5.4
+PyYAML==6.0.3
+pytest==9.1.1
