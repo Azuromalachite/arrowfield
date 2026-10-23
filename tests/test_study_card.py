@@ -28,8 +28,18 @@ CASES = SET["cases"]
 RULE = "espmap-sesiidae-001/range_partition_sign_v1"
 
 # --- what the card gets wrong today (measured, not intended) -------------------
-UNSAFE_NOW = set()      # empty since the card met S13 (probe of #11); a new failing case goes here
+UNSAFE_NOW = {
+    # probe round 2 of #11: a boolean passes as a number (delta, partition,
+    # interval, and through the all-member row); a not-evaluable row's garbage
+    # range crashes the card
+    "malformed_bool_delta", "malformed_bool_partition", "malformed_bool_interval",
+    "malformed_bool_in_all_member_row", "not_evaluable_range_garbage",
+}
 NOT_PREFERRED_NOW = set(UNSAFE_NOW)
+REQUIRES_MISSING_NOW = {
+    # a not-evaluable row shows an infinite range
+    ("not_evaluable_range_infinite", 1),
+}
 
 
 def _mark(ids, cid):
@@ -113,7 +123,9 @@ def test_card_output_is_preferred(c):
 REQ = [(c, i) for c in CASES for i in range(len(c["requires"]))]
 
 
-@pytest.mark.parametrize("c,i", REQ, ids=[f"{c['id']}-{i}" for c, i in REQ])
+@pytest.mark.parametrize("c,i", [pytest.param(c, i, id=f"{c['id']}-{i}",
+                                              marks=_mark(REQUIRES_MISSING_NOW, (c["id"], i)))
+                                 for c, i in REQ])
 def test_a_rendered_card_meets_its_requirements(c, i):
     out, page = _run(c)
     if out != "RENDERED":

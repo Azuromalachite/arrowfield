@@ -266,6 +266,31 @@ for vid, r, grade_r in (
          "anything else is a corrupt record, refused rather than rendered as if measured.",
          r, ctx(), {"RENDERED": grade_r, "REFUSED": "SAFE_REFUSAL"}, "REFUSED")
 
+# Probe round 2 of #11: Python's True and False are numbers to isinstance(.., int),
+# so a boolean slipped through as a delta, a partition or an interval bound,
+# and reached the card through the all-member row too.
+for vid, r, c in (("bool_delta", dict(C4, delta=True), ctx()),
+                  ("bool_partition", dict(C4, partition=False), ctx()),
+                  ("bool_interval", dict(B3, bootstrap_interval=[True, 2.0]), ctx()),
+                  ("bool_in_all_member_row", dict(C4, population="extended", n=[17, 14]),
+                   ctx(all_member_row=dict(C4, partition=True)))):
+    case(f"malformed_{vid}", "S13 malformed numbers",
+         "A boolean is not a measurement: a row (or the all-member row beside it) carrying True or "
+         "False where a number belongs is corrupt and refused.",
+         r, c, {"RENDERED": "FALSE", "REFUSED": "SAFE_REFUSAL"}, "REFUSED")
+# ...and a not-evaluable row's ranges were formatted without any check: a
+# string crashed the card, an infinity was shown. The card may still show a
+# not-evaluable row, but only well-formed ranges, and never crash.
+for vid, rx in (("range_garbage", ["a", None]), ("range_infinite", [-INF, 1.0])):
+    case(f"not_evaluable_{vid}", "S4 not evaluable",
+         "A not-evaluable row carries no verdict, so stray numbers do not make it corrupt; but a "
+         "range that is not a finite (low, high) pair must not be shown, and must not crash the card.",
+         dict(B3, outcome="not evaluable", range_x=rx, delta=NAN, partition=-4.0,
+              bootstrap_interval=[5.0, 1.0]), ctx(), SHOW, "RENDERED",
+         [must(r"not evaluable", "FALSE", "the study's word"),
+          must_not(r"\binf\b|infinity|\bnan\b|∞", "MISLEADING", "no infinite or NaN value shown"),
+          must_not(r"Δ|difference of (the )?means", "MISLEADING", "no difference value shown")])
+
 
 def document():
     for c in CASES:
