@@ -6,7 +6,7 @@ computed ESP surfaces. Its rules for contributors (and for AI agents) are in
 
 ## Set up
 
-Python 3.10 or newer, with the versions CI uses:
+Python 3.12 or newer (the pinned numpy needs it), with the versions CI uses:
 
 ```bash
 pip install -r requirements-ci.txt
