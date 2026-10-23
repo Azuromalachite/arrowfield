@@ -1,0 +1,346 @@
+schema: arrowfield.molecules/0-draft
+molecules:
+- id: ethane
+  display_name: ethane
+  lesson: polar-bonds
+  mapped_smiles: '[CH3:1][CH3:2]'
+  canonical_smiles: CC
+  inchikey: OTMSDBZUPAUEDD-UHFFFAOYSA-N
+  formula: C2H6
+  charge: 0
+  solvent: vacuum
+  note: the non-polar control
+- id: ethanol
+  display_name: ethanol
+  lesson: polar-bonds
+  mapped_smiles: '[CH3:1][CH2:2][OH:3]'
+  canonical_smiles: CCO
+  inchikey: LFQSCWFLJHTTHZ-UHFFFAOYSA-N
+  formula: C2H6O
+  charge: 0
+  solvent: vacuum
+  sites:
+  - label: hydroxyl
+    atoms:
+    - 3+H
+  - label: C-O carbon
+    atoms:
+    - 2+H
+- id: dimethyl_ether
+  display_name: dimethyl ether
+  lesson: polar-bonds
+  mapped_smiles: '[CH3:1][O:2][CH3:3]'
+  canonical_smiles: COC
+  inchikey: LCGLNKUTAGEVQW-UHFFFAOYSA-N
+  formula: C2H6O
+  charge: 0
+  solvent: vacuum
+  note: same formula as ethanol, no O-H donor
+- id: acetaldehyde
+  display_name: acetaldehyde (ethanal)
+  lesson: carbonyl
+  mapped_smiles: '[CH3:1][CH:2]=[O:3]'
+  canonical_smiles: CC=O
+  inchikey: IKHGUXGNUITLKF-UHFFFAOYSA-N
+  formula: C2H4O
+  charge: 0
+  solvent: vacuum
+  sites:
+  - label: carbonyl O
+    atoms:
+    - 3
+  - label: carbonyl C-H
+    atoms:
+    - 2+H
+- id: acetone
+  display_name: acetone (propanone)
+  lesson: carbonyl
+  mapped_smiles: '[CH3:1][C:2](=[O:3])[CH3:4]'
+  canonical_smiles: CC(C)=O
+  inchikey: CSCPPACGZOOCGX-UHFFFAOYSA-N
+  formula: C3H6O
+  charge: 0
+  solvent: vacuum
+  sites:
+  - label: carbonyl O
+    atoms:
+    - 3
+  - label: carbonyl C
+    atoms:
+    - 2
+- id: acetic_acid
+  display_name: acetic acid
+  lesson: acids-bases
+  mapped_smiles: '[CH3:1][C:2](=[O:3])[OH:4]'
+  canonical_smiles: CC(=O)O
+  inchikey: QTBSBXVTEAMEQO-UHFFFAOYSA-N
+  formula: C2H4O2
+  charge: 0
+  solvent: water
+  note: compare with acetate in the same solvent setting
+- id: acetate
+  display_name: acetate
+  lesson: acids-bases
+  mapped_smiles: '[CH3:1][C:2](=[O:3])[O-:4]'
+  canonical_smiles: CC(=O)[O-]
+  inchikey: QTBSBXVTEAMEQO-UHFFFAOYSA-M
+  formula: C2H3O2-
+  charge: -1
+  solvent: water
+  geometry: geometries/acetate.sdf (B3LYP/def2-TZVP, PCM water, make_geometries.py); never SMILES + MMFF
+    for small anions (up to 6.5 kcal/mol, H8)
+  note: 'an anion: PCM water is required (gas-phase small anions come out unbound)'
+- id: ethyl_acetate
+  display_name: ethyl acetate
+  lesson: esters
+  mapped_smiles: '[CH3:1][CH2:2][O:3][C:4](=[O:5])[CH3:6]'
+  canonical_smiles: CCOC(C)=O
+  inchikey: XEKOWRVHYACXOJ-UHFFFAOYSA-N
+  formula: C4H8O2
+  charge: 0
+  solvent: vacuum
+  sites:
+  - label: ester O
+    atoms:
+    - 3
+  - label: carbonyl O
+    atoms:
+    - 5
+- id: ethene
+  display_name: ethene
+  lesson: alkenes
+  mapped_smiles: '[CH2:1]=[CH2:2]'
+  canonical_smiles: C=C
+  inchikey: VGGSQFUCUMXWEO-UHFFFAOYSA-N
+  formula: C2H4
+  charge: 0
+  solvent: vacuum
+- id: e2_butene
+  display_name: (E)-but-2-ene
+  lesson: alkenes
+  mapped_smiles: '[CH3:1]/[CH:2]=[CH:3]/[CH3:4]'
+  canonical_smiles: C/C=C/C
+  inchikey: IAQRGUVFOMOMEM-ONEGZZNKSA-N
+  formula: C4H8
+  charge: 0
+  solvent: vacuum
+  stereo:
+    C2=C3: E
+- id: z2_butene
+  display_name: (Z)-but-2-ene
+  lesson: alkenes
+  mapped_smiles: '[CH3:1]/[CH:2]=[CH:3]\[CH3:4]'
+  canonical_smiles: C/C=C\C
+  inchikey: IAQRGUVFOMOMEM-ARJAWSKDSA-N
+  formula: C4H8
+  charge: 0
+  solvent: vacuum
+  stereo:
+    C2=C3: Z
+- id: enolate
+  display_name: acetaldehyde enolate
+  lesson: resonance
+  mapped_smiles: '[CH2:1]=[CH:2][O-:3]'
+  canonical_smiles: C=C[O-]
+  inchikey: IMROMDMJAWUWLK-UHFFFAOYSA-M
+  formula: C2H3O-
+  charge: -1
+  solvent: water
+  geometry: espmap bench/fixtures/enolate.sdf (B3LYP/def2-TZVP, PCM water); never SMILES + MMFF for small
+    anions
+  note: ESP points to O, the charge-controlled site; the alkylation outcome needs a citation with its
+    conditions before a lesson states it
+- id: z3z13_18_oh
+  display_name: (3Z,13Z)-octadeca-3,13-dien-1-ol
+  lesson: sesiidae-A
+  mapped_smiles: '[OH:31][CH2:1][CH2:2]/[CH:3]=[CH:4]\[CH2:5][CH2:6][CH2:7][CH2:8][CH2:9][CH2:10][CH2:11][CH2:12]/[CH:13]=[CH:14]\[CH2:15][CH2:16][CH2:17][CH3:18]'
+  canonical_smiles: CCCC/C=C\CCCCCCCC/C=C\CCO
+  inchikey: QBNCGBJHGBGHLS-NCCHCWSYSA-N
+  formula: C18H34O
+  charge: 0
+  solvent: vacuum
+  headgroup: alcohol
+  stereo:
+    C3=C4: Z
+    C13=C14: Z
+  sites:
+  - &id001
+    label: C1-H
+    atoms:
+    - 1+H
+  - &id002
+    label: C2-H
+    atoms:
+    - 2+H
+  - &id003
+    label: C3-H
+    atoms:
+    - 3+H
+  - &id004
+    label: C4-H
+    atoms:
+    - 4+H
+  - &id005
+    label: C5-H
+    atoms:
+    - 5+H
+  - &id006
+    label: C12-H
+    atoms:
+    - 12+H
+  - &id007
+    label: C13-H
+    atoms:
+    - 13+H
+  - &id008
+    label: C14-H
+    atoms:
+    - 14+H
+  - &id009
+    label: C15-H
+    atoms:
+    - 15+H
+  - label: head O
+    atoms:
+    - 31
+  - label: hydroxyl
+    atoms:
+    - 31+H
+  precompute: true
+  biological_context: 'TODO: cite the species/blend data before class use'
+- id: z3z13_18_al
+  display_name: (3Z,13Z)-octadeca-3,13-dienal
+  lesson: sesiidae-A
+  mapped_smiles: '[O:32]=[CH:1][CH2:2]/[CH:3]=[CH:4]\[CH2:5][CH2:6][CH2:7][CH2:8][CH2:9][CH2:10][CH2:11][CH2:12]/[CH:13]=[CH:14]\[CH2:15][CH2:16][CH2:17][CH3:18]'
+  canonical_smiles: CCCC/C=C\CCCCCCCC/C=C\CC=O
+  inchikey: FQIGBMCAZZSOQM-NCCHCWSYSA-N
+  formula: C18H32O
+  charge: 0
+  solvent: vacuum
+  headgroup: aldehyde
+  stereo:
+    C3=C4: Z
+    C13=C14: Z
+  sites:
+  - *id001
+  - *id002
+  - *id003
+  - *id004
+  - *id005
+  - *id006
+  - *id007
+  - *id008
+  - *id009
+  - label: head O
+    atoms:
+    - 32
+  precompute: true
+  biological_context: 'TODO: cite the species/blend data before class use'
+- id: z3z13_18_ac
+  display_name: (3Z,13Z)-octadeca-3,13-dien-1-yl acetate
+  lesson: sesiidae-A,B
+  mapped_smiles: '[CH3:21][C:22](=[O:32])[O:31][CH2:1][CH2:2]/[CH:3]=[CH:4]\[CH2:5][CH2:6][CH2:7][CH2:8][CH2:9][CH2:10][CH2:11][CH2:12]/[CH:13]=[CH:14]\[CH2:15][CH2:16][CH2:17][CH3:18]'
+  canonical_smiles: CCCC/C=C\CCCCCCCC/C=C\CCOC(C)=O
+  inchikey: VVJPJXKHBZNADP-DNNFRFAMSA-N
+  formula: C20H36O2
+  charge: 0
+  solvent: vacuum
+  headgroup: acetate
+  stereo:
+    C3=C4: Z
+    C13=C14: Z
+  sites:
+  - *id001
+  - *id002
+  - *id003
+  - *id004
+  - *id005
+  - *id006
+  - *id007
+  - *id008
+  - *id009
+  - label: head O
+    atoms:
+    - 31
+  - label: carbonyl O
+    atoms:
+    - 32
+  - label: acetyl
+    atoms:
+    - 21+H
+    - 22
+    - 32
+  precompute: true
+  biological_context: 'TODO: cite the species/blend data before class use'
+- id: e3z13_18_ac
+  display_name: (3E,13Z)-octadeca-3,13-dien-1-yl acetate
+  lesson: sesiidae-B,C
+  mapped_smiles: '[CH3:21][C:22](=[O:32])[O:31][CH2:1][CH2:2]/[CH:3]=[CH:4]/[CH2:5][CH2:6][CH2:7][CH2:8][CH2:9][CH2:10][CH2:11][CH2:12]/[CH:13]=[CH:14]\[CH2:15][CH2:16][CH2:17][CH3:18]'
+  canonical_smiles: CCCC/C=C\CCCCCCCC/C=C/CCOC(C)=O
+  inchikey: VVJPJXKHBZNADP-ZSTZHTMOSA-N
+  formula: C20H36O2
+  charge: 0
+  solvent: vacuum
+  headgroup: acetate
+  stereo:
+    C3=C4: E
+    C13=C14: Z
+  sites:
+  - *id001
+  - *id002
+  - *id003
+  - *id004
+  - *id005
+  - *id006
+  - *id007
+  - *id008
+  - *id009
+  - label: head O
+    atoms:
+    - 31
+  - label: carbonyl O
+    atoms:
+    - 32
+  - label: acetyl
+    atoms:
+    - 21+H
+    - 22
+    - 32
+  precompute: true
+  biological_context: 'TODO: cite the species/blend data before class use'
+- id: e2z13_18_ac
+  display_name: (2E,13Z)-octadeca-2,13-dien-1-yl acetate
+  lesson: sesiidae-C
+  mapped_smiles: '[CH3:21][C:22](=[O:32])[O:31][CH2:1]/[CH:2]=[CH:3]/[CH2:4][CH2:5][CH2:6][CH2:7][CH2:8][CH2:9][CH2:10][CH2:11][CH2:12]/[CH:13]=[CH:14]\[CH2:15][CH2:16][CH2:17][CH3:18]'
+  canonical_smiles: CCCC/C=C\CCCCCCCCC/C=C/COC(C)=O
+  inchikey: NWRSOYAGXTXEMK-NHRIVICHSA-N
+  formula: C20H36O2
+  charge: 0
+  solvent: vacuum
+  headgroup: acetate
+  stereo:
+    C2=C3: E
+    C13=C14: Z
+  sites:
+  - *id001
+  - *id002
+  - *id003
+  - *id004
+  - *id005
+  - *id006
+  - *id007
+  - *id008
+  - *id009
+  - label: head O
+    atoms:
+    - 31
+  - label: carbonyl O
+    atoms:
+    - 32
+  - label: acetyl
+    atoms:
+    - 21+H
+    - 22
+    - 32
+  precompute: true
+  biological_context: 'TODO: cite the species/blend data before class use'

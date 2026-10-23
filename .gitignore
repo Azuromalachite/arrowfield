@@ -1,0 +1,4 @@
+__pycache__/
+*.pyc
+# rendered pages: regenerate with python build_demo.py
+demo/

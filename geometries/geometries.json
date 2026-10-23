@@ -1,0 +1,21 @@
+{
+ "acetate": {
+  "arrowfield_geometry": "acetate",
+  "smiles": "[CH3:1][C:2](=[O:3])[O-:4]",
+  "geometry": "B3LYP/def2-TZVP, PCM water, Cartesian BFGS gtol 3e-4 Ha/A",
+  "converged": true,
+  "iterations": 10,
+  "espmap": "unknown",
+  "bonds_mmff": {
+   "C0-C1": 1.5188,
+   "C1-O2": 1.263,
+   "C1-O3": 1.2622
+  },
+  "bonds_dft": {
+   "C0-C1": 1.5366,
+   "C1-O2": 1.2599,
+   "C1-O3": 1.2587
+  },
+  "computed_smiles": "CC(=O)[O-]"
+ }
+}
