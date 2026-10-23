@@ -1,5 +1,5 @@
 """study.py on the real espmap-sesiidae-001 results (tests/data, copied
-unedited from the Atlas at 89f5e22) and the real aldehyde control records
+unedited from the Atlas at f286bc1) and the real aldehyde control records
 (controls/). The adapter shows the study's own verdicts, never re-decides
 them, and passes each member's folded flag through as the index states it.
 """
@@ -94,6 +94,16 @@ def _write(tmp_path, mutate):
     (lambda j: j.update(partial=True), "partial"),
     (lambda j: j["contrasts"][0]["sites"]["primary:C3-H"].update(outcome="significant"), "not one of"),
     (lambda j: j["contrasts"][0]["sites"]["primary:C3-H"].update(p_value=1e-11), "not modelled"),
+    # the pre-rename key is not accepted: it named a confidence interval it was not
+    (lambda j: j["contrasts"][0]["sites"]["primary:C3-H"].update(
+        ci95=j["contrasts"][0]["sites"]["primary:C3-H"].pop("bootstrap_interval")), "not modelled"),
+    # internally inconsistent rows (the review's case): refused as corrupt, never re-decided
+    (lambda j: j["contrasts"][0]["sites"]["primary:C3-H"].update(outcome="resolved"), "inconsistent"),
+    (lambda j: j["contrasts"][2]["sites"]["primary:C4-H"]["conditions"].update({"1_ranges_disjoint": False}),
+     "inconsistent"),
+    (lambda j: j["contrasts"][0]["sites"]["primary:C3-H"].update(bootstrap_interval=[-0.5, 3.4]),
+     "inconsistent"),
+    (lambda j: j["contrasts"][0]["sites"]["primary:C3-H"]["conditions"].pop("3_same_sign"), "inconsistent"),
 ])
 def test_a_study_file_arrowfield_cannot_show_faithfully_is_refused(tmp_path, mutate, match):
     with pytest.raises(InvalidStudy, match=match):

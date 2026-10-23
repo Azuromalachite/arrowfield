@@ -30,8 +30,31 @@ ENSEMBLE_SCHEMA = "spa.espmap_ensemble/0"
 VERDICT_RULES = ("espmap-sesiidae-001/range_partition_sign_v1",)
 OUTCOMES = ("resolved", "different on average", "unresolved", "not evaluable", "no data")
 SITE_KEYS = {"outcome", "delta", "delta_other_rule", "partition_sensitivity",
-             "partition_sensitivity_max_member", "range_x", "range_y", "mean_x", "mean_y", "ci95", "n",
-             "conditions", "why"}
+             "partition_sensitivity_max_member", "range_x", "range_y", "mean_x", "mean_y",
+             "bootstrap_interval", "n", "conditions", "why"}
+CONDITIONS = ("1_ranges_disjoint", "2_beyond_partition", "3_same_sign")
+
+
+def _consistent(rule, outcome, cond, interval):
+    """None if a row's stated outcome follows from its own stated conditions
+    under its rule, else why not. This checks a record against itself, as a
+    charge that does not match its atoms would be: it never derives a verdict
+    from the measurements, and a consistent row is shown as the study wrote it.
+    range_partition_sign_v1 (the frozen plan, section 4): resolved iff all
+    three conditions hold; different on average iff 2 and 3 hold, 1 fails and
+    the bootstrap interval excludes 0; unresolved otherwise."""
+    if outcome in ("not evaluable", "no data"):
+        return None
+    if rule == "espmap-sesiidae-001/range_partition_sign_v1":
+        if set(cond) != set(CONDITIONS) or not all(isinstance(cond[k], bool) for k in CONDITIONS):
+            return f"conditions {sorted(cond)} are not exactly {CONDITIONS}, each true or false"
+        c1, c2, c3 = (cond[k] for k in CONDITIONS)
+        excl0 = interval is not None and (interval[0] > 0 or interval[1] < 0)
+        follows = ("resolved" if c1 and c2 and c3 else
+                   "different on average" if c2 and c3 and excl0 else "unresolved")
+        if outcome != follows:
+            return f"the row says {outcome!r}, but its own conditions {cond} and interval {interval} give {follows!r}"
+    return None
 
 
 class InvalidStudy(ValueError):
@@ -109,6 +132,10 @@ def load_results(path):
                 raise InvalidStudy(f"{where}: field(s) {sorted(extra)} are not modelled")
             if r["outcome"] not in OUTCOMES:
                 raise InvalidStudy(f"{where}: outcome {r['outcome']!r} is not one of {OUTCOMES}")
+            why = _consistent(rule, r["outcome"], r.get("conditions") or {},
+                              _pair(r.get("bootstrap_interval"), where))
+            if why:
+                raise InvalidStudy(f"{where}: an internally inconsistent row, refused as corrupt: {why}")
             tier, site = key.split(":", 1)
             sites.append(StudySite(
                 verdict_rule=rule, contrast=c["id"], x=c["X"], y=c["Y"], population=c["population"],
@@ -118,5 +145,6 @@ def load_results(path):
                 partition_max_member=_finite(r.get("partition_sensitivity_max_member"), where),
                 range_x=_pair(r.get("range_x"), where), range_y=_pair(r.get("range_y"), where),
                 mean_x=_finite(r.get("mean_x"), where), mean_y=_finite(r.get("mean_y"), where),
-                bootstrap_interval=_pair(r.get("ci95"), where), conditions=dict(r.get("conditions") or {})))
+                bootstrap_interval=_pair(r.get("bootstrap_interval"), where),
+                conditions=dict(r.get("conditions") or {})))
     return StudyResults(j["plan"], rule, _sha256(path), dict(j["molecules"]), tuple(sites))
