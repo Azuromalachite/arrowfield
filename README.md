@@ -7,6 +7,8 @@ the draft designs and working prototype it was seeded with.
 | file | what it is |
 | --- | --- |
 | `README.md` | this overview: boundary, principles, how to read a result |
+| `AGENTS.md` | the binding rules for any contributor, human or AI: who owns which fact, what never to do, the checks before done |
+| `CONTRIBUTING.md` | setup, where things go, the definition of done, AI-assisted work |
 | `molecules.yaml` | the curated manifest. Never edit it by hand: `build_manifest.py` generates it and checks every entry with RDKit (full maps, charge, E/Z, no open stereo, site atoms exist) |
 | `build_manifest.py` | `python build_manifest.py molecules.yaml` |
 | `lessons.md` | the organic-chemistry companion: six lessons following the order of a first course (McMurry) |
