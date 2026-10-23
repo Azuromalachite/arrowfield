@@ -357,14 +357,14 @@ def study_card_html(row, context):
     does not know; a row whose outcome contradicts its own conditions; an
     extended-only row without its all-member row. Specified by the hostile
     set tests/pedagogy/study_card_set.json (#10)."""
-    from model import KNOWN_VERDICT_RULES, Refused, study_row_inconsistency
+    from model import KNOWN_VERDICT_RULES, Refused, study_row_inconsistency, study_row_malformed
     if row.verdict_rule not in KNOWN_VERDICT_RULES:
         raise Refused(f"verdict rule {row.verdict_rule!r} is not one Arrowfield can show: a study's "
                       "verdict is shown only under the rule that decided it")
     why = study_row_inconsistency(row.verdict_rule, row.outcome, row.conditions or {},
-                                  row.bootstrap_interval)
+                                  row.bootstrap_interval) or study_row_malformed(row)
     if why:
-        raise Refused(f"this study row contradicts itself and is not shown: {why}")
+        raise Refused(f"this study row is corrupt and is not shown: {why}")
     primary = context.get("all_member_row")
     if isinstance(primary, dict):                      # given as data: read it as a StudySite
         from model import StudySite
@@ -379,9 +379,9 @@ def study_card_html(row, context):
                           f"({primary.population} {primary.contrast} {primary.site}); a sensitivity is "
                           "shown only beside its own primary result")
         why = study_row_inconsistency(primary.verdict_rule, primary.outcome, primary.conditions or {},
-                                      primary.bootstrap_interval)
+                                      primary.bootstrap_interval) or study_row_malformed(primary)
         if why:
-            raise Refused(f"the all-member row contradicts itself and is not shown: {why}")
+            raise Refused(f"the all-member row is corrupt and is not shown: {why}")
     prov, roles, lim = (context.get("provenance") or {}, context.get("molecules") or {},
                         context.get("limitations") or {})
     def esc(t):

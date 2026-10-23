@@ -495,12 +495,49 @@ def study_row_inconsistency(rule, outcome, cond, interval):
     if rule == "espmap-sesiidae-001/range_partition_sign_v1":
         if set(cond) != set(CONDITIONS) or not all(isinstance(cond[k], bool) for k in CONDITIONS):
             return f"conditions {sorted(cond)} are not exactly {CONDITIONS}, each true or false"
+        bad = _bad_pair(interval)
+        if bad:
+            return f"bootstrap interval {interval} is {bad}"
         c1, c2, c3 = (cond[k] for k in CONDITIONS)
         excl0 = interval is not None and (interval[0] > 0 or interval[1] < 0)
         follows = ("resolved" if c1 and c2 and c3 else
                    "different on average" if c2 and c3 and excl0 else "unresolved")
         if outcome != follows:
             return f"the row says {outcome!r}, but its own conditions {cond} and interval {interval} give {follows!r}"
+    return None
+
+
+def _bad_pair(p):
+    """None for a finite (low, high) pair with low <= high, or for None;
+    else what is wrong with it (probe of #11: a reversed interval read as
+    'excluding 0')."""
+    import math
+    if p is None:
+        return None
+    if len(p) != 2 or not all(isinstance(v, (int, float)) and math.isfinite(v) for v in p):
+        return "not a pair of finite numbers"
+    return "reversed (low above high)" if p[0] > p[1] else None
+
+
+def study_row_malformed(row):
+    """None if a verdict-bearing study row (resolved, different on average,
+    unresolved) carries only finite numbers and ordered ranges, else what is
+    wrong: such a row is a corrupt record, never rendered as measured (probe
+    of #11: a NaN delta showed as '+nan'). Not evaluable / no data rows may
+    carry anything; they show no difference."""
+    import math
+    if row.outcome in ("not evaluable", "no data"):
+        return None
+    for name in ("delta", "delta_other_rule", "partition", "partition_max_member", "mean_x", "mean_y"):
+        v = getattr(row, name)
+        if v is not None and not (isinstance(v, (int, float)) and math.isfinite(v)):
+            return f"{name} {v!r} is not a finite number"
+    if row.partition is not None and row.partition < 0:
+        return f"partition {row.partition} is negative"
+    for name in ("range_x", "range_y", "bootstrap_interval"):
+        bad = _bad_pair(getattr(row, name))
+        if bad:
+            return f"{name} {getattr(row, name)} is {bad}"
     return None
 
 

@@ -28,12 +28,7 @@ CASES = SET["cases"]
 RULE = "espmap-sesiidae-001/range_partition_sign_v1"
 
 # --- what the card gets wrong today (measured, not intended) -------------------
-UNSAFE_NOW = {
-    # S13 (held-out probe of #11): a reversed interval or range, or a non-finite
-    # delta, range or partition, is rendered as if measured
-    "malformed_interval_reversed", "malformed_delta_nan", "malformed_range_inf",
-    "malformed_range_reversed", "malformed_partition_nan",
-}
+UNSAFE_NOW = set()      # empty since the card met S13 (probe of #11); a new failing case goes here
 NOT_PREFERRED_NOW = set(UNSAFE_NOW)
 
 

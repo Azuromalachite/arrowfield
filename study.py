@@ -24,7 +24,7 @@ from dataclasses import replace
 from pathlib import Path
 
 from model import EnsembleSource, StudyResults, StudySite
-from model import study_row_inconsistency as _consistent
+from model import study_row_inconsistency as _consistent, study_row_malformed
 from record import load as load_record
 
 ENSEMBLE_SCHEMA = "spa.espmap_ensemble/0"
@@ -123,4 +123,9 @@ def load_results(path):
                 mean_x=_finite(r.get("mean_x"), where), mean_y=_finite(r.get("mean_y"), where),
                 bootstrap_interval=_pair(r.get("bootstrap_interval"), where),
                 conditions=dict(r.get("conditions") or {})))
+    for site in sites:
+        why = study_row_malformed(site)
+        if why:
+            raise InvalidStudy(f"{path} {site.contrast} {site.population} {site.site}: a malformed row, "
+                               f"refused as corrupt: {why}")
     return StudyResults(j["plan"], rule, _sha256(path), dict(j["molecules"]), tuple(sites))
