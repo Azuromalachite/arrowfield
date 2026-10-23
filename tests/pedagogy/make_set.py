@@ -1,0 +1,299 @@
+"""Generate the hostile pedagogy set: tests/pedagogy/hostile_set.json.
+
+    python tests/pedagogy/make_set.py        # rewrites the JSON; byte-identical on re-run
+
+Every case is a situation in which a teaching view could leave a student
+believing something the evidence does not support. Each case says, before any
+view is changed to handle it, what every possible output would do to the
+student, graded by how visible the damage is:
+
+  SAFE          correct, and nothing in it invites a wrong reading
+  SAFE_REFUSAL  the view declines to judge and says why
+  CRASH         an error with no reason a student can act on
+  MISLEADING    true numbers arranged so that they invite a false conclusion
+  FALSE         a statement that is wrong, shown as a finding
+
+`allowed` is exactly the outputs graded SAFE or SAFE_REFUSAL (a test checks
+that). `prefer` is what a good view says; null when two answers are equally
+defensible. `requires` lists what the rendered card must show whatever the
+verdict. `component` names the code under test. A component that does not
+exist yet (evidence_card, pair_view) has its expectations fixed here now, and
+its tests skip until it lands.
+
+Synthetic, not real: the numbers are chosen to sit where a rule breaks, not
+taken from a record. Real-record variants are the second half of roadmap
+step 2.
+"""
+import json
+from pathlib import Path
+
+import numpy as np
+
+OUT = Path(__file__).with_name("hostile_set.json")
+SEED = 20261023
+KEY, KEY_TZ, KEY_PCM = "k_def2svp_gas", "k_def2tzvp_gas", "k_def2svp_pcm_water"
+GRADES = ("SAFE", "SAFE_REFUSAL", "CRASH", "MISLEADING", "FALSE")
+VERDICTS = ("SEPARATED", "SEPARATED_WITHIN_PARTITION", "OVERLAPPING", "CANNOT_JUDGE",
+            "NOT_COMPARED", "RULE_DEPENDENT", "REFUSED", "ERROR")
+rng = np.random.default_rng(SEED)
+
+
+def ens(n, nn_mean, nn_sd, rs_shift=0.0, rs_sd=0.0, genus=0, key=KEY, site="C4-H", fixed=None):
+    """n conformers of one molecule at one site: nearest-nucleus means, the
+    radius-scaled mean (nn + rs_shift + noise), genus and analysis key each."""
+    nn = fixed if fixed is not None else nn_mean + nn_sd * rng.standard_normal(n)
+    noise = rs_sd * rng.standard_normal(len(nn))
+    rs = [None if a is None else a + rs_shift + e for a, e in zip(nn, noise)]   # None: buried
+    g = genus if isinstance(genus, list) else [genus] * len(nn)
+    k = key if isinstance(key, list) else [key] * len(nn)
+    return [{"site": site, "nn": None if a is None else round(float(a), 3),
+             "rs": None if a is None else round(float(b), 3), "genus": gg, "key": kk}
+            for a, b, gg, kk in zip(nn, rs, g, k)]
+
+
+def grades(**kw):
+    """Outcome grades; every verdict not named is FALSE unless given."""
+    out = {v: kw.pop(v, "FALSE") for v in VERDICTS}
+    assert not kw, kw
+    return out
+
+
+CASES = []
+
+
+def case(id, cls, component, why, a=None, b=None, outcomes=None, prefer=None, requires=(), extra=None):
+    allowed = sorted(v for v, g in (outcomes or {}).items() if g in ("SAFE", "SAFE_REFUSAL"))
+    CASES.append(dict(id=id, cls=cls, component=component, a=a, b=b, outcomes=outcomes,
+                      allowed=allowed, prefer=prefer, requires=list(requires), why=why, **(extra or {})))
+
+
+# A refusal that says why is always acceptable when the view cannot judge;
+# an unexplained error never is.
+REFUSE_OK = dict(NOT_COMPARED="SAFE_REFUSAL", REFUSED="SAFE_REFUSAL", ERROR="CRASH")
+
+# ------------------------------------------------ A1: different protocols
+for vid, kb, why in [
+    ("basis", KEY_TZ, "def2-TZVP moves C18 V_max by +1.5 to +2.8 kcal/mol, the size of the differences taught"),
+    ("solvent", KEY_PCM, "PCM water moves chlorobenzene's V_max by -3.60 under one convention and +0.05 under the other"),
+]:
+    case(f"key_mismatch_{vid}", "A1 protocol mismatch", "compare",
+         f"Same molecule pair, one ensemble computed under another protocol: {why}. Any number compared "
+         "across analysis keys is a protocol difference shown as a chemical one.",
+         a=ens(10, 3.0, 1.0), b=ens(10, 7.5, 0.6, key=kb),
+         outcomes=grades(**REFUSE_OK), prefer="NOT_COMPARED", requires=["no_numbers"])
+case("key_mismatch_one_stray_member", "A1 protocol mismatch", "compare",
+     "19 conformers share a key and one does not (a re-run added to the folder). Averaging it in "
+     "silently mixes protocols; the stray member must stop the comparison.",
+     a=ens(20, 3.0, 1.0, key=[KEY] * 19 + [KEY_TZ]), b=ens(20, 7.5, 0.6),
+     outcomes=grades(**REFUSE_OK), prefer="NOT_COMPARED", requires=["no_numbers"])
+case("key_mismatch_stray_in_b", "A1 protocol mismatch", "compare",
+     "As above, the stray member in the second molecule, last in the list.",
+     a=ens(20, 3.0, 1.0), b=ens(20, 7.5, 0.6, key=[KEY] * 19 + [KEY_PCM]),
+     outcomes=grades(**REFUSE_OK), prefer="NOT_COMPARED", requires=["no_numbers"])
+case("key_mismatch_single_conformers", "A1 protocol mismatch", "compare",
+     "One conformer each, different keys. Both refusals are safe; 'not compared' names the real "
+     "problem, 'single conformer' hides it behind a lesser one.",
+     a=ens(1, 3.0, 0.0), b=ens(1, 7.5, 0.0, key=KEY_TZ),
+     outcomes=grades(CANNOT_JUDGE="SAFE_REFUSAL", **REFUSE_OK), prefer="NOT_COMPARED",
+     requires=["no_numbers"])
+
+# ------------------------------------------------ A2: one conformer
+for vid, na, nb in [("1v1", 1, 1), ("1v20", 1, 20), ("20v1", 20, 1)]:
+    case(f"single_conformer_{vid}", "A2 single conformer", "compare",
+         "With one conformer on either side there is no conformer range to beat; a large "
+         "difference between two single conformers is routine for a C18 chain (pilot ranges 2.5-6.2). "
+         "A range of 0.00 printed for n = 1 reads as 'no variation', which is false.",
+         a=ens(na, 2.0, 1.0), b=ens(nb, 8.0, 1.0),
+         outcomes=grades(CANNOT_JUDGE="SAFE_REFUSAL", SEPARATED="MISLEADING", OVERLAPPING="MISLEADING",
+                         SEPARATED_WITHIN_PARTITION="MISLEADING", **REFUSE_OK),
+         prefer="CANNOT_JUDGE", requires=["no_single_range"])
+
+# ------------------------------------------------ A3: separated, but within the partition
+for vid, diff, part in [("well_inside", 0.6, 1.5), ("just_inside", 1.15, 1.2), ("negative", -0.7, 1.4)]:
+    a_vals = np.linspace(2.0, 2.4, 10)   # range 0.4 < |diff|: disjoint by construction
+    b_vals = a_vals + diff
+    case(f"within_partition_{vid}", "A3 within partition", "compare",
+         "Every conformer differs in the same direction, but by less than the two partition rules "
+         "disagree at this site: the 'difference' is the size of an arbitrary convention.",
+         a=ens(10, 0, 0, rs_shift=part, fixed=a_vals), b=ens(10, 0, 0, rs_shift=part, fixed=b_vals),
+         outcomes=grades(SEPARATED_WITHIN_PARTITION="SAFE", SEPARATED="MISLEADING", OVERLAPPING="FALSE",
+                         RULE_DEPENDENT="SAFE", **REFUSE_OK),
+         prefer="SEPARATED_WITHIN_PARTITION", requires=["partition_shown"])
+
+# ------------------------------------------------ A4: sign flips under the other rule
+for vid, nn_a, nn_b, rs_a, rs_b in [("clear", 0.0, 3.0, 1.75, 1.25), ("narrow", 1.0, 3.2, 2.6, 2.4),
+                                    ("negative_side", 3.0, 0.0, 1.25, 1.75)]:
+    case(f"rule_sign_flip_{vid}", "A4 rule-dependent sign", "compare",
+         "Nearest-nucleus separates the molecules beyond the (per-member) partition sensitivity, but "
+         "the radius-scaled rule puts the difference the other way. The direction of the effect is a "
+         "property of the convention, not of the molecules (frozen plan section 4, condition 3).",
+         a=ens(10, nn_a, 0.15, rs_shift=rs_a - nn_a, rs_sd=0.05),
+         b=ens(10, nn_b, 0.15, rs_shift=rs_b - nn_b, rs_sd=0.05),
+         outcomes=grades(RULE_DEPENDENT="SAFE", SEPARATED_WITHIN_PARTITION="SAFE", OVERLAPPING="MISLEADING",
+                         SEPARATED="MISLEADING", **REFUSE_OK),
+         prefer="RULE_DEPENDENT", requires=["partition_shown"])
+
+# ------------------------------------------------ A5: folded conformers
+case("folded_drive_separation", "A5 folded conformers", "compare",
+     "All 10 v 10 separate, but only because A's two folded conformers sit at its low end; over "
+     "extended conformers the ranges overlap. 'Separated' alone teaches that the molecules differ, "
+     "when their extended shapes do not (CLAUDE.md: extrema are robust only while nothing folds).",
+     a=ens(10, 0, 0, rs_shift=0.2, genus=[2, 3] + [0] * 8,
+           fixed=[0.5, 0.8] + list(np.linspace(3.0, 4.5, 8))),
+     b=ens(10, 0, 0, rs_shift=0.2, fixed=list(np.linspace(4.6, 6.0, 10))),
+     outcomes=grades(SEPARATED="SAFE", SEPARATED_WITHIN_PARTITION="SAFE", OVERLAPPING="FALSE", **REFUSE_OK),
+     prefer="SEPARATED", requires=["extended_row", "extended_verdict"])
+case("folded_hide_separation", "A5 folded conformers", "compare",
+     "The reverse: extended conformers separate, one folded outlier makes the full ranges overlap. "
+     "'Overlapping' is the honest all-member answer; the card must still show the extended picture.",
+     a=ens(10, 0, 0, rs_shift=0.2, genus=[0] * 9 + [2], fixed=list(np.linspace(1.0, 2.5, 9)) + [5.5]),
+     b=ens(10, 0, 0, rs_shift=0.2, fixed=list(np.linspace(4.0, 6.0, 10))),
+     outcomes=grades(OVERLAPPING="SAFE", SEPARATED="FALSE", **REFUSE_OK),
+     prefer="OVERLAPPING", requires=["extended_row", "extended_verdict"])
+case("folded_extended_single", "A5 folded conformers", "compare",
+     "Only one of A's conformers is extended: there is no extended range to show, and the card must "
+     "say so, not print a range of 0.00.",
+     a=ens(5, 0, 0, rs_shift=0.2, genus=[2, 2, 3, 2, 0], fixed=[1.0, 1.4, 1.8, 2.0, 2.2]),
+     b=ens(5, 0, 0, rs_shift=0.2, fixed=[5.0, 5.2, 5.4, 5.6, 6.0]),
+     outcomes=grades(SEPARATED="SAFE", SEPARATED_WITHIN_PARTITION="SAFE", OVERLAPPING="FALSE", **REFUSE_OK),
+     prefer="SEPARATED", requires=["extended_row", "no_single_range"])
+
+# ------------------------------------------------ A6: buried sites
+case("buried_in_one_conformer", "A6 buried site", "compare",
+     "In one folded conformer the site has no surface (mean None). Dropping it silently changes n; "
+     "averaging fails. The view should say the site is buried in that conformer.",
+     a=ens(10, 0, 0, rs_shift=0.3, genus=[2] + [0] * 9, fixed=[None] + list(np.linspace(1.0, 2.0, 9))),
+     b=ens(10, 0, 0, rs_shift=0.3, fixed=list(np.linspace(4.0, 5.0, 10))),
+     outcomes=grades(CANNOT_JUDGE="SAFE_REFUSAL", SEPARATED="MISLEADING",
+                     SEPARATED_WITHIN_PARTITION="MISLEADING", OVERLAPPING="MISLEADING", **REFUSE_OK),
+     prefer="REFUSED")
+case("buried_everywhere", "A6 buried site", "compare",
+     "The site is buried in every conformer of both molecules: there is nothing to compare.",
+     a=ens(5, 0, 0, fixed=[None] * 5), b=ens(5, 0, 0, fixed=[None] * 5),
+     outcomes=grades(CANNOT_JUDGE="SAFE_REFUSAL", **REFUSE_OK), prefer="REFUSED")
+
+# ------------------------------------------------ A7: different on average, ranges overlap
+for vid, mb in [("strong", 3.2), ("weak", 1.2)]:
+    case(f"overlap_mean_shift_{vid}", "A7 overlapping but shifted", "compare",
+         "The means differ consistently but the ranges overlap: some single conformations of the "
+         "two molecules are indistinguishable. 'Overlapping' is right; a card that then reads as "
+         "'no difference' or 'identical' is false (frozen plan section 5, 'unresolved').",
+         a=ens(20, 0, 0, rs_shift=0.3, fixed=list(np.linspace(0.0, 4.0, 20))),
+         b=ens(20, 0, 0, rs_shift=0.3, fixed=list(np.linspace(mb, 4.0 + mb, 20))),   # overlap: mb < 4
+         outcomes=grades(OVERLAPPING="SAFE", SEPARATED="FALSE", SEPARATED_WITHIN_PARTITION="FALSE",
+                         **REFUSE_OK),
+         prefer="OVERLAPPING", requires=["no_identity_claim"])
+
+# ------------------------------------------------ A8: site missing
+case("site_missing_in_b", "A8 site missing", "compare",
+     "The second molecule has no site of that label (C2-H asked of a molecule whose C2 is sp2 and "
+     "labelled differently). The refusal must name the sites that exist.",
+     a=ens(5, 3.0, 0.5, site="C2-H"), b=ens(5, 3.0, 0.5, site="C3-H"),
+     outcomes=grades(**REFUSE_OK), prefer="REFUSED", extra={"label": "C2-H"})
+
+# ------------------------------------------------ A9: language on every card
+# Checked on every A case's card, not as a case of its own: see LANGUAGE below.
+LANGUAGE = {
+    "forbidden": ["explain", "receptor", "specificity", "attract", "binds", "binding", "active",
+                  "responsible", "causes", "identical", "no difference"],
+    "scope_caveat": "free molecule",
+    "why": "A difference card shows free-molecule, gas-phase ESP. Words that suggest a biological "
+           "mechanism, or that overlapping ranges mean 'the same', turn a measurement into a claim "
+           "nobody tested; and every comparable card should say what the number is of.",
+}
+
+# ------------------------------------------------ B: evidence (component to come)
+EV = [
+    ("not_tested_is_not_negative", "B1 absence of evidence",
+     dict(effect=None, significance="not_tested", role="treatment"),
+     {"NOT_TESTED": "SAFE", "NEGATIVE": "FALSE", "OBSERVED": "FALSE"}, "NOT_TESTED",
+     "A compound nobody tested shows as 'not tested', never as a negative result."),
+    ("no_effect_significant_test", "B1 absence of evidence",
+     dict(effect="no_effect", significance="not_significant", role="treatment"),
+     {"NEGATIVE": "SAFE", "NOT_TESTED": "MISLEADING", "OBSERVED": "FALSE"}, "NEGATIVE",
+     "Tested with no detectable effect is a negative result, and must not be shown as untested."),
+    ("effect_not_reported", "B1 absence of evidence",
+     dict(effect="increased", significance="not_reported", role="treatment"),
+     {"OBSERVED": "SAFE", "CONTESTED": "MISLEADING", "NEGATIVE": "FALSE"}, "OBSERVED",
+     "An effect reported without a test is still an observation; the card shows 'significance not "
+     "reported' beside it, not a stronger or weaker state."),
+    ("two_studies_disagree", "B2 contested",
+     dict(effects=["increased", "decreased"], same_taxon=True), {"CONTESTED": "SAFE", "OBSERVED": "MISLEADING",
+                                                                   "NEGATIVE": "FALSE"}, "CONTESTED",
+     "Two studies on one taxon point opposite ways: show both, labelled contested, never the newer one alone."),
+    ("teaching_control_not_observed", "B3 teaching control",
+     dict(compound="arrowfield.control.z3_z13_18_al", evidence_status="teaching_control"),
+     {"TEACHING_CONTROL": "SAFE", "OBSERVED": "FALSE", "COMPUTATIONAL_MODEL": "MISLEADING"}, "TEACHING_CONTROL",
+     "The aldehyde control is constructed, not found in any Sesiidae: labelling it observed invents evidence."),
+    ("counterfactual_labelled", "B3 teaching control",
+     dict(compound="(hypothetical)", evidence_status="computational_counterfactual"),
+     {"COMPUTATIONAL_MODEL": "SAFE", "OBSERVED": "FALSE", "TEACHING_CONTROL": "MISLEADING"}, "COMPUTATIONAL_MODEL",
+     "A structure computed to ask 'what if' is a model, and is never shown as observed."),
+    ("assay_contexts_kept_apart", "B4 incompatible contexts",
+     dict(assays=["field_trapping", "gc_ead"], same_compounds=True),
+     {"TWO_STATEMENTS": "SAFE", "MERGED": "MISLEADING"}, "TWO_STATEMENTS",
+     "A trap catch and an antennal response to the same pair are different evidence; one merged "
+     "'active' badge erases which was measured."),
+    ("populations_kept_apart", "B4 incompatible contexts",
+     dict(assays=["field_trapping", "field_trapping"], localities=["gongju", "jinju"], effects=["increased", "no_effect"]),
+     {"TWO_STATEMENTS": "SAFE", "MERGED": "MISLEADING", "CONTESTED": "SAFE"}, "TWO_STATEMENTS",
+     "Two populations of one species responding differently is a population difference, not noise to average."),
+    ("difference_not_specificity", "B5 explanation",
+     dict(comparison="resolved", observation="species_specific_attraction"),
+     {"SIDE_BY_SIDE": "SAFE", "LINKED_AS_CAUSE": "FALSE"}, "SIDE_BY_SIDE",
+     "A resolved ESP difference shown next to a species-specific response must not be joined to it "
+     "by 'because', 'explains' or an arrow: nothing here tests the link."),
+]
+for eid, cls, inp, outc, pref, why in EV:
+    case(eid, cls, "evidence_card", why, outcomes=outc, prefer=pref, extra={"input": inp})
+
+# ------------------------------------------------ C: pictures (component to come)
+for eid, why in [
+    ("pair_different_render_keys", "Two ESP pictures with different colour scales side by side: the same "
+                                   "colour means different kcal/mol, so the eye compares the wrong things."),
+    ("pair_one_folded", "A folded and an extended conformer side by side read as two molecules' shapes, "
+                        "not as one molecule's conformational range."),
+]:
+    case(eid, "C1 pictures", "pair_view", why,
+         outcomes={"REFUSED": "SAFE_REFUSAL", "SHARED_SCALE": "SAFE", "SIDE_BY_SIDE_AS_IS": "MISLEADING"},
+         prefer="SHARED_SCALE" if "render" in eid else "REFUSED")
+
+
+def premises():
+    """Each class's construction must hold, or the case tests something else."""
+    def nn(ms):
+        return [m["nn"] for m in ms if m["nn"] is not None]
+
+    def disjoint(a, b):
+        return max(a) < min(b) or max(b) < min(a)
+    for c in CASES:
+        if c["a"] is None:
+            continue
+        a, b = nn(c["a"]), nn(c["b"])
+        cls = c["cls"][:2]
+        if cls == "A3":
+            part = max(abs(m["nn"] - m["rs"]) for m in c["a"] + c["b"])
+            assert disjoint(a, b) and abs(np.mean(b) - np.mean(a)) < part, c["id"]
+        if cls == "A4":
+            part = max(abs(m["nn"] - m["rs"]) for m in c["a"] + c["b"])
+            rs = [np.mean([m["rs"] for m in x]) for x in (c["a"], c["b"])]
+            d = np.mean(b) - np.mean(a)
+            assert disjoint(a, b) and abs(d) > part and np.sign(rs[1] - rs[0]) != np.sign(d), c["id"]
+        if cls == "A7":
+            assert not disjoint(a, b) and np.mean(b) > np.mean(a), c["id"]
+
+
+def document():
+    premises()
+    for c in CASES:
+        if c["outcomes"]:
+            assert set(c["outcomes"].values()) <= set(GRADES), c["id"]
+            assert c["prefer"] is None or c["prefer"] in c["allowed"], c["id"]
+    doc = {"generator": "tests/pedagogy/make_set.py", "seed": SEED, "grades": list(GRADES),
+           "language": LANGUAGE, "cases": CASES}
+    return json.dumps(doc, indent=1, ensure_ascii=False) + "\n"
+
+
+if __name__ == "__main__":
+    OUT.write_text(document(), encoding="utf-8")
+    print(f"{len(CASES)} cases -> {OUT}")

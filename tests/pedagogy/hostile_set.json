@@ -1,0 +1,4115 @@
+{
+ "generator": "tests/pedagogy/make_set.py",
+ "seed": 20261023,
+ "grades": [
+  "SAFE",
+  "SAFE_REFUSAL",
+  "CRASH",
+  "MISLEADING",
+  "FALSE"
+ ],
+ "language": {
+  "forbidden": [
+   "explain",
+   "receptor",
+   "specificity",
+   "attract",
+   "binds",
+   "binding",
+   "active",
+   "responsible",
+   "causes",
+   "identical",
+   "no difference"
+  ],
+  "scope_caveat": "free molecule",
+  "why": "A difference card shows free-molecule, gas-phase ESP. Words that suggest a biological mechanism, or that overlapping ranges mean 'the same', turn a measurement into a claim nobody tested; and every comparable card should say what the number is of."
+ },
+ "cases": [
+  {
+   "id": "key_mismatch_basis",
+   "cls": "A1 protocol mismatch",
+   "component": "compare",
+   "a": [
+    {
+     "site": "C4-H",
+     "nn": 4.687,
+     "rs": 4.687,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.955,
+     "rs": 4.955,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.174,
+     "rs": 4.174,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.362,
+     "rs": 1.362,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.326,
+     "rs": 3.326,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.911,
+     "rs": 2.911,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.742,
+     "rs": 3.742,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.384,
+     "rs": 3.384,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.916,
+     "rs": 1.916,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.398,
+     "rs": 3.398,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "b": [
+    {
+     "site": "C4-H",
+     "nn": 8.58,
+     "rs": 8.58,
+     "genus": 0,
+     "key": "k_def2tzvp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 7.145,
+     "rs": 7.145,
+     "genus": 0,
+     "key": "k_def2tzvp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 7.037,
+     "rs": 7.037,
+     "genus": 0,
+     "key": "k_def2tzvp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 7.321,
+     "rs": 7.321,
+     "genus": 0,
+     "key": "k_def2tzvp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 6.148,
+     "rs": 6.148,
+     "genus": 0,
+     "key": "k_def2tzvp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 8.953,
+     "rs": 8.953,
+     "genus": 0,
+     "key": "k_def2tzvp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 6.9,
+     "rs": 6.9,
+     "genus": 0,
+     "key": "k_def2tzvp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 7.791,
+     "rs": 7.791,
+     "genus": 0,
+     "key": "k_def2tzvp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 7.857,
+     "rs": 7.857,
+     "genus": 0,
+     "key": "k_def2tzvp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 7.305,
+     "rs": 7.305,
+     "genus": 0,
+     "key": "k_def2tzvp_gas"
+    }
+   ],
+   "outcomes": {
+    "SEPARATED": "FALSE",
+    "SEPARATED_WITHIN_PARTITION": "FALSE",
+    "OVERLAPPING": "FALSE",
+    "CANNOT_JUDGE": "FALSE",
+    "NOT_COMPARED": "SAFE_REFUSAL",
+    "RULE_DEPENDENT": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "NOT_COMPARED",
+    "REFUSED"
+   ],
+   "prefer": "NOT_COMPARED",
+   "requires": [
+    "no_numbers"
+   ],
+   "why": "Same molecule pair, one ensemble computed under another protocol: def2-TZVP moves C18 V_max by +1.5 to +2.8 kcal/mol, the size of the differences taught. Any number compared across analysis keys is a protocol difference shown as a chemical one."
+  },
+  {
+   "id": "key_mismatch_solvent",
+   "cls": "A1 protocol mismatch",
+   "component": "compare",
+   "a": [
+    {
+     "site": "C4-H",
+     "nn": 3.504,
+     "rs": 3.504,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.792,
+     "rs": 3.792,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.952,
+     "rs": 2.952,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.538,
+     "rs": 2.538,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.467,
+     "rs": 1.467,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.111,
+     "rs": 2.111,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.153,
+     "rs": 3.153,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 5.676,
+     "rs": 5.676,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.193,
+     "rs": 4.193,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.772,
+     "rs": 1.772,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "b": [
+    {
+     "site": "C4-H",
+     "nn": 7.613,
+     "rs": 7.613,
+     "genus": 0,
+     "key": "k_def2svp_pcm_water"
+    },
+    {
+     "site": "C4-H",
+     "nn": 7.852,
+     "rs": 7.852,
+     "genus": 0,
+     "key": "k_def2svp_pcm_water"
+    },
+    {
+     "site": "C4-H",
+     "nn": 7.379,
+     "rs": 7.379,
+     "genus": 0,
+     "key": "k_def2svp_pcm_water"
+    },
+    {
+     "site": "C4-H",
+     "nn": 7.074,
+     "rs": 7.074,
+     "genus": 0,
+     "key": "k_def2svp_pcm_water"
+    },
+    {
+     "site": "C4-H",
+     "nn": 7.083,
+     "rs": 7.083,
+     "genus": 0,
+     "key": "k_def2svp_pcm_water"
+    },
+    {
+     "site": "C4-H",
+     "nn": 7.204,
+     "rs": 7.204,
+     "genus": 0,
+     "key": "k_def2svp_pcm_water"
+    },
+    {
+     "site": "C4-H",
+     "nn": 8.035,
+     "rs": 8.035,
+     "genus": 0,
+     "key": "k_def2svp_pcm_water"
+    },
+    {
+     "site": "C4-H",
+     "nn": 7.717,
+     "rs": 7.717,
+     "genus": 0,
+     "key": "k_def2svp_pcm_water"
+    },
+    {
+     "site": "C4-H",
+     "nn": 6.64,
+     "rs": 6.64,
+     "genus": 0,
+     "key": "k_def2svp_pcm_water"
+    },
+    {
+     "site": "C4-H",
+     "nn": 7.123,
+     "rs": 7.123,
+     "genus": 0,
+     "key": "k_def2svp_pcm_water"
+    }
+   ],
+   "outcomes": {
+    "SEPARATED": "FALSE",
+    "SEPARATED_WITHIN_PARTITION": "FALSE",
+    "OVERLAPPING": "FALSE",
+    "CANNOT_JUDGE": "FALSE",
+    "NOT_COMPARED": "SAFE_REFUSAL",
+    "RULE_DEPENDENT": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "NOT_COMPARED",
+    "REFUSED"
+   ],
+   "prefer": "NOT_COMPARED",
+   "requires": [
+    "no_numbers"
+   ],
+   "why": "Same molecule pair, one ensemble computed under another protocol: PCM water moves chlorobenzene's V_max by -3.60 under one convention and +0.05 under the other. Any number compared across analysis keys is a protocol difference shown as a chemical one."
+  },
+  {
+   "id": "key_mismatch_one_stray_member",
+   "cls": "A1 protocol mismatch",
+   "component": "compare",
+   "a": [
+    {
+     "site": "C4-H",
+     "nn": 3.206,
+     "rs": 3.206,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.616,
+     "rs": 2.616,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.32,
+     "rs": 4.32,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.792,
+     "rs": 4.792,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.373,
+     "rs": 1.373,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.91,
+     "rs": 1.91,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.137,
+     "rs": 1.137,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.813,
+     "rs": 3.813,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.881,
+     "rs": 2.881,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.305,
+     "rs": 2.305,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.817,
+     "rs": 3.817,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.909,
+     "rs": 3.909,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.051,
+     "rs": 2.051,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.671,
+     "rs": 4.671,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.904,
+     "rs": 2.904,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.932,
+     "rs": 1.932,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.808,
+     "rs": 2.808,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.178,
+     "rs": 2.178,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": -0.15,
+     "rs": -0.15,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.438,
+     "rs": 4.438,
+     "genus": 0,
+     "key": "k_def2tzvp_gas"
+    }
+   ],
+   "b": [
+    {
+     "site": "C4-H",
+     "nn": 8.511,
+     "rs": 8.511,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 6.535,
+     "rs": 6.535,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 7.442,
+     "rs": 7.442,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 6.925,
+     "rs": 6.925,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 8.233,
+     "rs": 8.233,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 7.984,
+     "rs": 7.984,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 7.613,
+     "rs": 7.613,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 7.529,
+     "rs": 7.529,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 7.466,
+     "rs": 7.466,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 8.321,
+     "rs": 8.321,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 7.391,
+     "rs": 7.391,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 8.392,
+     "rs": 8.392,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 7.517,
+     "rs": 7.517,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 7.273,
+     "rs": 7.273,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 7.323,
+     "rs": 7.323,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 8.551,
+     "rs": 8.551,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 8.116,
+     "rs": 8.116,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 9.046,
+     "rs": 9.046,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 6.353,
+     "rs": 6.353,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 8.316,
+     "rs": 8.316,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "outcomes": {
+    "SEPARATED": "FALSE",
+    "SEPARATED_WITHIN_PARTITION": "FALSE",
+    "OVERLAPPING": "FALSE",
+    "CANNOT_JUDGE": "FALSE",
+    "NOT_COMPARED": "SAFE_REFUSAL",
+    "RULE_DEPENDENT": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "NOT_COMPARED",
+    "REFUSED"
+   ],
+   "prefer": "NOT_COMPARED",
+   "requires": [
+    "no_numbers"
+   ],
+   "why": "19 conformers share a key and one does not (a re-run added to the folder). Averaging it in silently mixes protocols; the stray member must stop the comparison."
+  },
+  {
+   "id": "key_mismatch_stray_in_b",
+   "cls": "A1 protocol mismatch",
+   "component": "compare",
+   "a": [
+    {
+     "site": "C4-H",
+     "nn": 2.036,
+     "rs": 2.036,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.327,
+     "rs": 4.327,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.587,
+     "rs": 2.587,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.78,
+     "rs": 3.78,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.225,
+     "rs": 4.225,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.794,
+     "rs": 2.794,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.365,
+     "rs": 1.365,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.997,
+     "rs": 1.997,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.904,
+     "rs": 3.904,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.435,
+     "rs": 2.435,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.935,
+     "rs": 3.935,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.222,
+     "rs": 1.222,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.767,
+     "rs": 4.767,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.56,
+     "rs": 2.56,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.627,
+     "rs": 1.627,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.832,
+     "rs": 3.832,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.529,
+     "rs": 3.529,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.264,
+     "rs": 2.264,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.425,
+     "rs": 2.425,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.414,
+     "rs": 3.414,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "b": [
+    {
+     "site": "C4-H",
+     "nn": 7.42,
+     "rs": 7.42,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 8.207,
+     "rs": 8.207,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 6.15,
+     "rs": 6.15,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 6.684,
+     "rs": 6.684,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 7.33,
+     "rs": 7.33,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 6.301,
+     "rs": 6.301,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 6.435,
+     "rs": 6.435,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 7.724,
+     "rs": 7.724,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 6.797,
+     "rs": 6.797,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 6.998,
+     "rs": 6.998,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 7.117,
+     "rs": 7.117,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 7.622,
+     "rs": 7.622,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 7.328,
+     "rs": 7.328,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 6.415,
+     "rs": 6.415,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 7.477,
+     "rs": 7.477,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 7.934,
+     "rs": 7.934,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 7.318,
+     "rs": 7.318,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 7.068,
+     "rs": 7.068,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 7.259,
+     "rs": 7.259,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 7.145,
+     "rs": 7.145,
+     "genus": 0,
+     "key": "k_def2svp_pcm_water"
+    }
+   ],
+   "outcomes": {
+    "SEPARATED": "FALSE",
+    "SEPARATED_WITHIN_PARTITION": "FALSE",
+    "OVERLAPPING": "FALSE",
+    "CANNOT_JUDGE": "FALSE",
+    "NOT_COMPARED": "SAFE_REFUSAL",
+    "RULE_DEPENDENT": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "NOT_COMPARED",
+    "REFUSED"
+   ],
+   "prefer": "NOT_COMPARED",
+   "requires": [
+    "no_numbers"
+   ],
+   "why": "As above, the stray member in the second molecule, last in the list."
+  },
+  {
+   "id": "key_mismatch_single_conformers",
+   "cls": "A1 protocol mismatch",
+   "component": "compare",
+   "a": [
+    {
+     "site": "C4-H",
+     "nn": 3.0,
+     "rs": 3.0,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "b": [
+    {
+     "site": "C4-H",
+     "nn": 7.5,
+     "rs": 7.5,
+     "genus": 0,
+     "key": "k_def2tzvp_gas"
+    }
+   ],
+   "outcomes": {
+    "SEPARATED": "FALSE",
+    "SEPARATED_WITHIN_PARTITION": "FALSE",
+    "OVERLAPPING": "FALSE",
+    "CANNOT_JUDGE": "SAFE_REFUSAL",
+    "NOT_COMPARED": "SAFE_REFUSAL",
+    "RULE_DEPENDENT": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "CANNOT_JUDGE",
+    "NOT_COMPARED",
+    "REFUSED"
+   ],
+   "prefer": "NOT_COMPARED",
+   "requires": [
+    "no_numbers"
+   ],
+   "why": "One conformer each, different keys. Both refusals are safe; 'not compared' names the real problem, 'single conformer' hides it behind a lesser one."
+  },
+  {
+   "id": "single_conformer_1v1",
+   "cls": "A2 single conformer",
+   "component": "compare",
+   "a": [
+    {
+     "site": "C4-H",
+     "nn": 1.988,
+     "rs": 1.988,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "b": [
+    {
+     "site": "C4-H",
+     "nn": 8.815,
+     "rs": 8.815,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "outcomes": {
+    "SEPARATED": "MISLEADING",
+    "SEPARATED_WITHIN_PARTITION": "MISLEADING",
+    "OVERLAPPING": "MISLEADING",
+    "CANNOT_JUDGE": "SAFE_REFUSAL",
+    "NOT_COMPARED": "SAFE_REFUSAL",
+    "RULE_DEPENDENT": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "CANNOT_JUDGE",
+    "NOT_COMPARED",
+    "REFUSED"
+   ],
+   "prefer": "CANNOT_JUDGE",
+   "requires": [
+    "no_single_range"
+   ],
+   "why": "With one conformer on either side there is no conformer range to beat; a large difference between two single conformers is routine for a C18 chain (pilot ranges 2.5-6.2). A range of 0.00 printed for n = 1 reads as 'no variation', which is false."
+  },
+  {
+   "id": "single_conformer_1v20",
+   "cls": "A2 single conformer",
+   "component": "compare",
+   "a": [
+    {
+     "site": "C4-H",
+     "nn": 2.692,
+     "rs": 2.692,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "b": [
+    {
+     "site": "C4-H",
+     "nn": 9.146,
+     "rs": 9.146,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 9.176,
+     "rs": 9.176,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 8.216,
+     "rs": 8.216,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 7.419,
+     "rs": 7.419,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 9.751,
+     "rs": 9.751,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 7.151,
+     "rs": 7.151,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 8.4,
+     "rs": 8.4,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 10.822,
+     "rs": 10.822,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 7.519,
+     "rs": 7.519,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 5.715,
+     "rs": 5.715,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 10.308,
+     "rs": 10.308,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 7.79,
+     "rs": 7.79,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 7.424,
+     "rs": 7.424,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 7.419,
+     "rs": 7.419,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 8.134,
+     "rs": 8.134,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 8.409,
+     "rs": 8.409,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 9.082,
+     "rs": 9.082,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 8.311,
+     "rs": 8.311,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 7.297,
+     "rs": 7.297,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 7.019,
+     "rs": 7.019,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "outcomes": {
+    "SEPARATED": "MISLEADING",
+    "SEPARATED_WITHIN_PARTITION": "MISLEADING",
+    "OVERLAPPING": "MISLEADING",
+    "CANNOT_JUDGE": "SAFE_REFUSAL",
+    "NOT_COMPARED": "SAFE_REFUSAL",
+    "RULE_DEPENDENT": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "CANNOT_JUDGE",
+    "NOT_COMPARED",
+    "REFUSED"
+   ],
+   "prefer": "CANNOT_JUDGE",
+   "requires": [
+    "no_single_range"
+   ],
+   "why": "With one conformer on either side there is no conformer range to beat; a large difference between two single conformers is routine for a C18 chain (pilot ranges 2.5-6.2). A range of 0.00 printed for n = 1 reads as 'no variation', which is false."
+  },
+  {
+   "id": "single_conformer_20v1",
+   "cls": "A2 single conformer",
+   "component": "compare",
+   "a": [
+    {
+     "site": "C4-H",
+     "nn": 1.234,
+     "rs": 1.234,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 0.609,
+     "rs": 0.609,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.291,
+     "rs": 2.291,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.022,
+     "rs": 2.022,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.893,
+     "rs": 1.893,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.172,
+     "rs": 2.172,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.904,
+     "rs": 1.904,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.28,
+     "rs": 4.28,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 0.908,
+     "rs": 0.908,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 0.558,
+     "rs": 0.558,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.482,
+     "rs": 2.482,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.579,
+     "rs": 1.579,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.66,
+     "rs": 1.66,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.264,
+     "rs": 2.264,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.319,
+     "rs": 1.319,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.835,
+     "rs": 2.835,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.056,
+     "rs": 1.056,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.548,
+     "rs": 2.548,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.409,
+     "rs": 2.409,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.957,
+     "rs": 2.957,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "b": [
+    {
+     "site": "C4-H",
+     "nn": 7.175,
+     "rs": 7.175,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "outcomes": {
+    "SEPARATED": "MISLEADING",
+    "SEPARATED_WITHIN_PARTITION": "MISLEADING",
+    "OVERLAPPING": "MISLEADING",
+    "CANNOT_JUDGE": "SAFE_REFUSAL",
+    "NOT_COMPARED": "SAFE_REFUSAL",
+    "RULE_DEPENDENT": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "CANNOT_JUDGE",
+    "NOT_COMPARED",
+    "REFUSED"
+   ],
+   "prefer": "CANNOT_JUDGE",
+   "requires": [
+    "no_single_range"
+   ],
+   "why": "With one conformer on either side there is no conformer range to beat; a large difference between two single conformers is routine for a C18 chain (pilot ranges 2.5-6.2). A range of 0.00 printed for n = 1 reads as 'no variation', which is false."
+  },
+  {
+   "id": "within_partition_well_inside",
+   "cls": "A3 within partition",
+   "component": "compare",
+   "a": [
+    {
+     "site": "C4-H",
+     "nn": 2.0,
+     "rs": 3.5,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.044,
+     "rs": 3.544,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.089,
+     "rs": 3.589,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.133,
+     "rs": 3.633,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.178,
+     "rs": 3.678,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.222,
+     "rs": 3.722,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.267,
+     "rs": 3.767,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.311,
+     "rs": 3.811,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.356,
+     "rs": 3.856,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.4,
+     "rs": 3.9,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "b": [
+    {
+     "site": "C4-H",
+     "nn": 2.6,
+     "rs": 4.1,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.644,
+     "rs": 4.144,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.689,
+     "rs": 4.189,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.733,
+     "rs": 4.233,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.778,
+     "rs": 4.278,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.822,
+     "rs": 4.322,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.867,
+     "rs": 4.367,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.911,
+     "rs": 4.411,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.956,
+     "rs": 4.456,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.0,
+     "rs": 4.5,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "outcomes": {
+    "SEPARATED": "MISLEADING",
+    "SEPARATED_WITHIN_PARTITION": "SAFE",
+    "OVERLAPPING": "FALSE",
+    "CANNOT_JUDGE": "FALSE",
+    "NOT_COMPARED": "SAFE_REFUSAL",
+    "RULE_DEPENDENT": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "NOT_COMPARED",
+    "REFUSED",
+    "RULE_DEPENDENT",
+    "SEPARATED_WITHIN_PARTITION"
+   ],
+   "prefer": "SEPARATED_WITHIN_PARTITION",
+   "requires": [
+    "partition_shown"
+   ],
+   "why": "Every conformer differs in the same direction, but by less than the two partition rules disagree at this site: the 'difference' is the size of an arbitrary convention."
+  },
+  {
+   "id": "within_partition_just_inside",
+   "cls": "A3 within partition",
+   "component": "compare",
+   "a": [
+    {
+     "site": "C4-H",
+     "nn": 2.0,
+     "rs": 3.2,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.044,
+     "rs": 3.244,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.089,
+     "rs": 3.289,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.133,
+     "rs": 3.333,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.178,
+     "rs": 3.378,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.222,
+     "rs": 3.422,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.267,
+     "rs": 3.467,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.311,
+     "rs": 3.511,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.356,
+     "rs": 3.556,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.4,
+     "rs": 3.6,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "b": [
+    {
+     "site": "C4-H",
+     "nn": 3.15,
+     "rs": 4.35,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.194,
+     "rs": 4.394,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.239,
+     "rs": 4.439,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.283,
+     "rs": 4.483,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.328,
+     "rs": 4.528,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.372,
+     "rs": 4.572,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.417,
+     "rs": 4.617,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.461,
+     "rs": 4.661,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.506,
+     "rs": 4.706,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.55,
+     "rs": 4.75,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "outcomes": {
+    "SEPARATED": "MISLEADING",
+    "SEPARATED_WITHIN_PARTITION": "SAFE",
+    "OVERLAPPING": "FALSE",
+    "CANNOT_JUDGE": "FALSE",
+    "NOT_COMPARED": "SAFE_REFUSAL",
+    "RULE_DEPENDENT": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "NOT_COMPARED",
+    "REFUSED",
+    "RULE_DEPENDENT",
+    "SEPARATED_WITHIN_PARTITION"
+   ],
+   "prefer": "SEPARATED_WITHIN_PARTITION",
+   "requires": [
+    "partition_shown"
+   ],
+   "why": "Every conformer differs in the same direction, but by less than the two partition rules disagree at this site: the 'difference' is the size of an arbitrary convention."
+  },
+  {
+   "id": "within_partition_negative",
+   "cls": "A3 within partition",
+   "component": "compare",
+   "a": [
+    {
+     "site": "C4-H",
+     "nn": 2.0,
+     "rs": 3.4,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.044,
+     "rs": 3.444,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.089,
+     "rs": 3.489,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.133,
+     "rs": 3.533,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.178,
+     "rs": 3.578,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.222,
+     "rs": 3.622,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.267,
+     "rs": 3.667,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.311,
+     "rs": 3.711,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.356,
+     "rs": 3.756,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.4,
+     "rs": 3.8,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "b": [
+    {
+     "site": "C4-H",
+     "nn": 1.3,
+     "rs": 2.7,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.344,
+     "rs": 2.744,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.389,
+     "rs": 2.789,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.433,
+     "rs": 2.833,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.478,
+     "rs": 2.878,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.522,
+     "rs": 2.922,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.567,
+     "rs": 2.967,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.611,
+     "rs": 3.011,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.656,
+     "rs": 3.056,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.7,
+     "rs": 3.1,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "outcomes": {
+    "SEPARATED": "MISLEADING",
+    "SEPARATED_WITHIN_PARTITION": "SAFE",
+    "OVERLAPPING": "FALSE",
+    "CANNOT_JUDGE": "FALSE",
+    "NOT_COMPARED": "SAFE_REFUSAL",
+    "RULE_DEPENDENT": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "NOT_COMPARED",
+    "REFUSED",
+    "RULE_DEPENDENT",
+    "SEPARATED_WITHIN_PARTITION"
+   ],
+   "prefer": "SEPARATED_WITHIN_PARTITION",
+   "requires": [
+    "partition_shown"
+   ],
+   "why": "Every conformer differs in the same direction, but by less than the two partition rules disagree at this site: the 'difference' is the size of an arbitrary convention."
+  },
+  {
+   "id": "rule_sign_flip_clear",
+   "cls": "A4 rule-dependent sign",
+   "component": "compare",
+   "a": [
+    {
+     "site": "C4-H",
+     "nn": 0.135,
+     "rs": 1.855,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": -0.038,
+     "rs": 1.782,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 0.042,
+     "rs": 1.823,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 0.239,
+     "rs": 2.005,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 0.132,
+     "rs": 1.933,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 0.029,
+     "rs": 1.759,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": -0.1,
+     "rs": 1.617,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 0.177,
+     "rs": 1.867,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": -0.211,
+     "rs": 1.551,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 0.061,
+     "rs": 1.84,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "b": [
+    {
+     "site": "C4-H",
+     "nn": 3.08,
+     "rs": 1.333,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.868,
+     "rs": 1.094,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.846,
+     "rs": 1.191,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.042,
+     "rs": 1.287,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.907,
+     "rs": 1.194,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.843,
+     "rs": 1.039,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.087,
+     "rs": 1.342,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.941,
+     "rs": 1.179,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.07,
+     "rs": 1.325,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.914,
+     "rs": 1.232,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "outcomes": {
+    "SEPARATED": "MISLEADING",
+    "SEPARATED_WITHIN_PARTITION": "SAFE",
+    "OVERLAPPING": "MISLEADING",
+    "CANNOT_JUDGE": "FALSE",
+    "NOT_COMPARED": "SAFE_REFUSAL",
+    "RULE_DEPENDENT": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "NOT_COMPARED",
+    "REFUSED",
+    "RULE_DEPENDENT",
+    "SEPARATED_WITHIN_PARTITION"
+   ],
+   "prefer": "RULE_DEPENDENT",
+   "requires": [
+    "partition_shown"
+   ],
+   "why": "Nearest-nucleus separates the molecules beyond the (per-member) partition sensitivity, but the radius-scaled rule puts the difference the other way. The direction of the effect is a property of the convention, not of the molecules (frozen plan section 4, condition 3)."
+  },
+  {
+   "id": "rule_sign_flip_narrow",
+   "cls": "A4 rule-dependent sign",
+   "component": "compare",
+   "a": [
+    {
+     "site": "C4-H",
+     "nn": 1.153,
+     "rs": 2.842,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 0.967,
+     "rs": 2.544,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 0.93,
+     "rs": 2.551,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 0.916,
+     "rs": 2.388,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.023,
+     "rs": 2.596,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 0.734,
+     "rs": 2.304,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 0.955,
+     "rs": 2.489,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.213,
+     "rs": 2.693,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 0.949,
+     "rs": 2.427,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 0.924,
+     "rs": 2.526,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "b": [
+    {
+     "site": "C4-H",
+     "nn": 3.285,
+     "rs": 2.538,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.243,
+     "rs": 2.403,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.254,
+     "rs": 2.472,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.018,
+     "rs": 2.211,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.128,
+     "rs": 2.273,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.197,
+     "rs": 2.418,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.137,
+     "rs": 2.295,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.224,
+     "rs": 2.492,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.264,
+     "rs": 2.546,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.258,
+     "rs": 2.432,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "outcomes": {
+    "SEPARATED": "MISLEADING",
+    "SEPARATED_WITHIN_PARTITION": "SAFE",
+    "OVERLAPPING": "MISLEADING",
+    "CANNOT_JUDGE": "FALSE",
+    "NOT_COMPARED": "SAFE_REFUSAL",
+    "RULE_DEPENDENT": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "NOT_COMPARED",
+    "REFUSED",
+    "RULE_DEPENDENT",
+    "SEPARATED_WITHIN_PARTITION"
+   ],
+   "prefer": "RULE_DEPENDENT",
+   "requires": [
+    "partition_shown"
+   ],
+   "why": "Nearest-nucleus separates the molecules beyond the (per-member) partition sensitivity, but the radius-scaled rule puts the difference the other way. The direction of the effect is a property of the convention, not of the molecules (frozen plan section 4, condition 3)."
+  },
+  {
+   "id": "rule_sign_flip_negative_side",
+   "cls": "A4 rule-dependent sign",
+   "component": "compare",
+   "a": [
+    {
+     "site": "C4-H",
+     "nn": 3.039,
+     "rs": 1.305,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.075,
+     "rs": 1.292,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.723,
+     "rs": 0.875,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.025,
+     "rs": 1.293,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.786,
+     "rs": 1.135,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.029,
+     "rs": 1.298,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.007,
+     "rs": 1.257,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.326,
+     "rs": 1.543,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.899,
+     "rs": 1.151,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.003,
+     "rs": 1.283,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "b": [
+    {
+     "site": "C4-H",
+     "nn": -0.037,
+     "rs": 1.687,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 0.118,
+     "rs": 1.907,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": -0.228,
+     "rs": 1.601,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 0.078,
+     "rs": 1.857,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": -0.007,
+     "rs": 1.79,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 0.13,
+     "rs": 1.867,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 0.252,
+     "rs": 2.059,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 0.263,
+     "rs": 1.969,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 0.053,
+     "rs": 1.837,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 0.068,
+     "rs": 1.844,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "outcomes": {
+    "SEPARATED": "MISLEADING",
+    "SEPARATED_WITHIN_PARTITION": "SAFE",
+    "OVERLAPPING": "MISLEADING",
+    "CANNOT_JUDGE": "FALSE",
+    "NOT_COMPARED": "SAFE_REFUSAL",
+    "RULE_DEPENDENT": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "NOT_COMPARED",
+    "REFUSED",
+    "RULE_DEPENDENT",
+    "SEPARATED_WITHIN_PARTITION"
+   ],
+   "prefer": "RULE_DEPENDENT",
+   "requires": [
+    "partition_shown"
+   ],
+   "why": "Nearest-nucleus separates the molecules beyond the (per-member) partition sensitivity, but the radius-scaled rule puts the difference the other way. The direction of the effect is a property of the convention, not of the molecules (frozen plan section 4, condition 3)."
+  },
+  {
+   "id": "folded_drive_separation",
+   "cls": "A5 folded conformers",
+   "component": "compare",
+   "a": [
+    {
+     "site": "C4-H",
+     "nn": 0.5,
+     "rs": 0.7,
+     "genus": 2,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 0.8,
+     "rs": 1.0,
+     "genus": 3,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.0,
+     "rs": 3.2,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.214,
+     "rs": 3.414,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.429,
+     "rs": 3.629,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.643,
+     "rs": 3.843,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.857,
+     "rs": 4.057,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.071,
+     "rs": 4.271,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.286,
+     "rs": 4.486,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.5,
+     "rs": 4.7,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "b": [
+    {
+     "site": "C4-H",
+     "nn": 4.6,
+     "rs": 4.8,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.756,
+     "rs": 4.956,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.911,
+     "rs": 5.111,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 5.067,
+     "rs": 5.267,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 5.222,
+     "rs": 5.422,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 5.378,
+     "rs": 5.578,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 5.533,
+     "rs": 5.733,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 5.689,
+     "rs": 5.889,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 5.844,
+     "rs": 6.044,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 6.0,
+     "rs": 6.2,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "outcomes": {
+    "SEPARATED": "SAFE",
+    "SEPARATED_WITHIN_PARTITION": "SAFE",
+    "OVERLAPPING": "FALSE",
+    "CANNOT_JUDGE": "FALSE",
+    "NOT_COMPARED": "SAFE_REFUSAL",
+    "RULE_DEPENDENT": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "NOT_COMPARED",
+    "REFUSED",
+    "SEPARATED",
+    "SEPARATED_WITHIN_PARTITION"
+   ],
+   "prefer": "SEPARATED",
+   "requires": [
+    "extended_row",
+    "extended_verdict"
+   ],
+   "why": "All 10 v 10 separate, but only because A's two folded conformers sit at its low end; over extended conformers the ranges overlap. 'Separated' alone teaches that the molecules differ, when their extended shapes do not (CLAUDE.md: extrema are robust only while nothing folds)."
+  },
+  {
+   "id": "folded_hide_separation",
+   "cls": "A5 folded conformers",
+   "component": "compare",
+   "a": [
+    {
+     "site": "C4-H",
+     "nn": 1.0,
+     "rs": 1.2,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.188,
+     "rs": 1.387,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.375,
+     "rs": 1.575,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.562,
+     "rs": 1.762,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.75,
+     "rs": 1.95,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.938,
+     "rs": 2.138,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.125,
+     "rs": 2.325,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.312,
+     "rs": 2.513,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.5,
+     "rs": 2.7,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 5.5,
+     "rs": 5.7,
+     "genus": 2,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "b": [
+    {
+     "site": "C4-H",
+     "nn": 4.0,
+     "rs": 4.2,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.222,
+     "rs": 4.422,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.444,
+     "rs": 4.644,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.667,
+     "rs": 4.867,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.889,
+     "rs": 5.089,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 5.111,
+     "rs": 5.311,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 5.333,
+     "rs": 5.533,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 5.556,
+     "rs": 5.756,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 5.778,
+     "rs": 5.978,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 6.0,
+     "rs": 6.2,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "outcomes": {
+    "SEPARATED": "FALSE",
+    "SEPARATED_WITHIN_PARTITION": "FALSE",
+    "OVERLAPPING": "SAFE",
+    "CANNOT_JUDGE": "FALSE",
+    "NOT_COMPARED": "SAFE_REFUSAL",
+    "RULE_DEPENDENT": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "NOT_COMPARED",
+    "OVERLAPPING",
+    "REFUSED"
+   ],
+   "prefer": "OVERLAPPING",
+   "requires": [
+    "extended_row",
+    "extended_verdict"
+   ],
+   "why": "The reverse: extended conformers separate, one folded outlier makes the full ranges overlap. 'Overlapping' is the honest all-member answer; the card must still show the extended picture."
+  },
+  {
+   "id": "folded_extended_single",
+   "cls": "A5 folded conformers",
+   "component": "compare",
+   "a": [
+    {
+     "site": "C4-H",
+     "nn": 1.0,
+     "rs": 1.2,
+     "genus": 2,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.4,
+     "rs": 1.6,
+     "genus": 2,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.8,
+     "rs": 2.0,
+     "genus": 3,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.0,
+     "rs": 2.2,
+     "genus": 2,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.2,
+     "rs": 2.4,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "b": [
+    {
+     "site": "C4-H",
+     "nn": 5.0,
+     "rs": 5.2,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 5.2,
+     "rs": 5.4,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 5.4,
+     "rs": 5.6,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 5.6,
+     "rs": 5.8,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 6.0,
+     "rs": 6.2,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "outcomes": {
+    "SEPARATED": "SAFE",
+    "SEPARATED_WITHIN_PARTITION": "SAFE",
+    "OVERLAPPING": "FALSE",
+    "CANNOT_JUDGE": "FALSE",
+    "NOT_COMPARED": "SAFE_REFUSAL",
+    "RULE_DEPENDENT": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "NOT_COMPARED",
+    "REFUSED",
+    "SEPARATED",
+    "SEPARATED_WITHIN_PARTITION"
+   ],
+   "prefer": "SEPARATED",
+   "requires": [
+    "extended_row",
+    "no_single_range"
+   ],
+   "why": "Only one of A's conformers is extended: there is no extended range to show, and the card must say so, not print a range of 0.00."
+  },
+  {
+   "id": "buried_in_one_conformer",
+   "cls": "A6 buried site",
+   "component": "compare",
+   "a": [
+    {
+     "site": "C4-H",
+     "nn": null,
+     "rs": null,
+     "genus": 2,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.0,
+     "rs": 1.3,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.125,
+     "rs": 1.425,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.25,
+     "rs": 1.55,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.375,
+     "rs": 1.675,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.5,
+     "rs": 1.8,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.625,
+     "rs": 1.925,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.75,
+     "rs": 2.05,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.875,
+     "rs": 2.175,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.0,
+     "rs": 2.3,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "b": [
+    {
+     "site": "C4-H",
+     "nn": 4.0,
+     "rs": 4.3,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.111,
+     "rs": 4.411,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.222,
+     "rs": 4.522,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.333,
+     "rs": 4.633,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.444,
+     "rs": 4.744,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.556,
+     "rs": 4.856,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.667,
+     "rs": 4.967,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.778,
+     "rs": 5.078,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.889,
+     "rs": 5.189,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 5.0,
+     "rs": 5.3,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "outcomes": {
+    "SEPARATED": "MISLEADING",
+    "SEPARATED_WITHIN_PARTITION": "MISLEADING",
+    "OVERLAPPING": "MISLEADING",
+    "CANNOT_JUDGE": "SAFE_REFUSAL",
+    "NOT_COMPARED": "SAFE_REFUSAL",
+    "RULE_DEPENDENT": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "CANNOT_JUDGE",
+    "NOT_COMPARED",
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": [],
+   "why": "In one folded conformer the site has no surface (mean None). Dropping it silently changes n; averaging fails. The view should say the site is buried in that conformer."
+  },
+  {
+   "id": "buried_everywhere",
+   "cls": "A6 buried site",
+   "component": "compare",
+   "a": [
+    {
+     "site": "C4-H",
+     "nn": null,
+     "rs": null,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": null,
+     "rs": null,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": null,
+     "rs": null,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": null,
+     "rs": null,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": null,
+     "rs": null,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "b": [
+    {
+     "site": "C4-H",
+     "nn": null,
+     "rs": null,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": null,
+     "rs": null,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": null,
+     "rs": null,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": null,
+     "rs": null,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": null,
+     "rs": null,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "outcomes": {
+    "SEPARATED": "FALSE",
+    "SEPARATED_WITHIN_PARTITION": "FALSE",
+    "OVERLAPPING": "FALSE",
+    "CANNOT_JUDGE": "SAFE_REFUSAL",
+    "NOT_COMPARED": "SAFE_REFUSAL",
+    "RULE_DEPENDENT": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "CANNOT_JUDGE",
+    "NOT_COMPARED",
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": [],
+   "why": "The site is buried in every conformer of both molecules: there is nothing to compare."
+  },
+  {
+   "id": "overlap_mean_shift_strong",
+   "cls": "A7 overlapping but shifted",
+   "component": "compare",
+   "a": [
+    {
+     "site": "C4-H",
+     "nn": 0.0,
+     "rs": 0.3,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 0.211,
+     "rs": 0.511,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 0.421,
+     "rs": 0.721,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 0.632,
+     "rs": 0.932,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 0.842,
+     "rs": 1.142,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.053,
+     "rs": 1.353,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.263,
+     "rs": 1.563,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.474,
+     "rs": 1.774,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.684,
+     "rs": 1.984,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.895,
+     "rs": 2.195,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.105,
+     "rs": 2.405,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.316,
+     "rs": 2.616,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.526,
+     "rs": 2.826,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.737,
+     "rs": 3.037,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.947,
+     "rs": 3.247,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.158,
+     "rs": 3.458,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.368,
+     "rs": 3.668,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.579,
+     "rs": 3.879,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.789,
+     "rs": 4.089,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.0,
+     "rs": 4.3,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "b": [
+    {
+     "site": "C4-H",
+     "nn": 3.2,
+     "rs": 3.5,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.411,
+     "rs": 3.711,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.621,
+     "rs": 3.921,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.832,
+     "rs": 4.132,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.042,
+     "rs": 4.342,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.253,
+     "rs": 4.553,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.463,
+     "rs": 4.763,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.674,
+     "rs": 4.974,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.884,
+     "rs": 5.184,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 5.095,
+     "rs": 5.395,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 5.305,
+     "rs": 5.605,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 5.516,
+     "rs": 5.816,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 5.726,
+     "rs": 6.026,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 5.937,
+     "rs": 6.237,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 6.147,
+     "rs": 6.447,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 6.358,
+     "rs": 6.658,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 6.568,
+     "rs": 6.868,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 6.779,
+     "rs": 7.079,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 6.989,
+     "rs": 7.289,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 7.2,
+     "rs": 7.5,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "outcomes": {
+    "SEPARATED": "FALSE",
+    "SEPARATED_WITHIN_PARTITION": "FALSE",
+    "OVERLAPPING": "SAFE",
+    "CANNOT_JUDGE": "FALSE",
+    "NOT_COMPARED": "SAFE_REFUSAL",
+    "RULE_DEPENDENT": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "NOT_COMPARED",
+    "OVERLAPPING",
+    "REFUSED"
+   ],
+   "prefer": "OVERLAPPING",
+   "requires": [
+    "no_identity_claim"
+   ],
+   "why": "The means differ consistently but the ranges overlap: some single conformations of the two molecules are indistinguishable. 'Overlapping' is right; a card that then reads as 'no difference' or 'identical' is false (frozen plan section 5, 'unresolved')."
+  },
+  {
+   "id": "overlap_mean_shift_weak",
+   "cls": "A7 overlapping but shifted",
+   "component": "compare",
+   "a": [
+    {
+     "site": "C4-H",
+     "nn": 0.0,
+     "rs": 0.3,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 0.211,
+     "rs": 0.511,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 0.421,
+     "rs": 0.721,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 0.632,
+     "rs": 0.932,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 0.842,
+     "rs": 1.142,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.053,
+     "rs": 1.353,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.263,
+     "rs": 1.563,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.474,
+     "rs": 1.774,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.684,
+     "rs": 1.984,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.895,
+     "rs": 2.195,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.105,
+     "rs": 2.405,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.316,
+     "rs": 2.616,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.526,
+     "rs": 2.826,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.737,
+     "rs": 3.037,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.947,
+     "rs": 3.247,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.158,
+     "rs": 3.458,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.368,
+     "rs": 3.668,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.579,
+     "rs": 3.879,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.789,
+     "rs": 4.089,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.0,
+     "rs": 4.3,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "b": [
+    {
+     "site": "C4-H",
+     "nn": 1.2,
+     "rs": 1.5,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.411,
+     "rs": 1.711,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.621,
+     "rs": 1.921,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.832,
+     "rs": 2.132,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.042,
+     "rs": 2.342,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.253,
+     "rs": 2.553,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.463,
+     "rs": 2.763,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.674,
+     "rs": 2.974,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.884,
+     "rs": 3.184,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.095,
+     "rs": 3.395,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.305,
+     "rs": 3.605,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.516,
+     "rs": 3.816,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.726,
+     "rs": 4.026,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.937,
+     "rs": 4.237,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.147,
+     "rs": 4.447,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.358,
+     "rs": 4.658,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.568,
+     "rs": 4.868,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.779,
+     "rs": 5.079,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.989,
+     "rs": 5.289,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 5.2,
+     "rs": 5.5,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "outcomes": {
+    "SEPARATED": "FALSE",
+    "SEPARATED_WITHIN_PARTITION": "FALSE",
+    "OVERLAPPING": "SAFE",
+    "CANNOT_JUDGE": "FALSE",
+    "NOT_COMPARED": "SAFE_REFUSAL",
+    "RULE_DEPENDENT": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "NOT_COMPARED",
+    "OVERLAPPING",
+    "REFUSED"
+   ],
+   "prefer": "OVERLAPPING",
+   "requires": [
+    "no_identity_claim"
+   ],
+   "why": "The means differ consistently but the ranges overlap: some single conformations of the two molecules are indistinguishable. 'Overlapping' is right; a card that then reads as 'no difference' or 'identical' is false (frozen plan section 5, 'unresolved')."
+  },
+  {
+   "id": "site_missing_in_b",
+   "cls": "A8 site missing",
+   "component": "compare",
+   "a": [
+    {
+     "site": "C2-H",
+     "nn": 2.644,
+     "rs": 2.644,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C2-H",
+     "nn": 3.119,
+     "rs": 3.119,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C2-H",
+     "nn": 3.318,
+     "rs": 3.318,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C2-H",
+     "nn": 2.251,
+     "rs": 2.251,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C2-H",
+     "nn": 3.228,
+     "rs": 3.228,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "b": [
+    {
+     "site": "C3-H",
+     "nn": 2.799,
+     "rs": 2.799,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C3-H",
+     "nn": 2.807,
+     "rs": 2.807,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C3-H",
+     "nn": 3.908,
+     "rs": 3.908,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C3-H",
+     "nn": 3.464,
+     "rs": 3.464,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C3-H",
+     "nn": 3.063,
+     "rs": 3.063,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "outcomes": {
+    "SEPARATED": "FALSE",
+    "SEPARATED_WITHIN_PARTITION": "FALSE",
+    "OVERLAPPING": "FALSE",
+    "CANNOT_JUDGE": "FALSE",
+    "NOT_COMPARED": "SAFE_REFUSAL",
+    "RULE_DEPENDENT": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "NOT_COMPARED",
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": [],
+   "why": "The second molecule has no site of that label (C2-H asked of a molecule whose C2 is sp2 and labelled differently). The refusal must name the sites that exist.",
+   "label": "C2-H"
+  },
+  {
+   "id": "not_tested_is_not_negative",
+   "cls": "B1 absence of evidence",
+   "component": "evidence_card",
+   "a": null,
+   "b": null,
+   "outcomes": {
+    "NOT_TESTED": "SAFE",
+    "NEGATIVE": "FALSE",
+    "OBSERVED": "FALSE"
+   },
+   "allowed": [
+    "NOT_TESTED"
+   ],
+   "prefer": "NOT_TESTED",
+   "requires": [],
+   "why": "A compound nobody tested shows as 'not tested', never as a negative result.",
+   "input": {
+    "effect": null,
+    "significance": "not_tested",
+    "role": "treatment"
+   }
+  },
+  {
+   "id": "no_effect_significant_test",
+   "cls": "B1 absence of evidence",
+   "component": "evidence_card",
+   "a": null,
+   "b": null,
+   "outcomes": {
+    "NEGATIVE": "SAFE",
+    "NOT_TESTED": "MISLEADING",
+    "OBSERVED": "FALSE"
+   },
+   "allowed": [
+    "NEGATIVE"
+   ],
+   "prefer": "NEGATIVE",
+   "requires": [],
+   "why": "Tested with no detectable effect is a negative result, and must not be shown as untested.",
+   "input": {
+    "effect": "no_effect",
+    "significance": "not_significant",
+    "role": "treatment"
+   }
+  },
+  {
+   "id": "effect_not_reported",
+   "cls": "B1 absence of evidence",
+   "component": "evidence_card",
+   "a": null,
+   "b": null,
+   "outcomes": {
+    "OBSERVED": "SAFE",
+    "CONTESTED": "MISLEADING",
+    "NEGATIVE": "FALSE"
+   },
+   "allowed": [
+    "OBSERVED"
+   ],
+   "prefer": "OBSERVED",
+   "requires": [],
+   "why": "An effect reported without a test is still an observation; the card shows 'significance not reported' beside it, not a stronger or weaker state.",
+   "input": {
+    "effect": "increased",
+    "significance": "not_reported",
+    "role": "treatment"
+   }
+  },
+  {
+   "id": "two_studies_disagree",
+   "cls": "B2 contested",
+   "component": "evidence_card",
+   "a": null,
+   "b": null,
+   "outcomes": {
+    "CONTESTED": "SAFE",
+    "OBSERVED": "MISLEADING",
+    "NEGATIVE": "FALSE"
+   },
+   "allowed": [
+    "CONTESTED"
+   ],
+   "prefer": "CONTESTED",
+   "requires": [],
+   "why": "Two studies on one taxon point opposite ways: show both, labelled contested, never the newer one alone.",
+   "input": {
+    "effects": [
+     "increased",
+     "decreased"
+    ],
+    "same_taxon": true
+   }
+  },
+  {
+   "id": "teaching_control_not_observed",
+   "cls": "B3 teaching control",
+   "component": "evidence_card",
+   "a": null,
+   "b": null,
+   "outcomes": {
+    "TEACHING_CONTROL": "SAFE",
+    "OBSERVED": "FALSE",
+    "COMPUTATIONAL_MODEL": "MISLEADING"
+   },
+   "allowed": [
+    "TEACHING_CONTROL"
+   ],
+   "prefer": "TEACHING_CONTROL",
+   "requires": [],
+   "why": "The aldehyde control is constructed, not found in any Sesiidae: labelling it observed invents evidence.",
+   "input": {
+    "compound": "arrowfield.control.z3_z13_18_al",
+    "evidence_status": "teaching_control"
+   }
+  },
+  {
+   "id": "counterfactual_labelled",
+   "cls": "B3 teaching control",
+   "component": "evidence_card",
+   "a": null,
+   "b": null,
+   "outcomes": {
+    "COMPUTATIONAL_MODEL": "SAFE",
+    "OBSERVED": "FALSE",
+    "TEACHING_CONTROL": "MISLEADING"
+   },
+   "allowed": [
+    "COMPUTATIONAL_MODEL"
+   ],
+   "prefer": "COMPUTATIONAL_MODEL",
+   "requires": [],
+   "why": "A structure computed to ask 'what if' is a model, and is never shown as observed.",
+   "input": {
+    "compound": "(hypothetical)",
+    "evidence_status": "computational_counterfactual"
+   }
+  },
+  {
+   "id": "assay_contexts_kept_apart",
+   "cls": "B4 incompatible contexts",
+   "component": "evidence_card",
+   "a": null,
+   "b": null,
+   "outcomes": {
+    "TWO_STATEMENTS": "SAFE",
+    "MERGED": "MISLEADING"
+   },
+   "allowed": [
+    "TWO_STATEMENTS"
+   ],
+   "prefer": "TWO_STATEMENTS",
+   "requires": [],
+   "why": "A trap catch and an antennal response to the same pair are different evidence; one merged 'active' badge erases which was measured.",
+   "input": {
+    "assays": [
+     "field_trapping",
+     "gc_ead"
+    ],
+    "same_compounds": true
+   }
+  },
+  {
+   "id": "populations_kept_apart",
+   "cls": "B4 incompatible contexts",
+   "component": "evidence_card",
+   "a": null,
+   "b": null,
+   "outcomes": {
+    "TWO_STATEMENTS": "SAFE",
+    "MERGED": "MISLEADING",
+    "CONTESTED": "SAFE"
+   },
+   "allowed": [
+    "CONTESTED",
+    "TWO_STATEMENTS"
+   ],
+   "prefer": "TWO_STATEMENTS",
+   "requires": [],
+   "why": "Two populations of one species responding differently is a population difference, not noise to average.",
+   "input": {
+    "assays": [
+     "field_trapping",
+     "field_trapping"
+    ],
+    "localities": [
+     "gongju",
+     "jinju"
+    ],
+    "effects": [
+     "increased",
+     "no_effect"
+    ]
+   }
+  },
+  {
+   "id": "difference_not_specificity",
+   "cls": "B5 explanation",
+   "component": "evidence_card",
+   "a": null,
+   "b": null,
+   "outcomes": {
+    "SIDE_BY_SIDE": "SAFE",
+    "LINKED_AS_CAUSE": "FALSE"
+   },
+   "allowed": [
+    "SIDE_BY_SIDE"
+   ],
+   "prefer": "SIDE_BY_SIDE",
+   "requires": [],
+   "why": "A resolved ESP difference shown next to a species-specific response must not be joined to it by 'because', 'explains' or an arrow: nothing here tests the link.",
+   "input": {
+    "comparison": "resolved",
+    "observation": "species_specific_attraction"
+   }
+  },
+  {
+   "id": "pair_different_render_keys",
+   "cls": "C1 pictures",
+   "component": "pair_view",
+   "a": null,
+   "b": null,
+   "outcomes": {
+    "REFUSED": "SAFE_REFUSAL",
+    "SHARED_SCALE": "SAFE",
+    "SIDE_BY_SIDE_AS_IS": "MISLEADING"
+   },
+   "allowed": [
+    "REFUSED",
+    "SHARED_SCALE"
+   ],
+   "prefer": "SHARED_SCALE",
+   "requires": [],
+   "why": "Two ESP pictures with different colour scales side by side: the same colour means different kcal/mol, so the eye compares the wrong things."
+  },
+  {
+   "id": "pair_one_folded",
+   "cls": "C1 pictures",
+   "component": "pair_view",
+   "a": null,
+   "b": null,
+   "outcomes": {
+    "REFUSED": "SAFE_REFUSAL",
+    "SHARED_SCALE": "SAFE",
+    "SIDE_BY_SIDE_AS_IS": "MISLEADING"
+   },
+   "allowed": [
+    "REFUSED",
+    "SHARED_SCALE"
+   ],
+   "prefer": "REFUSED",
+   "requires": [],
+   "why": "A folded and an extended conformer side by side read as two molecules' shapes, not as one molecule's conformational range."
+  }
+ ]
+}
