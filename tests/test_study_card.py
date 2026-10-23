@@ -28,15 +28,8 @@ CASES = SET["cases"]
 RULE = "espmap-sesiidae-001/range_partition_sign_v1"
 
 # --- what the card gets wrong today (measured, not intended) -------------------
-UNSAFE_NOW = {
-    # probe round 4 of #11: a context entry that is not a mapping crashes the card
-    "context_not_a_mapping_provenance_list", "context_not_a_mapping_molecules_list",
-    "context_not_a_mapping_limitations_string",
-}
-NOT_PREFERRED_NOW = UNSAFE_NOW | {
-    # numpy integer counts for n are refused (safe, but they are valid counts)
-    "n_numpy_integers",
-}
+UNSAFE_NOW = set()      # empty since the card met the probe rounds of #11; a new failing case goes here
+NOT_PREFERRED_NOW = set(UNSAFE_NOW)
 REQUIRES_MISSING_NOW = set()
 
 

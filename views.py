@@ -373,6 +373,9 @@ def study_card_html(row, context):
                                   row.bootstrap_interval) or study_row_malformed(row)
     if why:
         raise Refused(f"this study row is corrupt and is not shown: {why}")
+    # A context, or an entry of it, that is not a mapping is read as missing:
+    # never a crash, never a claim the card could not read (probe round 4).
+    context = context if isinstance(context, dict) else {}
     primary = context.get("all_member_row")
     if isinstance(primary, dict):                      # given as data: read it as a StudySite
         from model import StudySite
@@ -390,8 +393,9 @@ def study_card_html(row, context):
                                       primary.bootstrap_interval) or study_row_malformed(primary)
         if why:
             raise Refused(f"the all-member row is corrupt and is not shown: {why}")
-    prov, roles, lim = (context.get("provenance") or {}, context.get("molecules") or {},
-                        context.get("limitations") or {})
+    prov, roles, lim = (x if isinstance(x, dict) else {}
+                        for x in (context.get("provenance"), context.get("molecules"),
+                                  context.get("limitations")))
     def esc(t):
         return html.escape(str(t), quote=False)      # text, not attribute values
     title = (f'<div class="card-title">{esc(row.site)} · {esc(row.x)} → {esc(row.y)}'

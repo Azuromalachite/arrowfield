@@ -540,9 +540,11 @@ def study_row_malformed(row):
         v = getattr(row, name)
         if v is not None and not real_number(v):
             return f"{name} {v!r} is not a finite number"
+    import numbers                                     # numpy integer counts are counts too
     n = row.n
     if not (isinstance(n, (tuple, list)) and len(n) == 2
-            and all(isinstance(k, int) and not isinstance(k, bool) and k >= 0 for k in n)):
+            and all(isinstance(k, numbers.Integral) and not isinstance(k, (bool, np.bool_)) and k >= 0
+                    for k in n)):
         return f"n {n!r} is not two non-negative integers"
     if row.partition is not None and row.partition < 0:
         return f"partition {row.partition} is negative"
