@@ -2,7 +2,7 @@
 
 Status: **draft.** The questions are fixed. The expected findings for acts
 A–C come from the frozen study espmap-sesiidae-001 (Atlas results at
-f286bc1: 5 C18 molecules × 20 shape-diverse conformers, def2-SVP, gas),
+dabaf15: 5 C18 molecules × 20 shape-diverse conformers, def2-SVP, gas),
 which replicated the pilot (`sesiidae-pilot.md`) where it mattered. Before
 class, a person must still check every observation the homework uses
 against its paper. The aim is that a student finishes able to make a
@@ -52,7 +52,7 @@ espmap-sesiidae-001: 20 conformers per molecule, espmap v0.2.1, seed
   (`analysis-plan.md`). A dated clarification on reading its statistics is
   at 30c4a11.
 - **Results:** at
-  [f286bc1](https://github.com/Azuromalachite/sesiidae-pheromone-atlas/blob/f286bc1/analyses/espmap-sesiidae-001/results.md)
+  [dabaf15](https://github.com/Azuromalachite/sesiidae-pheromone-atlas/blob/dabaf15/analyses/espmap-sesiidae-001/results.md)
   (`results.md`). The "expected" answers below come from it, not from the
   pilot.
 - **Where the records live:** the Atlas's `computed/espmap/<Atlas ID>/` for
@@ -249,7 +249,7 @@ itself.
   (`analyses/espmap-sesiidae-001/`, 7e34658, 2026-10-23).
 - [x] Ensembles (20 conformers) for the five compounds computed with espmap
   v0.2.1 (2026-10-23/24, 100/100, no exclusions). The four Atlas compounds
-  are in the Atlas's `computed/espmap/` (results at f286bc1); the aldehyde is
+  are in the Atlas's `computed/espmap/` (results at dabaf15); the aldehyde is
   in Arrowfield's `controls/`.
 - [x] Acts A–C's "expected" rewritten from the study's results (2026-10-24).
 - [ ] Notebook pinned to the Atlas teaching bundle and the records; the
