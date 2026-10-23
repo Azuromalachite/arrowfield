@@ -1,0 +1,2 @@
+# controls/ is checksummed byte for byte (SHA256SUMS, record_sha256): never convert its line endings
+controls/** -text

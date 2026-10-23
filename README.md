@@ -18,6 +18,7 @@ the draft designs and working prototype it was seeded with.
 | `record.py`, `views.py`, `build_demo.py`, `compute_records.py`, `make_geometries.py`, `tests/` | the working prototype of the three views; see `notebooks.md` |
 | `records/`, `geometries/` | computed records (small molecules), acetate's DFT geometry |
 | `demo/` | rendered pages, not committed: `python build_demo.py` writes them |
+| `controls/` | espmap records of teaching controls, molecules a lesson needs that the Atlas does not hold, in the Atlas's index format; see `controls/README.md` |
 | `LICENSE` | MIT, as espmap |
 
 ## Boundary
