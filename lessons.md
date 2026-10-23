@@ -167,7 +167,7 @@ water), never SMILES + MMFF.
 
 **Predict**
 - The enolate's negative charge is on ( ) O only ( ) C only ( ) shared by O and the CH₂ carbon
-- An alkyl halide (SN2) attacks ( ) O ( ) C ( ) both. Where would you look on the surface?
+- An alkyl halide (SN2) attacks ( ) O ( ) C ( ) it depends. If it depends, on what?
 
 **Reveal:** sites O and the CH₂ carbon.
 
@@ -175,23 +175,54 @@ water), never SMILES + MMFF.
 - Two resonance forms put the negative charge on O or on the CH₂ carbon: an
   ambident nucleophile.
 - On the surface O is clearly the most negative site: the charge-controlled
-  site. The calibration pilot measured this for all three ambident anions it
-  tried (enolate O, thiocyanate N, nitrite O).
-- **Here ESP's limit is the point of the lesson, not its answer.** Alkyl
-  halides mostly alkylate the enolate at **C** `TODO: cite with conditions`.
-  That is not where the surface is most negative. In the pilot, ALIE (a
-  descriptor of how easily electrons are removed) did point to the CH₂
-  carbon, and to S for thiocyanate. For nitrite neither descriptor recovered
-  the N-alkylation outcome.
+  site. The calibration pilot found the same for all three ambident anions
+  it tried (enolate O, thiocyanate N, nitrite O).
+- **Where the anion reacts is not one fact about the anion.** It depends on
+  the electrophile, the counter-ion, the solvent, and whether the fastest
+  product or the most stable one wins:
+  - **The enolate.** A free enolate is alkylated faster at O (the kinetic
+    product); the C-alkylated product is the more stable one (the
+    thermodynamic product) `mayr2011` (§3.4.2). The C-alkylation that
+    synthesis relies on comes from metal-enolate aggregates, the
+    counter-ion and the solvent, none of which is in a picture of the
+    free ion.
+  - **Nitrite.** Methylation gives O:N from 30:70 to 92:8 as the solvent
+    and the methylating agent change `tishkov2005` (Table 2). Sodium nitrite
+    with primary and secondary alkyl bromides in DMF gives mostly the nitro
+    compound (55–65 %), with 30–33 % of the nitrite ester `kornblum1955`.
+  - **Thiocyanate** is the clean case: SN2 alkylation goes to S, favoured
+    over N by 10²–10³ `loos2003`. The most negative site on its surface is
+    N, so here the surface and the reaction really do disagree.
+- In the pilot, ALIE (a descriptor of how easily electrons are removed)
+  marked thiocyanate's S, and the enolate's CH₂ carbon, the site of the more
+  stable product. For nitrite neither ALIE nor the orbital descriptors
+  separated N from O clearly, which fits an anion whose selectivity changes
+  with the conditions.
 - The lesson: the electrostatic picture shows charge control. Where a
   reaction happens can be decided by something else: orbitals,
-  transition-state energies, conditions.
+  transition-state energies, and the conditions, which a calculation on the
+  isolated anion does not contain. A textbook's "alkylates at C" summarises
+  particular conditions; find out which.
 
 **Control:** acetaldehyde, the neutral carbonyl it comes from.
 
+**Extension (solvent):** phenoxide alkylates at O in DMF, THF and alcohols,
+but substantially at C in water or phenol, attributed to hydrogen bonding at
+O `kornblum1963`. The same anion gives a different answer, decided by how
+the solvent holds its oxygen.
+
 **Limits:** this is where "ESP shows the polarity" and "ESP predicts the
 reaction" come apart, and where later tools (ALIE, frontier orbitals) earn
-their place.
+their place. Even they describe the isolated anion; the counter-ion and the
+solvent can decide the outcome.
+
+Sources for this lesson's outcomes (keys from espmap's `docs/references.bib`,
+added in espmap #66):
+[`mayr2011`](https://doi.org/10.1002/anie.201007100),
+[`tishkov2005`](https://doi.org/10.1002/anie.200501274),
+[`kornblum1955`](https://doi.org/10.1021/ja01628a064),
+[`loos2003`](https://doi.org/10.1021/ja037317u),
+[`kornblum1963`](https://doi.org/10.1021/ja00891a024).
 
 ---
 
