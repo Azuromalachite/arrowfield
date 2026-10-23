@@ -28,8 +28,15 @@ CASES = SET["cases"]
 RULE = "espmap-sesiidae-001/range_partition_sign_v1"
 
 # --- what the card gets wrong today (measured, not intended) -------------------
-UNSAFE_NOW = set()      # empty since the card met the probe rounds of #11; a new failing case goes here
-NOT_PREFERRED_NOW = set(UNSAFE_NOW)
+UNSAFE_NOW = {
+    # probe round 4 of #11: a context entry that is not a mapping crashes the card
+    "context_not_a_mapping_provenance_list", "context_not_a_mapping_molecules_list",
+    "context_not_a_mapping_limitations_string",
+}
+NOT_PREFERRED_NOW = UNSAFE_NOW | {
+    # numpy integer counts for n are refused (safe, but they are valid counts)
+    "n_numpy_integers",
+}
 REQUIRES_MISSING_NOW = set()
 
 
@@ -89,9 +96,12 @@ def _card():
 def _run(c):
     card = _card()                                     # skips until the card exists
     from model import Refused, StudySite               # StudySite arrives with study.py (#8)
+    row = {k: (tuple(v) if isinstance(v, list) else v) for k, v in c["row"].items()}
+    if c.get("row_n_numpy"):                           # JSON cannot carry numpy integers
+        import numpy as np
+        row["n"] = (np.int64(row["n"][0]), np.int32(row["n"][1]))
     try:
-        page = card(StudySite(**{k: (tuple(v) if isinstance(v, list) else v) for k, v in c["row"].items()}),
-                    c["context"])
+        page = card(StudySite(**row), c["context"])
     except Refused:
         return "REFUSED", None
     except Exception:  # noqa: BLE001 - any other error is a crash, graded as such

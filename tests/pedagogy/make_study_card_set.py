@@ -80,13 +80,14 @@ C3 = row("C_position", "e3_z13_18_oac", "e2_z13_18_oac", "C3-H", "unresolved",
 CASES = []
 
 
-def case(id, cls, why, r, c, outcomes, prefer, requires=()):
+def case(id, cls, why, r, c, outcomes, prefer, requires=(), extra=None):
     outcomes = dict(outcomes)
     outcomes.setdefault("ERROR", "CRASH")
     allowed = sorted(k for k, g in outcomes.items() if g in ("SAFE", "SAFE_REFUSAL"))
     assert prefer is None or prefer in allowed, id
     CASES.append(dict(id=id, cls=cls, component="study_card", why=why, row=r, context=c,
-                      outcomes=outcomes, allowed=allowed, prefer=prefer, requires=list(requires)))
+                      outcomes=outcomes, allowed=allowed, prefer=prefer, requires=list(requires),
+                      **(extra or {})))
 
 
 def must(pat, grade, why, on="text"):
@@ -309,6 +310,24 @@ for vid, n in (("n_garbage", ["x", -3]), ("n_bool", [True, 20])):
          "A verdict rests on n members per side; n that is not two non-negative integers is a "
          "corrupt record.",
          dict(C4, n=n), ctx(), {"RENDERED": "MISLEADING", "REFUSED": "SAFE_REFUSAL"}, "REFUSED")
+
+
+# Probe round 4 of #11: context entries that are not mappings (a provenance
+# given as a list crashed the card), and n given as numpy integers, which a
+# study built from array counts produces and which are perfectly good counts.
+for vid, c in (("provenance_list", ctx(provenance=["f" * 64, PROV["plan_commit"]])),
+               ("molecules_list", ctx(molecules=["z3_z13_18_al"])),
+               ("limitations_string", ctx(limitations="gas, def2-SVP"))):
+    case(f"context_not_a_mapping_{vid}", "S12 provenance",
+         "A context entry that is not a mapping is treated as missing: the card never crashes, and "
+         "never claims what it could not read (a missing provenance shows the warning).",
+         C4, c, SHOW, "RENDERED",
+         [WARN] if vid == "provenance_list" else [must_not(r"basis.{0,40}\brun\b(?!.{0,5}not)", "MISLEADING",
+                                                          "nothing claimed as run")])
+case("n_numpy_integers", "S13 malformed numbers",
+     "n given as numpy integers (np.int64, np.int32) is a valid count; the card must not refuse it. "
+     "The harness converts n to numpy integers for this case (row_n_numpy).",
+     C4, ctx(), {"RENDERED": "SAFE", "REFUSED": "SAFE_REFUSAL"}, "RENDERED", extra={"row_n_numpy": True})
 
 
 def document():

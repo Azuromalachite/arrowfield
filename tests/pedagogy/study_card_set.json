@@ -3675,6 +3675,311 @@
    ],
    "prefer": "REFUSED",
    "requires": []
+  },
+  {
+   "id": "context_not_a_mapping_provenance_list",
+   "cls": "S12 provenance",
+   "component": "study_card",
+   "why": "A context entry that is not a mapping is treated as missing: the card never crashes, and never claims what it could not read (a missing provenance shows the warning).",
+   "row": {
+    "verdict_rule": "espmap-sesiidae-001/range_partition_sign_v1",
+    "contrast": "C_position",
+    "x": "e3_z13_18_oac",
+    "y": "e2_z13_18_oac",
+    "population": "all",
+    "tier": "primary",
+    "site": "C4-H",
+    "outcome": "resolved",
+    "n": [
+     20,
+     20
+    ],
+    "delta": 5.22,
+    "delta_other_rule": 5.22,
+    "partition": 0.69,
+    "partition_max_member": 0.69,
+    "range_x": [
+     0.22,
+     5.54
+    ],
+    "range_y": [
+     6.66,
+     9.53
+    ],
+    "mean_x": null,
+    "mean_y": null,
+    "bootstrap_interval": [
+     4.57,
+     5.88
+    ],
+    "conditions": {
+     "1_ranges_disjoint": true,
+     "2_beyond_partition": true,
+     "3_same_sign": true
+    }
+   },
+   "context": {
+    "provenance": [
+     "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+     "7e3465859bc2b8950078238f0bffb0ea6b4dd512"
+    ],
+    "molecules": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    },
+    "limitations": {
+     "basis_sensitivity": "not run",
+     "solvent": "not studied",
+     "phase": "gas",
+     "method": "B3LYP/def2-SVP"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "provenance (incomplete|missing)|unverified source|source not (recorded|verified)",
+     "grade": "MISLEADING",
+     "why": "a visible warning",
+     "on": "text"
+    }
+   ]
+  },
+  {
+   "id": "context_not_a_mapping_molecules_list",
+   "cls": "S12 provenance",
+   "component": "study_card",
+   "why": "A context entry that is not a mapping is treated as missing: the card never crashes, and never claims what it could not read (a missing provenance shows the warning).",
+   "row": {
+    "verdict_rule": "espmap-sesiidae-001/range_partition_sign_v1",
+    "contrast": "C_position",
+    "x": "e3_z13_18_oac",
+    "y": "e2_z13_18_oac",
+    "population": "all",
+    "tier": "primary",
+    "site": "C4-H",
+    "outcome": "resolved",
+    "n": [
+     20,
+     20
+    ],
+    "delta": 5.22,
+    "delta_other_rule": 5.22,
+    "partition": 0.69,
+    "partition_max_member": 0.69,
+    "range_x": [
+     0.22,
+     5.54
+    ],
+    "range_y": [
+     6.66,
+     9.53
+    ],
+    "mean_x": null,
+    "mean_y": null,
+    "bootstrap_interval": [
+     4.57,
+     5.88
+    ],
+    "conditions": {
+     "1_ranges_disjoint": true,
+     "2_beyond_partition": true,
+     "3_same_sign": true
+    }
+   },
+   "context": {
+    "provenance": {
+     "results_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+     "plan_commit": "7e3465859bc2b8950078238f0bffb0ea6b4dd512"
+    },
+    "molecules": [
+     "z3_z13_18_al"
+    ],
+    "limitations": {
+     "basis_sensitivity": "not run",
+     "solvent": "not studied",
+     "phase": "gas",
+     "method": "B3LYP/def2-SVP"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must_not": "basis.{0,40}\\brun\\b(?!.{0,5}not)",
+     "grade": "MISLEADING",
+     "why": "nothing claimed as run",
+     "on": "text"
+    }
+   ]
+  },
+  {
+   "id": "context_not_a_mapping_limitations_string",
+   "cls": "S12 provenance",
+   "component": "study_card",
+   "why": "A context entry that is not a mapping is treated as missing: the card never crashes, and never claims what it could not read (a missing provenance shows the warning).",
+   "row": {
+    "verdict_rule": "espmap-sesiidae-001/range_partition_sign_v1",
+    "contrast": "C_position",
+    "x": "e3_z13_18_oac",
+    "y": "e2_z13_18_oac",
+    "population": "all",
+    "tier": "primary",
+    "site": "C4-H",
+    "outcome": "resolved",
+    "n": [
+     20,
+     20
+    ],
+    "delta": 5.22,
+    "delta_other_rule": 5.22,
+    "partition": 0.69,
+    "partition_max_member": 0.69,
+    "range_x": [
+     0.22,
+     5.54
+    ],
+    "range_y": [
+     6.66,
+     9.53
+    ],
+    "mean_x": null,
+    "mean_y": null,
+    "bootstrap_interval": [
+     4.57,
+     5.88
+    ],
+    "conditions": {
+     "1_ranges_disjoint": true,
+     "2_beyond_partition": true,
+     "3_same_sign": true
+    }
+   },
+   "context": {
+    "provenance": {
+     "results_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+     "plan_commit": "7e3465859bc2b8950078238f0bffb0ea6b4dd512"
+    },
+    "molecules": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    },
+    "limitations": "gas, def2-SVP"
+   },
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must_not": "basis.{0,40}\\brun\\b(?!.{0,5}not)",
+     "grade": "MISLEADING",
+     "why": "nothing claimed as run",
+     "on": "text"
+    }
+   ]
+  },
+  {
+   "id": "n_numpy_integers",
+   "cls": "S13 malformed numbers",
+   "component": "study_card",
+   "why": "n given as numpy integers (np.int64, np.int32) is a valid count; the card must not refuse it. The harness converts n to numpy integers for this case (row_n_numpy).",
+   "row": {
+    "verdict_rule": "espmap-sesiidae-001/range_partition_sign_v1",
+    "contrast": "C_position",
+    "x": "e3_z13_18_oac",
+    "y": "e2_z13_18_oac",
+    "population": "all",
+    "tier": "primary",
+    "site": "C4-H",
+    "outcome": "resolved",
+    "n": [
+     20,
+     20
+    ],
+    "delta": 5.22,
+    "delta_other_rule": 5.22,
+    "partition": 0.69,
+    "partition_max_member": 0.69,
+    "range_x": [
+     0.22,
+     5.54
+    ],
+    "range_y": [
+     6.66,
+     9.53
+    ],
+    "mean_x": null,
+    "mean_y": null,
+    "bootstrap_interval": [
+     4.57,
+     5.88
+    ],
+    "conditions": {
+     "1_ranges_disjoint": true,
+     "2_beyond_partition": true,
+     "3_same_sign": true
+    }
+   },
+   "context": {
+    "provenance": {
+     "results_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+     "plan_commit": "7e3465859bc2b8950078238f0bffb0ea6b4dd512"
+    },
+    "molecules": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    },
+    "limitations": {
+     "basis_sensitivity": "not run",
+     "solvent": "not studied",
+     "phase": "gas",
+     "method": "B3LYP/def2-SVP"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [],
+   "row_n_numpy": true
   }
  ]
 }
