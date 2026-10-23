@@ -1,9 +1,11 @@
 # Sesiidae homework: when does molecular electronics explain biological specificity?
 
-Status: **draft.** The questions are fixed. The expected findings for acts B
-and C now come from the Sesiidae pilot (`sesiidae-pilot.md`, 2026-10-22:
-4 C18 molecules × 5 shape-diverse conformers, def2-SVP, gas). They must be
-re-checked on the class ensemble before use. The aim is that a student finishes able to make a
+Status: **draft.** The questions are fixed. The expected findings for acts
+A–C come from the frozen study espmap-sesiidae-001 (Atlas results at
+89f5e22: 5 C18 molecules × 20 shape-diverse conformers, def2-SVP, gas),
+which replicated the pilot (`sesiidae-pilot.md`) where it mattered. Before
+class, a person must still check every observation the homework uses
+against its paper. The aim is that a student finishes able to make a
 chemical argument from an ESP surface, and to say where that argument stops.
 
 ## What students already need
@@ -40,18 +42,35 @@ state a biological fact the bundle does not carry.
 
 ## Data: precomputed, with the uncertainty attached
 
-**Status:** the five ensembles are being computed (from 2026-10-23) as
-the study espmap-sesiidae-001. Which molecules it compares, and the rule that
-decides each comparison, were fixed before the computation started. They are
-in the Atlas, frozen at
-[7e34658](https://github.com/Azuromalachite/sesiidae-pheromone-atlas/tree/7e3465859bc2b8950078238f0bffb0ea6b4dd512/analyses/espmap-sesiidae-001):
-the case bundle (`case-bundle.yaml`) and the prospective analysis plan
-(`analysis-plan.md`). Settings: K = 20, seed 20261024, espmap v0.2.1.
-The plan treats the study as a confirmatory replication of the pilot below:
-the homework's "expected" answers came from the pilot. Where the study's
-results differ, the homework changes to match the study, never the reverse.
-The ensembles' canonical home is the Atlas's `computed/espmap/<Atlas ID>/`;
-Arrowfield reads them from the teaching bundle.
+**Status:** computed and analysed. The five ensembles are the study
+espmap-sesiidae-001: 20 conformers per molecule, espmap v0.2.1, seed
+20261024, 100 of 100 members, no exclusions.
+- **Frozen before the computation:** which molecules it compares and the
+  rule that decides each comparison. They are in the Atlas at
+  [7e34658](https://github.com/Azuromalachite/sesiidae-pheromone-atlas/tree/7e3465859bc2b8950078238f0bffb0ea6b4dd512/analyses/espmap-sesiidae-001):
+  the case bundle (`case-bundle.yaml`) and the prospective analysis plan
+  (`analysis-plan.md`). A dated clarification on reading its statistics is
+  at 30c4a11.
+- **Results:** at
+  [89f5e22](https://github.com/Azuromalachite/sesiidae-pheromone-atlas/blob/89f5e22/analyses/espmap-sesiidae-001/results.md)
+  (`results.md`). The "expected" answers below come from it, not from the
+  pilot.
+- **Where the records live:** the Atlas's `computed/espmap/<Atlas ID>/` for
+  the four Atlas compounds; Arrowfield's `controls/` for the aldehyde.
+
+Every verdict below is the study's, under its frozen rule
+(`espmap-sesiidae-001/range_partition_sign_v1`). A site is **resolved** only
+if all three hold:
+1. the two molecules' conformer ranges do not overlap;
+2. the difference exceeds the partition sensitivity;
+3. the sign is the same under both partition rules.
+
+**Different on average** means the means differ, but some single conformers
+of the two molecules are indistinguishable; it is descriptive, not a
+weaker "resolved".
+
+The 20 conformers are a designed spread of shapes, not random draws. So
+non-overlap is a robustness criterion, not a probability.
 
 - Each compound is to be precomputed as espmap records on a **conformer
   ensemble**: the lowest-energy
@@ -92,21 +111,29 @@ H-bond donor? Does adding the acetyl make "everything more negative"?
    act A only on the global V_max and V_min, with `head O` as a secondary
    site.
 
-**Expected:** this act is the "ESP works" act. The prespecified result is
-the global extremum: the alcohol's O–H gives a V_max well above the
-acetate's (the plan expects this to be resolved). The chain sites are for
-looking, not for verdicts. A student who calls a chain site "resolved" from
-an exploratory comparison has missed the difference between a test and a
-look; a student who describes how the difference fades with distance, with
-its conformer range beside it, has used the card well.
+**Expected (study results):** this act is the "ESP works" act.
+- **Global V_max: resolved, the prespecified result.** The alcohol's O–H
+  hydrogen gives V_max +34.0 to +51.7 kcal/mol across its 20 conformers;
+  the acetate's peaks at +19.6 to +21.0. The difference of means is +26.5,
+  and the ranges are far apart.
+- **Global V_min: different on average** (−1.2). The ranges overlap.
+- **`head O` (the O atom alone, secondary):** the alcohol's O is far more
+  negative than the acetate's ester O (−29.0 to −32.0 against −8.0 to
+  −13.8). The difference is −20.7, resolved.
+- **The aldehyde control sits between them:** V_max +24.9 to +26.9, and head
+  O −25.8 to −26.8. It is a constructed molecule, so treat these as
+  descriptive chemistry only.
 
-From the pilot (OH vs OAc only), the clear signal is in the global extremum.
-The alcohol's O–H hydrogen gives V_max +38 to +52 kcal/mol; the acetate
-peaks at +19 to +21. No site mean separated, but the obvious site
-comparison, `O31`, is not like-for-like: in the alcohol it holds O plus its
-H, in the acetate an ester O. Define `head O` as the O atom alone, or as one
-caller group with the same atoms in all three molecules, and teach the
-mismatch as a point of its own.
+The chain sites are for looking, not for verdicts; no chain site met the
+rule in any contrast. A student who calls a chain site "resolved" from an
+exploratory comparison has missed the difference between a test and a look.
+A student who describes how the difference fades with distance, with its
+conformer range beside it, has used the card well.
+
+`head O` is the O atom alone in every molecule. In the pilot, the obvious
+comparison (`O31`) was not like-for-like: in the alcohol it held O plus its
+H, in the acetate an ester O. That mismatch is worth teaching as a point of
+its own.
 
 ## Act B: what E/Z does (E3 vs Z3 acetate)
 
@@ -122,18 +149,24 @@ distribution, or the shape?
 3. Are the differences mainly electronic or mainly geometric? How confident
    can you be, given the numbers in (1)?
 
-**Expected (pilot, re-checked at 10 conformers):** E/Z is **not resolved**
-on site means.
-- At 10 conformers, C3-H and C4-H move by +1.3 and +1.0 kcal/mol, inside
-  conformer ranges of 2.5–6.2.
-- Global V_min and V_max move by under 0.5.
-- No site separates. The pilot's one hit at 5 conformers (C11-H) disappeared,
-  as a chance hit should.
+**Expected (study results):** E/Z is **not resolved** at any site, as the
+pilot predicted.
+- **`C3-H`: different on average.** E3 is +2.31 kcal/mol above Z3 on
+  average, the same direction under both partition rules and beyond the
+  partition sensitivity (0.93). But the conformer ranges overlap widely:
+  Z3 −2.8 to +5.0, E3 +1.0 to +6.6. Some single conformers of the two are
+  indistinguishable at C3-H.
+- **`C4-H`: unresolved** (−0.04, ranges 0.3–5.1 and 0.2–5.5).
+- **`head O` and global V_min: different on average,** both under 1 kcal/mol.
+  Global V_max is unresolved.
+- No chain site met the rule. The pilot's chance hit at 5 conformers (C11-H)
+  did not come back.
 
-The correct student answer is the one the grading notes reward: the
-difference is smaller than the conformer range, so it cannot be attributed
-to E/Z. It sits in the same order as espmap's stereo row (1.6–1.9 kcal/mol,
-threonine).
+This is the act that teaches the difference between **a mean shift and a
+resolved difference**. The correct answer is that the average moves, but by
+less than the shapes alone move it, so a single structure cannot show an
+E/Z effect at C3-H. It sits in the same order as espmap's stereo row
+(1.6–1.9 kcal/mol, threonine).
 
 ## Act C: where the double bond is (E2 vs E3 acetate)
 
@@ -146,14 +179,22 @@ by how much compared with act B?
 2. Does free-molecule ESP give a convincing reason an organism or enzyme
    would treat these two compounds differently?
 
-**Expected (pilot, re-checked at 10 conformers):** resolved **at C4 only**.
-- C4-H moves +4.2 kcal/mol, just above both conformer ranges (4.1 and 2.0)
-  and above the partition sensitivity (1.4). C4 is the alkene carbon in E3
-  and allylic in E2.
-- At 10 conformers a chance separation has probability about 1×10⁻⁵ per
-  site, so this one is real. The margin over the wider range is small.
-- C2-H (−3.1) and C3-H (−0.7) stay inside their ranges (5.9–8.1).
+**Expected (study results):** resolved **at C4 only**, as the pilot found.
+The pilot's call held up under the stricter test with twice the conformers.
+- **`C4-H`: resolved.** It moves +5.22 kcal/mol. The conformer ranges do not
+  overlap (E3 +0.2 to +5.5, E2 +6.7 to +9.5), the difference is well beyond
+  the partition sensitivity (0.69), and both rules agree on the sign. C4 is
+  the alkene carbon in E3 and allylic in E2. The gap between the ranges is
+  about 1.1 kcal/mol: real, but not wide.
+- **`C2-H`: different on average** (−2.50). The ranges overlap: E3 +3.3 to
+  +10.1, E2 −0.7 to +6.9.
+- **`C3-H`: unresolved** (−0.35). The two partition rules do not even agree
+  on its sign.
 - So moving the bond is more visible than flipping it, but only at one site.
+
+Non-overlap of 20 shape-spread conformers is a robustness criterion, not a
+probability. Don't translate it into a p-value: the conformers were chosen
+to span shapes, not drawn at random.
 
 Question 2's honest answer stays "no". A 4 kcal/mol change at one CH₂ on a
 free molecule does not by itself explain discrimination by an enzyme or
@@ -187,6 +228,10 @@ itself.
   so I cannot attribute it to E/Z" has the central point.
 - A student who quotes a raw V_min difference with no uncertainty has missed
   it, even if the sign is right.
+- A student who calls act B's C3-H "resolved" because the means differ has
+  confused a mean shift with a resolved difference. A student who says "the
+  E isomer is more positive at C3-H on average, but some conformers of each
+  overlap" has it exactly.
 
 ## Before class
 
@@ -202,10 +247,15 @@ itself.
   Atlas; the aldehyde labelled a teaching control (2026-10-23).
 - [x] Case bundle and prospective analysis plan frozen in the Atlas
   (`analyses/espmap-sesiidae-001/`, 7e34658, 2026-10-23).
-- [ ] Ensembles (20 conformers) for the five compounds computed with espmap
-  v0.2.1 (started 2026-10-23), stored in the Atlas's `computed/espmap/`, and
-  exported as a teaching bundle; notebook pinned to both.
-- [ ] Acts B and C's "expected" re-checked against the study's results.
+- [x] Ensembles (20 conformers) for the five compounds computed with espmap
+  v0.2.1 (2026-10-23/24, 100/100, no exclusions). The four Atlas compounds
+  are in the Atlas's `computed/espmap/` (results at 89f5e22); the aldehyde is
+  in Arrowfield's `controls/`.
+- [x] Acts A–C's "expected" rewritten from the study's results (2026-10-24).
+- [ ] Notebook pinned to the Atlas teaching bundle and the records; the
+  study adapter reads them.
+- [ ] Every observation the homework uses checked by a person against its
+  paper (a hard gate before class).
 - [ ] `--require-stereo` in a tagged espmap. It is merged on master (3746cad)
   but not yet released, so the manifest-only guarantee still holds.
 - [ ] Biological context from the Atlas teaching bundle, not written here.
