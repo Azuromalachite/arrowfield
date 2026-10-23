@@ -97,7 +97,7 @@ def test_difference_card_verdicts():
     one = difference_card(e[:1], z[:1], alkene)
     assert one.status is ComparisonStatus.SINGLE_CONFORMER
     assert one.verdict is Verdict.CANNOT_JUDGE
-    assert one.verdict.value == "single conformer: cannot judge"
+    assert one.verdict.value == "cannot judge conformational robustness: one geometry on a side"
 
 
 def test_site_table_leads_with_the_site_and_folds_atoms_away():

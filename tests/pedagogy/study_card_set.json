@@ -1,0 +1,2355 @@
+{
+ "generator": "tests/pedagogy/make_study_card_set.py",
+ "grades": [
+  "SAFE",
+  "SAFE_REFUSAL",
+  "CRASH",
+  "MISLEADING",
+  "FALSE"
+ ],
+ "component": "study_card",
+ "cases": [
+  {
+   "id": "resolved_C4H",
+   "cls": "S1 resolved",
+   "component": "study_card",
+   "why": "A resolved verdict is a statement about this protocol's free-molecule ESP: the card says so, names the rule, and claims nothing biological.",
+   "row": {
+    "verdict_rule": "espmap-sesiidae-001/range_partition_sign_v1",
+    "contrast": "C_position",
+    "x": "e3_z13_18_oac",
+    "y": "e2_z13_18_oac",
+    "population": "all",
+    "tier": "primary",
+    "site": "C4-H",
+    "outcome": "resolved",
+    "n": [
+     20,
+     20
+    ],
+    "delta": 5.22,
+    "delta_other_rule": 5.22,
+    "partition": 0.69,
+    "partition_max_member": 0.69,
+    "range_x": [
+     0.22,
+     5.54
+    ],
+    "range_y": [
+     6.66,
+     9.53
+    ],
+    "mean_x": null,
+    "mean_y": null,
+    "bootstrap_interval": [
+     4.57,
+     5.88
+    ],
+    "conditions": {
+     "1_ranges_disjoint": true,
+     "2_beyond_partition": true,
+     "3_same_sign": true
+    }
+   },
+   "context": {
+    "provenance": {
+     "results_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+     "plan_commit": "7e3465859bc2b8950078238f0bffb0ea6b4dd512"
+    },
+    "molecules": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    },
+    "limitations": {
+     "basis_sensitivity": "not run",
+     "solvent": "not studied",
+     "phase": "gas",
+     "method": "B3LYP/def2-SVP"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "range_partition_sign_v1",
+     "grade": "MISLEADING",
+     "why": "every verdict names the rule that decided it",
+     "on": "text"
+    },
+    {
+     "must_not": "biologically|significan|explain|caus|attract|receptor|specificity|active\\b|prove",
+     "grade": "FALSE",
+     "why": "a free-molecule ESP verdict says nothing about biology",
+     "on": "text"
+    },
+    {
+     "must": "under (this|the) (study|protocol)",
+     "grade": "MISLEADING",
+     "why": "scope words stay beside the verdict",
+     "on": "text"
+    },
+    {
+     "must": "resolved",
+     "grade": "FALSE",
+     "why": "the study's own word is shown",
+     "on": "text"
+    }
+   ]
+  },
+  {
+   "id": "resolved_Vmax",
+   "cls": "S1 resolved",
+   "component": "study_card",
+   "why": "A resolved verdict is a statement about this protocol's free-molecule ESP: the card says so, names the rule, and claims nothing biological.",
+   "row": {
+    "verdict_rule": "espmap-sesiidae-001/range_partition_sign_v1",
+    "contrast": "A_headgroup",
+    "x": "z3_z13_18_oac",
+    "y": "z3_z13_18_oh",
+    "population": "all",
+    "tier": "primary",
+    "site": "global V_max",
+    "outcome": "resolved",
+    "n": [
+     20,
+     20
+    ],
+    "delta": 26.5,
+    "delta_other_rule": 26.5,
+    "partition": 0.0,
+    "partition_max_member": 0.0,
+    "range_x": [
+     19.57,
+     20.98
+    ],
+    "range_y": [
+     34.0,
+     51.68
+    ],
+    "mean_x": null,
+    "mean_y": null,
+    "bootstrap_interval": [
+     24.02,
+     28.8
+    ],
+    "conditions": {
+     "1_ranges_disjoint": true,
+     "2_beyond_partition": true,
+     "3_same_sign": true
+    }
+   },
+   "context": {
+    "provenance": {
+     "results_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+     "plan_commit": "7e3465859bc2b8950078238f0bffb0ea6b4dd512"
+    },
+    "molecules": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    },
+    "limitations": {
+     "basis_sensitivity": "not run",
+     "solvent": "not studied",
+     "phase": "gas",
+     "method": "B3LYP/def2-SVP"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "range_partition_sign_v1",
+     "grade": "MISLEADING",
+     "why": "every verdict names the rule that decided it",
+     "on": "text"
+    },
+    {
+     "must_not": "biologically|significan|explain|caus|attract|receptor|specificity|active\\b|prove",
+     "grade": "FALSE",
+     "why": "a free-molecule ESP verdict says nothing about biology",
+     "on": "text"
+    },
+    {
+     "must": "under (this|the) (study|protocol)",
+     "grade": "MISLEADING",
+     "why": "scope words stay beside the verdict",
+     "on": "text"
+    },
+    {
+     "must": "resolved",
+     "grade": "FALSE",
+     "why": "the study's own word is shown",
+     "on": "text"
+    }
+   ]
+  },
+  {
+   "id": "different_on_average_B_C3H",
+   "cls": "S2 different on average",
+   "component": "study_card",
+   "why": "Means differ, the observed conformer ranges overlap. The card must not look like a success (no 'resolved' except 'not resolved', no check-mark verdict, no success styling) and must say the ranges overlap.",
+   "row": {
+    "verdict_rule": "espmap-sesiidae-001/range_partition_sign_v1",
+    "contrast": "B_stereo",
+    "x": "z3_z13_18_oac",
+    "y": "e3_z13_18_oac",
+    "population": "all",
+    "tier": "primary",
+    "site": "C3-H",
+    "outcome": "different on average",
+    "n": [
+     20,
+     20
+    ],
+    "delta": 2.31,
+    "delta_other_rule": 2.31,
+    "partition": 0.93,
+    "partition_max_member": 0.93,
+    "range_x": [
+     -2.78,
+     5.02
+    ],
+    "range_y": [
+     1.04,
+     6.6
+    ],
+    "mean_x": null,
+    "mean_y": null,
+    "bootstrap_interval": [
+     1.2,
+     3.42
+    ],
+    "conditions": {
+     "1_ranges_disjoint": false,
+     "2_beyond_partition": true,
+     "3_same_sign": true
+    }
+   },
+   "context": {
+    "provenance": {
+     "results_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+     "plan_commit": "7e3465859bc2b8950078238f0bffb0ea6b4dd512"
+    },
+    "molecules": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    },
+    "limitations": {
+     "basis_sensitivity": "not run",
+     "solvent": "not studied",
+     "phase": "gas",
+     "method": "B3LYP/def2-SVP"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "range_partition_sign_v1",
+     "grade": "MISLEADING",
+     "why": "every verdict names the rule that decided it",
+     "on": "text"
+    },
+    {
+     "must_not": "biologically|significan|explain|caus|attract|receptor|specificity|active\\b|prove",
+     "grade": "FALSE",
+     "why": "a free-molecule ESP verdict says nothing about biology",
+     "on": "text"
+    },
+    {
+     "must": "different on average",
+     "grade": "FALSE",
+     "why": "the study's own words",
+     "on": "text"
+    },
+    {
+     "must": "ranges overlap",
+     "grade": "MISLEADING",
+     "why": "why it is not resolved",
+     "on": "text"
+    },
+    {
+     "must_not": "(?<!not )\\bresolved\\b",
+     "grade": "MISLEADING",
+     "why": "only 'not resolved' may appear",
+     "on": "text"
+    },
+    {
+     "must_not": "✔|✅",
+     "grade": "MISLEADING",
+     "why": "no check-mark verdict",
+     "on": "text"
+    },
+    {
+     "must_not": "class=\\\"[^\\\"]*(verdict-resolved|verdict-success)",
+     "grade": "MISLEADING",
+     "why": "no success styling on the verdict",
+     "on": "html"
+    }
+   ]
+  },
+  {
+   "id": "different_on_average_C_C2H",
+   "cls": "S2 different on average",
+   "component": "study_card",
+   "why": "Means differ, the observed conformer ranges overlap. The card must not look like a success (no 'resolved' except 'not resolved', no check-mark verdict, no success styling) and must say the ranges overlap.",
+   "row": {
+    "verdict_rule": "espmap-sesiidae-001/range_partition_sign_v1",
+    "contrast": "C_position",
+    "x": "e3_z13_18_oac",
+    "y": "e2_z13_18_oac",
+    "population": "all",
+    "tier": "primary",
+    "site": "C2-H",
+    "outcome": "different on average",
+    "n": [
+     20,
+     20
+    ],
+    "delta": -2.5,
+    "delta_other_rule": -2.5,
+    "partition": 0.94,
+    "partition_max_member": 0.94,
+    "range_x": [
+     3.3,
+     10.06
+    ],
+    "range_y": [
+     -0.67,
+     6.89
+    ],
+    "mean_x": null,
+    "mean_y": null,
+    "bootstrap_interval": [
+     -3.89,
+     -1.17
+    ],
+    "conditions": {
+     "1_ranges_disjoint": false,
+     "2_beyond_partition": true,
+     "3_same_sign": true
+    }
+   },
+   "context": {
+    "provenance": {
+     "results_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+     "plan_commit": "7e3465859bc2b8950078238f0bffb0ea6b4dd512"
+    },
+    "molecules": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    },
+    "limitations": {
+     "basis_sensitivity": "not run",
+     "solvent": "not studied",
+     "phase": "gas",
+     "method": "B3LYP/def2-SVP"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "range_partition_sign_v1",
+     "grade": "MISLEADING",
+     "why": "every verdict names the rule that decided it",
+     "on": "text"
+    },
+    {
+     "must_not": "biologically|significan|explain|caus|attract|receptor|specificity|active\\b|prove",
+     "grade": "FALSE",
+     "why": "a free-molecule ESP verdict says nothing about biology",
+     "on": "text"
+    },
+    {
+     "must": "different on average",
+     "grade": "FALSE",
+     "why": "the study's own words",
+     "on": "text"
+    },
+    {
+     "must": "ranges overlap",
+     "grade": "MISLEADING",
+     "why": "why it is not resolved",
+     "on": "text"
+    },
+    {
+     "must_not": "(?<!not )\\bresolved\\b",
+     "grade": "MISLEADING",
+     "why": "only 'not resolved' may appear",
+     "on": "text"
+    },
+    {
+     "must_not": "✔|✅",
+     "grade": "MISLEADING",
+     "why": "no check-mark verdict",
+     "on": "text"
+    },
+    {
+     "must_not": "class=\\\"[^\\\"]*(verdict-resolved|verdict-success)",
+     "grade": "MISLEADING",
+     "why": "no success styling on the verdict",
+     "on": "html"
+    }
+   ]
+  },
+  {
+   "id": "unresolved_B_C4H",
+   "cls": "S3 unresolved",
+   "component": "study_card",
+   "why": "Unresolved means this protocol does not resolve the two at this site, never that they are the same.",
+   "row": {
+    "verdict_rule": "espmap-sesiidae-001/range_partition_sign_v1",
+    "contrast": "B_stereo",
+    "x": "z3_z13_18_oac",
+    "y": "e3_z13_18_oac",
+    "population": "all",
+    "tier": "primary",
+    "site": "C4-H",
+    "outcome": "unresolved",
+    "n": [
+     20,
+     20
+    ],
+    "delta": -0.04,
+    "delta_other_rule": -0.04,
+    "partition": 0.69,
+    "partition_max_member": 0.69,
+    "range_x": [
+     0.27,
+     5.08
+    ],
+    "range_y": [
+     0.22,
+     5.54
+    ],
+    "mean_x": null,
+    "mean_y": null,
+    "bootstrap_interval": [
+     -0.84,
+     0.74
+    ],
+    "conditions": {
+     "1_ranges_disjoint": false,
+     "2_beyond_partition": false,
+     "3_same_sign": true
+    }
+   },
+   "context": {
+    "provenance": {
+     "results_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+     "plan_commit": "7e3465859bc2b8950078238f0bffb0ea6b4dd512"
+    },
+    "molecules": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    },
+    "limitations": {
+     "basis_sensitivity": "not run",
+     "solvent": "not studied",
+     "phase": "gas",
+     "method": "B3LYP/def2-SVP"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "range_partition_sign_v1",
+     "grade": "MISLEADING",
+     "why": "every verdict names the rule that decided it",
+     "on": "text"
+    },
+    {
+     "must": "not resolved|unresolved",
+     "grade": "FALSE",
+     "why": "the study's word",
+     "on": "text"
+    },
+    {
+     "must_not": "no difference|identical|the same|equivalent|no effect",
+     "grade": "FALSE",
+     "why": "absence of resolution is not evidence of sameness",
+     "on": "text"
+    }
+   ]
+  },
+  {
+   "id": "unresolved_C_C3H",
+   "cls": "S3 unresolved",
+   "component": "study_card",
+   "why": "Unresolved means this protocol does not resolve the two at this site, never that they are the same.",
+   "row": {
+    "verdict_rule": "espmap-sesiidae-001/range_partition_sign_v1",
+    "contrast": "C_position",
+    "x": "e3_z13_18_oac",
+    "y": "e2_z13_18_oac",
+    "population": "all",
+    "tier": "primary",
+    "site": "C3-H",
+    "outcome": "unresolved",
+    "n": [
+     20,
+     20
+    ],
+    "delta": -0.35,
+    "delta_other_rule": -0.35,
+    "partition": 0.93,
+    "partition_max_member": 0.93,
+    "range_x": [
+     1.04,
+     6.6
+    ],
+    "range_y": [
+     -1.79,
+     8.8
+    ],
+    "mean_x": null,
+    "mean_y": null,
+    "bootstrap_interval": [
+     -1.95,
+     1.27
+    ],
+    "conditions": {
+     "1_ranges_disjoint": false,
+     "2_beyond_partition": false,
+     "3_same_sign": false
+    }
+   },
+   "context": {
+    "provenance": {
+     "results_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+     "plan_commit": "7e3465859bc2b8950078238f0bffb0ea6b4dd512"
+    },
+    "molecules": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    },
+    "limitations": {
+     "basis_sensitivity": "not run",
+     "solvent": "not studied",
+     "phase": "gas",
+     "method": "B3LYP/def2-SVP"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "range_partition_sign_v1",
+     "grade": "MISLEADING",
+     "why": "every verdict names the rule that decided it",
+     "on": "text"
+    },
+    {
+     "must": "not resolved|unresolved",
+     "grade": "FALSE",
+     "why": "the study's word",
+     "on": "text"
+    },
+    {
+     "must_not": "no difference|identical|the same|equivalent|no effect",
+     "grade": "FALSE",
+     "why": "absence of resolution is not evidence of sameness",
+     "on": "text"
+    }
+   ]
+  },
+  {
+   "id": "not_evaluable_too_many_excluded",
+   "cls": "S4 not evaluable",
+   "component": "study_card",
+   "why": "The plan makes the contrast not evaluable (3 of 20 members excluded for one molecule). The row still carries numbers; the card must not present them as a finding.",
+   "row": {
+    "verdict_rule": "espmap-sesiidae-001/range_partition_sign_v1",
+    "contrast": "B_stereo",
+    "x": "z3_z13_18_oac",
+    "y": "e3_z13_18_oac",
+    "population": "all",
+    "tier": "primary",
+    "site": "C3-H",
+    "outcome": "not evaluable",
+    "n": [
+     20,
+     20
+    ],
+    "delta": 2.31,
+    "delta_other_rule": 2.31,
+    "partition": 0.93,
+    "partition_max_member": 0.93,
+    "range_x": [
+     -2.78,
+     5.02
+    ],
+    "range_y": [
+     1.04,
+     6.6
+    ],
+    "mean_x": null,
+    "mean_y": null,
+    "bootstrap_interval": [
+     1.2,
+     3.42
+    ],
+    "conditions": {
+     "1_ranges_disjoint": false,
+     "2_beyond_partition": true,
+     "3_same_sign": true
+    }
+   },
+   "context": {
+    "provenance": {
+     "results_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+     "plan_commit": "7e3465859bc2b8950078238f0bffb0ea6b4dd512"
+    },
+    "molecules": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    },
+    "limitations": {
+     "basis_sensitivity": "not run",
+     "solvent": "not studied",
+     "phase": "gas",
+     "method": "B3LYP/def2-SVP"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "not evaluable",
+     "grade": "FALSE",
+     "why": "the study's word",
+     "on": "text"
+    },
+    {
+     "must_not": "Δ|difference of (the )?means",
+     "grade": "MISLEADING",
+     "why": "no difference value shown as a result",
+     "on": "text"
+    },
+    {
+     "must_not": "(?<!not )\\bresolved\\b|different on average",
+     "grade": "FALSE",
+     "why": "no verdict word",
+     "on": "text"
+    }
+   ]
+  },
+  {
+   "id": "not_evaluable_excluded_folded",
+   "cls": "S4 not evaluable",
+   "component": "study_card",
+   "why": "The plan makes the contrast not evaluable (an excluded member is folded). The row still carries numbers; the card must not present them as a finding.",
+   "row": {
+    "verdict_rule": "espmap-sesiidae-001/range_partition_sign_v1",
+    "contrast": "B_stereo",
+    "x": "z3_z13_18_oac",
+    "y": "e3_z13_18_oac",
+    "population": "all",
+    "tier": "primary",
+    "site": "C3-H",
+    "outcome": "not evaluable",
+    "n": [
+     20,
+     20
+    ],
+    "delta": 2.31,
+    "delta_other_rule": 2.31,
+    "partition": 0.93,
+    "partition_max_member": 0.93,
+    "range_x": [
+     -2.78,
+     5.02
+    ],
+    "range_y": [
+     1.04,
+     6.6
+    ],
+    "mean_x": null,
+    "mean_y": null,
+    "bootstrap_interval": [
+     1.2,
+     3.42
+    ],
+    "conditions": {
+     "1_ranges_disjoint": false,
+     "2_beyond_partition": true,
+     "3_same_sign": true
+    }
+   },
+   "context": {
+    "provenance": {
+     "results_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+     "plan_commit": "7e3465859bc2b8950078238f0bffb0ea6b4dd512"
+    },
+    "molecules": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    },
+    "limitations": {
+     "basis_sensitivity": "not run",
+     "solvent": "not studied",
+     "phase": "gas",
+     "method": "B3LYP/def2-SVP"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "not evaluable",
+     "grade": "FALSE",
+     "why": "the study's word",
+     "on": "text"
+    },
+    {
+     "must_not": "Δ|difference of (the )?means",
+     "grade": "MISLEADING",
+     "why": "no difference value shown as a result",
+     "on": "text"
+    },
+    {
+     "must_not": "(?<!not )\\bresolved\\b|different on average",
+     "grade": "FALSE",
+     "why": "no verdict word",
+     "on": "text"
+    }
+   ]
+  },
+  {
+   "id": "exploratory_resolved",
+   "cls": "S5 exploratory",
+   "component": "study_card",
+   "why": "A non-primary chain site meeting (or not) the rule is exploratory: never interpreted, never presented like a prespecified result (the pilot's C11-H was a chance hit at K = 5).",
+   "row": {
+    "verdict_rule": "espmap-sesiidae-001/range_partition_sign_v1",
+    "contrast": "B_stereo",
+    "x": "z3_z13_18_oac",
+    "y": "e3_z13_18_oac",
+    "population": "all",
+    "tier": "exploratory",
+    "site": "C11-H",
+    "outcome": "resolved",
+    "n": [
+     20,
+     20
+    ],
+    "delta": 1.4,
+    "delta_other_rule": 1.4,
+    "partition": 0.3,
+    "partition_max_member": 0.3,
+    "range_x": [
+     0.1,
+     1.0
+    ],
+    "range_y": [
+     1.5,
+     2.6
+    ],
+    "mean_x": null,
+    "mean_y": null,
+    "bootstrap_interval": [
+     1.1,
+     1.7
+    ],
+    "conditions": {
+     "1_ranges_disjoint": true,
+     "2_beyond_partition": true,
+     "3_same_sign": true
+    }
+   },
+   "context": {
+    "provenance": {
+     "results_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+     "plan_commit": "7e3465859bc2b8950078238f0bffb0ea6b4dd512"
+    },
+    "molecules": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    },
+    "limitations": {
+     "basis_sensitivity": "not run",
+     "solvent": "not studied",
+     "phase": "gas",
+     "method": "B3LYP/def2-SVP"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "exploratory",
+     "grade": "MISLEADING",
+     "why": "labelled",
+     "on": "text"
+    },
+    {
+     "must": "not (a )?prespecified|never interpreted",
+     "grade": "MISLEADING",
+     "why": "and what that means",
+     "on": "text"
+    }
+   ]
+  },
+  {
+   "id": "exploratory_unresolved",
+   "cls": "S5 exploratory",
+   "component": "study_card",
+   "why": "A non-primary chain site meeting (or not) the rule is exploratory: never interpreted, never presented like a prespecified result (the pilot's C11-H was a chance hit at K = 5).",
+   "row": {
+    "verdict_rule": "espmap-sesiidae-001/range_partition_sign_v1",
+    "contrast": "B_stereo",
+    "x": "z3_z13_18_oac",
+    "y": "e3_z13_18_oac",
+    "population": "all",
+    "tier": "exploratory",
+    "site": "C11-H",
+    "outcome": "unresolved",
+    "n": [
+     20,
+     20
+    ],
+    "delta": 0.2,
+    "delta_other_rule": 0.2,
+    "partition": 0.3,
+    "partition_max_member": 0.3,
+    "range_x": [
+     0.1,
+     1.0
+    ],
+    "range_y": [
+     0.0,
+     2.0
+    ],
+    "mean_x": null,
+    "mean_y": null,
+    "bootstrap_interval": [
+     -0.4,
+     0.8
+    ],
+    "conditions": {
+     "1_ranges_disjoint": false,
+     "2_beyond_partition": false,
+     "3_same_sign": true
+    }
+   },
+   "context": {
+    "provenance": {
+     "results_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+     "plan_commit": "7e3465859bc2b8950078238f0bffb0ea6b4dd512"
+    },
+    "molecules": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    },
+    "limitations": {
+     "basis_sensitivity": "not run",
+     "solvent": "not studied",
+     "phase": "gas",
+     "method": "B3LYP/def2-SVP"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "exploratory",
+     "grade": "MISLEADING",
+     "why": "labelled",
+     "on": "text"
+    },
+    {
+     "must": "not (a )?prespecified|never interpreted",
+     "grade": "MISLEADING",
+     "why": "and what that means",
+     "on": "text"
+    }
+   ]
+  },
+  {
+   "id": "extended_only_alone",
+   "cls": "S6 extended-only sensitivity",
+   "component": "study_card",
+   "why": "The extended-only row is a sensitivity analysis, shown beside the all-member result and never instead of it. Without the all-member row the card cannot show it honestly.",
+   "row": {
+    "verdict_rule": "espmap-sesiidae-001/range_partition_sign_v1",
+    "contrast": "C_position",
+    "x": "e3_z13_18_oac",
+    "y": "e2_z13_18_oac",
+    "population": "extended",
+    "tier": "primary",
+    "site": "C4-H",
+    "outcome": "resolved",
+    "n": [
+     17,
+     14
+    ],
+    "delta": 5.22,
+    "delta_other_rule": 5.22,
+    "partition": 0.69,
+    "partition_max_member": 0.69,
+    "range_x": [
+     0.22,
+     5.54
+    ],
+    "range_y": [
+     6.66,
+     9.53
+    ],
+    "mean_x": null,
+    "mean_y": null,
+    "bootstrap_interval": [
+     4.57,
+     5.88
+    ],
+    "conditions": {
+     "1_ranges_disjoint": true,
+     "2_beyond_partition": true,
+     "3_same_sign": true
+    }
+   },
+   "context": {
+    "provenance": {
+     "results_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+     "plan_commit": "7e3465859bc2b8950078238f0bffb0ea6b4dd512"
+    },
+    "molecules": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    },
+    "limitations": {
+     "basis_sensitivity": "not run",
+     "solvent": "not studied",
+     "phase": "gas",
+     "method": "B3LYP/def2-SVP"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": [
+    {
+     "must": "sensitivity",
+     "grade": "MISLEADING",
+     "why": "labelled as a sensitivity",
+     "on": "text"
+    },
+    {
+     "must": "extended",
+     "grade": "MISLEADING",
+     "why": "which population",
+     "on": "text"
+    },
+    {
+     "must": "all (members|conformers)",
+     "grade": "MISLEADING",
+     "why": "the primary result it sits beside",
+     "on": "text"
+    }
+   ]
+  },
+  {
+   "id": "extended_only_with_primary",
+   "cls": "S6 extended-only sensitivity",
+   "component": "study_card",
+   "why": "The extended-only row is a sensitivity analysis, shown beside the all-member result and never instead of it. Without the all-member row the card cannot show it honestly.",
+   "row": {
+    "verdict_rule": "espmap-sesiidae-001/range_partition_sign_v1",
+    "contrast": "C_position",
+    "x": "e3_z13_18_oac",
+    "y": "e2_z13_18_oac",
+    "population": "extended",
+    "tier": "primary",
+    "site": "C4-H",
+    "outcome": "resolved",
+    "n": [
+     17,
+     14
+    ],
+    "delta": 5.22,
+    "delta_other_rule": 5.22,
+    "partition": 0.69,
+    "partition_max_member": 0.69,
+    "range_x": [
+     0.22,
+     5.54
+    ],
+    "range_y": [
+     6.66,
+     9.53
+    ],
+    "mean_x": null,
+    "mean_y": null,
+    "bootstrap_interval": [
+     4.57,
+     5.88
+    ],
+    "conditions": {
+     "1_ranges_disjoint": true,
+     "2_beyond_partition": true,
+     "3_same_sign": true
+    }
+   },
+   "context": {
+    "provenance": {
+     "results_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+     "plan_commit": "7e3465859bc2b8950078238f0bffb0ea6b4dd512"
+    },
+    "molecules": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    },
+    "limitations": {
+     "basis_sensitivity": "not run",
+     "solvent": "not studied",
+     "phase": "gas",
+     "method": "B3LYP/def2-SVP"
+    },
+    "all_member_row": {
+     "verdict_rule": "espmap-sesiidae-001/range_partition_sign_v1",
+     "contrast": "C_position",
+     "x": "e3_z13_18_oac",
+     "y": "e2_z13_18_oac",
+     "population": "all",
+     "tier": "primary",
+     "site": "C4-H",
+     "outcome": "resolved",
+     "n": [
+      20,
+      20
+     ],
+     "delta": 5.22,
+     "delta_other_rule": 5.22,
+     "partition": 0.69,
+     "partition_max_member": 0.69,
+     "range_x": [
+      0.22,
+      5.54
+     ],
+     "range_y": [
+      6.66,
+      9.53
+     ],
+     "mean_x": null,
+     "mean_y": null,
+     "bootstrap_interval": [
+      4.57,
+      5.88
+     ],
+     "conditions": {
+      "1_ranges_disjoint": true,
+      "2_beyond_partition": true,
+      "3_same_sign": true
+     }
+    }
+   },
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "sensitivity",
+     "grade": "MISLEADING",
+     "why": "labelled as a sensitivity",
+     "on": "text"
+    },
+    {
+     "must": "extended",
+     "grade": "MISLEADING",
+     "why": "which population",
+     "on": "text"
+    },
+    {
+     "must": "all (members|conformers)",
+     "grade": "MISLEADING",
+     "why": "the primary result it sits beside",
+     "on": "text"
+    }
+   ]
+  },
+  {
+   "id": "bootstrap_named_on_resolved",
+   "cls": "S7 bootstrap interval",
+   "component": "study_card",
+   "why": "The interval resamples the 20 selected conformers (Atlas 30c4a11): not a confidence interval, not a p-value.",
+   "row": {
+    "verdict_rule": "espmap-sesiidae-001/range_partition_sign_v1",
+    "contrast": "C_position",
+    "x": "e3_z13_18_oac",
+    "y": "e2_z13_18_oac",
+    "population": "all",
+    "tier": "primary",
+    "site": "C4-H",
+    "outcome": "resolved",
+    "n": [
+     20,
+     20
+    ],
+    "delta": 5.22,
+    "delta_other_rule": 5.22,
+    "partition": 0.69,
+    "partition_max_member": 0.69,
+    "range_x": [
+     0.22,
+     5.54
+    ],
+    "range_y": [
+     6.66,
+     9.53
+    ],
+    "mean_x": null,
+    "mean_y": null,
+    "bootstrap_interval": [
+     4.57,
+     5.88
+    ],
+    "conditions": {
+     "1_ranges_disjoint": true,
+     "2_beyond_partition": true,
+     "3_same_sign": true
+    }
+   },
+   "context": {
+    "provenance": {
+     "results_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+     "plan_commit": "7e3465859bc2b8950078238f0bffb0ea6b4dd512"
+    },
+    "molecules": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    },
+    "limitations": {
+     "basis_sensitivity": "not run",
+     "solvent": "not studied",
+     "phase": "gas",
+     "method": "B3LYP/def2-SVP"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "bootstrap.{0,60}selected conformers|selected conformers.{0,60}bootstrap",
+     "grade": "MISLEADING",
+     "why": "the interval says what it resamples",
+     "on": "text"
+    },
+    {
+     "must_not": "confidence|\\bci\\b|95 ?%|p[- ]?value|\\bp ?[<=]",
+     "grade": "FALSE",
+     "why": "the bootstrap interval describes the selected conformers, not a population",
+     "on": "text"
+    }
+   ]
+  },
+  {
+   "id": "bootstrap_named_on_different_on_average",
+   "cls": "S7 bootstrap interval",
+   "component": "study_card",
+   "why": "The interval resamples the 20 selected conformers (Atlas 30c4a11): not a confidence interval, not a p-value.",
+   "row": {
+    "verdict_rule": "espmap-sesiidae-001/range_partition_sign_v1",
+    "contrast": "B_stereo",
+    "x": "z3_z13_18_oac",
+    "y": "e3_z13_18_oac",
+    "population": "all",
+    "tier": "primary",
+    "site": "C3-H",
+    "outcome": "different on average",
+    "n": [
+     20,
+     20
+    ],
+    "delta": 2.31,
+    "delta_other_rule": 2.31,
+    "partition": 0.93,
+    "partition_max_member": 0.93,
+    "range_x": [
+     -2.78,
+     5.02
+    ],
+    "range_y": [
+     1.04,
+     6.6
+    ],
+    "mean_x": null,
+    "mean_y": null,
+    "bootstrap_interval": [
+     1.2,
+     3.42
+    ],
+    "conditions": {
+     "1_ranges_disjoint": false,
+     "2_beyond_partition": true,
+     "3_same_sign": true
+    }
+   },
+   "context": {
+    "provenance": {
+     "results_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+     "plan_commit": "7e3465859bc2b8950078238f0bffb0ea6b4dd512"
+    },
+    "molecules": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    },
+    "limitations": {
+     "basis_sensitivity": "not run",
+     "solvent": "not studied",
+     "phase": "gas",
+     "method": "B3LYP/def2-SVP"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "bootstrap.{0,60}selected conformers|selected conformers.{0,60}bootstrap",
+     "grade": "MISLEADING",
+     "why": "the interval says what it resamples",
+     "on": "text"
+    },
+    {
+     "must_not": "confidence|\\bci\\b|95 ?%|p[- ]?value|\\bp ?[<=]",
+     "grade": "FALSE",
+     "why": "the bootstrap interval describes the selected conformers, not a population",
+     "on": "text"
+    }
+   ]
+  },
+  {
+   "id": "teaching_control_Al_vs_OAc_Vmax",
+   "cls": "S8 teaching control",
+   "component": "study_card",
+   "why": "The aldehyde is a constructed teaching control, not an Atlas compound: descriptive chemistry, never 'observed', never a pheromone.",
+   "row": {
+    "verdict_rule": "espmap-sesiidae-001/range_partition_sign_v1",
+    "contrast": "A_headgroup (control: Al vs OAc)",
+    "x": "z3_z13_18_oac",
+    "y": "z3_z13_18_al",
+    "population": "all",
+    "tier": "primary",
+    "site": "global V_max",
+    "outcome": "resolved",
+    "n": [
+     20,
+     20
+    ],
+    "delta": 5.76,
+    "delta_other_rule": 5.76,
+    "partition": 0.0,
+    "partition_max_member": 0.0,
+    "range_x": [
+     19.57,
+     20.98
+    ],
+    "range_y": [
+     24.89,
+     26.85
+    ],
+    "mean_x": null,
+    "mean_y": null,
+    "bootstrap_interval": [
+     5.47,
+     6.05
+    ],
+    "conditions": {
+     "1_ranges_disjoint": true,
+     "2_beyond_partition": true,
+     "3_same_sign": true
+    }
+   },
+   "context": {
+    "provenance": {
+     "results_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+     "plan_commit": "7e3465859bc2b8950078238f0bffb0ea6b4dd512"
+    },
+    "molecules": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    },
+    "limitations": {
+     "basis_sensitivity": "not run",
+     "solvent": "not studied",
+     "phase": "gas",
+     "method": "B3LYP/def2-SVP"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "teaching control",
+     "grade": "FALSE",
+     "why": "labelled as constructed",
+     "on": "text"
+    },
+    {
+     "must_not": "observed|pheromone|natural|attract",
+     "grade": "FALSE",
+     "why": "no biological status",
+     "on": "text"
+    }
+   ]
+  },
+  {
+   "id": "teaching_control_Al_vs_OH_headO",
+   "cls": "S8 teaching control",
+   "component": "study_card",
+   "why": "The aldehyde is a constructed teaching control, not an Atlas compound: descriptive chemistry, never 'observed', never a pheromone.",
+   "row": {
+    "verdict_rule": "espmap-sesiidae-001/range_partition_sign_v1",
+    "contrast": "A_headgroup (control: Al vs OH)",
+    "x": "z3_z13_18_oh",
+    "y": "z3_z13_18_al",
+    "population": "all",
+    "tier": "secondary",
+    "site": "head O",
+    "outcome": "unresolved",
+    "n": [
+     20,
+     20
+    ],
+    "delta": 4.24,
+    "delta_other_rule": 4.24,
+    "partition": 5.97,
+    "partition_max_member": 5.97,
+    "range_x": [
+     -31.95,
+     -29.03
+    ],
+    "range_y": [
+     -26.79,
+     -25.81
+    ],
+    "mean_x": null,
+    "mean_y": null,
+    "bootstrap_interval": [
+     3.81,
+     4.65
+    ],
+    "conditions": {
+     "1_ranges_disjoint": true,
+     "2_beyond_partition": false,
+     "3_same_sign": false
+    }
+   },
+   "context": {
+    "provenance": {
+     "results_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+     "plan_commit": "7e3465859bc2b8950078238f0bffb0ea6b4dd512"
+    },
+    "molecules": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    },
+    "limitations": {
+     "basis_sensitivity": "not run",
+     "solvent": "not studied",
+     "phase": "gas",
+     "method": "B3LYP/def2-SVP"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "teaching control",
+     "grade": "FALSE",
+     "why": "labelled as constructed",
+     "on": "text"
+    },
+    {
+     "must_not": "observed|pheromone|natural|attract",
+     "grade": "FALSE",
+     "why": "no biological status",
+     "on": "text"
+    }
+   ]
+  },
+  {
+   "id": "unknown_rule_generic_compare",
+   "cls": "S9 unknown verdict rule",
+   "component": "study_card",
+   "why": "A verdict under a rule Arrowfield does not know (espmap's generic resolved_under), or under none, cannot be shown as this study's.",
+   "row": {
+    "verdict_rule": "espmap.compare/1",
+    "contrast": "C_position",
+    "x": "e3_z13_18_oac",
+    "y": "e2_z13_18_oac",
+    "population": "all",
+    "tier": "primary",
+    "site": "C4-H",
+    "outcome": "resolved",
+    "n": [
+     20,
+     20
+    ],
+    "delta": 5.22,
+    "delta_other_rule": 5.22,
+    "partition": 0.69,
+    "partition_max_member": 0.69,
+    "range_x": [
+     0.22,
+     5.54
+    ],
+    "range_y": [
+     6.66,
+     9.53
+    ],
+    "mean_x": null,
+    "mean_y": null,
+    "bootstrap_interval": [
+     4.57,
+     5.88
+    ],
+    "conditions": {
+     "1_ranges_disjoint": true,
+     "2_beyond_partition": true,
+     "3_same_sign": true
+    }
+   },
+   "context": {
+    "provenance": {
+     "results_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+     "plan_commit": "7e3465859bc2b8950078238f0bffb0ea6b4dd512"
+    },
+    "molecules": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    },
+    "limitations": {
+     "basis_sensitivity": "not run",
+     "solvent": "not studied",
+     "phase": "gas",
+     "method": "B3LYP/def2-SVP"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "unknown_rule_missing",
+   "cls": "S9 unknown verdict rule",
+   "component": "study_card",
+   "why": "A verdict under a rule Arrowfield does not know (espmap's generic resolved_under), or under none, cannot be shown as this study's.",
+   "row": {
+    "verdict_rule": null,
+    "contrast": "C_position",
+    "x": "e3_z13_18_oac",
+    "y": "e2_z13_18_oac",
+    "population": "all",
+    "tier": "primary",
+    "site": "C4-H",
+    "outcome": "resolved",
+    "n": [
+     20,
+     20
+    ],
+    "delta": 5.22,
+    "delta_other_rule": 5.22,
+    "partition": 0.69,
+    "partition_max_member": 0.69,
+    "range_x": [
+     0.22,
+     5.54
+    ],
+    "range_y": [
+     6.66,
+     9.53
+    ],
+    "mean_x": null,
+    "mean_y": null,
+    "bootstrap_interval": [
+     4.57,
+     5.88
+    ],
+    "conditions": {
+     "1_ranges_disjoint": true,
+     "2_beyond_partition": true,
+     "3_same_sign": true
+    }
+   },
+   "context": {
+    "provenance": {
+     "results_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+     "plan_commit": "7e3465859bc2b8950078238f0bffb0ea6b4dd512"
+    },
+    "molecules": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    },
+    "limitations": {
+     "basis_sensitivity": "not run",
+     "solvent": "not studied",
+     "phase": "gas",
+     "method": "B3LYP/def2-SVP"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "inconsistent_resolved_ranges_overlap",
+   "cls": "S10 internally inconsistent",
+   "component": "study_card",
+   "why": "The row's outcome does not follow from its own conditions under its rule: corrupt, refused, never re-decided.",
+   "row": {
+    "verdict_rule": "espmap-sesiidae-001/range_partition_sign_v1",
+    "contrast": "C_position",
+    "x": "e3_z13_18_oac",
+    "y": "e2_z13_18_oac",
+    "population": "all",
+    "tier": "primary",
+    "site": "C4-H",
+    "outcome": "resolved",
+    "n": [
+     20,
+     20
+    ],
+    "delta": 5.22,
+    "delta_other_rule": 5.22,
+    "partition": 0.69,
+    "partition_max_member": 0.69,
+    "range_x": [
+     0.22,
+     5.54
+    ],
+    "range_y": [
+     6.66,
+     9.53
+    ],
+    "mean_x": null,
+    "mean_y": null,
+    "bootstrap_interval": [
+     4.57,
+     5.88
+    ],
+    "conditions": {
+     "1_ranges_disjoint": false,
+     "2_beyond_partition": true,
+     "3_same_sign": true
+    }
+   },
+   "context": {
+    "provenance": {
+     "results_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+     "plan_commit": "7e3465859bc2b8950078238f0bffb0ea6b4dd512"
+    },
+    "molecules": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    },
+    "limitations": {
+     "basis_sensitivity": "not run",
+     "solvent": "not studied",
+     "phase": "gas",
+     "method": "B3LYP/def2-SVP"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "inconsistent_average_interval_spans_0",
+   "cls": "S10 internally inconsistent",
+   "component": "study_card",
+   "why": "The row's outcome does not follow from its own conditions under its rule: corrupt, refused, never re-decided.",
+   "row": {
+    "verdict_rule": "espmap-sesiidae-001/range_partition_sign_v1",
+    "contrast": "B_stereo",
+    "x": "z3_z13_18_oac",
+    "y": "e3_z13_18_oac",
+    "population": "all",
+    "tier": "primary",
+    "site": "C3-H",
+    "outcome": "different on average",
+    "n": [
+     20,
+     20
+    ],
+    "delta": 2.31,
+    "delta_other_rule": 2.31,
+    "partition": 0.93,
+    "partition_max_member": 0.93,
+    "range_x": [
+     -2.78,
+     5.02
+    ],
+    "range_y": [
+     1.04,
+     6.6
+    ],
+    "mean_x": null,
+    "mean_y": null,
+    "bootstrap_interval": [
+     -0.5,
+     3.4
+    ],
+    "conditions": {
+     "1_ranges_disjoint": false,
+     "2_beyond_partition": true,
+     "3_same_sign": true
+    }
+   },
+   "context": {
+    "provenance": {
+     "results_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+     "plan_commit": "7e3465859bc2b8950078238f0bffb0ea6b4dd512"
+    },
+    "molecules": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    },
+    "limitations": {
+     "basis_sensitivity": "not run",
+     "solvent": "not studied",
+     "phase": "gas",
+     "method": "B3LYP/def2-SVP"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "limitations_resolved",
+   "cls": "S11 limitations",
+   "component": "study_card",
+   "why": "Basis sensitivity was not run and solvent not studied: a verdict on this protocol carries both, with the scope (free molecule, gas phase, method).",
+   "row": {
+    "verdict_rule": "espmap-sesiidae-001/range_partition_sign_v1",
+    "contrast": "C_position",
+    "x": "e3_z13_18_oac",
+    "y": "e2_z13_18_oac",
+    "population": "all",
+    "tier": "primary",
+    "site": "C4-H",
+    "outcome": "resolved",
+    "n": [
+     20,
+     20
+    ],
+    "delta": 5.22,
+    "delta_other_rule": 5.22,
+    "partition": 0.69,
+    "partition_max_member": 0.69,
+    "range_x": [
+     0.22,
+     5.54
+    ],
+    "range_y": [
+     6.66,
+     9.53
+    ],
+    "mean_x": null,
+    "mean_y": null,
+    "bootstrap_interval": [
+     4.57,
+     5.88
+    ],
+    "conditions": {
+     "1_ranges_disjoint": true,
+     "2_beyond_partition": true,
+     "3_same_sign": true
+    }
+   },
+   "context": {
+    "provenance": {
+     "results_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+     "plan_commit": "7e3465859bc2b8950078238f0bffb0ea6b4dd512"
+    },
+    "molecules": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    },
+    "limitations": {
+     "basis_sensitivity": "not run",
+     "solvent": "not studied",
+     "phase": "gas",
+     "method": "B3LYP/def2-SVP"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "basis.{0,40}not run",
+     "grade": "MISLEADING",
+     "why": "unmeasured basis sensitivity named",
+     "on": "text"
+    },
+    {
+     "must": "solvent.{0,40}not studied",
+     "grade": "MISLEADING",
+     "why": "solvent named",
+     "on": "text"
+    },
+    {
+     "must": "free molecule",
+     "grade": "MISLEADING",
+     "why": "scope",
+     "on": "text"
+    },
+    {
+     "must": "gas",
+     "grade": "MISLEADING",
+     "why": "phase",
+     "on": "text"
+    },
+    {
+     "must": "def2-svp",
+     "grade": "MISLEADING",
+     "why": "method",
+     "on": "text"
+    }
+   ]
+  },
+  {
+   "id": "limitations_different_on_average",
+   "cls": "S11 limitations",
+   "component": "study_card",
+   "why": "Basis sensitivity was not run and solvent not studied: a verdict on this protocol carries both, with the scope (free molecule, gas phase, method).",
+   "row": {
+    "verdict_rule": "espmap-sesiidae-001/range_partition_sign_v1",
+    "contrast": "B_stereo",
+    "x": "z3_z13_18_oac",
+    "y": "e3_z13_18_oac",
+    "population": "all",
+    "tier": "primary",
+    "site": "C3-H",
+    "outcome": "different on average",
+    "n": [
+     20,
+     20
+    ],
+    "delta": 2.31,
+    "delta_other_rule": 2.31,
+    "partition": 0.93,
+    "partition_max_member": 0.93,
+    "range_x": [
+     -2.78,
+     5.02
+    ],
+    "range_y": [
+     1.04,
+     6.6
+    ],
+    "mean_x": null,
+    "mean_y": null,
+    "bootstrap_interval": [
+     1.2,
+     3.42
+    ],
+    "conditions": {
+     "1_ranges_disjoint": false,
+     "2_beyond_partition": true,
+     "3_same_sign": true
+    }
+   },
+   "context": {
+    "provenance": {
+     "results_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+     "plan_commit": "7e3465859bc2b8950078238f0bffb0ea6b4dd512"
+    },
+    "molecules": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    },
+    "limitations": {
+     "basis_sensitivity": "not run",
+     "solvent": "not studied",
+     "phase": "gas",
+     "method": "B3LYP/def2-SVP"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "basis.{0,40}not run",
+     "grade": "MISLEADING",
+     "why": "unmeasured basis sensitivity named",
+     "on": "text"
+    },
+    {
+     "must": "solvent.{0,40}not studied",
+     "grade": "MISLEADING",
+     "why": "solvent named",
+     "on": "text"
+    },
+    {
+     "must": "free molecule",
+     "grade": "MISLEADING",
+     "why": "scope",
+     "on": "text"
+    },
+    {
+     "must": "gas",
+     "grade": "MISLEADING",
+     "why": "phase",
+     "on": "text"
+    },
+    {
+     "must": "def2-svp",
+     "grade": "MISLEADING",
+     "why": "method",
+     "on": "text"
+    }
+   ]
+  },
+  {
+   "id": "limitations_basis_run",
+   "cls": "S11 limitations",
+   "component": "study_card",
+   "why": "When the context says basis sensitivity was run, the card must not claim it was not.",
+   "row": {
+    "verdict_rule": "espmap-sesiidae-001/range_partition_sign_v1",
+    "contrast": "C_position",
+    "x": "e3_z13_18_oac",
+    "y": "e2_z13_18_oac",
+    "population": "all",
+    "tier": "primary",
+    "site": "C4-H",
+    "outcome": "resolved",
+    "n": [
+     20,
+     20
+    ],
+    "delta": 5.22,
+    "delta_other_rule": 5.22,
+    "partition": 0.69,
+    "partition_max_member": 0.69,
+    "range_x": [
+     0.22,
+     5.54
+    ],
+    "range_y": [
+     6.66,
+     9.53
+    ],
+    "mean_x": null,
+    "mean_y": null,
+    "bootstrap_interval": [
+     4.57,
+     5.88
+    ],
+    "conditions": {
+     "1_ranges_disjoint": true,
+     "2_beyond_partition": true,
+     "3_same_sign": true
+    }
+   },
+   "context": {
+    "provenance": {
+     "results_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+     "plan_commit": "7e3465859bc2b8950078238f0bffb0ea6b4dd512"
+    },
+    "molecules": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    },
+    "limitations": {
+     "basis_sensitivity": "run",
+     "solvent": "not studied",
+     "phase": "gas",
+     "method": "B3LYP/def2-SVP"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must_not": "basis.{0,40}not run",
+     "grade": "FALSE",
+     "why": "do not understate what was done",
+     "on": "text"
+    }
+   ]
+  },
+  {
+   "id": "provenance_missing_rule_and_sha",
+   "cls": "S12 provenance",
+   "component": "study_card",
+   "why": "No results sha256 and no verdict rule: nothing ties the card to a study. Refuse.",
+   "row": {
+    "verdict_rule": null,
+    "contrast": "C_position",
+    "x": "e3_z13_18_oac",
+    "y": "e2_z13_18_oac",
+    "population": "all",
+    "tier": "primary",
+    "site": "C4-H",
+    "outcome": "resolved",
+    "n": [
+     20,
+     20
+    ],
+    "delta": 5.22,
+    "delta_other_rule": 5.22,
+    "partition": 0.69,
+    "partition_max_member": 0.69,
+    "range_x": [
+     0.22,
+     5.54
+    ],
+    "range_y": [
+     6.66,
+     9.53
+    ],
+    "mean_x": null,
+    "mean_y": null,
+    "bootstrap_interval": [
+     4.57,
+     5.88
+    ],
+    "conditions": {
+     "1_ranges_disjoint": true,
+     "2_beyond_partition": true,
+     "3_same_sign": true
+    }
+   },
+   "context": {
+    "provenance": {},
+    "molecules": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    },
+    "limitations": {
+     "basis_sensitivity": "not run",
+     "solvent": "not studied",
+     "phase": "gas",
+     "method": "B3LYP/def2-SVP"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "provenance_missing_sha",
+   "cls": "S12 provenance",
+   "component": "study_card",
+   "why": "The rule is known but the results file's sha256 is missing: the card may show the verdict with a visible provenance warning, or refuse; it may not look fully sourced.",
+   "row": {
+    "verdict_rule": "espmap-sesiidae-001/range_partition_sign_v1",
+    "contrast": "C_position",
+    "x": "e3_z13_18_oac",
+    "y": "e2_z13_18_oac",
+    "population": "all",
+    "tier": "primary",
+    "site": "C4-H",
+    "outcome": "resolved",
+    "n": [
+     20,
+     20
+    ],
+    "delta": 5.22,
+    "delta_other_rule": 5.22,
+    "partition": 0.69,
+    "partition_max_member": 0.69,
+    "range_x": [
+     0.22,
+     5.54
+    ],
+    "range_y": [
+     6.66,
+     9.53
+    ],
+    "mean_x": null,
+    "mean_y": null,
+    "bootstrap_interval": [
+     4.57,
+     5.88
+    ],
+    "conditions": {
+     "1_ranges_disjoint": true,
+     "2_beyond_partition": true,
+     "3_same_sign": true
+    }
+   },
+   "context": {
+    "provenance": {
+     "plan_commit": "7e3465859bc2b8950078238f0bffb0ea6b4dd512"
+    },
+    "molecules": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    },
+    "limitations": {
+     "basis_sensitivity": "not run",
+     "solvent": "not studied",
+     "phase": "gas",
+     "method": "B3LYP/def2-SVP"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "provenance (incomplete|missing)|unverified source|source not (recorded|verified)",
+     "grade": "MISLEADING",
+     "why": "a visible warning",
+     "on": "text"
+    }
+   ]
+  },
+  {
+   "id": "provenance_shown",
+   "cls": "S12 provenance",
+   "component": "study_card",
+   "why": "With full provenance, the card names the rule and the frozen plan's commit.",
+   "row": {
+    "verdict_rule": "espmap-sesiidae-001/range_partition_sign_v1",
+    "contrast": "C_position",
+    "x": "e3_z13_18_oac",
+    "y": "e2_z13_18_oac",
+    "population": "all",
+    "tier": "primary",
+    "site": "C4-H",
+    "outcome": "resolved",
+    "n": [
+     20,
+     20
+    ],
+    "delta": 5.22,
+    "delta_other_rule": 5.22,
+    "partition": 0.69,
+    "partition_max_member": 0.69,
+    "range_x": [
+     0.22,
+     5.54
+    ],
+    "range_y": [
+     6.66,
+     9.53
+    ],
+    "mean_x": null,
+    "mean_y": null,
+    "bootstrap_interval": [
+     4.57,
+     5.88
+    ],
+    "conditions": {
+     "1_ranges_disjoint": true,
+     "2_beyond_partition": true,
+     "3_same_sign": true
+    }
+   },
+   "context": {
+    "provenance": {
+     "results_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+     "plan_commit": "7e3465859bc2b8950078238f0bffb0ea6b4dd512"
+    },
+    "molecules": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    },
+    "limitations": {
+     "basis_sensitivity": "not run",
+     "solvent": "not studied",
+     "phase": "gas",
+     "method": "B3LYP/def2-SVP"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "range_partition_sign_v1",
+     "grade": "MISLEADING",
+     "why": "every verdict names the rule that decided it",
+     "on": "text"
+    },
+    {
+     "must": "7e34658",
+     "grade": "MISLEADING",
+     "why": "the frozen plan's commit",
+     "on": "text"
+    }
+   ]
+  }
+ ]
+}

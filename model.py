@@ -175,7 +175,8 @@ class Verdict(Enum):
     SEPARATED_WITHIN_PARTITION = ("separated: every conformer differs in the same "
                                   "direction; but within the partition sensitivity")
     OVERLAPPING = "not attributable to the change: the conformer ranges overlap"
-    CANNOT_JUDGE = "single conformer: cannot judge"
+    # the user's wording (2026-10-24): what cannot be judged, and why
+    CANNOT_JUDGE = "cannot judge conformational robustness: one geometry on a side"
     NOT_COMPARED = "not compared: the measurements have different analysis keys"
     RULE_DEPENDENT = ("direction depends on the partition rule: every conformer differs one way "
                       "under the nearest-nucleus rule, but the radius-scaled rule gives the opposite sign")
@@ -472,3 +473,62 @@ class TeachingCase:
     molecules: tuple
     contrasts: tuple
     evidence: tuple = ()                # EvidenceStatement
+
+
+# ------------------------------------------------------------- frozen studies
+@dataclass(frozen=True)
+class StudySite:
+    """One site of one contrast in a frozen study, as the study decided it.
+    Arrowfield shows this verdict; it never re-decides it, and never
+    substitutes compare()'s teaching verdict or espmap's generic one for it.
+    Every number is the study's, kcal/mol, delta = mean(y) - mean(x)."""
+    verdict_rule: str                   # e.g. espmap-sesiidae-001/range_partition_sign_v1
+    contrast: str
+    x: str                              # slug of the first molecule
+    y: str
+    population: str                     # "all" | "extended"
+    tier: str                           # "primary" | "secondary" | "exploratory"
+    site: str
+    outcome: str                        # resolved | different on average | unresolved | not evaluable | no data
+    n: tuple = (0, 0)
+    delta: Optional[float] = None
+    delta_other_rule: Optional[float] = None
+    partition: Optional[float] = None   # the study's definition (its plan, section 4)
+    partition_max_member: Optional[float] = None   # reported beside, never decides
+    range_x: Optional[tuple] = None
+    range_y: Optional[tuple] = None
+    mean_x: Optional[float] = None
+    mean_y: Optional[float] = None
+    # resamples of the SELECTED conformers: describes that set, not a
+    # population, so it is not a confidence interval (Atlas 30c4a11)
+    bootstrap_interval: Optional[tuple] = None
+    conditions: dict = field(default_factory=dict)
+
+
+@dataclass(frozen=True, eq=False)
+class StudyResults:
+    """A frozen study's results file, read by study.py."""
+    plan: str
+    verdict_rule: str
+    sha256: str                         # of the results file
+    molecules: dict                     # slug -> {n_ok, n_folded, excluded, evaluable}
+    sites: tuple                        # StudySite
+
+    def site(self, contrast, site, population="all"):
+        hits = [s for s in self.sites if s.contrast == contrast and s.site == site
+                and s.population == population]
+        if len(hits) != 1:
+            raise KeyError(f"{contrast} / {site} / {population}: {len(hits)} entries in the study")
+        return hits[0]
+
+
+@dataclass(frozen=True)
+class EnsembleSource:
+    """Where one molecule's ensemble came from: an Atlas-format index."""
+    atlas_id: str                       # spa.cmpd.* or arrowfield.control.*
+    protocol: str
+    analysis_key: str
+    espmap_version: str
+    index_sha256: str
+    selection: str
+    folded_rule: Optional[str] = None   # the producer's statement of what "folded" means
