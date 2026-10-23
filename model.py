@@ -217,7 +217,9 @@ def _verdict(ma, mb, part, diff, diff_other):
     """The verdict for two lists of site means (at least two each)."""
     if not (min(mb) > max(ma) or max(mb) < min(ma)):
         return Verdict.OVERLAPPING
-    if diff_other is not None and diff * diff_other < 0 and abs(diff_other) >= SIGN_TOL:
+    # rounded first: 2.0 - 1.995 is 0.004999999999999893 in floats, and a
+    # rule that says 'SIGN_TOL or more' must count exactly SIGN_TOL
+    if diff_other is not None and diff * diff_other < 0 and round(abs(diff_other), 9) >= SIGN_TOL:
         return Verdict.RULE_DEPENDENT
     return Verdict.SEPARATED_WITHIN_PARTITION if abs(diff) <= part else Verdict.SEPARATED
 
@@ -257,6 +259,13 @@ def compare(views_a, views_b, label, name_a="A", name_b="B", rule="nearest_nucle
         raise Refused(f"site {label!r} has a mean that is not a number in {', '.join(bad)}: that "
                       "conformer was not measured, and min/max would silently skip it. Recompute "
                       "or remove that record.")
+    corrupt = [f"{v.name} ({x.rule}: {x.partition})" for vs, xs in ((views_a, a), (views_b, b))
+               for v, x in zip(vs, xs)
+               if x.partition is not None and not (math.isfinite(x.partition) and x.partition >= 0)]
+    if corrupt:
+        raise Refused(f"site {label!r} has a partition sensitivity that is not a finite, "
+                      f"non-negative number in {', '.join(corrupt)}: it is the absolute difference "
+                      "between the two rules' means, so that record is corrupt. Recompute it.")
     ma, mb = [x.mean for x in a], [x.mean for x in b]
     part = max(x.partition or 0.0 for x in a + b)
     diff = float(np.mean(mb) - np.mean(ma))
