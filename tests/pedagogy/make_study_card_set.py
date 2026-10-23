@@ -322,7 +322,7 @@ for vid, c in (("provenance_list", ctx(provenance=["f" * 64, PROV["plan_commit"]
          "A context entry that is not a mapping is treated as missing: the card never crashes, and "
          "never claims what it could not read (a missing provenance shows the warning).",
          C4, c, SHOW, "RENDERED",
-         [WARN] if vid == "provenance_list" else [must_not(r"basis.{0,40}\brun\b(?!.{0,5}not)", "MISLEADING",
+         [WARN] if vid == "provenance_list" else [must_not(r"basis[^.;]{0,40}(?<!not )\brun\b", "MISLEADING",
                                                           "nothing claimed as run")])
 case("n_numpy_integers", "S13 malformed numbers",
      "n given as numpy integers (np.int64, np.int32) is a valid count; the card must not refuse it. "
