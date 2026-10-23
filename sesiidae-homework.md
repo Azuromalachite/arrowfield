@@ -85,12 +85,20 @@ H-bond donor? Does adding the acetyl make "everything more negative"?
 1. Identify the largest electrostatic differences between the three head
    groups and explain them with ordinary organic chemistry: electronegativity,
    resonance in the ester, donor and acceptor.
-2. How far along the chain does the head-group change reach? Compare the
-   `C1-H` … `C5-H` sites with `C12-H` … `C15-H`, using the difference card.
+2. Explore how far the head-group perturbation appears to extend: compare
+   the `C1-H` … `C5-H` sites with `C12-H` … `C15-H`, using the difference
+   card. These chain-site comparisons are **descriptive and exploratory**,
+   not a prespecified test: the frozen study (espmap-sesiidae-001) tests
+   act A only on the global V_max and V_min, with `head O` as a secondary
+   site.
 
-**Expected:** this act is the "ESP works" act. The head group should differ
-locally and clearly, and the distant chain should barely move. Confirm with
-the records before stating it.
+**Expected:** this act is the "ESP works" act. The prespecified result is
+the global extremum: the alcohol's O–H gives a V_max well above the
+acetate's (the plan expects this to be resolved). The chain sites are for
+looking, not for verdicts. A student who calls a chain site "resolved" from
+an exploratory comparison has missed the difference between a test and a
+look; a student who describes how the difference fades with distance, with
+its conformer range beside it, has used the card well.
 
 From the pilot (OH vs OAc only), the clear signal is in the global extremum.
 The alcohol's O–H hydrogen gives V_max +38 to +52 kcal/mol; the acetate
