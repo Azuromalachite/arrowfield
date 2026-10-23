@@ -267,7 +267,10 @@ def compare(views_a, views_b, label, name_a="A", name_b="B", rule="nearest_nucle
                       f"non-negative number in {', '.join(corrupt)}: it is the absolute difference "
                       "between the two rules' means, so that record is corrupt. Recompute it.")
     ma, mb = [x.mean for x in a], [x.mean for x in b]
-    part = max(x.partition or 0.0 for x in a + b)
+    # A member that states no partition but has both means: the means fix it
+    # (probe round 3: read as 0 it hid an 8 kcal/mol rule disagreement).
+    part = max((x.partition if x.partition is not None else abs(x.mean - xo.mean))
+               for x, xo in zip(a + b, ao + bo))
     diff = float(np.mean(mb) - np.mean(ma))
     diff_other = float(np.mean([x.mean for x in bo]) - np.mean([x.mean for x in ao]))
     extended = None
