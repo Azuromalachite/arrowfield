@@ -5,7 +5,7 @@ espmap's record is a versioned contract, "schema": "espmap.record/1"
 change is a one-file edit. A record of any other version, or none, is
 refused: the key paths below are only known to hold for this one. The
 records in records/ were computed on espmap master 1ef8e28 (2026-10-23);
-recompute them on the v0.2.0 tag before class.
+recompute them on the v0.2.1 tag before class.
 """
 import json
 from pathlib import Path
