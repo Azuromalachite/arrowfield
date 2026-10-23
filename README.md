@@ -19,14 +19,14 @@ the draft designs and working prototype it was seeded with.
 
 ## Boundary
 
-- **espmap is the instrument**, pinned to a release (`v0.2.0`, never
+- **espmap is the instrument**, pinned to a release (`v0.2.1`, never
   `master`). It computes and records; it knows nothing about lessons.
 - **Arrowfield is the teaching layer.** It chooses molecules (from the
   manifest, never from typed SMILES), names reaction sites, asks for
   predictions, and decides how to present uncertainty.
 - Everything the notebooks need from espmap is in
-  [v0.2.0](https://github.com/Azuromalachite/espmap/releases/tag/v0.2.0)
-  (6f8b8eb), with one exception: `--require-stereo` (an unspecified E/Z or
+  [v0.2.1](https://github.com/Azuromalachite/espmap/releases/tag/v0.2.1)
+  (41a989d), with one exception: `--require-stereo` (an unspecified E/Z or
   stereocentre becomes a BLOCK). Until it lands, the manifest itself
   guarantees full stereo: `build_manifest.py` refuses an entry with any
   unspecified stereo element.
