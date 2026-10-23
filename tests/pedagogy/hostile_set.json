@@ -5554,6 +5554,236 @@
    "extended_n": null
   },
   {
+   "id": "one_geometry_says_why_1v1",
+   "cls": "A15 one-geometry wording",
+   "component": "compare",
+   "a": [
+    {
+     "site": "C4-H",
+     "nn": 2.824,
+     "rs": 2.824,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "b": [
+    {
+     "site": "C4-H",
+     "nn": 5.296,
+     "rs": 5.296,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "outcomes": {
+    "SEPARATED": "MISLEADING",
+    "SEPARATED_WITHIN_PARTITION": "MISLEADING",
+    "OVERLAPPING": "MISLEADING",
+    "CANNOT_JUDGE": "SAFE_REFUSAL",
+    "NOT_COMPARED": "SAFE_REFUSAL",
+    "RULE_DEPENDENT": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "CANNOT_JUDGE",
+    "NOT_COMPARED",
+    "REFUSED"
+   ],
+   "prefer": "CANNOT_JUDGE",
+   "requires": [
+    "robustness_wording",
+    "no_single_range"
+   ],
+   "why": "With one geometry on a side, the conformational spread is unmeasured. The card must say it cannot judge conformational robustness, and that it is because one side has one geometry: the reason a single structure cannot show an effect on a flexible molecule."
+  },
+  {
+   "id": "one_geometry_says_why_1v8",
+   "cls": "A15 one-geometry wording",
+   "component": "compare",
+   "a": [
+    {
+     "site": "C4-H",
+     "nn": 0.602,
+     "rs": 0.602,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "b": [
+    {
+     "site": "C4-H",
+     "nn": 5.362,
+     "rs": 5.362,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 6.576,
+     "rs": 6.576,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 7.022,
+     "rs": 7.022,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 6.722,
+     "rs": 6.722,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 5.44,
+     "rs": 5.44,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 6.123,
+     "rs": 6.123,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 6.186,
+     "rs": 6.186,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 5.861,
+     "rs": 5.861,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "outcomes": {
+    "SEPARATED": "MISLEADING",
+    "SEPARATED_WITHIN_PARTITION": "MISLEADING",
+    "OVERLAPPING": "MISLEADING",
+    "CANNOT_JUDGE": "SAFE_REFUSAL",
+    "NOT_COMPARED": "SAFE_REFUSAL",
+    "RULE_DEPENDENT": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "CANNOT_JUDGE",
+    "NOT_COMPARED",
+    "REFUSED"
+   ],
+   "prefer": "CANNOT_JUDGE",
+   "requires": [
+    "robustness_wording",
+    "no_single_range"
+   ],
+   "why": "With one geometry on a side, the conformational spread is unmeasured. The card must say it cannot judge conformational robustness, and that it is because one side has one geometry: the reason a single structure cannot show an effect on a flexible molecule."
+  },
+  {
+   "id": "one_geometry_says_why_8v1",
+   "cls": "A15 one-geometry wording",
+   "component": "compare",
+   "a": [
+    {
+     "site": "C4-H",
+     "nn": 0.974,
+     "rs": 0.974,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.076,
+     "rs": 4.076,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.452,
+     "rs": 2.452,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.896,
+     "rs": 1.896,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.158,
+     "rs": 1.158,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.493,
+     "rs": 3.493,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.543,
+     "rs": 3.543,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.825,
+     "rs": 3.825,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "b": [
+    {
+     "site": "C4-H",
+     "nn": 6.06,
+     "rs": 6.06,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "outcomes": {
+    "SEPARATED": "MISLEADING",
+    "SEPARATED_WITHIN_PARTITION": "MISLEADING",
+    "OVERLAPPING": "MISLEADING",
+    "CANNOT_JUDGE": "SAFE_REFUSAL",
+    "NOT_COMPARED": "SAFE_REFUSAL",
+    "RULE_DEPENDENT": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "CANNOT_JUDGE",
+    "NOT_COMPARED",
+    "REFUSED"
+   ],
+   "prefer": "CANNOT_JUDGE",
+   "requires": [
+    "robustness_wording",
+    "no_single_range"
+   ],
+   "why": "With one geometry on a side, the conformational spread is unmeasured. The card must say it cannot judge conformational robustness, and that it is because one side has one geometry: the reason a single structure cannot show an effect on a flexible molecule."
+  },
+  {
    "id": "not_tested_is_not_negative",
    "cls": "B1 absence of evidence",
    "component": "evidence_card",

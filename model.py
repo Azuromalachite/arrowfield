@@ -175,7 +175,8 @@ class Verdict(Enum):
     SEPARATED_WITHIN_PARTITION = ("separated: every conformer differs in the same "
                                   "direction; but within the partition sensitivity")
     OVERLAPPING = "not attributable to the change: the conformer ranges overlap"
-    CANNOT_JUDGE = "single conformer: cannot judge"
+    # the user's wording (2026-10-24): what cannot be judged, and why
+    CANNOT_JUDGE = "cannot judge conformational robustness: one geometry on a side"
     NOT_COMPARED = "not compared: the measurements have different analysis keys"
     RULE_DEPENDENT = ("direction depends on the partition rule: every conformer differs one way "
                       "under the nearest-nucleus rule, but the radius-scaled rule gives the opposite sign")

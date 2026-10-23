@@ -95,6 +95,10 @@ def shows(req, cmp, page, c=None):
                               text, re.I))
     if req == "no_identity_claim":
         return not re.search(r"identical|no difference|the same", text, re.I)
+    if req == "robustness_wording":
+        # A15: names what cannot be judged, and why (one geometry on a side)
+        return bool(re.search(r"cannot judge conformational robustness", text, re.I)
+                    and re.search(r"one geometry", text, re.I))
     raise ValueError(req)
 
 
