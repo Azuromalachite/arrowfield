@@ -2,7 +2,7 @@
 
 Status: **draft.** The questions are fixed. The expected findings for acts
 A–C come from the frozen study espmap-sesiidae-001 (Atlas results at
-89f5e22: 5 C18 molecules × 20 shape-diverse conformers, def2-SVP, gas),
+f286bc1: 5 C18 molecules × 20 shape-diverse conformers, def2-SVP, gas),
 which replicated the pilot (`sesiidae-pilot.md`) where it mattered. Before
 class, a person must still check every observation the homework uses
 against its paper. The aim is that a student finishes able to make a
@@ -52,7 +52,7 @@ espmap-sesiidae-001: 20 conformers per molecule, espmap v0.2.1, seed
   (`analysis-plan.md`). A dated clarification on reading its statistics is
   at 30c4a11.
 - **Results:** at
-  [89f5e22](https://github.com/Azuromalachite/sesiidae-pheromone-atlas/blob/89f5e22/analyses/espmap-sesiidae-001/results.md)
+  [f286bc1](https://github.com/Azuromalachite/sesiidae-pheromone-atlas/blob/f286bc1/analyses/espmap-sesiidae-001/results.md)
   (`results.md`). The "expected" answers below come from it, not from the
   pilot.
 - **Where the records live:** the Atlas's `computed/espmap/<Atlas ID>/` for
@@ -65,9 +65,8 @@ if all three hold:
 2. the difference exceeds the partition sensitivity;
 3. the sign is the same under both partition rules.
 
-**Different on average** means the means differ, but some single conformers
-of the two molecules are indistinguishable; it is descriptive, not a
-weaker "resolved".
+**Different on average** means the means differ, but the observed conformer
+ranges overlap; it is descriptive, not a weaker "resolved".
 
 The 20 conformers are a designed spread of shapes, not random draws. So
 non-overlap is a robustness criterion, not a probability.
@@ -154,8 +153,8 @@ pilot predicted.
 - **`C3-H`: different on average.** E3 is +2.31 kcal/mol above Z3 on
   average, the same direction under both partition rules and beyond the
   partition sensitivity (0.93). But the conformer ranges overlap widely:
-  Z3 −2.8 to +5.0, E3 +1.0 to +6.6. Some single conformers of the two are
-  indistinguishable at C3-H.
+  Z3 −2.8 to +5.0, E3 +1.0 to +6.6. The observed conformer ranges overlap
+  at C3-H.
 - **`C4-H`: unresolved** (−0.04, ranges 0.3–5.1 and 0.2–5.5).
 - **`head O` and global V_min: different on average,** both under 1 kcal/mol.
   Global V_max is unresolved.
@@ -184,8 +183,9 @@ The pilot's call held up under the stricter test with twice the conformers.
 - **`C4-H`: resolved.** It moves +5.22 kcal/mol. The conformer ranges do not
   overlap (E3 +0.2 to +5.5, E2 +6.7 to +9.5), the difference is well beyond
   the partition sensitivity (0.69), and both rules agree on the sign. C4 is
-  the alkene carbon in E3 and allylic in E2. The gap between the ranges is
-  about 1.1 kcal/mol: real, but not wide.
+  the alkene carbon in E3 and allylic in E2. The gap between the
+  selected-conformer ranges is about 1.1 kcal/mol: robust under this
+  protocol (gas phase, def2-SVP, basis sensitivity not run), but not wide.
 - **`C2-H`: different on average** (−2.50). The ranges overlap: E3 +3.3 to
   +10.1, E2 −0.7 to +6.9.
 - **`C3-H`: unresolved** (−0.35). The two partition rules do not even agree
@@ -230,7 +230,7 @@ itself.
   it, even if the sign is right.
 - A student who calls act B's C3-H "resolved" because the means differ has
   confused a mean shift with a resolved difference. A student who says "the
-  E isomer is more positive at C3-H on average, but some conformers of each
+  E isomer is more positive at C3-H on average, but their conformer ranges
   overlap" has it exactly.
 
 ## Before class
@@ -249,7 +249,7 @@ itself.
   (`analyses/espmap-sesiidae-001/`, 7e34658, 2026-10-23).
 - [x] Ensembles (20 conformers) for the five compounds computed with espmap
   v0.2.1 (2026-10-23/24, 100/100, no exclusions). The four Atlas compounds
-  are in the Atlas's `computed/espmap/` (results at 89f5e22); the aldehyde is
+  are in the Atlas's `computed/espmap/` (results at f286bc1); the aldehyde is
   in Arrowfield's `controls/`.
 - [x] Acts A–C's "expected" rewritten from the study's results (2026-10-24).
 - [ ] Notebook pinned to the Atlas teaching bundle and the records; the
