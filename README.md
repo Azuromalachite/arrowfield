@@ -1,8 +1,8 @@
 # Arrowfield teaching layer: draft designs
 
-Status: **draft, 2026-10-22.** Nothing here changes espmap. These files are
-meant to seed the Arrowfield repository when it opens (after espmap v0.2.0:
-P3 fixture records + tag). Until then they live in this local folder.
+Status: **draft, 2026-10-23.** Nothing here changes espmap. The repository
+opened once espmap v0.2.0 shipped its P3 fixture records and tag; these are
+the draft designs and working prototype it was seeded with.
 
 | file | what it is |
 | --- | --- |
@@ -13,7 +13,9 @@ P3 fixture records + tag). Until then they live in this local folder.
 | `sesiidae-homework.md` | the class assignment: four acts, data plan, questions, what is still pending |
 | `notebooks.md` | cell-by-cell outlines of both notebooks and the three views, plus the prototype's status |
 | `record.py`, `views.py`, `build_demo.py`, `compute_records.py`, `make_geometries.py`, `tests/` | the working prototype of the three views; see `notebooks.md` |
-| `records/`, `geometries/`, `demo/` | computed records (small molecules), acetate's DFT geometry, rendered pages |
+| `records/`, `geometries/` | computed records (small molecules), acetate's DFT geometry |
+| `demo/` | rendered pages, not committed: `python build_demo.py` writes them |
+| `LICENSE` | MIT, as espmap |
 
 ## Boundary
 
@@ -22,8 +24,9 @@ P3 fixture records + tag). Until then they live in this local folder.
 - **Arrowfield is the teaching layer.** It chooses molecules (from the
   manifest, never from typed SMILES), names reaction sites, asks for
   predictions, and decides how to present uncertainty.
-- Everything the notebooks need from espmap already exists on master
-  (6c66bbf), with one exception: `--require-stereo` (an unspecified E/Z or
+- Everything the notebooks need from espmap is in
+  [v0.2.0](https://github.com/Azuromalachite/espmap/releases/tag/v0.2.0)
+  (6f8b8eb), with one exception: `--require-stereo` (an unspecified E/Z or
   stereocentre becomes a BLOCK). Until it lands, the manifest itself
   guarantees full stereo: `build_manifest.py` refuses an entry with any
   unspecified stereo element.
