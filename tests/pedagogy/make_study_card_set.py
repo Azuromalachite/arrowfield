@@ -291,6 +291,25 @@ for vid, rx in (("range_garbage", ["a", None]), ("range_infinite", [-INF, 1.0]))
           must_not(r"\binf\b|infinity|\bnan\b|∞", "MISLEADING", "no infinite or NaN value shown"),
           must_not(r"Δ|difference of (the )?means", "MISLEADING", "no difference value shown")])
 
+# Probe round 3 of #11: provenance the card cannot verify. A plan commit that
+# is not a hex string (an int crashed the card) or is missing, or a results
+# sha256 that is not 64 hex characters, must not look fully sourced.
+WARN = must(r"provenance (incomplete|missing)|unverified source|source not (recorded|verified)",
+            "MISLEADING", "a visible warning")
+for vid, prov in (("plan_commit_int", dict(PROV, plan_commit=7346580)),
+                  ("plan_commit_missing", dict(PROV, plan_commit=None)),
+                  ("sha_not_hex", dict(PROV, results_sha256="not-a-sha"))):
+    case(f"provenance_{vid}", "S12 provenance",
+         "Provenance the card cannot verify: show the verdict with a visible warning (or refuse); "
+         "never crash, never present it as fully sourced.",
+         C4, ctx(provenance=prov), SHOW, "RENDERED", [WARN])
+# ...and a verdict row whose n is not two non-negative integers.
+for vid, n in (("n_garbage", ["x", -3]), ("n_bool", [True, 20])):
+    case(f"malformed_{vid}", "S13 malformed numbers",
+         "A verdict rests on n members per side; n that is not two non-negative integers is a "
+         "corrupt record.",
+         dict(C4, n=n), ctx(), {"RENDERED": "MISLEADING", "REFUSED": "SAFE_REFUSAL"}, "REFUSED")
+
 
 def document():
     for c in CASES:
