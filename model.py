@@ -2,8 +2,8 @@
 
 Two narrow adapters fill it, and nothing else knows an upstream format:
   record.py   espmap records (JSON + NPZ)   -> MoleculeView
-  bundle.py   the Atlas teaching bundle     -> EvidenceStatement, TeachingCase
-              (to come, once spa.teaching/0 is frozen)
+  bundle.py   the Atlas teaching bundle     -> TeachingBundle (EvidenceStatement,
+              (spa.teaching/0)                 ObservedContrast)
 A view never reads an espmap or Atlas dict. If either upstream changes its
 storage, only its adapter changes.
 
@@ -236,17 +236,111 @@ class EvidenceState(Enum):
 
 
 @dataclass(frozen=True)
+class Detection:
+    """One compound looked for in a chemical measurement, as recorded."""
+    compound: str                       # Atlas id
+    detected: bool
+    method: Optional[str] = None
+    identification: Optional[str] = None
+    abundance_class: Optional[str] = None
+    detection_limit: Optional[dict] = None     # {"value", "unit"} or None: not stated
+    measurements: tuple = ()            # dicts, as recorded (value, unit, qualifier, spread)
+
+
+@dataclass(frozen=True)
+class Response:
+    """A behavioural readout, as recorded: never rescaled or rounded."""
+    measure: str
+    unit: str
+    treatment_value: Optional[float]
+    comparator_value: Optional[float]
+    qualifier: Optional[str] = None
+
+
+@dataclass(frozen=True, eq=False)
 class EvidenceStatement:
-    """One Atlas observation, as a card shows it. Filled by bundle.py only."""
+    """One Atlas observation, its raw fields first. Filled by bundle.py only.
+
+    A gland-extract negative, a lure with no behavioural effect, an absent
+    antennal response and an effect whose significance was never tested are
+    different scientific statements; the Atlas keeps them apart and so does
+    this. `statement` is the Atlas's own sentence for the record, shown
+    verbatim. A card's broad category (`display_state`) is derived from these
+    fields, per compound, and never stored in place of them."""
     observation_id: str
-    taxon: str
-    compounds: tuple                    # Atlas compound ids involved
-    assay: Optional[str]
-    effect: Optional[str]               # as recorded, e.g. increased, no_effect
-    significance: Optional[str]         # as recorded, e.g. significant, not_tested
-    state: EvidenceState
-    context: Optional[str] = None       # locality, population, sex, as recorded
-    citation: Optional[str] = None
+    observation_type: str               # chemical_measurement | behavioural_response | ...
+    taxon: str                          # accepted name
+    taxon_as_reported: Optional[str]
+    statement: str                      # the Atlas's sentence, verbatim
+    context: dict                       # population, locality, sex, ... as recorded
+    reference: dict                     # citation, doi, atlas_id
+    source_location: Optional[str]
+    assay: Optional[str] = None
+    experiment_id: Optional[str] = None
+    materials: tuple = ()
+    treatment: tuple = ()               # blend dicts, as recorded
+    comparator: Optional[dict] = None
+    dose: Optional[dict] = None
+    trap: Optional[dict] = None
+    dispenser: Optional[dict] = None
+    effect: Optional[str] = None        # increased | decreased | no_effect | caught_without_control
+    significance: Optional[str] = None  # significant | not_significant | not_tested | not_reported
+    response: Optional[Response] = None
+    detections: tuple = ()              # Detection
+    roles: dict = field(default_factory=dict)   # compound -> roles in this observation
+    author_statement: Optional[str] = None      # a quotation: the source's terms, not the Atlas's
+    author_statement_form: Optional[str] = None
+    atlas_notes: Optional[str] = None
+    unresolved: tuple = ()
+
+    def display_state(self, compound):
+        """(EvidenceState, label) for one compound in this observation: the
+        card's broad category plus the words that keep it specific. Absence
+        of a test is never NEGATIVE; NEGATIVE always says what was absent."""
+        det = next((d for d in self.detections if d.compound == compound), None)
+        if self.observation_type == "chemical_measurement":
+            if det is None:
+                return EvidenceState.NOT_TESTED, "not looked for in this measurement"
+            if det.detected:
+                return EvidenceState.OBSERVED, "detected" + (f" ({det.abundance_class})"
+                                                             if det.abundance_class else "")
+            lim = det.detection_limit
+            return EvidenceState.NEGATIVE, ("not detected, " + (
+                f"detection limit {lim['value']} {lim['unit']}" if lim else "detection limit not stated"))
+        roles = self.roles.get(compound, ())
+        if not roles:
+            return EvidenceState.NOT_TESTED, "not part of this experiment"
+        if self.effect is None:
+            return EvidenceState.NOT_TESTED, "no effect recorded"
+        sig = {"significant": "significant", "not_significant": "not significant",
+               "not_tested": "significance not tested", "not_reported": "significance not reported"}
+        words = f"{self.effect.replace('_', ' ')}, {sig.get(self.significance, self.significance)}"
+        if self.effect == "no_effect" and self.significance == "not_significant":
+            return EvidenceState.NEGATIVE, f"{self.assay or 'assay'}: {words}"
+        return EvidenceState.OBSERVED, f"{self.assay or 'assay'}: {words}"
+
+
+@dataclass(frozen=True)
+class ObservedContrast:
+    """Two observations a teaching case sets side by side, as the Atlas
+    states each: no verdict about the pair is implied."""
+    label: str
+    observation_ids: tuple
+    a: str
+    b: str
+
+
+@dataclass(frozen=True, eq=False)
+class TeachingBundle:
+    """An Atlas teaching bundle (spa.teaching/0), read by bundle.py."""
+    case_id: str
+    case_title: str
+    atlas_version: str
+    sha256: str                         # of the bundle file
+    observations: dict                  # observation id -> EvidenceStatement
+    compounds: dict                     # Atlas id -> {"shorthand", "systematic", "inchikey"}
+    contrasts: tuple                    # ObservedContrast
+    espmap: tuple = ()                  # computed ensembles the bundle carries, as given
 
 
 @dataclass(frozen=True)
