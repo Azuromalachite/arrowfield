@@ -14,3 +14,9 @@ The Atlas's licence does not cover it, and it stays under its source's terms.
 To refresh it, re-export from a newer Atlas commit and replace the file
 whole. Never edit it by hand: the tests compare it with what the Atlas
 states.
+
+`espmap-sesiidae-001.results.json` is the frozen study's results file,
+copied unedited from the Atlas at 89f5e22
+(`analyses/espmap-sesiidae-001/results.json`), CC BY 4.0 like the bundle.
+`tests/test_study.py` reads it, together with the aldehyde control's records
+in `controls/`.
