@@ -38,17 +38,30 @@ VERDICTS = ("SEPARATED", "SEPARATED_WITHIN_PARTITION", "OVERLAPPING", "CANNOT_JU
 rng = np.random.default_rng(SEED)
 
 
-def ens(n, nn_mean, nn_sd, rs_shift=0.0, rs_sd=0.0, genus=0, key=KEY, site="C4-H", fixed=None):
+def ens(n, nn_mean, nn_sd, rs_shift=0.0, rs_sd=0.0, genus=0, key=KEY, site="C4-H", fixed=None,
+        rs_exact=None, folded=None, partition=None):
     """n conformers of one molecule at one site: nearest-nucleus means, the
-    radius-scaled mean (nn + rs_shift + noise), genus and analysis key each."""
+    radius-scaled mean (nn + rs_shift + noise), genus and analysis key each.
+    rs_exact: radius-scaled means as given, unrounded (float-noise cases).
+    folded: each member's folded flag, stated apart from genus (A12); when
+    absent a member is folded iff genus > 0, as in the cases before A9."""
     nn = fixed if fixed is not None else nn_mean + nn_sd * rng.standard_normal(n)
     noise = rs_sd * rng.standard_normal(len(nn))
     rs = [None if a is None else a + rs_shift + e for a, e in zip(nn, noise)]   # None: buried
     g = genus if isinstance(genus, list) else [genus] * len(nn)
     k = key if isinstance(key, list) else [key] * len(nn)
-    return [{"site": site, "nn": None if a is None else round(float(a), 3),
-             "rs": None if a is None else round(float(b), 3), "genus": gg, "key": kk}
-            for a, b, gg, kk in zip(nn, rs, g, k)]
+    out = [{"site": site, "nn": None if a is None else round(float(a), 3),
+            "rs": None if a is None else round(float(b), 3), "genus": gg, "key": kk}
+           for a, b, gg, kk in zip(nn, rs, g, k)]
+    for i, m in enumerate(out):
+        if rs_exact is not None:
+            m["rs"] = rs_exact[i]
+        if folded is not None:
+            m["folded"] = folded if isinstance(folded, bool) else folded[i]
+        if partition is not None and partition[i] is not None:
+            # as given, not |nn - rs| (A14); "missing" writes an explicit null
+            m["partition"] = None if partition[i] == "missing" else partition[i]
+    return out
 
 
 def grades(**kw):
@@ -190,6 +203,145 @@ case("site_missing_in_b", "A8 site missing", "compare",
      "labelled differently). The refusal must name the sites that exist.",
      a=ens(5, 3.0, 0.5, site="C2-H"), b=ens(5, 3.0, 0.5, site="C3-H"),
      outcomes=grades(**REFUSE_OK), prefer="REFUSED", extra={"label": "C2-H"})
+
+# ------------------------------------------------ A10: values that are not numbers
+# Added from the held-out probe of PR #2 (x_nan_mean): min() and max() skip a
+# NaN, so a NaN mean quietly drops out of the ranges and the card claims a
+# separation it never measured.
+nan, inf = float("nan"), float("inf")
+case("nan_in_one_conformer", "A10 non-finite value", "compare",
+     "One conformer's site mean is NaN (a failed integration, a bad record). It must stop the "
+     "comparison, naming the conformer; any verdict computed around it is unmeasured.",
+     a=ens(5, 0, 0, rs_shift=0.3, fixed=[1.0, nan, 1.2, 1.3, 1.4]),
+     b=ens(5, 0, 0, rs_shift=0.3, fixed=[4.0, 4.1, 4.2, 4.3, 4.4]),
+     outcomes=grades(CANNOT_JUDGE="MISLEADING", SEPARATED_WITHIN_PARTITION="FALSE",
+                     OVERLAPPING="MISLEADING", RULE_DEPENDENT="FALSE", **REFUSE_OK), prefer="REFUSED")
+case("inf_in_other_molecule", "A10 non-finite value", "compare",
+     "An infinite mean in the second molecule: the same refusal.",
+     a=ens(5, 0, 0, rs_shift=0.3, fixed=[1.0, 1.1, 1.2, 1.3, 1.4]),
+     b=ens(5, 0, 0, rs_shift=0.3, fixed=[4.0, 4.1, inf, 4.3, 4.4]),
+     outcomes=grades(CANNOT_JUDGE="MISLEADING", SEPARATED_WITHIN_PARTITION="FALSE",
+                     OVERLAPPING="MISLEADING", RULE_DEPENDENT="FALSE", **REFUSE_OK), prefer="REFUSED")
+case("nan_under_other_rule_only", "A10 non-finite value", "compare",
+     "Finite under nearest-nucleus, NaN under radius-scaled: the sign test and the partition "
+     "sensitivity both need the second rule, so the comparison is not measured.",
+     a=ens(5, 0, 0, fixed=[1.0, 1.1, 1.2, 1.3, 1.4], rs_exact=[1.2, 1.3, nan, 1.5, 1.6]),
+     b=ens(5, 0, 0, fixed=[4.0, 4.1, 4.2, 4.3, 4.4], rs_exact=[4.2, 4.3, 4.4, 4.5, 4.6]),
+     outcomes=grades(CANNOT_JUDGE="MISLEADING", SEPARATED_WITHIN_PARTITION="FALSE",
+                     OVERLAPPING="MISLEADING", RULE_DEPENDENT="FALSE", **REFUSE_OK), prefer="REFUSED")
+
+# ------------------------------------------------ A11: an empty side
+# From the probe (x_empty_side): an empty list reached views_a[0].
+for vid, a, b in [("a", [], ens(5, 4.0, 0.2)), ("b", ens(5, 1.0, 0.2), []), ("both", [], [])]:
+    case(f"empty_side_{vid}", "A11 empty side", "compare",
+         "No conformers on one side (a filter removed them all, a load found none). There is "
+         "nothing to compare, and the refusal must say which side is empty.",
+         a=a, b=b, outcomes=grades(CANNOT_JUDGE="SAFE_REFUSAL", **REFUSE_OK), prefer="REFUSED",
+         extra={"label": "C4-H"})
+
+# ------------------------------------------------ A12: a sign at noise level
+# From the probe (x_flip_float_noise): Delta under the radius-scaled rule of
+# -2.2e-16 is floating-point rounding, not a direction. The card prints two
+# decimals, so the threshold must lie between rounding noise and a flip it
+# can show; these cases pin both sides and leave the middle undecided.
+_nn_a, _nn_b = [1.0, 1.1], [4.0, 4.1]     # Delta_nn = +3.0, per-member partition ~1.55
+for vid, rs_b, outc, pref, why in [
+    ("float_noise", [2.55, 2.55],
+     grades(SEPARATED="SAFE", RULE_DEPENDENT="MISLEADING", SEPARATED_WITHIN_PARTITION="MISLEADING",
+            OVERLAPPING="FALSE", **REFUSE_OK), "SEPARATED",
+     "Delta_rs is -2.2e-16: rounding noise in the means, not a direction. Calling it rule-dependent "
+     "tells a student the convention flips a +3.0 difference."),
+    ("flip_0.01", [2.54, 2.54],
+     grades(RULE_DEPENDENT="SAFE", SEPARATED="MISLEADING", SEPARATED_WITHIN_PARTITION="SAFE",
+            OVERLAPPING="FALSE", **REFUSE_OK), "RULE_DEPENDENT",
+     "Delta_rs is -0.01: small, but a real opposite sign the card can print."),
+    # probe round 2 (y_tol_exact): exactly the tolerance, which floats put at
+    # 0.004999999999999893; the rule as written (>= SIGN_TOL) counts it
+    ("flip_0.005", [2.545, 2.545],
+     grades(RULE_DEPENDENT="SAFE", SEPARATED="MISLEADING", SEPARATED_WITHIN_PARTITION="SAFE",
+            OVERLAPPING="FALSE", **REFUSE_OK), "RULE_DEPENDENT",
+     "Delta_rs is -0.005, exactly the stated tolerance: a rule that says '0.005 or more' must "
+     "count it whatever the last bit of the float subtraction is."),
+    ("flip_0.004", [2.546, 2.546],
+     grades(RULE_DEPENDENT="SAFE", SEPARATED="SAFE", SEPARATED_WITHIN_PARTITION="SAFE",
+            OVERLAPPING="FALSE", **REFUSE_OK), None,
+     "Delta_rs is -0.004, which the card prints as -0.00: either reading is defensible, so "
+     "no preference; only OVERLAPPING is wrong."),
+]:
+    case(f"sign_noise_{vid}", "A12 sign at noise level", "compare", why,
+         a=ens(2, 0, 0, fixed=_nn_a, rs_exact=[2.5500000000000003, 2.5500000000000003]),
+         b=ens(2, 0, 0, fixed=_nn_b, rs_exact=rs_b), outcomes=outc, prefer=pref)
+
+# ------------------------------------------------ A14: a partition that is not a number
+# Probe round 2 (y_nan_partition*, y_inf_partition, y_negative_partition):
+# the partition sensitivity is an absolute difference, so it is finite and
+# >= 0. Used as given otherwise, NaN is kept or skipped by max() depending on
+# order, inf turns every separation "within", a negative value is corrupt.
+for vid, side, pos, val in [("nan_first", "a", 0, nan), ("nan_last", "b", 4, nan),
+                            ("inf", "a", 2, inf), ("negative", "b", 1, -5.0)]:
+    parts = {"a": [None] * 5, "b": [None] * 5}
+    parts[side][pos] = val
+    case(f"partition_{vid}", "A14 partition not a number", "compare",
+         f"Every mean is finite, but one conformer's partition sensitivity is {val}. A partition "
+         "is |difference between the two rules' means|: not finite, or negative, means the record "
+         "is corrupt, and the comparison must stop, naming the conformer.",
+         a=ens(5, 0, 0, rs_shift=0.3, fixed=[1.0, 1.1, 1.2, 1.3, 1.4], partition=parts["a"]),
+         b=ens(5, 0, 0, rs_shift=0.3, fixed=[4.0, 4.1, 4.2, 4.3, 4.4], partition=parts["b"]),
+         outcomes=grades(SEPARATED="FALSE", SEPARATED_WITHIN_PARTITION="FALSE", OVERLAPPING="FALSE",
+                         RULE_DEPENDENT="FALSE", CANNOT_JUDGE="MISLEADING", **REFUSE_OK),
+         prefer="REFUSED")
+
+# Probe round 3 (z_part_none_hides): a partition left unstated (None) while
+# both rules' means are finite. Read as 0 it hid an 8 kcal/mol disagreement
+# between the rules; the two means fix it, so it must count.
+case("partition_missing_means_finite", "A14 partition not a number", "compare",
+     "One conformer states no partition sensitivity, but both its means are there (1.0 and -7.0): "
+     "the rules disagree by 8 kcal/mol at that conformer, more than the +3.0 difference. Treating "
+     "the missing value as 0 shows a clean separation that the convention could undo.",
+     a=ens(5, 0, 0, fixed=[1.0, 1.1, 1.2, 1.3, 1.4], rs_exact=[-7.0, 1.1, 1.2, 1.3, 1.4],
+           partition=["missing", 0.0, 0.0, 0.0, 0.0]),
+     b=ens(5, 0, 0, fixed=[4.0, 4.1, 4.2, 4.3, 4.4], rs_exact=[4.0, 4.1, 4.2, 4.3, 4.4],
+           partition=[0.0] * 5),
+     outcomes=grades(SEPARATED_WITHIN_PARTITION="SAFE", SEPARATED="MISLEADING", OVERLAPPING="FALSE",
+                     RULE_DEPENDENT="SAFE", CANNOT_JUDGE="MISLEADING", **REFUSE_OK),
+     prefer="SEPARATED_WITHIN_PARTITION")
+
+# Probe round 4 (w_part_contradicts_means): a stated partition of 0.0 while the
+# member's own means differ by 8. The means are the measurement; a partition
+# smaller than |nn - rs| contradicts them and must not hide the difference.
+for vid, given in (("zero", 0.0), ("small", 0.5)):
+    case(f"partition_contradicts_means_{vid}", "A14 partition not a number", "compare",
+         f"One conformer states a partition of {given}, but its means (1.0 and -7.0) differ by 8: "
+         "the stated number contradicts the record's own measurement. Trusted, it shows a clean "
+         "separation that the convention could undo.",
+         a=ens(5, 0, 0, fixed=[1.0, 1.1, 1.2, 1.3, 1.4], rs_exact=[-7.0, 1.1, 1.2, 1.3, 1.4],
+               partition=[given, 0.0, 0.0, 0.0, 0.0]),
+         b=ens(5, 0, 0, fixed=[4.0, 4.1, 4.2, 4.3, 4.4], rs_exact=[4.0, 4.1, 4.2, 4.3, 4.4],
+               partition=[0.0] * 5),
+         outcomes=grades(SEPARATED_WITHIN_PARTITION="SAFE", SEPARATED="MISLEADING", OVERLAPPING="FALSE",
+                         RULE_DEPENDENT="SAFE", CANNOT_JUDGE="MISLEADING", **REFUSE_OK),
+         prefer="SEPARATED_WITHIN_PARTITION")
+
+# ------------------------------------------------ A13: what "folded" means
+# The cross-repo review (2026-10-23) found three definitions in use: the
+# frozen study (contact OR genus > 0), espmap v0.3 (contact; genus only a
+# diagnostic) and Arrowfield (genus > 0). A member's folded flag is a fact the
+# producer states; the view must use it, never re-derive it from genus.
+case("folded_by_contact_genus0", "A13 folded flag", "compare",
+     "Two of A's conformers are folded by an intramolecular contact but their surfaces have genus "
+     "0. They drive the separation; the extended view must leave them out (n = 8 / 10).",
+     a=ens(10, 0, 0, rs_shift=0.2, fixed=[0.5, 0.8] + list(np.linspace(3.0, 4.5, 8)),
+           folded=[True, True] + [False] * 8),
+     b=ens(10, 0, 0, rs_shift=0.2, fixed=list(np.linspace(4.6, 6.0, 10)), folded=False),
+     outcomes=grades(SEPARATED="SAFE", SEPARATED_WITHIN_PARTITION="SAFE", OVERLAPPING="FALSE", **REFUSE_OK),
+     prefer="SEPARATED", requires=["extended_n", "extended_verdict"], extra={"extended_n": [8, 10]})
+case("genus_without_folding", "A13 folded flag", "compare",
+     "Every conformer's surface has genus 1 (a macrocycle's hole), and none is folded. Treating "
+     "genus as folding would empty the extended set; there is nothing to leave out.",
+     a=ens(6, 0, 0, rs_shift=0.2, genus=1, fixed=list(np.linspace(1.0, 2.0, 6)), folded=False),
+     b=ens(6, 0, 0, rs_shift=0.2, genus=1, fixed=list(np.linspace(4.0, 5.0, 6)), folded=False),
+     outcomes=grades(SEPARATED="SAFE", SEPARATED_WITHIN_PARTITION="SAFE", OVERLAPPING="FALSE", **REFUSE_OK),
+     prefer="SEPARATED", requires=["extended_n"], extra={"extended_n": None})
 
 # ------------------------------------------------ A9: language on every card
 # Checked on every A case's card, not as a case of its own: see LANGUAGE below.

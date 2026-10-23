@@ -3858,6 +3858,1702 @@
    "label": "C2-H"
   },
   {
+   "id": "nan_in_one_conformer",
+   "cls": "A10 non-finite value",
+   "component": "compare",
+   "a": [
+    {
+     "site": "C4-H",
+     "nn": 1.0,
+     "rs": 1.3,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": NaN,
+     "rs": NaN,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.2,
+     "rs": 1.5,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.3,
+     "rs": 1.6,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.4,
+     "rs": 1.7,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "b": [
+    {
+     "site": "C4-H",
+     "nn": 4.0,
+     "rs": 4.3,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.1,
+     "rs": 4.4,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.2,
+     "rs": 4.5,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.3,
+     "rs": 4.6,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.4,
+     "rs": 4.7,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "outcomes": {
+    "SEPARATED": "FALSE",
+    "SEPARATED_WITHIN_PARTITION": "FALSE",
+    "OVERLAPPING": "MISLEADING",
+    "CANNOT_JUDGE": "MISLEADING",
+    "NOT_COMPARED": "SAFE_REFUSAL",
+    "RULE_DEPENDENT": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "NOT_COMPARED",
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": [],
+   "why": "One conformer's site mean is NaN (a failed integration, a bad record). It must stop the comparison, naming the conformer; any verdict computed around it is unmeasured."
+  },
+  {
+   "id": "inf_in_other_molecule",
+   "cls": "A10 non-finite value",
+   "component": "compare",
+   "a": [
+    {
+     "site": "C4-H",
+     "nn": 1.0,
+     "rs": 1.3,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.1,
+     "rs": 1.4,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.2,
+     "rs": 1.5,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.3,
+     "rs": 1.6,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.4,
+     "rs": 1.7,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "b": [
+    {
+     "site": "C4-H",
+     "nn": 4.0,
+     "rs": 4.3,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.1,
+     "rs": 4.4,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": Infinity,
+     "rs": Infinity,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.3,
+     "rs": 4.6,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.4,
+     "rs": 4.7,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "outcomes": {
+    "SEPARATED": "FALSE",
+    "SEPARATED_WITHIN_PARTITION": "FALSE",
+    "OVERLAPPING": "MISLEADING",
+    "CANNOT_JUDGE": "MISLEADING",
+    "NOT_COMPARED": "SAFE_REFUSAL",
+    "RULE_DEPENDENT": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "NOT_COMPARED",
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": [],
+   "why": "An infinite mean in the second molecule: the same refusal."
+  },
+  {
+   "id": "nan_under_other_rule_only",
+   "cls": "A10 non-finite value",
+   "component": "compare",
+   "a": [
+    {
+     "site": "C4-H",
+     "nn": 1.0,
+     "rs": 1.2,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.1,
+     "rs": 1.3,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.2,
+     "rs": NaN,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.3,
+     "rs": 1.5,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.4,
+     "rs": 1.6,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "b": [
+    {
+     "site": "C4-H",
+     "nn": 4.0,
+     "rs": 4.2,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.1,
+     "rs": 4.3,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.2,
+     "rs": 4.4,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.3,
+     "rs": 4.5,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.4,
+     "rs": 4.6,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "outcomes": {
+    "SEPARATED": "FALSE",
+    "SEPARATED_WITHIN_PARTITION": "FALSE",
+    "OVERLAPPING": "MISLEADING",
+    "CANNOT_JUDGE": "MISLEADING",
+    "NOT_COMPARED": "SAFE_REFUSAL",
+    "RULE_DEPENDENT": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "NOT_COMPARED",
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": [],
+   "why": "Finite under nearest-nucleus, NaN under radius-scaled: the sign test and the partition sensitivity both need the second rule, so the comparison is not measured."
+  },
+  {
+   "id": "empty_side_a",
+   "cls": "A11 empty side",
+   "component": "compare",
+   "a": [],
+   "b": [
+    {
+     "site": "C4-H",
+     "nn": 4.065,
+     "rs": 4.065,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.985,
+     "rs": 3.985,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.002,
+     "rs": 4.002,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.116,
+     "rs": 4.116,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.168,
+     "rs": 4.168,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "outcomes": {
+    "SEPARATED": "FALSE",
+    "SEPARATED_WITHIN_PARTITION": "FALSE",
+    "OVERLAPPING": "FALSE",
+    "CANNOT_JUDGE": "SAFE_REFUSAL",
+    "NOT_COMPARED": "SAFE_REFUSAL",
+    "RULE_DEPENDENT": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "CANNOT_JUDGE",
+    "NOT_COMPARED",
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": [],
+   "why": "No conformers on one side (a filter removed them all, a load found none). There is nothing to compare, and the refusal must say which side is empty.",
+   "label": "C4-H"
+  },
+  {
+   "id": "empty_side_b",
+   "cls": "A11 empty side",
+   "component": "compare",
+   "a": [
+    {
+     "site": "C4-H",
+     "nn": 0.985,
+     "rs": 0.985,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 0.873,
+     "rs": 0.873,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 0.851,
+     "rs": 0.851,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 0.709,
+     "rs": 0.709,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 0.95,
+     "rs": 0.95,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "b": [],
+   "outcomes": {
+    "SEPARATED": "FALSE",
+    "SEPARATED_WITHIN_PARTITION": "FALSE",
+    "OVERLAPPING": "FALSE",
+    "CANNOT_JUDGE": "SAFE_REFUSAL",
+    "NOT_COMPARED": "SAFE_REFUSAL",
+    "RULE_DEPENDENT": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "CANNOT_JUDGE",
+    "NOT_COMPARED",
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": [],
+   "why": "No conformers on one side (a filter removed them all, a load found none). There is nothing to compare, and the refusal must say which side is empty.",
+   "label": "C4-H"
+  },
+  {
+   "id": "empty_side_both",
+   "cls": "A11 empty side",
+   "component": "compare",
+   "a": [],
+   "b": [],
+   "outcomes": {
+    "SEPARATED": "FALSE",
+    "SEPARATED_WITHIN_PARTITION": "FALSE",
+    "OVERLAPPING": "FALSE",
+    "CANNOT_JUDGE": "SAFE_REFUSAL",
+    "NOT_COMPARED": "SAFE_REFUSAL",
+    "RULE_DEPENDENT": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "CANNOT_JUDGE",
+    "NOT_COMPARED",
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": [],
+   "why": "No conformers on one side (a filter removed them all, a load found none). There is nothing to compare, and the refusal must say which side is empty.",
+   "label": "C4-H"
+  },
+  {
+   "id": "sign_noise_float_noise",
+   "cls": "A12 sign at noise level",
+   "component": "compare",
+   "a": [
+    {
+     "site": "C4-H",
+     "nn": 1.0,
+     "rs": 2.5500000000000003,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.1,
+     "rs": 2.5500000000000003,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "b": [
+    {
+     "site": "C4-H",
+     "nn": 4.0,
+     "rs": 2.55,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.1,
+     "rs": 2.55,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "outcomes": {
+    "SEPARATED": "SAFE",
+    "SEPARATED_WITHIN_PARTITION": "MISLEADING",
+    "OVERLAPPING": "FALSE",
+    "CANNOT_JUDGE": "FALSE",
+    "NOT_COMPARED": "SAFE_REFUSAL",
+    "RULE_DEPENDENT": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "NOT_COMPARED",
+    "REFUSED",
+    "SEPARATED"
+   ],
+   "prefer": "SEPARATED",
+   "requires": [],
+   "why": "Delta_rs is -2.2e-16: rounding noise in the means, not a direction. Calling it rule-dependent tells a student the convention flips a +3.0 difference."
+  },
+  {
+   "id": "sign_noise_flip_0.01",
+   "cls": "A12 sign at noise level",
+   "component": "compare",
+   "a": [
+    {
+     "site": "C4-H",
+     "nn": 1.0,
+     "rs": 2.5500000000000003,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.1,
+     "rs": 2.5500000000000003,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "b": [
+    {
+     "site": "C4-H",
+     "nn": 4.0,
+     "rs": 2.54,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.1,
+     "rs": 2.54,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "outcomes": {
+    "SEPARATED": "MISLEADING",
+    "SEPARATED_WITHIN_PARTITION": "SAFE",
+    "OVERLAPPING": "FALSE",
+    "CANNOT_JUDGE": "FALSE",
+    "NOT_COMPARED": "SAFE_REFUSAL",
+    "RULE_DEPENDENT": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "NOT_COMPARED",
+    "REFUSED",
+    "RULE_DEPENDENT",
+    "SEPARATED_WITHIN_PARTITION"
+   ],
+   "prefer": "RULE_DEPENDENT",
+   "requires": [],
+   "why": "Delta_rs is -0.01: small, but a real opposite sign the card can print."
+  },
+  {
+   "id": "sign_noise_flip_0.005",
+   "cls": "A12 sign at noise level",
+   "component": "compare",
+   "a": [
+    {
+     "site": "C4-H",
+     "nn": 1.0,
+     "rs": 2.5500000000000003,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.1,
+     "rs": 2.5500000000000003,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "b": [
+    {
+     "site": "C4-H",
+     "nn": 4.0,
+     "rs": 2.545,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.1,
+     "rs": 2.545,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "outcomes": {
+    "SEPARATED": "MISLEADING",
+    "SEPARATED_WITHIN_PARTITION": "SAFE",
+    "OVERLAPPING": "FALSE",
+    "CANNOT_JUDGE": "FALSE",
+    "NOT_COMPARED": "SAFE_REFUSAL",
+    "RULE_DEPENDENT": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "NOT_COMPARED",
+    "REFUSED",
+    "RULE_DEPENDENT",
+    "SEPARATED_WITHIN_PARTITION"
+   ],
+   "prefer": "RULE_DEPENDENT",
+   "requires": [],
+   "why": "Delta_rs is -0.005, exactly the stated tolerance: a rule that says '0.005 or more' must count it whatever the last bit of the float subtraction is."
+  },
+  {
+   "id": "sign_noise_flip_0.004",
+   "cls": "A12 sign at noise level",
+   "component": "compare",
+   "a": [
+    {
+     "site": "C4-H",
+     "nn": 1.0,
+     "rs": 2.5500000000000003,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.1,
+     "rs": 2.5500000000000003,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "b": [
+    {
+     "site": "C4-H",
+     "nn": 4.0,
+     "rs": 2.546,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.1,
+     "rs": 2.546,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "outcomes": {
+    "SEPARATED": "SAFE",
+    "SEPARATED_WITHIN_PARTITION": "SAFE",
+    "OVERLAPPING": "FALSE",
+    "CANNOT_JUDGE": "FALSE",
+    "NOT_COMPARED": "SAFE_REFUSAL",
+    "RULE_DEPENDENT": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "NOT_COMPARED",
+    "REFUSED",
+    "RULE_DEPENDENT",
+    "SEPARATED",
+    "SEPARATED_WITHIN_PARTITION"
+   ],
+   "prefer": null,
+   "requires": [],
+   "why": "Delta_rs is -0.004, which the card prints as -0.00: either reading is defensible, so no preference; only OVERLAPPING is wrong."
+  },
+  {
+   "id": "partition_nan_first",
+   "cls": "A14 partition not a number",
+   "component": "compare",
+   "a": [
+    {
+     "site": "C4-H",
+     "nn": 1.0,
+     "rs": 1.3,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "partition": NaN
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.1,
+     "rs": 1.4,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.2,
+     "rs": 1.5,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.3,
+     "rs": 1.6,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.4,
+     "rs": 1.7,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "b": [
+    {
+     "site": "C4-H",
+     "nn": 4.0,
+     "rs": 4.3,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.1,
+     "rs": 4.4,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.2,
+     "rs": 4.5,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.3,
+     "rs": 4.6,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.4,
+     "rs": 4.7,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "outcomes": {
+    "SEPARATED": "FALSE",
+    "SEPARATED_WITHIN_PARTITION": "FALSE",
+    "OVERLAPPING": "FALSE",
+    "CANNOT_JUDGE": "MISLEADING",
+    "NOT_COMPARED": "SAFE_REFUSAL",
+    "RULE_DEPENDENT": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "NOT_COMPARED",
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": [],
+   "why": "Every mean is finite, but one conformer's partition sensitivity is nan. A partition is |difference between the two rules' means|: not finite, or negative, means the record is corrupt, and the comparison must stop, naming the conformer."
+  },
+  {
+   "id": "partition_nan_last",
+   "cls": "A14 partition not a number",
+   "component": "compare",
+   "a": [
+    {
+     "site": "C4-H",
+     "nn": 1.0,
+     "rs": 1.3,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.1,
+     "rs": 1.4,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.2,
+     "rs": 1.5,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.3,
+     "rs": 1.6,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.4,
+     "rs": 1.7,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "b": [
+    {
+     "site": "C4-H",
+     "nn": 4.0,
+     "rs": 4.3,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.1,
+     "rs": 4.4,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.2,
+     "rs": 4.5,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.3,
+     "rs": 4.6,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.4,
+     "rs": 4.7,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "partition": NaN
+    }
+   ],
+   "outcomes": {
+    "SEPARATED": "FALSE",
+    "SEPARATED_WITHIN_PARTITION": "FALSE",
+    "OVERLAPPING": "FALSE",
+    "CANNOT_JUDGE": "MISLEADING",
+    "NOT_COMPARED": "SAFE_REFUSAL",
+    "RULE_DEPENDENT": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "NOT_COMPARED",
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": [],
+   "why": "Every mean is finite, but one conformer's partition sensitivity is nan. A partition is |difference between the two rules' means|: not finite, or negative, means the record is corrupt, and the comparison must stop, naming the conformer."
+  },
+  {
+   "id": "partition_inf",
+   "cls": "A14 partition not a number",
+   "component": "compare",
+   "a": [
+    {
+     "site": "C4-H",
+     "nn": 1.0,
+     "rs": 1.3,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.1,
+     "rs": 1.4,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.2,
+     "rs": 1.5,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "partition": Infinity
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.3,
+     "rs": 1.6,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.4,
+     "rs": 1.7,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "b": [
+    {
+     "site": "C4-H",
+     "nn": 4.0,
+     "rs": 4.3,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.1,
+     "rs": 4.4,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.2,
+     "rs": 4.5,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.3,
+     "rs": 4.6,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.4,
+     "rs": 4.7,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "outcomes": {
+    "SEPARATED": "FALSE",
+    "SEPARATED_WITHIN_PARTITION": "FALSE",
+    "OVERLAPPING": "FALSE",
+    "CANNOT_JUDGE": "MISLEADING",
+    "NOT_COMPARED": "SAFE_REFUSAL",
+    "RULE_DEPENDENT": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "NOT_COMPARED",
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": [],
+   "why": "Every mean is finite, but one conformer's partition sensitivity is inf. A partition is |difference between the two rules' means|: not finite, or negative, means the record is corrupt, and the comparison must stop, naming the conformer."
+  },
+  {
+   "id": "partition_negative",
+   "cls": "A14 partition not a number",
+   "component": "compare",
+   "a": [
+    {
+     "site": "C4-H",
+     "nn": 1.0,
+     "rs": 1.3,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.1,
+     "rs": 1.4,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.2,
+     "rs": 1.5,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.3,
+     "rs": 1.6,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.4,
+     "rs": 1.7,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "b": [
+    {
+     "site": "C4-H",
+     "nn": 4.0,
+     "rs": 4.3,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.1,
+     "rs": 4.4,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "partition": -5.0
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.2,
+     "rs": 4.5,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.3,
+     "rs": 4.6,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.4,
+     "rs": 4.7,
+     "genus": 0,
+     "key": "k_def2svp_gas"
+    }
+   ],
+   "outcomes": {
+    "SEPARATED": "FALSE",
+    "SEPARATED_WITHIN_PARTITION": "FALSE",
+    "OVERLAPPING": "FALSE",
+    "CANNOT_JUDGE": "MISLEADING",
+    "NOT_COMPARED": "SAFE_REFUSAL",
+    "RULE_DEPENDENT": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "NOT_COMPARED",
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": [],
+   "why": "Every mean is finite, but one conformer's partition sensitivity is -5.0. A partition is |difference between the two rules' means|: not finite, or negative, means the record is corrupt, and the comparison must stop, naming the conformer."
+  },
+  {
+   "id": "partition_missing_means_finite",
+   "cls": "A14 partition not a number",
+   "component": "compare",
+   "a": [
+    {
+     "site": "C4-H",
+     "nn": 1.0,
+     "rs": -7.0,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "partition": null
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.1,
+     "rs": 1.1,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "partition": 0.0
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.2,
+     "rs": 1.2,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "partition": 0.0
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.3,
+     "rs": 1.3,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "partition": 0.0
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.4,
+     "rs": 1.4,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "partition": 0.0
+    }
+   ],
+   "b": [
+    {
+     "site": "C4-H",
+     "nn": 4.0,
+     "rs": 4.0,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "partition": 0.0
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.1,
+     "rs": 4.1,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "partition": 0.0
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.2,
+     "rs": 4.2,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "partition": 0.0
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.3,
+     "rs": 4.3,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "partition": 0.0
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.4,
+     "rs": 4.4,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "partition": 0.0
+    }
+   ],
+   "outcomes": {
+    "SEPARATED": "MISLEADING",
+    "SEPARATED_WITHIN_PARTITION": "SAFE",
+    "OVERLAPPING": "FALSE",
+    "CANNOT_JUDGE": "MISLEADING",
+    "NOT_COMPARED": "SAFE_REFUSAL",
+    "RULE_DEPENDENT": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "NOT_COMPARED",
+    "REFUSED",
+    "RULE_DEPENDENT",
+    "SEPARATED_WITHIN_PARTITION"
+   ],
+   "prefer": "SEPARATED_WITHIN_PARTITION",
+   "requires": [],
+   "why": "One conformer states no partition sensitivity, but both its means are there (1.0 and -7.0): the rules disagree by 8 kcal/mol at that conformer, more than the +3.0 difference. Treating the missing value as 0 shows a clean separation that the convention could undo."
+  },
+  {
+   "id": "partition_contradicts_means_zero",
+   "cls": "A14 partition not a number",
+   "component": "compare",
+   "a": [
+    {
+     "site": "C4-H",
+     "nn": 1.0,
+     "rs": -7.0,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "partition": 0.0
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.1,
+     "rs": 1.1,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "partition": 0.0
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.2,
+     "rs": 1.2,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "partition": 0.0
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.3,
+     "rs": 1.3,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "partition": 0.0
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.4,
+     "rs": 1.4,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "partition": 0.0
+    }
+   ],
+   "b": [
+    {
+     "site": "C4-H",
+     "nn": 4.0,
+     "rs": 4.0,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "partition": 0.0
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.1,
+     "rs": 4.1,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "partition": 0.0
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.2,
+     "rs": 4.2,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "partition": 0.0
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.3,
+     "rs": 4.3,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "partition": 0.0
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.4,
+     "rs": 4.4,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "partition": 0.0
+    }
+   ],
+   "outcomes": {
+    "SEPARATED": "MISLEADING",
+    "SEPARATED_WITHIN_PARTITION": "SAFE",
+    "OVERLAPPING": "FALSE",
+    "CANNOT_JUDGE": "MISLEADING",
+    "NOT_COMPARED": "SAFE_REFUSAL",
+    "RULE_DEPENDENT": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "NOT_COMPARED",
+    "REFUSED",
+    "RULE_DEPENDENT",
+    "SEPARATED_WITHIN_PARTITION"
+   ],
+   "prefer": "SEPARATED_WITHIN_PARTITION",
+   "requires": [],
+   "why": "One conformer states a partition of 0.0, but its means (1.0 and -7.0) differ by 8: the stated number contradicts the record's own measurement. Trusted, it shows a clean separation that the convention could undo."
+  },
+  {
+   "id": "partition_contradicts_means_small",
+   "cls": "A14 partition not a number",
+   "component": "compare",
+   "a": [
+    {
+     "site": "C4-H",
+     "nn": 1.0,
+     "rs": -7.0,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "partition": 0.5
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.1,
+     "rs": 1.1,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "partition": 0.0
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.2,
+     "rs": 1.2,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "partition": 0.0
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.3,
+     "rs": 1.3,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "partition": 0.0
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.4,
+     "rs": 1.4,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "partition": 0.0
+    }
+   ],
+   "b": [
+    {
+     "site": "C4-H",
+     "nn": 4.0,
+     "rs": 4.0,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "partition": 0.0
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.1,
+     "rs": 4.1,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "partition": 0.0
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.2,
+     "rs": 4.2,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "partition": 0.0
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.3,
+     "rs": 4.3,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "partition": 0.0
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.4,
+     "rs": 4.4,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "partition": 0.0
+    }
+   ],
+   "outcomes": {
+    "SEPARATED": "MISLEADING",
+    "SEPARATED_WITHIN_PARTITION": "SAFE",
+    "OVERLAPPING": "FALSE",
+    "CANNOT_JUDGE": "MISLEADING",
+    "NOT_COMPARED": "SAFE_REFUSAL",
+    "RULE_DEPENDENT": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "NOT_COMPARED",
+    "REFUSED",
+    "RULE_DEPENDENT",
+    "SEPARATED_WITHIN_PARTITION"
+   ],
+   "prefer": "SEPARATED_WITHIN_PARTITION",
+   "requires": [],
+   "why": "One conformer states a partition of 0.5, but its means (1.0 and -7.0) differ by 8: the stated number contradicts the record's own measurement. Trusted, it shows a clean separation that the convention could undo."
+  },
+  {
+   "id": "folded_by_contact_genus0",
+   "cls": "A13 folded flag",
+   "component": "compare",
+   "a": [
+    {
+     "site": "C4-H",
+     "nn": 0.5,
+     "rs": 0.7,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "folded": true
+    },
+    {
+     "site": "C4-H",
+     "nn": 0.8,
+     "rs": 1.0,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "folded": true
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.0,
+     "rs": 3.2,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "folded": false
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.214,
+     "rs": 3.414,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "folded": false
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.429,
+     "rs": 3.629,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "folded": false
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.643,
+     "rs": 3.843,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "folded": false
+    },
+    {
+     "site": "C4-H",
+     "nn": 3.857,
+     "rs": 4.057,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "folded": false
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.071,
+     "rs": 4.271,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "folded": false
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.286,
+     "rs": 4.486,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "folded": false
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.5,
+     "rs": 4.7,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "folded": false
+    }
+   ],
+   "b": [
+    {
+     "site": "C4-H",
+     "nn": 4.6,
+     "rs": 4.8,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "folded": false
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.756,
+     "rs": 4.956,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "folded": false
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.911,
+     "rs": 5.111,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "folded": false
+    },
+    {
+     "site": "C4-H",
+     "nn": 5.067,
+     "rs": 5.267,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "folded": false
+    },
+    {
+     "site": "C4-H",
+     "nn": 5.222,
+     "rs": 5.422,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "folded": false
+    },
+    {
+     "site": "C4-H",
+     "nn": 5.378,
+     "rs": 5.578,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "folded": false
+    },
+    {
+     "site": "C4-H",
+     "nn": 5.533,
+     "rs": 5.733,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "folded": false
+    },
+    {
+     "site": "C4-H",
+     "nn": 5.689,
+     "rs": 5.889,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "folded": false
+    },
+    {
+     "site": "C4-H",
+     "nn": 5.844,
+     "rs": 6.044,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "folded": false
+    },
+    {
+     "site": "C4-H",
+     "nn": 6.0,
+     "rs": 6.2,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "folded": false
+    }
+   ],
+   "outcomes": {
+    "SEPARATED": "SAFE",
+    "SEPARATED_WITHIN_PARTITION": "SAFE",
+    "OVERLAPPING": "FALSE",
+    "CANNOT_JUDGE": "FALSE",
+    "NOT_COMPARED": "SAFE_REFUSAL",
+    "RULE_DEPENDENT": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "NOT_COMPARED",
+    "REFUSED",
+    "SEPARATED",
+    "SEPARATED_WITHIN_PARTITION"
+   ],
+   "prefer": "SEPARATED",
+   "requires": [
+    "extended_n",
+    "extended_verdict"
+   ],
+   "why": "Two of A's conformers are folded by an intramolecular contact but their surfaces have genus 0. They drive the separation; the extended view must leave them out (n = 8 / 10).",
+   "extended_n": [
+    8,
+    10
+   ]
+  },
+  {
+   "id": "genus_without_folding",
+   "cls": "A13 folded flag",
+   "component": "compare",
+   "a": [
+    {
+     "site": "C4-H",
+     "nn": 1.0,
+     "rs": 1.2,
+     "genus": 1,
+     "key": "k_def2svp_gas",
+     "folded": false
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.2,
+     "rs": 1.4,
+     "genus": 1,
+     "key": "k_def2svp_gas",
+     "folded": false
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.4,
+     "rs": 1.6,
+     "genus": 1,
+     "key": "k_def2svp_gas",
+     "folded": false
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.6,
+     "rs": 1.8,
+     "genus": 1,
+     "key": "k_def2svp_gas",
+     "folded": false
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.8,
+     "rs": 2.0,
+     "genus": 1,
+     "key": "k_def2svp_gas",
+     "folded": false
+    },
+    {
+     "site": "C4-H",
+     "nn": 2.0,
+     "rs": 2.2,
+     "genus": 1,
+     "key": "k_def2svp_gas",
+     "folded": false
+    }
+   ],
+   "b": [
+    {
+     "site": "C4-H",
+     "nn": 4.0,
+     "rs": 4.2,
+     "genus": 1,
+     "key": "k_def2svp_gas",
+     "folded": false
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.2,
+     "rs": 4.4,
+     "genus": 1,
+     "key": "k_def2svp_gas",
+     "folded": false
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.4,
+     "rs": 4.6,
+     "genus": 1,
+     "key": "k_def2svp_gas",
+     "folded": false
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.6,
+     "rs": 4.8,
+     "genus": 1,
+     "key": "k_def2svp_gas",
+     "folded": false
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.8,
+     "rs": 5.0,
+     "genus": 1,
+     "key": "k_def2svp_gas",
+     "folded": false
+    },
+    {
+     "site": "C4-H",
+     "nn": 5.0,
+     "rs": 5.2,
+     "genus": 1,
+     "key": "k_def2svp_gas",
+     "folded": false
+    }
+   ],
+   "outcomes": {
+    "SEPARATED": "SAFE",
+    "SEPARATED_WITHIN_PARTITION": "SAFE",
+    "OVERLAPPING": "FALSE",
+    "CANNOT_JUDGE": "FALSE",
+    "NOT_COMPARED": "SAFE_REFUSAL",
+    "RULE_DEPENDENT": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "NOT_COMPARED",
+    "REFUSED",
+    "SEPARATED",
+    "SEPARATED_WITHIN_PARTITION"
+   ],
+   "prefer": "SEPARATED",
+   "requires": [
+    "extended_n"
+   ],
+   "why": "Every conformer's surface has genus 1 (a macrocycle's hole), and none is folded. Treating genus as folding would empty the extended set; there is nothing to leave out.",
+   "extended_n": null
+  },
+  {
    "id": "not_tested_is_not_negative",
    "cls": "B1 absence of evidence",
    "component": "evidence_card",

@@ -36,6 +36,21 @@ UNSAFE_NOW = {
     "rule_sign_flip_clear", "rule_sign_flip_narrow", "rule_sign_flip_negative_side",
     # a buried site (mean None) reaches np.mean and raises TypeError
     "buried_in_one_conformer", "buried_everywhere",
+    # A10 (held-out probe): min() and max() skip NaN, so a NaN or inf mean
+    # yields a verdict around an unmeasured conformer
+    "nan_in_one_conformer", "inf_in_other_molecule", "nan_under_other_rule_only",
+    # A11 (probe): an empty side raises IndexError at views_a[0]
+    "empty_side_a", "empty_side_b", "empty_side_both",
+    # A12: a real -0.01 flip under the radius-scaled rule is not looked for
+    "sign_noise_flip_0.01",
+    # A12 (probe round 2): exactly 0.005 is not looked for either
+    "sign_noise_flip_0.005",
+    # A14 (probe round 2): a NaN, inf or negative partition is used as given
+    "partition_nan_first", "partition_nan_last", "partition_inf", "partition_negative",
+    # A14 (probe round 3): a missing partition reads as 0 though both means are there
+    "partition_missing_means_finite",
+    # A14 (probe round 4): a stated partition is trusted over the means it contradicts
+    "partition_contradicts_means_zero", "partition_contradicts_means_small",
 }
 NOT_PREFERRED_NOW = set(UNSAFE_NOW)      # every other case already gets its preferred output
 REQUIRES_MISSING_NOW = {
@@ -44,32 +59,48 @@ REQUIRES_MISSING_NOW = {
     ("single_conformer_20v1", "no_single_range"),
     # the extended row gives ranges, never a verdict for extended conformers
     ("folded_drive_separation", "extended_verdict"), ("folded_hide_separation", "extended_verdict"),
+    # A13: folded is read from genus, so a contact-folded member (genus 0)
+    # stays in the extended set and a macrocycle's genus 1 empties it
+    ("folded_by_contact_genus0", "extended_n"), ("folded_by_contact_genus0", "extended_verdict"),
+    ("genus_without_folding", "extended_n"),
 }
 SCOPE_CAVEAT_MISSING_NOW = {  # no card yet says what the number is of
     "within_partition_well_inside", "within_partition_just_inside", "within_partition_negative",
     "rule_sign_flip_clear", "rule_sign_flip_narrow", "rule_sign_flip_negative_side",
     "folded_drive_separation", "folded_hide_separation", "folded_extended_single",
     "overlap_mean_shift_strong", "overlap_mean_shift_weak",
+    "nan_in_one_conformer", "inf_in_other_molecule", "nan_under_other_rule_only",
+    "sign_noise_float_noise", "sign_noise_flip_0.01", "sign_noise_flip_0.004",
+    "folded_by_contact_genus0", "genus_without_folding",
+    "sign_noise_flip_0.005", "partition_nan_first", "partition_nan_last", "partition_inf",
+    "partition_negative", "partition_missing_means_finite",
+    "partition_contradicts_means_zero", "partition_contradicts_means_small",
 }
+
+
+HAS_FOLDED = "folded" in MoleculeView.__dataclass_fields__
 
 
 def views(members, name):
     out = []
     for k, m in enumerate(members):
-        part = None if m["nn"] is None else abs(m["nn"] - m["rs"])
+        part = m.get("partition", None if m["nn"] is None else abs(m["nn"] - m["rs"]))
         sites = {m["site"]: {rule: SiteMeasurement(m["site"], (0,), rule, mean, 10.0, 5.0, 5.0, part)
                              for rule, mean in (("nearest_nucleus", m["nn"]), ("radius_scaled", m["rs"]))}}
         out.append(MoleculeView(
             name=f"{name}{k}", symbols=("C",), xyz=np.zeros((1, 3)), bonds=None, charge=0,
             atoms=(Atom(0, "C", 4),), sites=sites, sites_tile_surface=False, genus=m["genus"],
             scale=Scale("diverging", -20.0, 20.0, "bwr_r"),
-            provenance=Provenance(f"{name}{k}", m["key"], "render0")))
+            provenance=Provenance(f"{name}{k}", m["key"], "render0"),
+            # A13: the producer's folded flag; a member that does not state it
+            # is folded iff genus > 0 (the meaning of every case before A10)
+            **({"folded": m.get("folded", m["genus"] > 0)} if HAS_FOLDED else {})))
     return out
 
 
 def run(c):
     """(output label, Comparison or None, card html or None)."""
-    label = c.get("label") or c["a"][0]["site"]
+    label = c.get("label") or (c["a"] or c["b"])[0]["site"]
     try:
         cmp = compare(views(c["a"], "A"), views(c["b"], "B"), label, "A", "B")
     except KeyError:
@@ -80,7 +111,14 @@ def run(c):
     return out, cmp, card_html(cmp)
 
 
-def shows(req, cmp, page):
+def shows(req, cmp, page, c=None):
+    if req == "extended_n":
+        # the conformers left out are exactly the folded ones: None when none is
+        if cmp is None:
+            return True
+        want = c["extended_n"]
+        got = None if cmp.extended is None else list(cmp.extended["n"])
+        return got == want
     if page is None:
         return True                       # a refusal shows nothing to misread
     text = re.sub(r"<[^>]+>", " ", page)
@@ -135,7 +173,7 @@ REQ = [(c, r) for c in NOW for r in c["requires"]]
                                                 marks=mark(REQUIRES_MISSING_NOW, (c["id"], r))) for c, r in REQ])
 def test_card_shows(c, req):
     _, cmp, page = run(c)
-    assert shows(req, cmp, page)
+    assert shows(req, cmp, page, c)
 
 
 @pytest.mark.parametrize("c", NOW, ids=[c["id"] for c in NOW])
