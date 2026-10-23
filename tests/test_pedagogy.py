@@ -49,6 +49,8 @@ UNSAFE_NOW = {
     "partition_nan_first", "partition_nan_last", "partition_inf", "partition_negative",
     # A14 (probe round 3): a missing partition reads as 0 though both means are there
     "partition_missing_means_finite",
+    # A14 (probe round 4): a stated partition is trusted over the means it contradicts
+    "partition_contradicts_means_zero", "partition_contradicts_means_small",
 }
 NOT_PREFERRED_NOW = set(UNSAFE_NOW)      # every other case already gets its preferred output
 REQUIRES_MISSING_NOW = {
@@ -72,6 +74,7 @@ SCOPE_CAVEAT_MISSING_NOW = {  # no card yet says what the number is of
     "folded_by_contact_genus0", "genus_without_folding",
     "sign_noise_flip_0.005", "partition_nan_first", "partition_nan_last", "partition_inf",
     "partition_negative", "partition_missing_means_finite",
+    "partition_contradicts_means_zero", "partition_contradicts_means_small",
 }
 
 

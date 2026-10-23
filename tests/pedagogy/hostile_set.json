@@ -5016,6 +5016,222 @@
    "why": "One conformer states no partition sensitivity, but both its means are there (1.0 and -7.0): the rules disagree by 8 kcal/mol at that conformer, more than the +3.0 difference. Treating the missing value as 0 shows a clean separation that the convention could undo."
   },
   {
+   "id": "partition_contradicts_means_zero",
+   "cls": "A14 partition not a number",
+   "component": "compare",
+   "a": [
+    {
+     "site": "C4-H",
+     "nn": 1.0,
+     "rs": -7.0,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "partition": 0.0
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.1,
+     "rs": 1.1,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "partition": 0.0
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.2,
+     "rs": 1.2,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "partition": 0.0
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.3,
+     "rs": 1.3,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "partition": 0.0
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.4,
+     "rs": 1.4,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "partition": 0.0
+    }
+   ],
+   "b": [
+    {
+     "site": "C4-H",
+     "nn": 4.0,
+     "rs": 4.0,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "partition": 0.0
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.1,
+     "rs": 4.1,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "partition": 0.0
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.2,
+     "rs": 4.2,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "partition": 0.0
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.3,
+     "rs": 4.3,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "partition": 0.0
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.4,
+     "rs": 4.4,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "partition": 0.0
+    }
+   ],
+   "outcomes": {
+    "SEPARATED": "MISLEADING",
+    "SEPARATED_WITHIN_PARTITION": "SAFE",
+    "OVERLAPPING": "FALSE",
+    "CANNOT_JUDGE": "MISLEADING",
+    "NOT_COMPARED": "SAFE_REFUSAL",
+    "RULE_DEPENDENT": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "NOT_COMPARED",
+    "REFUSED",
+    "RULE_DEPENDENT",
+    "SEPARATED_WITHIN_PARTITION"
+   ],
+   "prefer": "SEPARATED_WITHIN_PARTITION",
+   "requires": [],
+   "why": "One conformer states a partition of 0.0, but its means (1.0 and -7.0) differ by 8: the stated number contradicts the record's own measurement. Trusted, it shows a clean separation that the convention could undo."
+  },
+  {
+   "id": "partition_contradicts_means_small",
+   "cls": "A14 partition not a number",
+   "component": "compare",
+   "a": [
+    {
+     "site": "C4-H",
+     "nn": 1.0,
+     "rs": -7.0,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "partition": 0.5
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.1,
+     "rs": 1.1,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "partition": 0.0
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.2,
+     "rs": 1.2,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "partition": 0.0
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.3,
+     "rs": 1.3,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "partition": 0.0
+    },
+    {
+     "site": "C4-H",
+     "nn": 1.4,
+     "rs": 1.4,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "partition": 0.0
+    }
+   ],
+   "b": [
+    {
+     "site": "C4-H",
+     "nn": 4.0,
+     "rs": 4.0,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "partition": 0.0
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.1,
+     "rs": 4.1,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "partition": 0.0
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.2,
+     "rs": 4.2,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "partition": 0.0
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.3,
+     "rs": 4.3,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "partition": 0.0
+    },
+    {
+     "site": "C4-H",
+     "nn": 4.4,
+     "rs": 4.4,
+     "genus": 0,
+     "key": "k_def2svp_gas",
+     "partition": 0.0
+    }
+   ],
+   "outcomes": {
+    "SEPARATED": "MISLEADING",
+    "SEPARATED_WITHIN_PARTITION": "SAFE",
+    "OVERLAPPING": "FALSE",
+    "CANNOT_JUDGE": "MISLEADING",
+    "NOT_COMPARED": "SAFE_REFUSAL",
+    "RULE_DEPENDENT": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "NOT_COMPARED",
+    "REFUSED",
+    "RULE_DEPENDENT",
+    "SEPARATED_WITHIN_PARTITION"
+   ],
+   "prefer": "SEPARATED_WITHIN_PARTITION",
+   "requires": [],
+   "why": "One conformer states a partition of 0.5, but its means (1.0 and -7.0) differ by 8: the stated number contradicts the record's own measurement. Trusted, it shows a clean separation that the convention could undo."
+  },
+  {
    "id": "folded_by_contact_genus0",
    "cls": "A13 folded flag",
    "component": "compare",

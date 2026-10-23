@@ -306,6 +306,22 @@ case("partition_missing_means_finite", "A14 partition not a number", "compare",
                      RULE_DEPENDENT="SAFE", CANNOT_JUDGE="MISLEADING", **REFUSE_OK),
      prefer="SEPARATED_WITHIN_PARTITION")
 
+# Probe round 4 (w_part_contradicts_means): a stated partition of 0.0 while the
+# member's own means differ by 8. The means are the measurement; a partition
+# smaller than |nn - rs| contradicts them and must not hide the difference.
+for vid, given in (("zero", 0.0), ("small", 0.5)):
+    case(f"partition_contradicts_means_{vid}", "A14 partition not a number", "compare",
+         f"One conformer states a partition of {given}, but its means (1.0 and -7.0) differ by 8: "
+         "the stated number contradicts the record's own measurement. Trusted, it shows a clean "
+         "separation that the convention could undo.",
+         a=ens(5, 0, 0, fixed=[1.0, 1.1, 1.2, 1.3, 1.4], rs_exact=[-7.0, 1.1, 1.2, 1.3, 1.4],
+               partition=[given, 0.0, 0.0, 0.0, 0.0]),
+         b=ens(5, 0, 0, fixed=[4.0, 4.1, 4.2, 4.3, 4.4], rs_exact=[4.0, 4.1, 4.2, 4.3, 4.4],
+               partition=[0.0] * 5),
+         outcomes=grades(SEPARATED_WITHIN_PARTITION="SAFE", SEPARATED="MISLEADING", OVERLAPPING="FALSE",
+                         RULE_DEPENDENT="SAFE", CANNOT_JUDGE="MISLEADING", **REFUSE_OK),
+         prefer="SEPARATED_WITHIN_PARTITION")
+
 # ------------------------------------------------ A13: what "folded" means
 # The cross-repo review (2026-10-23) found three definitions in use: the
 # frozen study (contact OR genus > 0), espmap v0.3 (contact; genus only a
