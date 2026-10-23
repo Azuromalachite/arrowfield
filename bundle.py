@@ -16,7 +16,8 @@ import json
 import math
 from pathlib import Path
 
-from model import Detection, EvidenceStatement, ObservedContrast, Response, TeachingBundle
+from model import (BundleCompound, Detection, EvidenceClass, EvidenceStatement, ObservedContrast,
+                   Response, TeachingBundle)
 
 BUNDLE = "spa.teaching/0"
 SCHEMA_VERSIONS = ("0.1",)
@@ -30,6 +31,10 @@ OUTCOME = {"effect", "response", "significance"}
 COMPONENT = {"atlas_id", "detected", "method", "identification", "abundance_class",
              "detection_limit", "measurements"}
 RESPONSE = {"measure", "unit", "treatment_value", "comparator_value", "qualifier"}
+COMPOUND = {"atlas_id", "shorthand", "systematic", "inchikey", "occurrences", "evidence_classes"}
+OCCURRENCE = {"observation_id", "roles"}
+EVIDENCE_CLASS = {"evidence_class", "taxon_id", "observation_ids", "populations", "n_observations",
+                  "n_significant", "n_tentative", "population_match"}
 
 
 class InvalidBundle(ValueError):
@@ -110,8 +115,18 @@ def load(path):
     roles = {}
     compounds = {}
     for c in j["compounds"]:
-        compounds[c["atlas_id"]] = {k: c.get(k) for k in ("shorthand", "systematic", "inchikey")}
+        _known(c, COMPOUND, f"compound {c.get('atlas_id')}")
+        classes = []
+        for e in c.get("evidence_classes") or []:
+            _known(e, EVIDENCE_CLASS, f"compound {c['atlas_id']} evidence class")
+            classes.append(EvidenceClass(e["evidence_class"], e["taxon_id"], tuple(e["observation_ids"]),
+                                         tuple(e.get("populations") or ()), e["n_observations"],
+                                         e.get("n_significant"), e.get("n_tentative"),
+                                         e.get("population_match")))
+        compounds[c["atlas_id"]] = BundleCompound(c["atlas_id"], c.get("shorthand"), c.get("systematic"),
+                                                  c.get("inchikey"), tuple(classes))
         for occ in c.get("occurrences") or []:
+            _known(occ, OCCURRENCE, f"compound {c['atlas_id']} occurrence")
             if occ["observation_id"] not in ids:
                 raise InvalidBundle(f"{path}: {c['atlas_id']} occurs in {occ['observation_id']}, "
                                     "which the bundle does not carry")

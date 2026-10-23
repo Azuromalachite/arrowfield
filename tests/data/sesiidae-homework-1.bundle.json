@@ -1,5 +1,5 @@
 {
-  "atlas_version": "0f279629252abf6291f35514306253adcc7293db",
+  "atlas_version": "30c4a11",
   "bundle": "spa.teaching/0",
   "case_id": "sesiidae-homework-1",
   "case_title": "Sesiidae homework 1: one vocabulary, three readings",
@@ -63,6 +63,51 @@
   "compounds": [
     {
       "atlas_id": "spa.cmpd.z3_z13_18_oh",
+      "evidence_classes": [
+        {
+          "evidence_class": "addition_decreased",
+          "n_observations": 2,
+          "n_significant": 2,
+          "n_tentative": null,
+          "observation_ids": [
+            "spa.obs.synanthedon_tenuis.naka_2013.trap_z3z13oh_added.test4_1",
+            "spa.obs.synanthedon_tenuis.naka_2013.trap_z3z13oh_added.test4_2"
+          ],
+          "population_match": null,
+          "populations": [
+            "Japanese population"
+          ],
+          "taxon_id": "spa.tax.synanthedon_tenuis"
+        },
+        {
+          "evidence_class": "female_detected_gland",
+          "n_observations": 1,
+          "n_significant": null,
+          "n_tentative": 0,
+          "observation_ids": [
+            "spa.obs.synanthedon_tenuis.yang_2012.gland"
+          ],
+          "population_match": null,
+          "populations": [
+            "Korean population"
+          ],
+          "taxon_id": "spa.tax.synanthedon_tenuis"
+        },
+        {
+          "evidence_class": "female_not_detected",
+          "n_observations": 1,
+          "n_significant": null,
+          "n_tentative": null,
+          "observation_ids": [
+            "spa.obs.synanthedon_tenuis.naka_2013.gland"
+          ],
+          "population_match": null,
+          "populations": [
+            "Japanese population"
+          ],
+          "taxon_id": "spa.tax.synanthedon_tenuis"
+        }
+      ],
       "inchikey": "QBNCGBJHGBGHLS-NCCHCWSYSA-N",
       "occurrences": [
         {
@@ -96,6 +141,141 @@
     },
     {
       "atlas_id": "spa.cmpd.z3_z13_18_oac",
+      "evidence_classes": [
+        {
+          "evidence_class": "addition_decreased",
+          "n_observations": 1,
+          "n_significant": 0,
+          "n_tentative": null,
+          "observation_ids": [
+            "spa.obs.synanthedon_tenuis.yang_2012.trap_acetate_added"
+          ],
+          "population_match": null,
+          "populations": [
+            "Korean population"
+          ],
+          "taxon_id": "spa.tax.synanthedon_tenuis"
+        },
+        {
+          "evidence_class": "antennal_active",
+          "n_observations": 1,
+          "n_significant": null,
+          "n_tentative": null,
+          "observation_ids": [
+            "spa.obs.synanthedon_tenuis.naka_2013.gcead"
+          ],
+          "population_match": null,
+          "populations": [
+            "not given"
+          ],
+          "taxon_id": "spa.tax.synanthedon_tenuis"
+        },
+        {
+          "evidence_class": "attractant_alone",
+          "n_observations": 7,
+          "n_significant": 1,
+          "n_tentative": null,
+          "observation_ids": [
+            "spa.obs.synanthedon_tenuis.naka_2013.trap_z3z13_vs_blank.test1",
+            "spa.obs.synanthedon_tenuis.naka_2013.trap_z3z13_vs_blank.test2",
+            "spa.obs.synanthedon_tenuis.naka_2013.trap_z3z13_vs_blank.test3",
+            "spa.obs.synanthedon_tenuis.naka_2013.trap_z3z13_vs_blank.test4_1",
+            "spa.obs.synanthedon_tenuis.naka_2013.trap_z3z13_vs_blank.test4_2",
+            "spa.obs.synanthedon_tenuis.naka_2013.trap_z3z13_vs_blank.test5_1",
+            "spa.obs.synanthedon_tenuis.naka_2013.trap_z3z13_vs_blank.test5_2"
+          ],
+          "population_match": null,
+          "populations": [
+            "Japanese population"
+          ],
+          "taxon_id": "spa.tax.synanthedon_tenuis"
+        },
+        {
+          "evidence_class": "attractive_lure_component",
+          "n_observations": 7,
+          "n_significant": 1,
+          "n_tentative": null,
+          "observation_ids": [
+            "spa.obs.synanthedon_tenuis.naka_2013.trap_z3z13_vs_blank.test1",
+            "spa.obs.synanthedon_tenuis.naka_2013.trap_z3z13_vs_blank.test2",
+            "spa.obs.synanthedon_tenuis.naka_2013.trap_z3z13_vs_blank.test3",
+            "spa.obs.synanthedon_tenuis.naka_2013.trap_z3z13_vs_blank.test4_1",
+            "spa.obs.synanthedon_tenuis.naka_2013.trap_z3z13_vs_blank.test4_2",
+            "spa.obs.synanthedon_tenuis.naka_2013.trap_z3z13_vs_blank.test5_1",
+            "spa.obs.synanthedon_tenuis.naka_2013.trap_z3z13_vs_blank.test5_2"
+          ],
+          "population_match": null,
+          "populations": [
+            "Japanese population"
+          ],
+          "taxon_id": "spa.tax.synanthedon_tenuis"
+        },
+        {
+          "evidence_class": "female_detected_gland",
+          "n_observations": 1,
+          "n_significant": null,
+          "n_tentative": 0,
+          "observation_ids": [
+            "spa.obs.synanthedon_tenuis.naka_2013.gland"
+          ],
+          "population_match": null,
+          "populations": [
+            "Japanese population"
+          ],
+          "taxon_id": "spa.tax.synanthedon_tenuis"
+        },
+        {
+          "evidence_class": "female_not_detected",
+          "n_observations": 1,
+          "n_significant": null,
+          "n_tentative": null,
+          "observation_ids": [
+            "spa.obs.synanthedon_tenuis.yang_2012.gland"
+          ],
+          "population_match": null,
+          "populations": [
+            "Korean population"
+          ],
+          "taxon_id": "spa.tax.synanthedon_tenuis"
+        },
+        {
+          "evidence_class": "female_pheromone_component",
+          "n_observations": 8,
+          "n_significant": 1,
+          "n_tentative": 0,
+          "observation_ids": [
+            "spa.obs.synanthedon_tenuis.naka_2013.gland",
+            "spa.obs.synanthedon_tenuis.naka_2013.trap_z3z13_vs_blank.test1",
+            "spa.obs.synanthedon_tenuis.naka_2013.trap_z3z13_vs_blank.test2",
+            "spa.obs.synanthedon_tenuis.naka_2013.trap_z3z13_vs_blank.test3",
+            "spa.obs.synanthedon_tenuis.naka_2013.trap_z3z13_vs_blank.test4_1",
+            "spa.obs.synanthedon_tenuis.naka_2013.trap_z3z13_vs_blank.test4_2",
+            "spa.obs.synanthedon_tenuis.naka_2013.trap_z3z13_vs_blank.test5_1",
+            "spa.obs.synanthedon_tenuis.naka_2013.trap_z3z13_vs_blank.test5_2"
+          ],
+          "population_match": "yes",
+          "populations": [
+            "Japanese population"
+          ],
+          "taxon_id": "spa.tax.synanthedon_tenuis"
+        },
+        {
+          "evidence_class": "antennal_active",
+          "n_observations": 2,
+          "n_significant": null,
+          "n_tentative": null,
+          "observation_ids": [
+            "spa.obs.synanthedon_tipuliformis.voerman_1984.ssr.starnberg",
+            "spa.obs.synanthedon_tipuliformis.voerman_1984.ssr.vienna"
+          ],
+          "population_match": null,
+          "populations": [
+            "Austrian population",
+            "Bavarian population"
+          ],
+          "taxon_id": "spa.tax.synanthedon_tipuliformis"
+        }
+      ],
       "inchikey": "VVJPJXKHBZNADP-DNNFRFAMSA-N",
       "occurrences": [
         {
@@ -129,6 +309,196 @@
     },
     {
       "atlas_id": "spa.cmpd.e3_z13_18_oac",
+      "evidence_classes": [
+        {
+          "evidence_class": "addition_decreased",
+          "n_observations": 3,
+          "n_significant": 3,
+          "n_tentative": null,
+          "observation_ids": [
+            "spa.obs.synanthedon_tenuis.naka_2013.trap_e3z13_100_added.test2",
+            "spa.obs.synanthedon_tenuis.naka_2013.trap_e3z13_300_added.test2",
+            "spa.obs.synanthedon_tenuis.naka_2013.trap_e3z13_500_added.test2"
+          ],
+          "population_match": null,
+          "populations": [
+            "Japanese population"
+          ],
+          "taxon_id": "spa.tax.synanthedon_tenuis"
+        },
+        {
+          "evidence_class": "addition_no_effect",
+          "n_observations": 2,
+          "n_significant": 0,
+          "n_tentative": null,
+          "observation_ids": [
+            "spa.obs.synanthedon_tenuis.naka_2013.trap_e3z13_50_added.test2",
+            "spa.obs.synanthedon_tenuis.yang_2012.trap_e3oac_added"
+          ],
+          "population_match": null,
+          "populations": [
+            "Japanese population",
+            "Korean population"
+          ],
+          "taxon_id": "spa.tax.synanthedon_tenuis"
+        },
+        {
+          "evidence_class": "female_not_detected",
+          "n_observations": 1,
+          "n_significant": null,
+          "n_tentative": null,
+          "observation_ids": [
+            "spa.obs.synanthedon_tenuis.naka_2013.gland"
+          ],
+          "population_match": null,
+          "populations": [
+            "Japanese population"
+          ],
+          "taxon_id": "spa.tax.synanthedon_tenuis"
+        },
+        {
+          "evidence_class": "addition_decreased",
+          "n_observations": 2,
+          "n_significant": 1,
+          "n_tentative": null,
+          "observation_ids": [
+            "spa.obs.synanthedon_tipuliformis.szocs_1990.trap_e3.tasmania_1986",
+            "spa.obs.synanthedon_tipuliformis.voerman_1984.trap_e3oac_added.starnberg"
+          ],
+          "population_match": null,
+          "populations": [
+            "Bavarian population",
+            "Huonville, Tasmania, Australia"
+          ],
+          "taxon_id": "spa.tax.synanthedon_tipuliformis"
+        },
+        {
+          "evidence_class": "addition_increased",
+          "n_observations": 4,
+          "n_significant": 3,
+          "n_tentative": null,
+          "observation_ids": [
+            "spa.obs.synanthedon_tipuliformis.mozuraitis_2006.trap_binary",
+            "spa.obs.synanthedon_tipuliformis.priesner_1986.trap_e3.germany",
+            "spa.obs.synanthedon_tipuliformis.szocs_1990.trap_e3.hungary",
+            "spa.obs.synanthedon_tipuliformis.szocs_1990.trap_e3.new_zealand"
+          ],
+          "population_match": null,
+          "populations": [
+            "Irwell, Canterbury, New Zealand",
+            "Kairėnai near Vilnius, Lithuania",
+            "Kemence, Pest County, Hungary",
+            "Starnberg/Seewiesen, Germany"
+          ],
+          "taxon_id": "spa.tax.synanthedon_tipuliformis"
+        },
+        {
+          "evidence_class": "addition_no_effect",
+          "n_observations": 1,
+          "n_significant": 0,
+          "n_tentative": null,
+          "observation_ids": [
+            "spa.obs.synanthedon_tipuliformis.szocs_1990.trap_e3.tasmania_1987"
+          ],
+          "population_match": null,
+          "populations": [
+            "Slateford, Tasmania, Australia"
+          ],
+          "taxon_id": "spa.tax.synanthedon_tipuliformis"
+        },
+        {
+          "evidence_class": "antennal_active",
+          "n_observations": 5,
+          "n_significant": null,
+          "n_tentative": null,
+          "observation_ids": [
+            "spa.obs.synanthedon_tipuliformis.james_2001.gcead",
+            "spa.obs.synanthedon_tipuliformis.priesner_1986.ssr",
+            "spa.obs.synanthedon_tipuliformis.suckling_2005.gcead",
+            "spa.obs.synanthedon_tipuliformis.voerman_1984.ssr.starnberg",
+            "spa.obs.synanthedon_tipuliformis.voerman_1984.ssr.vienna"
+          ],
+          "population_match": null,
+          "populations": [
+            "Austrian population",
+            "Bavarian population",
+            "Canterbury and Nelson",
+            "Prosser, Washington, USA",
+            "not given"
+          ],
+          "taxon_id": "spa.tax.synanthedon_tipuliformis"
+        },
+        {
+          "evidence_class": "attractive_lure_component",
+          "n_observations": 1,
+          "n_significant": 0,
+          "n_tentative": null,
+          "observation_ids": [
+            "spa.obs.synanthedon_tipuliformis.james_2001.trap"
+          ],
+          "population_match": null,
+          "populations": [
+            "Prosser, Washington, USA"
+          ],
+          "taxon_id": "spa.tax.synanthedon_tipuliformis"
+        },
+        {
+          "evidence_class": "female_detected_combined",
+          "n_observations": 1,
+          "n_significant": null,
+          "n_tentative": 0,
+          "observation_ids": [
+            "spa.obs.synanthedon_tipuliformis.james_2001.gland"
+          ],
+          "population_match": null,
+          "populations": [
+            "Prosser, Washington, USA"
+          ],
+          "taxon_id": "spa.tax.synanthedon_tipuliformis"
+        },
+        {
+          "evidence_class": "female_detected_gland",
+          "n_observations": 2,
+          "n_significant": null,
+          "n_tentative": 0,
+          "observation_ids": [
+            "spa.obs.synanthedon_tipuliformis.mozuraitis_2006.gland",
+            "spa.obs.synanthedon_tipuliformis.suckling_2005.gland"
+          ],
+          "population_match": null,
+          "populations": [
+            "Kairėnai near Vilnius, Lithuania",
+            "Nelson, New Zealand"
+          ],
+          "taxon_id": "spa.tax.synanthedon_tipuliformis"
+        },
+        {
+          "evidence_class": "female_pheromone_component",
+          "n_observations": 8,
+          "n_significant": 3,
+          "n_tentative": 0,
+          "observation_ids": [
+            "spa.obs.synanthedon_tipuliformis.james_2001.gland",
+            "spa.obs.synanthedon_tipuliformis.james_2001.trap",
+            "spa.obs.synanthedon_tipuliformis.mozuraitis_2006.gland",
+            "spa.obs.synanthedon_tipuliformis.mozuraitis_2006.trap_binary",
+            "spa.obs.synanthedon_tipuliformis.priesner_1986.trap_e3.germany",
+            "spa.obs.synanthedon_tipuliformis.suckling_2005.gland",
+            "spa.obs.synanthedon_tipuliformis.szocs_1990.trap_e3.hungary",
+            "spa.obs.synanthedon_tipuliformis.szocs_1990.trap_e3.new_zealand"
+          ],
+          "population_match": "yes",
+          "populations": [
+            "Irwell, Canterbury, New Zealand",
+            "Kairėnai near Vilnius, Lithuania",
+            "Kemence, Pest County, Hungary",
+            "Nelson, New Zealand",
+            "Prosser, Washington, USA",
+            "Starnberg/Seewiesen, Germany"
+          ],
+          "taxon_id": "spa.tax.synanthedon_tipuliformis"
+        }
+      ],
       "inchikey": "VVJPJXKHBZNADP-ZSTZHTMOSA-N",
       "occurrences": [
         {
@@ -186,6 +556,145 @@
     },
     {
       "atlas_id": "spa.cmpd.e2_z13_18_oac",
+      "evidence_classes": [
+        {
+          "evidence_class": "addition_no_effect",
+          "n_observations": 3,
+          "n_significant": 0,
+          "n_tentative": null,
+          "observation_ids": [
+            "spa.obs.synanthedon_tenuis.naka_2013.trap_e2z13_100_added.test3",
+            "spa.obs.synanthedon_tenuis.naka_2013.trap_e2z13_500_added.test3",
+            "spa.obs.synanthedon_tenuis.naka_2013.trap_e2z13_50_added.test3"
+          ],
+          "population_match": null,
+          "populations": [
+            "Japanese population"
+          ],
+          "taxon_id": "spa.tax.synanthedon_tenuis"
+        },
+        {
+          "evidence_class": "female_not_detected",
+          "n_observations": 1,
+          "n_significant": null,
+          "n_tentative": null,
+          "observation_ids": [
+            "spa.obs.synanthedon_tenuis.naka_2013.gland"
+          ],
+          "population_match": null,
+          "populations": [
+            "Japanese population"
+          ],
+          "taxon_id": "spa.tax.synanthedon_tenuis"
+        },
+        {
+          "evidence_class": "antennal_active",
+          "n_observations": 5,
+          "n_significant": null,
+          "n_tentative": null,
+          "observation_ids": [
+            "spa.obs.synanthedon_tipuliformis.james_2001.gcead",
+            "spa.obs.synanthedon_tipuliformis.priesner_1986.ssr",
+            "spa.obs.synanthedon_tipuliformis.suckling_2005.gcead",
+            "spa.obs.synanthedon_tipuliformis.voerman_1984.ssr.starnberg",
+            "spa.obs.synanthedon_tipuliformis.voerman_1984.ssr.vienna"
+          ],
+          "population_match": null,
+          "populations": [
+            "Austrian population",
+            "Bavarian population",
+            "Canterbury and Nelson",
+            "Prosser, Washington, USA",
+            "not given"
+          ],
+          "taxon_id": "spa.tax.synanthedon_tipuliformis"
+        },
+        {
+          "evidence_class": "attractant_alone",
+          "n_observations": 1,
+          "n_significant": 0,
+          "n_tentative": null,
+          "observation_ids": [
+            "spa.obs.synanthedon_tipuliformis.voerman_1984.trap_blend"
+          ],
+          "population_match": null,
+          "populations": [
+            "Dutch population"
+          ],
+          "taxon_id": "spa.tax.synanthedon_tipuliformis"
+        },
+        {
+          "evidence_class": "attractive_lure_component",
+          "n_observations": 2,
+          "n_significant": 0,
+          "n_tentative": null,
+          "observation_ids": [
+            "spa.obs.synanthedon_tipuliformis.james_2001.trap",
+            "spa.obs.synanthedon_tipuliformis.voerman_1984.trap_blend"
+          ],
+          "population_match": null,
+          "populations": [
+            "Dutch population",
+            "Prosser, Washington, USA"
+          ],
+          "taxon_id": "spa.tax.synanthedon_tipuliformis"
+        },
+        {
+          "evidence_class": "female_detected_combined",
+          "n_observations": 1,
+          "n_significant": null,
+          "n_tentative": 0,
+          "observation_ids": [
+            "spa.obs.synanthedon_tipuliformis.james_2001.gland"
+          ],
+          "population_match": null,
+          "populations": [
+            "Prosser, Washington, USA"
+          ],
+          "taxon_id": "spa.tax.synanthedon_tipuliformis"
+        },
+        {
+          "evidence_class": "female_detected_gland",
+          "n_observations": 3,
+          "n_significant": null,
+          "n_tentative": 0,
+          "observation_ids": [
+            "spa.obs.synanthedon_tipuliformis.mozuraitis_2006.gland",
+            "spa.obs.synanthedon_tipuliformis.suckling_2005.gland",
+            "spa.obs.synanthedon_tipuliformis.szocs_1985.gland"
+          ],
+          "population_match": null,
+          "populations": [
+            "Fertőd, western Hungary",
+            "Kairėnai near Vilnius, Lithuania",
+            "Nelson, New Zealand"
+          ],
+          "taxon_id": "spa.tax.synanthedon_tipuliformis"
+        },
+        {
+          "evidence_class": "female_pheromone_component",
+          "n_observations": 6,
+          "n_significant": 0,
+          "n_tentative": 0,
+          "observation_ids": [
+            "spa.obs.synanthedon_tipuliformis.james_2001.gland",
+            "spa.obs.synanthedon_tipuliformis.james_2001.trap",
+            "spa.obs.synanthedon_tipuliformis.mozuraitis_2006.gland",
+            "spa.obs.synanthedon_tipuliformis.suckling_2005.gland",
+            "spa.obs.synanthedon_tipuliformis.szocs_1985.gland",
+            "spa.obs.synanthedon_tipuliformis.voerman_1984.trap_blend"
+          ],
+          "population_match": "yes",
+          "populations": [
+            "Dutch population",
+            "Fertőd, western Hungary",
+            "Kairėnai near Vilnius, Lithuania",
+            "Nelson, New Zealand",
+            "Prosser, Washington, USA"
+          ],
+          "taxon_id": "spa.tax.synanthedon_tipuliformis"
+        }
+      ],
       "inchikey": "NWRSOYAGXTXEMK-NHRIVICHSA-N",
       "occurrences": [
         {
@@ -247,7 +756,32 @@
       "systematic": null
     }
   ],
-  "espmap": [],
+  "espmap": [
+    {
+      "atlas_id": "spa.cmpd.e2_z13_18_oac",
+      "path": "computed/espmap/e2_z13_18_oac/b3lyp_def2-svp_gas_espmap-v0.2.1/ensemble.json",
+      "protocol": "b3lyp_def2-svp_gas_espmap-v0.2.1",
+      "sha256": "015dd2322a0ee65f641433699359ef5c448a5aadc5d347e0324a0eff8e4c692d"
+    },
+    {
+      "atlas_id": "spa.cmpd.e3_z13_18_oac",
+      "path": "computed/espmap/e3_z13_18_oac/b3lyp_def2-svp_gas_espmap-v0.2.1/ensemble.json",
+      "protocol": "b3lyp_def2-svp_gas_espmap-v0.2.1",
+      "sha256": "c3d40f8a6c3b819f91bcc0bbf066502526a3e6ef7f380ea02fe803ba550d81b6"
+    },
+    {
+      "atlas_id": "spa.cmpd.z3_z13_18_oac",
+      "path": "computed/espmap/z3_z13_18_oac/b3lyp_def2-svp_gas_espmap-v0.2.1/ensemble.json",
+      "protocol": "b3lyp_def2-svp_gas_espmap-v0.2.1",
+      "sha256": "580868078a08d428f7f6eb1d1c2f293a564e550c213ff60a48b312ceb8f286b1"
+    },
+    {
+      "atlas_id": "spa.cmpd.z3_z13_18_oh",
+      "path": "computed/espmap/z3_z13_18_oh/b3lyp_def2-svp_gas_espmap-v0.2.1/ensemble.json",
+      "protocol": "b3lyp_def2-svp_gas_espmap-v0.2.1",
+      "sha256": "c4ce0ae1738d2f63fb1ec91310e964d935a2029f2a740cd035736c06715ac9be"
+    }
+  ],
   "observations": [
     {
       "components": [

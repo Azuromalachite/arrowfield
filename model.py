@@ -330,6 +330,30 @@ class ObservedContrast:
     b: str
 
 
+@dataclass(frozen=True)
+class EvidenceClass:
+    """One of the Atlas's own evidence classes for a compound in a taxon, as
+    the Atlas derives it from its records: Arrowfield reads it, never asserts
+    it. Atlas-wide, so its observation ids may lie outside the bundle."""
+    evidence_class: str                 # e.g. addition_decreased, female_not_detected
+    taxon_id: str
+    observation_ids: tuple
+    populations: tuple
+    n_observations: int
+    n_significant: Optional[int] = None
+    n_tentative: Optional[int] = None
+    population_match: Optional[str] = None
+
+
+@dataclass(frozen=True)
+class BundleCompound:
+    atlas_id: str
+    shorthand: Optional[str]
+    systematic: Optional[str]
+    inchikey: Optional[str]
+    evidence_classes: tuple = ()        # EvidenceClass
+
+
 @dataclass(frozen=True, eq=False)
 class TeachingBundle:
     """An Atlas teaching bundle (spa.teaching/0), read by bundle.py."""
@@ -338,7 +362,7 @@ class TeachingBundle:
     atlas_version: str
     sha256: str                         # of the bundle file
     observations: dict                  # observation id -> EvidenceStatement
-    compounds: dict                     # Atlas id -> {"shorthand", "systematic", "inchikey"}
+    compounds: dict                     # Atlas id -> BundleCompound
     contrasts: tuple                    # ObservedContrast
     espmap: tuple = ()                  # computed ensembles the bundle carries, as given
 

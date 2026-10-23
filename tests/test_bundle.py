@@ -72,6 +72,20 @@ def test_a_compound_outside_an_observation_is_not_tested_there(b):
     assert b.observations[NAKA_GLAND].display_state("spa.cmpd.e2_z13_18_oac_x")[0] is EvidenceState.NOT_TESTED
 
 
+def test_the_atlas_evidence_classes_are_read_not_asserted(b):
+    """Since Atlas 45cac6d each compound carries the Atlas's own evidence
+    classes. They are Atlas-wide summaries: kept as given, observation ids
+    outside this bundle included, never re-derived here."""
+    raw = next(c for c in RAW["compounds"] if c["atlas_id"] == OH)["evidence_classes"]
+    got = b.compounds[OH].evidence_classes
+    assert [e.evidence_class for e in got] == [e["evidence_class"] for e in raw]
+    assert all(e.observation_ids == tuple(r["observation_ids"]) and e.n_observations == r["n_observations"]
+               for e, r in zip(got, raw))
+    outside = {i for e in got for i in e.observation_ids} - set(b.observations)
+    assert outside                                  # Atlas-wide, as the Atlas states it
+    assert b.compounds[OH].shorthand == "Z3,Z13-18:OH"
+
+
 def _bad(tmp_path, mutate):
     j = json.loads(DATA.read_text(encoding="utf-8"))
     mutate(j)
@@ -90,6 +104,8 @@ def _bad(tmp_path, mutate):
     (lambda j: j["compounds"][0]["occurrences"].append({"observation_id": "spa.obs.nowhere", "roles": ["x"]}),
      "does not carry"),
     (lambda j: j["observations"].append(dict(j["observations"][0])), "repeats"),
+    (lambda j: j["compounds"][0].update(role_in_case="pheromone"), "not modelled"),
+    (lambda j: j["compounds"][0]["evidence_classes"][0].update(verdict="active"), "not modelled"),
 ])
 def test_a_bundle_arrowfield_cannot_show_faithfully_is_refused(tmp_path, mutate, match):
     with pytest.raises(InvalidBundle, match=match):
