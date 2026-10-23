@@ -43,6 +43,10 @@ UNSAFE_NOW = {
     "empty_side_a", "empty_side_b", "empty_side_both",
     # A12: a real -0.01 flip under the radius-scaled rule is not looked for
     "sign_noise_flip_0.01",
+    # A12 (probe round 2): exactly 0.005 is not looked for either
+    "sign_noise_flip_0.005",
+    # A14 (probe round 2): a NaN, inf or negative partition is used as given
+    "partition_nan_first", "partition_nan_last", "partition_inf", "partition_negative",
 }
 NOT_PREFERRED_NOW = set(UNSAFE_NOW)      # every other case already gets its preferred output
 REQUIRES_MISSING_NOW = {
@@ -64,6 +68,8 @@ SCOPE_CAVEAT_MISSING_NOW = {  # no card yet says what the number is of
     "nan_in_one_conformer", "inf_in_other_molecule", "nan_under_other_rule_only",
     "sign_noise_float_noise", "sign_noise_flip_0.01", "sign_noise_flip_0.004",
     "folded_by_contact_genus0", "genus_without_folding",
+    "sign_noise_flip_0.005", "partition_nan_first", "partition_nan_last", "partition_inf",
+    "partition_negative",
 }
 
 
@@ -73,7 +79,7 @@ HAS_FOLDED = "folded" in MoleculeView.__dataclass_fields__
 def views(members, name):
     out = []
     for k, m in enumerate(members):
-        part = None if m["nn"] is None else abs(m["nn"] - m["rs"])
+        part = m.get("partition", None if m["nn"] is None else abs(m["nn"] - m["rs"]))
         sites = {m["site"]: {rule: SiteMeasurement(m["site"], (0,), rule, mean, 10.0, 5.0, 5.0, part)
                              for rule, mean in (("nearest_nucleus", m["nn"]), ("radius_scaled", m["rs"]))}}
         out.append(MoleculeView(

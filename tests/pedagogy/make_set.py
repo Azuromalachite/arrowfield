@@ -39,7 +39,7 @@ rng = np.random.default_rng(SEED)
 
 
 def ens(n, nn_mean, nn_sd, rs_shift=0.0, rs_sd=0.0, genus=0, key=KEY, site="C4-H", fixed=None,
-        rs_exact=None, folded=None):
+        rs_exact=None, folded=None, partition=None):
     """n conformers of one molecule at one site: nearest-nucleus means, the
     radius-scaled mean (nn + rs_shift + noise), genus and analysis key each.
     rs_exact: radius-scaled means as given, unrounded (float-noise cases).
@@ -58,6 +58,8 @@ def ens(n, nn_mean, nn_sd, rs_shift=0.0, rs_sd=0.0, genus=0, key=KEY, site="C4-H
             m["rs"] = rs_exact[i]
         if folded is not None:
             m["folded"] = folded if isinstance(folded, bool) else folded[i]
+        if partition is not None and partition[i] is not None:
+            m["partition"] = partition[i]            # as given, not |nn - rs| (A14)
     return out
 
 
@@ -252,6 +254,13 @@ for vid, rs_b, outc, pref, why in [
      grades(RULE_DEPENDENT="SAFE", SEPARATED="MISLEADING", SEPARATED_WITHIN_PARTITION="SAFE",
             OVERLAPPING="FALSE", **REFUSE_OK), "RULE_DEPENDENT",
      "Delta_rs is -0.01: small, but a real opposite sign the card can print."),
+    # probe round 2 (y_tol_exact): exactly the tolerance, which floats put at
+    # 0.004999999999999893; the rule as written (>= SIGN_TOL) counts it
+    ("flip_0.005", [2.545, 2.545],
+     grades(RULE_DEPENDENT="SAFE", SEPARATED="MISLEADING", SEPARATED_WITHIN_PARTITION="SAFE",
+            OVERLAPPING="FALSE", **REFUSE_OK), "RULE_DEPENDENT",
+     "Delta_rs is -0.005, exactly the stated tolerance: a rule that says '0.005 or more' must "
+     "count it whatever the last bit of the float subtraction is."),
     ("flip_0.004", [2.546, 2.546],
      grades(RULE_DEPENDENT="SAFE", SEPARATED="SAFE", SEPARATED_WITHIN_PARTITION="SAFE",
             OVERLAPPING="FALSE", **REFUSE_OK), None,
@@ -261,6 +270,25 @@ for vid, rs_b, outc, pref, why in [
     case(f"sign_noise_{vid}", "A12 sign at noise level", "compare", why,
          a=ens(2, 0, 0, fixed=_nn_a, rs_exact=[2.5500000000000003, 2.5500000000000003]),
          b=ens(2, 0, 0, fixed=_nn_b, rs_exact=rs_b), outcomes=outc, prefer=pref)
+
+# ------------------------------------------------ A14: a partition that is not a number
+# Probe round 2 (y_nan_partition*, y_inf_partition, y_negative_partition):
+# the partition sensitivity is an absolute difference, so it is finite and
+# >= 0. Used as given otherwise, NaN is kept or skipped by max() depending on
+# order, inf turns every separation "within", a negative value is corrupt.
+for vid, side, pos, val in [("nan_first", "a", 0, nan), ("nan_last", "b", 4, nan),
+                            ("inf", "a", 2, inf), ("negative", "b", 1, -5.0)]:
+    parts = {"a": [None] * 5, "b": [None] * 5}
+    parts[side][pos] = val
+    case(f"partition_{vid}", "A14 partition not a number", "compare",
+         f"Every mean is finite, but one conformer's partition sensitivity is {val}. A partition "
+         "is |difference between the two rules' means|: not finite, or negative, means the record "
+         "is corrupt, and the comparison must stop, naming the conformer.",
+         a=ens(5, 0, 0, rs_shift=0.3, fixed=[1.0, 1.1, 1.2, 1.3, 1.4], partition=parts["a"]),
+         b=ens(5, 0, 0, rs_shift=0.3, fixed=[4.0, 4.1, 4.2, 4.3, 4.4], partition=parts["b"]),
+         outcomes=grades(SEPARATED="FALSE", SEPARATED_WITHIN_PARTITION="FALSE", OVERLAPPING="FALSE",
+                         RULE_DEPENDENT="FALSE", CANNOT_JUDGE="MISLEADING", **REFUSE_OK),
+         prefer="REFUSED")
 
 # ------------------------------------------------ A13: what "folded" means
 # The cross-repo review (2026-10-23) found three definitions in use: the
