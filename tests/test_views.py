@@ -114,12 +114,22 @@ def test_site_table_leads_with_the_site_and_folds_atoms_away():
 
 
 def test_card_shows_the_extended_only_range_when_a_conformer_folds():
+    """folded is the producer's call, used as given: genus is never read as
+    folding. Records state no folded flag, so the card says so instead of
+    guessing; a caller (a study adapter) states it."""
     e, z = load_all(REC, "e2_butene"), load_all(REC, "z2_butene")
-    assert difference_card(e, z, "C1").extended is None        # nothing folds here
-    e[0] = replace(e[0], genus=1)                               # one conformer folds
+    card = difference_card(e, z, "C1")
+    assert card.extended["unstated"] == 6                       # records do not say
+    assert "is not stated" in card_html(card)
+    e = [replace(v, folded=False) for v in e]
+    z = [replace(v, folded=False) for v in z]
+    assert difference_card(e, z, "C1").extended is None        # stated: nothing folds
+    e[0] = replace(e[0], folded=True, genus=0)                  # folded by contact, genus 0
     card = difference_card(e, z, "C1")
     assert card.extended["n"] == (2, 3)
     assert "extended conformers only" in card_html(card)
+    e = [replace(v, folded=False, genus=1) for v in e]          # a hole, nothing folded
+    assert difference_card(e, z, "C1").extended is None
 
 
 def test_sites_file_says_it_names_atoms_by_map():
@@ -193,3 +203,14 @@ def test_records_that_are_not_comparable_are_shown_as_not_comparable():
     assert card.status is ComparisonStatus.NOT_COMPARABLE and card.diff is None
     h = card_html(card)
     assert "NOT COMPARABLE" in h and "difference of conformer means" not in h
+
+
+def test_the_card_names_the_method_of_its_own_measurements():
+    """The scope line takes the method from the measurements' provenance: a
+    hard-coded 'gas phase' would be false on a card comparing PCM records."""
+    e, z = load_all(REC, "e2_butene"), load_all(REC, "z2_butene")
+    h = card_html(difference_card(e, z, "C2"))
+    assert "free molecule (" + e[0].provenance.method + ")" in h
+    pcm = [replace(v, provenance=replace(v.provenance, solvent="water")) for v in e + z]
+    h = card_html(difference_card(pcm[:3], pcm[3:], "C2"))
+    assert "PCM water" in h and "gas" not in h.split('class="scope"')[1]

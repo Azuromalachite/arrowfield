@@ -21,7 +21,7 @@ PED = Path(__file__).with_name("pedagogy")
 sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(PED))
 from model import (Atom, ComparisonStatus, MoleculeView, Provenance, Scale,  # noqa: E402
-                   SiteMeasurement, compare)
+                   Refused, SiteMeasurement, compare)
 from views import card_html  # noqa: E402
 
 SET = json.loads((PED / "hostile_set.json").read_text(encoding="utf-8"))
@@ -30,52 +30,12 @@ BUILT = {"compare"}                       # components that exist; the rest skip
 NOW = [c for c in CASES if c["component"] in BUILT]
 
 # --- what the views get wrong today (measured, not intended) ---------------
-UNSAFE_NOW = {
-    # compare() reads one rule only: a direction that flips under the other
-    # rule is reported as SEPARATED
-    "rule_sign_flip_clear", "rule_sign_flip_narrow", "rule_sign_flip_negative_side",
-    # a buried site (mean None) reaches np.mean and raises TypeError
-    "buried_in_one_conformer", "buried_everywhere",
-    # A10 (held-out probe): min() and max() skip NaN, so a NaN or inf mean
-    # yields a verdict around an unmeasured conformer
-    "nan_in_one_conformer", "inf_in_other_molecule", "nan_under_other_rule_only",
-    # A11 (probe): an empty side raises IndexError at views_a[0]
-    "empty_side_a", "empty_side_b", "empty_side_both",
-    # A12: a real -0.01 flip under the radius-scaled rule is not looked for
-    "sign_noise_flip_0.01",
-    # A12 (probe round 2): exactly 0.005 is not looked for either
-    "sign_noise_flip_0.005",
-    # A14 (probe round 2): a NaN, inf or negative partition is used as given
-    "partition_nan_first", "partition_nan_last", "partition_inf", "partition_negative",
-    # A14 (probe round 3): a missing partition reads as 0 though both means are there
-    "partition_missing_means_finite",
-    # A14 (probe round 4): a stated partition is trusted over the means it contradicts
-    "partition_contradicts_means_zero", "partition_contradicts_means_small",
-}
-NOT_PREFERRED_NOW = set(UNSAFE_NOW)      # every other case already gets its preferred output
-REQUIRES_MISSING_NOW = {
-    # n = 1 prints a conformer range of 0.00, which reads as 'no variation'
-    ("single_conformer_1v1", "no_single_range"), ("single_conformer_1v20", "no_single_range"),
-    ("single_conformer_20v1", "no_single_range"),
-    # the extended row gives ranges, never a verdict for extended conformers
-    ("folded_drive_separation", "extended_verdict"), ("folded_hide_separation", "extended_verdict"),
-    # A13: folded is read from genus, so a contact-folded member (genus 0)
-    # stays in the extended set and a macrocycle's genus 1 empties it
-    ("folded_by_contact_genus0", "extended_n"), ("folded_by_contact_genus0", "extended_verdict"),
-    ("genus_without_folding", "extended_n"),
-}
-SCOPE_CAVEAT_MISSING_NOW = {  # no card yet says what the number is of
-    "within_partition_well_inside", "within_partition_just_inside", "within_partition_negative",
-    "rule_sign_flip_clear", "rule_sign_flip_narrow", "rule_sign_flip_negative_side",
-    "folded_drive_separation", "folded_hide_separation", "folded_extended_single",
-    "overlap_mean_shift_strong", "overlap_mean_shift_weak",
-    "nan_in_one_conformer", "inf_in_other_molecule", "nan_under_other_rule_only",
-    "sign_noise_float_noise", "sign_noise_flip_0.01", "sign_noise_flip_0.004",
-    "folded_by_contact_genus0", "genus_without_folding",
-    "sign_noise_flip_0.005", "partition_nan_first", "partition_nan_last", "partition_inf",
-    "partition_negative", "partition_missing_means_finite",
-    "partition_contradicts_means_zero", "partition_contradicts_means_small",
-}
+# Empty since the views PR that met the set (#2, with the probe cases of #3);
+# a case added later that the views fail goes here, with one line saying why.
+UNSAFE_NOW = set()
+NOT_PREFERRED_NOW = set()
+REQUIRES_MISSING_NOW = set()
+SCOPE_CAVEAT_MISSING_NOW = set()
 
 
 HAS_FOLDED = "folded" in MoleculeView.__dataclass_fields__
@@ -103,7 +63,7 @@ def run(c):
     label = c.get("label") or (c["a"] or c["b"])[0]["site"]
     try:
         cmp = compare(views(c["a"], "A"), views(c["b"], "B"), label, "A", "B")
-    except KeyError:
+    except (KeyError, Refused):          # a refusal that names its reason
         return "REFUSED", None, None
     except Exception:  # noqa: BLE001 - any other error is a crash, graded as such
         return "ERROR", None, None

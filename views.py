@@ -21,7 +21,7 @@ import sys
 
 import numpy as np
 
-from model import ComparisonStatus, compare
+from model import SIGN_TOL, ComparisonStatus, compare
 
 THREEDMOL = "https://cdnjs.cloudflare.com/ajax/libs/3Dmol/2.4.0/3Dmol-min.js"
 STYLE = dict(background="white", outline="black", outline_width=0.03,
@@ -259,13 +259,39 @@ def difference_card(views_a, views_b, label, name_a="A", name_b="B"):
     return compare(views_a, views_b, label, name_a, name_b)
 
 
+def _scope(card):
+    """What the numbers are of, with the method from the measurements' own
+    provenance: a hard-coded 'gas phase' would be false on a PCM card."""
+    how = f" ({html.escape(card.method)})" if card.method else ""
+    return (f"Site means of the free molecule{how}, all under one calculation protocol. "
+            "On its own, a difference here says nothing about how an organism responds.")
+
+
+def _range(x):
+    """A conformer range, or a dash when there is one conformer: 0.00 would
+    read as 'no variation'."""
+    return "–" if x is None else f"{x:.2f}"
+
+
 def _extended_row(card):
     e = card.extended
     if e is None:
         return ""
-    f = lambda x: "–" if x is None else f"{x:.2f}"  # noqa: E731
+    if e.get("unstated"):
+        return (f"\n<tr><td>… extended conformers only: not shown, because whether a conformer "
+                f"is folded is not stated for {e['unstated']} of them</td><td>–</td></tr>")
     return (f"\n<tr><td>… extended conformers only (n = {e['n'][0]} / {e['n'][1]}; "
-            f"folded ones removed)</td><td>{f(e['range_a'])} / {f(e['range_b'])}</td></tr>")
+            f"folded ones removed)</td><td>{_range(e['range_a'])} / {_range(e['range_b'])}</td></tr>")
+
+
+def _extended_verdict(card):
+    e = card.extended
+    if e is None or e.get("unstated") or card.status is not ComparisonStatus.COMPARABLE:
+        return ""
+    v = ("cannot judge (fewer than two extended conformers on one side)" if e["verdict"] is None
+         else e["verdict"].value)
+    return (f'<div class="verdict-ext">extended conformers only (n = {e["n"][0]} / {e["n"][1]}): '
+            f"{html.escape(v)}</div>")
 
 
 def card_html(card):
@@ -281,10 +307,13 @@ def card_html(card):
 <table>
 <tr><td>difference of conformer means</td><td>{card.diff:+.2f}</td></tr>
 <tr><td>conformer range ({html.escape(card.name_a)} / {html.escape(card.name_b)}, n = {card.n[0]} / {card.n[1]})</td>
-<td>{card.range_a:.2f} / {card.range_b:.2f}</td></tr>{_extended_row(card)}
+<td>{_range(card.range_a)} / {_range(card.range_b)}</td></tr>{_extended_row(card)}
 <tr><td>partition sensitivity (max)</td><td>{card.partition:.2f}</td></tr>
+<tr><td>difference of means under the other partition rule (a sign within ±{SIGN_TOL} is not counted)</td>
+<td>{card.diff_other_rule:+.2f}</td></tr>
 </table>
-<div class="verdict">{html.escape(card.verdict.value)}</div></div>"""
+<div class="verdict">{html.escape(card.verdict.value)}</div>{_extended_verdict(card)}
+<div class="scope">{_scope(card)}</div></div>"""
 
 
 # ----------------------------------------------------------------------- page
@@ -301,7 +330,8 @@ td, th { padding:3px 10px; border-bottom:1px solid var(--line); text-align:right
 td:first-child, th:first-child { text-align:left; }
 .card { border:1px solid var(--line); border-radius:8px; padding:10px 12px; background:var(--card); max-width:520px; }
 .card-title { font-weight:600; margin-bottom:6px; } .unit { font-weight:400; color:var(--muted); margin-left:8px; font-size:13px; }
-.verdict { margin-top:8px; font-weight:600; }
+.verdict { margin-top:8px; font-weight:600; } .verdict-ext { margin-top:4px; }
+.scope { margin-top:8px; color:var(--muted); font-size:13px; }
 .status { display:inline-block; font-size:12px; font-weight:700; letter-spacing:.04em; padding:1px 6px;
           border:1px solid var(--ink); border-radius:4px; margin-bottom:6px; }
 .limits { color:var(--muted); font-size:13px; max-width:900px; margin-top:12px; }
