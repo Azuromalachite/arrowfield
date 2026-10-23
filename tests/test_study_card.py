@@ -27,6 +27,19 @@ SET = json.loads((PED / "study_card_set.json").read_text(encoding="utf-8"))
 CASES = SET["cases"]
 RULE = "espmap-sesiidae-001/range_partition_sign_v1"
 
+# --- what the card gets wrong today (measured, not intended) -------------------
+UNSAFE_NOW = {
+    # S13 (held-out probe of #11): a reversed interval or range, or a non-finite
+    # delta, range or partition, is rendered as if measured
+    "malformed_interval_reversed", "malformed_delta_nan", "malformed_range_inf",
+    "malformed_range_reversed", "malformed_partition_nan",
+}
+NOT_PREFERRED_NOW = set(UNSAFE_NOW)
+
+
+def _mark(ids, cid):
+    return [pytest.mark.xfail(strict=True, reason="listed as failing now")] if cid in ids else []
+
 
 def test_the_committed_set_is_what_the_generator_writes():
     import make_study_card_set
@@ -42,7 +55,7 @@ def test_allowed_is_exactly_the_safe_outputs(c):
 
 def test_all_twelve_states_have_two_or_more_variants():
     per = Counter(c["cls"].split()[0] for c in CASES)
-    assert sorted(per) == sorted(f"S{i}" for i in range(1, 13))
+    assert sorted(per) == sorted(f"S{i}" for i in range(1, 14))
     assert min(per.values()) >= 2, per
 
 
@@ -57,6 +70,8 @@ def _follows(row):
 def test_the_set_premises_hold(c):
     """A card case tests the card, not a corrupt input, unless it says so."""
     r = c["row"]
+    if c["cls"].startswith("S13"):
+        return                                         # malformed numbers: no premise to check
     if c["cls"].startswith(("S9", "S12")) and r["verdict_rule"] != RULE:
         return                                         # the case is about the rule itself
     if r["outcome"] == "not evaluable":
@@ -88,13 +103,14 @@ def _run(c):
     return "RENDERED", page
 
 
-@pytest.mark.parametrize("c", CASES, ids=[c["id"] for c in CASES])
+@pytest.mark.parametrize("c", [pytest.param(c, id=c["id"], marks=_mark(UNSAFE_NOW, c["id"])) for c in CASES])
 def test_card_output_is_safe(c):
     out, _ = _run(c)
     assert out in c["allowed"], f"{out}: {c['outcomes'][out]}"
 
 
-@pytest.mark.parametrize("c", [c for c in CASES if c["prefer"]], ids=lambda c: c["id"])
+@pytest.mark.parametrize("c", [pytest.param(c, id=c["id"], marks=_mark(NOT_PREFERRED_NOW, c["id"]))
+                               for c in CASES if c["prefer"]])
 def test_card_output_is_preferred(c):
     assert _run(c)[0] == c["prefer"]
 

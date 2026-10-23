@@ -248,6 +248,24 @@ case("provenance_shown", "S12 provenance",
      C4, ctx(), SHOW, "RENDERED",
      [RULE_NAMED, must(r"7e34658", "MISLEADING", "the frozen plan's commit")])
 
+# 13. malformed numbers in a row that claims a verdict (held-out probe of #11)
+# A reversed interval read naively 'excludes 0' and lets 'different on
+# average' through; a NaN difference renders as '+nan'. A verdict-bearing row
+# must carry finite numbers and ordered intervals, or be refused.
+NAN, INF = float("nan"), float("inf")
+REFUSE = {"RENDERED": "FALSE", "REFUSED": "SAFE_REFUSAL"}
+for vid, r, grade_r in (
+        ("interval_reversed", dict(B3, bootstrap_interval=[2.2, -0.6]), "FALSE"),
+        ("interval_nan", dict(B3, bootstrap_interval=[NAN, 3.4]), "FALSE"),
+        ("delta_nan", dict(C4, delta=NAN), "MISLEADING"),
+        ("range_inf", dict(C4, range_y=[6.66, INF]), "MISLEADING"),
+        ("range_reversed", dict(C4, range_x=[5.54, 0.22]), "MISLEADING"),
+        ("partition_nan", dict(C4, partition=NAN), "MISLEADING")):
+    case(f"malformed_{vid}", "S13 malformed numbers",
+         "A row that claims a verdict must carry finite numbers and ordered (low, high) intervals; "
+         "anything else is a corrupt record, refused rather than rendered as if measured.",
+         r, ctx(), {"RENDERED": grade_r, "REFUSED": "SAFE_REFUSAL"}, "REFUSED")
+
 
 def document():
     for c in CASES:
