@@ -44,7 +44,7 @@ HAS_FOLDED = "folded" in MoleculeView.__dataclass_fields__
 def views(members, name):
     out = []
     for k, m in enumerate(members):
-        part = None if m["nn"] is None else abs(m["nn"] - m["rs"])
+        part = m.get("partition", None if m["nn"] is None else abs(m["nn"] - m["rs"]))
         sites = {m["site"]: {rule: SiteMeasurement(m["site"], (0,), rule, mean, 10.0, 5.0, 5.0, part)
                              for rule, mean in (("nearest_nucleus", m["nn"]), ("radius_scaled", m["rs"]))}}
         out.append(MoleculeView(
