@@ -47,6 +47,8 @@ UNSAFE_NOW = {
     "sign_noise_flip_0.005",
     # A14 (probe round 2): a NaN, inf or negative partition is used as given
     "partition_nan_first", "partition_nan_last", "partition_inf", "partition_negative",
+    # A14 (probe round 3): a missing partition reads as 0 though both means are there
+    "partition_missing_means_finite",
 }
 NOT_PREFERRED_NOW = set(UNSAFE_NOW)      # every other case already gets its preferred output
 REQUIRES_MISSING_NOW = {
@@ -69,7 +71,7 @@ SCOPE_CAVEAT_MISSING_NOW = {  # no card yet says what the number is of
     "sign_noise_float_noise", "sign_noise_flip_0.01", "sign_noise_flip_0.004",
     "folded_by_contact_genus0", "genus_without_folding",
     "sign_noise_flip_0.005", "partition_nan_first", "partition_nan_last", "partition_inf",
-    "partition_negative",
+    "partition_negative", "partition_missing_means_finite",
 }
 
 

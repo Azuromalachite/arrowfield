@@ -59,7 +59,8 @@ def ens(n, nn_mean, nn_sd, rs_shift=0.0, rs_sd=0.0, genus=0, key=KEY, site="C4-H
         if folded is not None:
             m["folded"] = folded if isinstance(folded, bool) else folded[i]
         if partition is not None and partition[i] is not None:
-            m["partition"] = partition[i]            # as given, not |nn - rs| (A14)
+            # as given, not |nn - rs| (A14); "missing" writes an explicit null
+            m["partition"] = None if partition[i] == "missing" else partition[i]
     return out
 
 
@@ -289,6 +290,21 @@ for vid, side, pos, val in [("nan_first", "a", 0, nan), ("nan_last", "b", 4, nan
          outcomes=grades(SEPARATED="FALSE", SEPARATED_WITHIN_PARTITION="FALSE", OVERLAPPING="FALSE",
                          RULE_DEPENDENT="FALSE", CANNOT_JUDGE="MISLEADING", **REFUSE_OK),
          prefer="REFUSED")
+
+# Probe round 3 (z_part_none_hides): a partition left unstated (None) while
+# both rules' means are finite. Read as 0 it hid an 8 kcal/mol disagreement
+# between the rules; the two means fix it, so it must count.
+case("partition_missing_means_finite", "A14 partition not a number", "compare",
+     "One conformer states no partition sensitivity, but both its means are there (1.0 and -7.0): "
+     "the rules disagree by 8 kcal/mol at that conformer, more than the +3.0 difference. Treating "
+     "the missing value as 0 shows a clean separation that the convention could undo.",
+     a=ens(5, 0, 0, fixed=[1.0, 1.1, 1.2, 1.3, 1.4], rs_exact=[-7.0, 1.1, 1.2, 1.3, 1.4],
+           partition=["missing", 0.0, 0.0, 0.0, 0.0]),
+     b=ens(5, 0, 0, fixed=[4.0, 4.1, 4.2, 4.3, 4.4], rs_exact=[4.0, 4.1, 4.2, 4.3, 4.4],
+           partition=[0.0] * 5),
+     outcomes=grades(SEPARATED_WITHIN_PARTITION="SAFE", SEPARATED="MISLEADING", OVERLAPPING="FALSE",
+                     RULE_DEPENDENT="SAFE", CANNOT_JUDGE="MISLEADING", **REFUSE_OK),
+     prefer="SEPARATED_WITHIN_PARTITION")
 
 # ------------------------------------------------ A13: what "folded" means
 # The cross-repo review (2026-10-23) found three definitions in use: the
