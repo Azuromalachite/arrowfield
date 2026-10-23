@@ -40,10 +40,18 @@ state a biological fact the bundle does not carry.
 
 ## Data: precomputed, with the uncertainty attached
 
-**Status:** none of the five ensembles is computed yet. espmap's only C18
-surfaces are its two Z3,Z13-18:OAc fixture conformers, which test the
-instrument, not this homework. The ensembles' canonical home is the Atlas's
-`computed/espmap/<Atlas ID>/`; Arrowfield reads them from the teaching bundle.
+**Status:** the five ensembles are being computed (from 2026-10-23) as
+the study espmap-sesiidae-001. Which molecules it compares, and the rule that
+decides each comparison, were fixed before the computation started. They are
+in the Atlas, frozen at
+[7e34658](https://github.com/Azuromalachite/sesiidae-pheromone-atlas/tree/7e3465859bc2b8950078238f0bffb0ea6b4dd512/analyses/espmap-sesiidae-001):
+the case bundle (`case-bundle.yaml`) and the prospective analysis plan
+(`analysis-plan.md`). Settings: K = 20, seed 20261024, espmap v0.2.1.
+The plan treats the study as a confirmatory replication of the pilot below:
+the homework's "expected" answers came from the pilot. Where the study's
+results differ, the homework changes to match the study, never the reverse.
+The ensembles' canonical home is the Atlas's `computed/espmap/<Atlas ID>/`;
+Arrowfield reads them from the teaching bundle.
 
 - Each compound is to be precomputed as espmap records on a **conformer
   ensemble**: the lowest-energy
@@ -184,9 +192,12 @@ itself.
 - [x] `head O` defined identically for OH, CHO and OAc (act A).
 - [x] Four compounds named by their Atlas IDs, structures checked against the
   Atlas; the aldehyde labelled a teaching control (2026-10-23).
-- [ ] Ensembles (10+ conformers) for the five compounds computed with a pinned
-  espmap release, stored in the Atlas's `computed/espmap/`, and exported as a
-  teaching bundle; notebook pinned to both.
+- [x] Case bundle and prospective analysis plan frozen in the Atlas
+  (`analyses/espmap-sesiidae-001/`, 7e34658, 2026-10-23).
+- [ ] Ensembles (20 conformers) for the five compounds computed with espmap
+  v0.2.1 (started 2026-10-23), stored in the Atlas's `computed/espmap/`, and
+  exported as a teaching bundle; notebook pinned to both.
+- [ ] Acts B and C's "expected" re-checked against the study's results.
 - [ ] `--require-stereo` in a tagged espmap. It is merged on master (3746cad)
   but not yet released, so the manifest-only guarantee still holds.
 - [ ] Biological context from the Atlas teaching bundle, not written here.
