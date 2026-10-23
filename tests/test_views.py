@@ -114,12 +114,22 @@ def test_site_table_leads_with_the_site_and_folds_atoms_away():
 
 
 def test_card_shows_the_extended_only_range_when_a_conformer_folds():
+    """folded is the producer's call, used as given: genus is never read as
+    folding. Records state no folded flag, so the card says so instead of
+    guessing; a caller (a study adapter) states it."""
     e, z = load_all(REC, "e2_butene"), load_all(REC, "z2_butene")
-    assert difference_card(e, z, "C1").extended is None        # nothing folds here
-    e[0] = replace(e[0], genus=1)                               # one conformer folds
+    card = difference_card(e, z, "C1")
+    assert card.extended["unstated"] == 6                       # records do not say
+    assert "is not stated" in card_html(card)
+    e = [replace(v, folded=False) for v in e]
+    z = [replace(v, folded=False) for v in z]
+    assert difference_card(e, z, "C1").extended is None        # stated: nothing folds
+    e[0] = replace(e[0], folded=True, genus=0)                  # folded by contact, genus 0
     card = difference_card(e, z, "C1")
     assert card.extended["n"] == (2, 3)
     assert "extended conformers only" in card_html(card)
+    e = [replace(v, folded=False, genus=1) for v in e]          # a hole, nothing folded
+    assert difference_card(e, z, "C1").extended is None
 
 
 def test_sites_file_says_it_names_atoms_by_map():

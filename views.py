@@ -21,7 +21,7 @@ import sys
 
 import numpy as np
 
-from model import ComparisonStatus, compare
+from model import SIGN_TOL, ComparisonStatus, compare
 
 THREEDMOL = "https://cdnjs.cloudflare.com/ajax/libs/3Dmol/2.4.0/3Dmol-min.js"
 STYLE = dict(background="white", outline="black", outline_width=0.03,
@@ -277,13 +277,16 @@ def _extended_row(card):
     e = card.extended
     if e is None:
         return ""
+    if e.get("unstated"):
+        return (f"\n<tr><td>… extended conformers only: not shown, because whether a conformer "
+                f"is folded is not stated for {e['unstated']} of them</td><td>–</td></tr>")
     return (f"\n<tr><td>… extended conformers only (n = {e['n'][0]} / {e['n'][1]}; "
             f"folded ones removed)</td><td>{_range(e['range_a'])} / {_range(e['range_b'])}</td></tr>")
 
 
 def _extended_verdict(card):
     e = card.extended
-    if e is None or card.status is not ComparisonStatus.COMPARABLE:
+    if e is None or e.get("unstated") or card.status is not ComparisonStatus.COMPARABLE:
         return ""
     v = ("cannot judge (fewer than two extended conformers on one side)" if e["verdict"] is None
          else e["verdict"].value)
@@ -306,6 +309,8 @@ def card_html(card):
 <tr><td>conformer range ({html.escape(card.name_a)} / {html.escape(card.name_b)}, n = {card.n[0]} / {card.n[1]})</td>
 <td>{_range(card.range_a)} / {_range(card.range_b)}</td></tr>{_extended_row(card)}
 <tr><td>partition sensitivity (max)</td><td>{card.partition:.2f}</td></tr>
+<tr><td>difference of means under the other partition rule (a sign within ±{SIGN_TOL} is not counted)</td>
+<td>{card.diff_other_rule:+.2f}</td></tr>
 </table>
 <div class="verdict">{html.escape(card.verdict.value)}</div>{_extended_verdict(card)}
 <div class="scope">{_scope(card)}</div></div>"""

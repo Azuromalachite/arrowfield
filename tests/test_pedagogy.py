@@ -30,41 +30,12 @@ BUILT = {"compare"}                       # components that exist; the rest skip
 NOW = [c for c in CASES if c["component"] in BUILT]
 
 # --- what the views get wrong today (measured, not intended) ---------------
-UNSAFE_NOW = {
-    # compare() reads one rule only: a direction that flips under the other
-    # rule is reported as SEPARATED
-    "rule_sign_flip_clear", "rule_sign_flip_narrow", "rule_sign_flip_negative_side",
-    # a buried site (mean None) reaches np.mean and raises TypeError
-    "buried_in_one_conformer", "buried_everywhere",
-    # A10 (held-out probe): min() and max() skip NaN, so a NaN or inf mean
-    # yields a verdict around an unmeasured conformer
-    "nan_in_one_conformer", "inf_in_other_molecule", "nan_under_other_rule_only",
-    # A11 (probe): an empty side raises IndexError at views_a[0]
-    "empty_side_a", "empty_side_b", "empty_side_both",
-    # A12: a real -0.01 flip under the radius-scaled rule is not looked for
-    "sign_noise_flip_0.01",
-}
-NOT_PREFERRED_NOW = set(UNSAFE_NOW)      # every other case already gets its preferred output
-REQUIRES_MISSING_NOW = {
-    # n = 1 prints a conformer range of 0.00, which reads as 'no variation'
-    ("single_conformer_1v1", "no_single_range"), ("single_conformer_1v20", "no_single_range"),
-    ("single_conformer_20v1", "no_single_range"),
-    # the extended row gives ranges, never a verdict for extended conformers
-    ("folded_drive_separation", "extended_verdict"), ("folded_hide_separation", "extended_verdict"),
-    # A13: folded is read from genus, so a contact-folded member (genus 0)
-    # stays in the extended set and a macrocycle's genus 1 empties it
-    ("folded_by_contact_genus0", "extended_n"), ("folded_by_contact_genus0", "extended_verdict"),
-    ("genus_without_folding", "extended_n"),
-}
-SCOPE_CAVEAT_MISSING_NOW = {  # no card yet says what the number is of
-    "within_partition_well_inside", "within_partition_just_inside", "within_partition_negative",
-    "rule_sign_flip_clear", "rule_sign_flip_narrow", "rule_sign_flip_negative_side",
-    "folded_drive_separation", "folded_hide_separation", "folded_extended_single",
-    "overlap_mean_shift_strong", "overlap_mean_shift_weak",
-    "nan_in_one_conformer", "inf_in_other_molecule", "nan_under_other_rule_only",
-    "sign_noise_float_noise", "sign_noise_flip_0.01", "sign_noise_flip_0.004",
-    "folded_by_contact_genus0", "genus_without_folding",
-}
+# Empty since the views PR that met the set (#2, with the probe cases of #3);
+# a case added later that the views fail goes here, with one line saying why.
+UNSAFE_NOW = set()
+NOT_PREFERRED_NOW = set()
+REQUIRES_MISSING_NOW = set()
+SCOPE_CAVEAT_MISSING_NOW = set()
 
 
 HAS_FOLDED = "folded" in MoleculeView.__dataclass_fields__

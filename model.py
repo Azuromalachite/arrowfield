@@ -100,11 +100,17 @@ class MoleculeView:
     atoms: tuple                    # Atom, by index
     sites: dict                     # label -> {rule: SiteMeasurement}
     sites_tile_surface: bool
-    genus: int                      # > 0: the molecule folds onto itself
+    genus: int                      # surface topology: a diagnostic, never "folded"
     scale: Scale
     provenance: Provenance
     mapped_smiles: Optional[str] = None
     surface_loader: Optional[Callable] = None   # rule -> Surface
+    # The producer's folded call, used as given and never re-derived from
+    # genus: a macrocycle's surface has a hole and folds nowhere, and a chain
+    # folded by contact can keep genus 0. Three definitions were in use when
+    # this was inferred here (frozen study: contact OR genus > 0; espmap v0.3:
+    # contact; Arrowfield: genus > 0). None: not stated, so no extended view.
+    folded: Optional[bool] = None
 
     @property
     def atom_maps(self):
@@ -200,11 +206,18 @@ class Comparison:
     method: Optional[str] = None     # e.g. "b3lyp/def2svp, gas", shared by every measurement
 
 
+# A difference under the other partition rule smaller than this (kcal/mol)
+# has no sign: the card prints two decimals, so a flip below half its last
+# digit could not be shown, and floating-point rounding (2e-16) must never
+# read as a direction. -0.01 is a flip.
+SIGN_TOL = 0.005
+
+
 def _verdict(ma, mb, part, diff, diff_other):
     """The verdict for two lists of site means (at least two each)."""
     if not (min(mb) > max(ma) or max(mb) < min(ma)):
         return Verdict.OVERLAPPING
-    if diff_other is not None and diff * diff_other < 0:
+    if diff_other is not None and diff * diff_other < 0 and abs(diff_other) >= SIGN_TOL:
         return Verdict.RULE_DEPENDENT
     return Verdict.SEPARATED_WITHIN_PARTITION if abs(diff) <= part else Verdict.SEPARATED
 
@@ -213,8 +226,15 @@ def compare(views_a, views_b, label, name_a="A", name_b="B", rule="nearest_nucle
     """Compare a site between two molecules' conformers. Measurements with
     different analysis keys are not compared at all: the result says so. A
     site buried in any conformer, under either rule, is refused (Refused),
-    naming the conformer: dropping it would quietly change n. A difference
-    whose sign flips under the other partition rule is RULE_DEPENDENT."""
+    naming the conformer: dropping it would quietly change n; so is a
+    non-finite mean, and an empty side. A difference whose sign flips under
+    the other partition rule (by SIGN_TOL or more) is RULE_DEPENDENT. The
+    extended view leaves out exactly the conformers stated folded."""
+    import math
+    empty = [n for n, vs in ((name_a, views_a), (name_b, views_b)) if not vs]
+    if empty:
+        raise Refused(f"no conformers for {' and '.join(map(repr, empty))}: there is nothing to "
+                      "compare. Load at least one conformer per molecule.")
     if any(not comparable(views_a[0], v) for v in views_a[1:] + views_b):
         return Comparison(label, name_a, name_b, ComparisonStatus.NOT_COMPARABLE,
                           Verdict.NOT_COMPARED)
@@ -230,19 +250,29 @@ def compare(views_a, views_b, label, name_a="A", name_b="B", rule="nearest_nucle
         raise Refused(f"site {label!r} has no surface in {', '.join(buried)}: it is buried in that "
                       "conformer, so there is no site mean to compare. Compare a site that is exposed "
                       "in every conformer, or read the folded conformer on its own.")
+    bad = [f"{v.name} ({r}: {x.mean})" for vs, xs, r in ((views_a, a, rule), (views_b, b, rule),
+                                                       (views_a, ao, other), (views_b, bo, other))
+           for v, x in zip(vs, xs) if not math.isfinite(x.mean)]
+    if bad:
+        raise Refused(f"site {label!r} has a mean that is not a number in {', '.join(bad)}: that "
+                      "conformer was not measured, and min/max would silently skip it. Recompute "
+                      "or remove that record.")
     ma, mb = [x.mean for x in a], [x.mean for x in b]
     part = max(x.partition or 0.0 for x in a + b)
     diff = float(np.mean(mb) - np.mean(ma))
     diff_other = float(np.mean([x.mean for x in bo]) - np.mean([x.mean for x in ao]))
     extended = None
-    ext_a = [m for m, v in zip(ma, views_a) if v.genus == 0]
-    ext_b = [m for m, v in zip(mb, views_b) if v.genus == 0]
-    if len(ext_a) < len(ma) or len(ext_b) < len(mb):
+    unstated = sum(v.folded is None for v in views_a + views_b)
+    ext_a = [m for m, v in zip(ma, views_a) if v.folded is False]
+    ext_b = [m for m, v in zip(mb, views_b) if v.folded is False]
+    if unstated:
+        extended = dict(n=None, range_a=None, range_b=None, verdict=None, unstated=unstated)
+    elif len(ext_a) < len(ma) or len(ext_b) < len(mb):
         if min(len(ext_a), len(ext_b)) < 2:
             ext_verdict = None                       # fewer than two extended conformers
         else:
-            eo_a = [x.mean for x, v in zip(ao, views_a) if v.genus == 0]
-            eo_b = [x.mean for x, v in zip(bo, views_b) if v.genus == 0]
+            eo_a = [x.mean for x, v in zip(ao, views_a) if v.folded is False]
+            eo_b = [x.mean for x, v in zip(bo, views_b) if v.folded is False]
             ext_verdict = _verdict(ext_a, ext_b, part, float(np.mean(ext_b) - np.mean(ext_a)),
                                    float(np.mean(eo_b) - np.mean(eo_a)))
         extended = dict(n=(len(ext_a), len(ext_b)),
