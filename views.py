@@ -11,7 +11,8 @@ Views:
   viewer_js     3D sticks, optionally with the ESP surface, the site highlighted
   difference_card   one site, two molecules, with the uncertainty beside it
   page          the three together, as one HTML page
-Every record access goes through record.py.
+Views take Arrowfield's model objects (model.py: MoleculeView, Comparison),
+never an espmap record or an Atlas record. record.py and bundle.py translate.
 """
 import html
 import json
@@ -20,7 +21,7 @@ import sys
 
 import numpy as np
 
-from record import comparable, same_scale
+from model import ComparisonStatus, compare
 
 THREEDMOL = "https://cdnjs.cloudflare.com/ajax/libs/3Dmol/2.4.0/3Dmol-min.js"
 STYLE = dict(background="white", outline="black", outline_width=0.03,
@@ -44,8 +45,8 @@ _USUAL_VALENCE = {"H": 1, "C": 4, "N": 3, "O": 2, "S": 2, "P": 3, "F": 1, "Cl": 
                   "Br": 1, "I": 1, "B": 3, "Si": 4, "Se": 2}
 
 
-def mol_from_record(rec, mapped_smiles=None):
-    """RDKit mol in the RECORD's atom order, with the record's coordinates.
+def mol_from_view(rec, mapped_smiles=None):
+    """RDKit mol in the record's atom order, with its coordinates.
 
     The record's order is the input's (espmap spec section 6): SMILES order
     with hydrogens appended for --smiles, the file's own order for --file. So
@@ -73,7 +74,7 @@ def mol_from_record(rec, mapped_smiles=None):
             if a.GetAtomMapNum() == 0 and a.GetIdx() in rec.atom_maps:
                 a.SetAtomMapNum(rec.atom_maps[a.GetIdx()])
         m = m.GetMol()
-        if sum(a.GetFormalCharge() for a in m.GetAtoms()) != rec.j["geometry"]["charge"]:
+        if sum(a.GetFormalCharge() for a in m.GetAtoms()) != rec.charge:
             raise ValueError("charges read from the record's bonds do not add up to its charge")
         Chem.SanitizeMol(m)
         return _with_coords(m, rec)
@@ -82,28 +83,28 @@ def mol_from_record(rec, mapped_smiles=None):
     tpl = Chem.MolFromSmiles(mapped_smiles)
     Chem.Kekulize(tpl, clearAromaticFlags=True)        # explicit single/double bonds
     by_map = {a.GetAtomMapNum(): a for a in tpl.GetAtoms() if a.GetAtomMapNum()}
-    atoms = rec.j["sites"]["atoms"]
-    if any(a["element"] != "H" and a["atom_map"] not in by_map for a in atoms):
+    atoms = rec.atoms
+    if any(a.element != "H" and a.atom_map not in by_map for a in atoms):
         raise ValueError("record has heavy atoms the mapped SMILES does not name")
     m = Chem.RWMol()
     rec_of_tpl = {}
     for a in atoms:
-        x = Chem.Atom(a["element"])
-        if a["element"] != "H":
-            t = by_map[a["atom_map"]]
+        x = Chem.Atom(a.element)
+        if a.element != "H":
+            t = by_map[a.atom_map]
             x.SetFormalCharge(t.GetFormalCharge())
-            x.SetAtomMapNum(a["atom_map"])
-            rec_of_tpl[t.GetIdx()] = a["index"]
+            x.SetAtomMapNum(a.atom_map)
+            rec_of_tpl[t.GetIdx()] = a.index
         x.SetNoImplicit(True)
         m.AddAtom(x)
     for b in tpl.GetBonds():
         m.AddBond(rec_of_tpl[b.GetBeginAtomIdx()], rec_of_tpl[b.GetEndAtomIdx()], b.GetBondType())
     for a in atoms:
-        if a["element"] == "H":
-            m.AddBond(a["parent"], a["index"], Chem.BondType.SINGLE)
+        if a.element == "H":
+            m.AddBond(a.parent, a.index, Chem.BondType.SINGLE)
     m = m.GetMol()
     Chem.SanitizeMol(m)
-    if [x.GetSymbol() for x in m.GetAtoms()] != rec.symbols:
+    if tuple(x.GetSymbol() for x in m.GetAtoms()) != tuple(rec.symbols):
         raise ValueError("record atoms and their element list disagree")
     return _with_coords(m, rec)
 
@@ -122,8 +123,8 @@ def colours(V, scale):
     """Vertex colours from espmap's own colormap and the record's scale."""
     sys.path.insert(0, os.environ.get("ESPMAP_PATH", ""))
     import esp_map as em
-    cmap = em.build_maps()[scale["cmap"]]
-    t = np.clip((V - scale["vmin"]) / (scale["vmax"] - scale["vmin"]), 0, 1)
+    cmap = em.build_maps()[scale.cmap]
+    t = np.clip((V - scale.vmin) / (scale.vmax - scale.vmin), 0, 1)
     return ["#%02x%02x%02x" % tuple(int(255 * c) for c in cmap(float(x))[:3]) for x in t]
 
 
@@ -137,7 +138,7 @@ def vertex_normals(verts, faces):
 
 def site_faces(surface, atoms):
     """Triangles owned by the site's atoms (espmap's NPZ ownership): the patch."""
-    return np.isin(surface["owner"], atoms)
+    return np.isin(surface.owner, atoms)
 
 
 # ------------------------------------------------------------------- 2D view
@@ -157,13 +158,13 @@ def svg_2d(mapped_smiles, site_maps=(), size=(340, 260)):
     return _draw_2d(m, hl, size)
 
 
-def svg_2d_record(rec, site_atoms=(), size=(340, 260)):
+def svg_2d_view(rec, site_atoms=(), size=(340, 260)):
     """The same skeletal formula drawn from the record alone: its bonds
     (espmap #47), E/Z assigned from its 3D coordinates, no SMILES needed. An
     unmapped record draws too, numbered by atom index instead of map.
     site_atoms are record indices, as in reaction_sites[*].atoms."""
     from rdkit import Chem
-    m = Chem.Mol(mol_from_record(rec, rec.mapped_smiles))
+    m = Chem.Mol(mol_from_view(rec, rec.mapped_smiles))
     Chem.AssignStereochemistryFrom3D(m)
     for a in m.GetAtoms():
         a.SetIntProp("rec_idx", a.GetIdx())
@@ -195,7 +196,7 @@ def viewer_js(div_id, rec, mapped_smiles, site_atoms=(), show_surface=True, surf
     hydrogens are drawn lilac; with the surface on, the site's patch stays
     opaque and the rest fades, so the table row and the picture are one thing."""
     from rdkit import Chem
-    m = mol_from_record(rec, mapped_smiles)
+    m = mol_from_view(rec, mapped_smiles)
     c, R = principal_frame(rec.xyz)
     conf = m.GetConformer()
     for i, p in enumerate((rec.xyz - c) @ R.T):
@@ -223,12 +224,12 @@ def viewer_js(div_id, rec, mapped_smiles, site_atoms=(), show_surface=True, surf
                       f"color:'{STYLE['C_site']}', opacity:0.5}});")
     if show_surface:
         s = rec.surface(rule)
-        verts = (s["verts"] - c) @ R.T
-        cols = colours(s["V"], rec.scale)
-        norms = vertex_normals(verts, s["faces"])
-        inside = site_faces(s, site) if site else np.ones(len(s["faces"]), bool)
+        verts = (s.verts - c) @ R.T
+        cols = colours(s.V, rec.scale)
+        norms = vertex_normals(verts, s.faces)
+        inside = site_faces(s, site) if site else np.ones(len(s.faces), bool)
         for mask, op in ((inside, surface_opacity), (~inside, 0.22 if site else surface_opacity)):
-            f = s["faces"][mask]
+            f = s.faces[mask]
             if not len(f):
                 continue
             used = np.unique(f)
@@ -251,42 +252,15 @@ def viewer_js(div_id, rec, mapped_smiles, site_atoms=(), show_surface=True, surf
 
 
 # ----------------------------------------------------------- difference card
-def difference_card(recs_a, recs_b, label, name_a="A", name_b="B"):
-    """One site, two molecules, each a list of records (its conformers).
-    Refuses records that are not comparable. The verdict is deliberately
-    simple: 'separated' only when the two conformer ranges do not overlap."""
-    for r in recs_a[1:] + recs_b:
-        if not comparable(recs_a[0], r):
-            raise ValueError("records with different analysis keys cannot be compared")
-    a = [r.site(label) for r in recs_a]
-    b = [r.site(label) for r in recs_b]
-    ma, mb = [x["mean"] for x in a], [x["mean"] for x in b]
-    part = max(x["partition"] or 0.0 for x in a + b)
-    card = dict(site=label, a=name_a, b=name_b, n=(len(a), len(b)),
-                diff=float(np.mean(mb) - np.mean(ma)),
-                range_a=float(max(ma) - min(ma)), range_b=float(max(mb) - min(mb)),
-                partition=float(part))
-    # folded conformers (genus > 0) widen a range most: show the extended-only
-    # range beside it, so a student sees how much of the spread is folding
-    ext_a = [m for m, r in zip(ma, recs_a) if r.genus == 0]
-    ext_b = [m for m, r in zip(mb, recs_b) if r.genus == 0]
-    if len(ext_a) < len(ma) or len(ext_b) < len(mb):
-        card["extended"] = dict(
-            n=(len(ext_a), len(ext_b)),
-            range_a=float(max(ext_a) - min(ext_a)) if len(ext_a) > 1 else None,
-            range_b=float(max(ext_b) - min(ext_b)) if len(ext_b) > 1 else None)
-    if min(len(a), len(b)) < 2:
-        card["verdict"] = "single conformer: cannot judge"
-    elif min(mb) > max(ma) or max(mb) < min(ma):
-        card["verdict"] = ("separated: every conformer differs in the same direction"
-                           + ("; but within the partition sensitivity" if abs(card["diff"]) <= part else ""))
-    else:
-        card["verdict"] = "not attributable to the change: the conformer ranges overlap"
-    return card
+def difference_card(views_a, views_b, label, name_a="A", name_b="B"):
+    """One site, two molecules, each a list of conformers: a Comparison
+    (model.compare). Measurements that are not comparable come back as a
+    NOT_COMPARABLE comparison, which the card shows, not as an error."""
+    return compare(views_a, views_b, label, name_a, name_b)
 
 
 def _extended_row(card):
-    e = card.get("extended")
+    e = card.extended
     if e is None:
         return ""
     f = lambda x: "–" if x is None else f"{x:.2f}"  # noqa: E731
@@ -295,16 +269,22 @@ def _extended_row(card):
 
 
 def card_html(card):
+    title = (f'<div class="card-title">{html.escape(card.name_a)} → {html.escape(card.name_b)} '
+             f'· site {html.escape(card.site)}<span class="unit">site mean, kcal/mol</span></div>')
+    banner = (f'<div class="status status-{card.status.name.lower()}">'
+              f'{card.status.value.upper()}</div>')
+    if card.status is ComparisonStatus.NOT_COMPARABLE:
+        return (f'<div class="card">{banner}{title}'
+                f'<div class="verdict">{html.escape(card.verdict.value)}</div></div>')
     return f"""
-<div class="card"><div class="card-title">{html.escape(card['a'])} → {html.escape(card['b'])} · site {html.escape(card['site'])}
-<span class="unit">site mean, kcal/mol</span></div>
+<div class="card">{banner}{title}
 <table>
-<tr><td>difference of conformer means</td><td>{card['diff']:+.2f}</td></tr>
-<tr><td>conformer range ({html.escape(card['a'])} / {html.escape(card['b'])}, n = {card['n'][0]} / {card['n'][1]})</td>
-<td>{card['range_a']:.2f} / {card['range_b']:.2f}</td></tr>{_extended_row(card)}
-<tr><td>partition sensitivity (max)</td><td>{card['partition']:.2f}</td></tr>
+<tr><td>difference of conformer means</td><td>{card.diff:+.2f}</td></tr>
+<tr><td>conformer range ({html.escape(card.name_a)} / {html.escape(card.name_b)}, n = {card.n[0]} / {card.n[1]})</td>
+<td>{card.range_a:.2f} / {card.range_b:.2f}</td></tr>{_extended_row(card)}
+<tr><td>partition sensitivity (max)</td><td>{card.partition:.2f}</td></tr>
 </table>
-<div class="verdict">{html.escape(card['verdict'])}</div></div>"""
+<div class="verdict">{html.escape(card.verdict.value)}</div></div>"""
 
 
 # ----------------------------------------------------------------------- page
@@ -322,6 +302,8 @@ td:first-child, th:first-child { text-align:left; }
 .card { border:1px solid var(--line); border-radius:8px; padding:10px 12px; background:var(--card); max-width:520px; }
 .card-title { font-weight:600; margin-bottom:6px; } .unit { font-weight:400; color:var(--muted); margin-left:8px; font-size:13px; }
 .verdict { margin-top:8px; font-weight:600; }
+.status { display:inline-block; font-size:12px; font-weight:700; letter-spacing:.04em; padding:1px 6px;
+          border:1px solid var(--ink); border-radius:4px; margin-bottom:6px; }
 .limits { color:var(--muted); font-size:13px; max-width:900px; margin-top:12px; }
 """
 
@@ -345,28 +327,28 @@ def site_table(recs, labels):
     head, adv, atoms = [], [], []
     for lab in labels:
         ss = [r.site(lab) for r in recs]
-        means = [s["mean"] for s in ss if s["mean"] is not None]
-        part = max((s["partition"] for s in ss if s["partition"] is not None), default=None)
+        means = [s.mean for s in ss if s.mean is not None]
+        part = max((s.partition for s in ss if s.partition is not None), default=None)
         rng = f"{max(means) - min(means):.2f}" if len(means) > 1 else "1 conformer"
         mean = f"{np.mean(means):+.1f}" if means else "buried"
-        mark = " †" if ss[0]["overlaps"] else ""
+        mark = " †" if ss[0].overlaps else ""
         head.append(f"<tr><td>{html.escape(lab)}{mark}</td><td><b>{mean}</b></td>"
                     f"<td>{_num(part, '.2f')}</td><td>{rng}</td></tr>")
         s = ss[0]
-        adv.append(f"<tr><td>{html.escape(lab)}</td><td>{s['area']:.1f}</td>"
-                   f"<td>{s['area_neg']:.1f} / {s['area_pos']:.1f}</td>"
-                   f"<td>{_num(s['p05'], '+.1f')} / {_num(s['p95'], '+.1f')}</td>"
-                   f"<td>{_num(s['vmin'], '+.1f')} / {_num(s['vmax'], '+.1f')}</td></tr>")
+        adv.append(f"<tr><td>{html.escape(lab)}</td><td>{s.area:.1f}</td>"
+                   f"<td>{s.area_neg:.1f} / {s.area_pos:.1f}</td>"
+                   f"<td>{_num(s.p05, '+.1f')} / {_num(s.p95, '+.1f')}</td>"
+                   f"<td>{_num(s.vmin, '+.1f')} / {_num(s.vmax, '+.1f')}</td></tr>")
         for a in recs[0].site_atoms(lab):
-            nn, rs = a["nearest_nucleus"], a["radius_scaled"]
-            mean_nn = _num(nn["mean"], "+.1f") or "buried"
-            mean_rs = "" if rs is None else (_num(rs["mean"], "+.1f") or "buried")
-            area_rs = "" if rs is None else format(rs["area"], ".1f")
-            atoms.append(f"<tr><td>{html.escape(lab)}</td><td>{a['element']}{a['index']}</td>"
+            nn, rs = a.by_rule.get("nearest_nucleus"), a.by_rule.get("radius_scaled")
+            mean_nn = _num(nn[0], "+.1f") or "buried"
+            mean_rs = "" if rs is None else (_num(rs[0], "+.1f") or "buried")
+            area_rs = "" if rs is None else format(rs[1], ".1f")
+            atoms.append(f"<tr><td>{html.escape(lab)}</td><td>{a.element}{a.index}</td>"
                          f"<td>{mean_nn} / {mean_rs}</td>"
-                         f"<td>{nn['area']:.1f} / {area_rs}</td></tr>")
+                         f"<td>{nn[1]:.1f} / {area_rs}</td></tr>")
     first = "" if len(recs) == 1 else " (first conformer)"
-    shown = {lab: recs[0].site(lab)["overlaps"] for lab in labels}
+    shown = {lab: recs[0].site(lab).overlaps for lab in labels}
     shared = {lab: ov for lab, ov in shown.items() if ov}
     tiling = ""
     if shared or not recs[0].sites_tile_surface:

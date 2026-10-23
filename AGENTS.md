@@ -19,7 +19,11 @@ version of it.
 
 - Compute or "correct" an espmap quantity here. Read it from a record, or
   don't show it.
-- Read espmap's JSON/NPZ layout anywhere except `record.py`.
+- Read espmap's JSON/NPZ layout anywhere except `record.py`, or the Atlas
+  bundle anywhere except `bundle.py` (to come). Both translate into
+  `model.py`, and views and lessons take only model objects. A test that
+  needs a state builds it by replacing model fields, never by editing an
+  upstream record.
 - Write a biological fact by hand. If the teaching bundle doesn't carry it,
   the lesson doesn't say it.
 - State a Sesiidae compound's identity apart from its Atlas ID, or show a

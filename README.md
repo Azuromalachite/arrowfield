@@ -14,6 +14,7 @@ the draft designs and working prototype it was seeded with.
 | `lessons.md` | the organic-chemistry companion: six lessons following the order of a first course (McMurry) |
 | `sesiidae-homework.md` | the class assignment: four acts, data plan, questions, what is still pending |
 | `notebooks.md` | cell-by-cell outlines of both notebooks and the three views, plus the prototype's status |
+| `model.py` | Arrowfield's own data model (MoleculeView, Comparison, EvidenceStatement, TeachingCase): the only objects views consume |
 | `record.py`, `views.py`, `build_demo.py`, `compute_records.py`, `make_geometries.py`, `tests/` | the working prototype of the three views; see `notebooks.md` |
 | `records/`, `geometries/` | computed records (small molecules), acetate's DFT geometry |
 | `demo/` | rendered pages, not committed: `python build_demo.py` writes them |

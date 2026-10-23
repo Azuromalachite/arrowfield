@@ -29,7 +29,8 @@ pip install "espmap @ git+https://github.com/Azuromalachite/espmap@v0.2.1"
 | `molecules.yaml` | generated from `build_manifest.py` | **no** |
 | `lessons.md`, `sesiidae-homework.md` | the lessons and the homework | yes |
 | `notebooks.md` | cell-by-cell outlines of the notebooks and views | yes |
-| `record.py` | the only reader of espmap records | yes, carefully |
+| `model.py` | Arrowfield's data model; views consume only these objects | yes |
+| `record.py` | the only reader of espmap records; maps them into the model | yes, carefully |
 | `views.py`, `build_demo.py` | the three views and their rendered demo | yes |
 | `records/`, `geometries/` | computed small-molecule records, a DFT geometry | regenerate, don't edit |
 | `demo/` | rendered pages | generated, not committed |
