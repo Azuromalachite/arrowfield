@@ -76,28 +76,52 @@ ENTRIES = [
                   "never SMILES + MMFF for small anions",
          note="ESP points to O, the charge-controlled site; the alkylation outcome needs a "
               "citation with its conditions before a lesson states it"),
-    # --- Sesiidae homework: C18, precomputed (P3 records) -------------------
+    # --- Sesiidae homework: C18. The Sesiidae Pheromone Atlas owns each
+    # compound's identity and biology (atlas_compound); its ESP ensembles are
+    # to live in the Atlas's computed/espmap and reach Arrowfield as a teaching
+    # bundle. None is computed yet: espmap's only C18 surfaces are its two
+    # Z3,Z13-18:OAc fixtures. role says whether the Atlas observes the compound
+    # or Arrowfield constructed it as a control. ------------------------------
     dict(id="z3z13_18_oh", name="(3Z,13Z)-octadeca-3,13-dien-1-ol",
          smiles=f"[OH:31][CH2:1][CH2:2]/[CH:3]=[CH:4]\\{chain_ch2(5, 12)}{TAIL}",
          lesson="sesiidae-A", headgroup="alcohol", stereo={"C3=C4": "Z", "C13=C14": "Z"},
-         sites=c18_sites("alcohol"), precompute=True),
+         sites=c18_sites("alcohol"), precompute=True,
+         role="atlas_observed", atlas_compound="spa.cmpd.z3_z13_18_oh"),
     dict(id="z3z13_18_al", name="(3Z,13Z)-octadeca-3,13-dienal",
          smiles=f"[O:32]=[CH:1][CH2:2]/[CH:3]=[CH:4]\\{chain_ch2(5, 12)}{TAIL}",
          lesson="sesiidae-A", headgroup="aldehyde", stereo={"C3=C4": "Z", "C13=C14": "Z"},
-         sites=c18_sites("aldehyde"), precompute=True),
+         sites=c18_sites("aldehyde"), precompute=True,
+         role="teaching_control", atlas_compound=None,
+         note="a teaching control, not an Atlas-observed compound: built to keep the "
+              "Z3,Z13 backbone fixed while only the head group changes (act A). The "
+              "aldehyde the Atlas records is (2E,13Z)-octadeca-2,13-dienal, "
+              "spa.cmpd.e2_z13_18_al"),
     dict(id="z3z13_18_ac", name="(3Z,13Z)-octadeca-3,13-dien-1-yl acetate",
          smiles=f"{ACE}[CH2:1][CH2:2]/[CH:3]=[CH:4]\\{chain_ch2(5, 12)}{TAIL}",
          lesson="sesiidae-A,B", headgroup="acetate", stereo={"C3=C4": "Z", "C13=C14": "Z"},
-         sites=c18_sites("acetate"), precompute=True),
+         sites=c18_sites("acetate"), precompute=True,
+         role="atlas_observed", atlas_compound="spa.cmpd.z3_z13_18_oac"),
     dict(id="e3z13_18_ac", name="(3E,13Z)-octadeca-3,13-dien-1-yl acetate",
          smiles=f"{ACE}[CH2:1][CH2:2]/[CH:3]=[CH:4]/{chain_ch2(5, 12)}{TAIL}",
          lesson="sesiidae-B,C", headgroup="acetate", stereo={"C3=C4": "E", "C13=C14": "Z"},
-         sites=c18_sites("acetate"), precompute=True),
+         sites=c18_sites("acetate"), precompute=True,
+         role="atlas_observed", atlas_compound="spa.cmpd.e3_z13_18_oac"),
     dict(id="e2z13_18_ac", name="(2E,13Z)-octadeca-2,13-dien-1-yl acetate",
          smiles=f"{ACE}[CH2:1]/[CH:2]=[CH:3]/{chain_ch2(4, 12)}{TAIL}",
          lesson="sesiidae-C", headgroup="acetate", stereo={"C2=C3": "E", "C13=C14": "Z"},
-         sites=c18_sites("acetate"), precompute=True),
+         sites=c18_sites("acetate"), precompute=True,
+         role="atlas_observed", atlas_compound="spa.cmpd.e2_z13_18_oac"),
 ]
+
+# The Atlas's InChIKey for each atlas_compound, checked against the structure
+# here when the manifest is built (2026-10-23, Atlas 6775875). A mismatch means
+# the two repositories disagree on what the compound is.
+ATLAS_INCHIKEY = {
+    "spa.cmpd.z3_z13_18_oh": "QBNCGBJHGBGHLS-NCCHCWSYSA-N",
+    "spa.cmpd.z3_z13_18_oac": "VVJPJXKHBZNADP-DNNFRFAMSA-N",
+    "spa.cmpd.e3_z13_18_oac": "VVJPJXKHBZNADP-ZSTZHTMOSA-N",
+    "spa.cmpd.e2_z13_18_oac": "NWRSOYAGXTXEMK-NHRIVICHSA-N",
+}
 
 
 def check(e):
@@ -128,7 +152,15 @@ def check(e):
     plain = Chem.Mol(m)
     for a in plain.GetAtoms():
         a.SetAtomMapNum(0)
-    return dict(canonical_smiles=Chem.MolToSmiles(plain), inchikey=Chem.MolToInchiKey(plain),
+    key = Chem.MolToInchiKey(plain)
+    if e["lesson"].startswith("sesiidae"):                      # who says what it is
+        assert e.get("role") in ("atlas_observed", "teaching_control"), e["id"]
+        if e["role"] == "atlas_observed":
+            assert ATLAS_INCHIKEY.get(e["atlas_compound"]) == key, \
+                f"{e['id']}: not the Atlas's {e['atlas_compound']}"
+        else:
+            assert e["atlas_compound"] is None and "teaching control" in e["note"], e["id"]
+    return dict(canonical_smiles=Chem.MolToSmiles(plain), inchikey=key,
                 formula=rdMolDescriptors.CalcMolFormula(plain))
 
 
@@ -138,11 +170,13 @@ for e in ENTRIES:
     row = dict(id=e["id"], display_name=e["name"], lesson=e["lesson"],
                mapped_smiles=e["smiles"], **derived, charge=e.get("charge", 0),
                solvent=e.get("solvent", "vacuum"))
-    for k in ("geometry", "headgroup", "stereo", "sites", "note", "precompute"):
+    for k in ("role", "atlas_compound", "geometry", "headgroup", "stereo", "sites", "note",
+              "precompute"):
         if k in e:
             row[k] = e[k]
     if e["lesson"].startswith("sesiidae"):
-        row["biological_context"] = "TODO: cite the species/blend data before class use"
+        row["biological_context"] = ("from the Atlas teaching bundle (not yet exported); "
+                                     "never written here by hand")
     rows.append(row)
 
 try:

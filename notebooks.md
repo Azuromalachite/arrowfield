@@ -120,8 +120,9 @@ One notebook, one lesson per section (`lessons.md`). Each section:
 
 ## Notebook 2: Sesiidae homework
 
-1. **Setup:** pin espmap, load the precomputed records and NPZs for the five
-   compounds and their conformers. No SCF unless the student opts in.
+1. **Setup:** pin espmap and an Atlas teaching bundle; load from the bundle
+   the records and NPZs for the five compounds and their conformers, and the
+   observations each act cites. No SCF unless the student opts in.
 2. **Act A:** dropdown alcohol / aldehyde / acetate; predict; View 1 + 2;
    difference cards for the head-group sites and the chain sites; the
    student writes the explanation.
@@ -141,6 +142,6 @@ One notebook, one lesson per section (`lessons.md`). Each section:
 | caller-defined sites by atom map | present (`--sites`) |
 | triangle → atom ownership in the NPZ | present |
 | comparability keys and validity in the record | present (names may change in review 4) |
-| **unspecified E/Z refused** | **missing**: `--require-stereo`; until then the manifest guarantees it |
-| precomputed records for the five C18 compounds | P3, with the fixture set extended |
+| **unspecified E/Z refused** | `--require-stereo`: merged on master (3746cad), not yet in a release; until then the manifest guarantees it |
+| precomputed records for the five C18 compounds | **not computed**: ensembles to live in the Atlas's `computed/espmap/`, exported as a teaching bundle |
 | a tagged release to pin | v0.2.1 (v0.2.0 was the first, after P3) |

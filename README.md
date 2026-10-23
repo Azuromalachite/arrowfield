@@ -24,6 +24,13 @@ the draft designs and working prototype it was seeded with.
 - **Arrowfield is the teaching layer.** It chooses molecules (from the
   manifest, never from typed SMILES), names reaction sites, asks for
   predictions, and decides how to present uncertainty.
+- **The [Sesiidae Pheromone Atlas](https://github.com/Azuromalachite/sesiidae-pheromone-atlas)
+  owns the Sesiidae science:** compound identity (`spa.cmpd.*`), the
+  biological observations, and the canonical espmap records for those
+  compounds (`computed/espmap/`). Arrowfield names an Atlas compound by its ID
+  and reads observations and records from a teaching bundle the Atlas
+  exports. It never restates them by hand. A molecule Arrowfield constructs
+  for a lesson is labelled a teaching control.
 - Everything the notebooks need from espmap is in
   [v0.2.1](https://github.com/Azuromalachite/espmap/releases/tag/v0.2.1)
   (41a989d), with one exception: `--require-stereo` (an unspecified E/Z or
@@ -105,5 +112,7 @@ Source for all figures: espmap `bench/site_partition.jsonl`.
   `bench/fixtures/enolate.sdf` (B3LYP/def2-TZVP, PCM water). Acetate needs
   one made the same way before lesson 3 runs (marked `TODO` in the manifest).
 - Small molecules (≤ 6 heavy atoms) run live in seconds. The C18 Sesiidae
-  compounds are precomputed (P3 records) and load instantly; a
-  "recompute yourself" option stays available.
+  compounds are to be precomputed as conformer ensembles, kept in the
+  Sesiidae Pheromone Atlas (`computed/espmap/`) and loaded from its teaching
+  bundle; none is computed yet. A "recompute yourself" option stays
+  available.

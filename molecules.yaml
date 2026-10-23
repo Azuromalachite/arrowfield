@@ -159,6 +159,8 @@ molecules:
   formula: C18H34O
   charge: 0
   solvent: vacuum
+  role: atlas_observed
+  atlas_compound: spa.cmpd.z3_z13_18_oh
   headgroup: alcohol
   stereo:
     C3=C4: Z
@@ -207,7 +209,7 @@ molecules:
     atoms:
     - 31+H
   precompute: true
-  biological_context: 'TODO: cite the species/blend data before class use'
+  biological_context: from the Atlas teaching bundle (not yet exported); never written here by hand
 - id: z3z13_18_al
   display_name: (3Z,13Z)-octadeca-3,13-dienal
   lesson: sesiidae-A
@@ -217,6 +219,8 @@ molecules:
   formula: C18H32O
   charge: 0
   solvent: vacuum
+  role: teaching_control
+  atlas_compound: null
   headgroup: aldehyde
   stereo:
     C3=C4: Z
@@ -234,8 +238,11 @@ molecules:
   - label: head O
     atoms:
     - 32
+  note: 'a teaching control, not an Atlas-observed compound: built to keep the Z3,Z13 backbone fixed while
+    only the head group changes (act A). The aldehyde the Atlas records is (2E,13Z)-octadeca-2,13-dienal,
+    spa.cmpd.e2_z13_18_al'
   precompute: true
-  biological_context: 'TODO: cite the species/blend data before class use'
+  biological_context: from the Atlas teaching bundle (not yet exported); never written here by hand
 - id: z3z13_18_ac
   display_name: (3Z,13Z)-octadeca-3,13-dien-1-yl acetate
   lesson: sesiidae-A,B
@@ -245,6 +252,8 @@ molecules:
   formula: C20H36O2
   charge: 0
   solvent: vacuum
+  role: atlas_observed
+  atlas_compound: spa.cmpd.z3_z13_18_oac
   headgroup: acetate
   stereo:
     C3=C4: Z
@@ -271,7 +280,7 @@ molecules:
     - 22
     - 32
   precompute: true
-  biological_context: 'TODO: cite the species/blend data before class use'
+  biological_context: from the Atlas teaching bundle (not yet exported); never written here by hand
 - id: e3z13_18_ac
   display_name: (3E,13Z)-octadeca-3,13-dien-1-yl acetate
   lesson: sesiidae-B,C
@@ -281,6 +290,8 @@ molecules:
   formula: C20H36O2
   charge: 0
   solvent: vacuum
+  role: atlas_observed
+  atlas_compound: spa.cmpd.e3_z13_18_oac
   headgroup: acetate
   stereo:
     C3=C4: E
@@ -307,7 +318,7 @@ molecules:
     - 22
     - 32
   precompute: true
-  biological_context: 'TODO: cite the species/blend data before class use'
+  biological_context: from the Atlas teaching bundle (not yet exported); never written here by hand
 - id: e2z13_18_ac
   display_name: (2E,13Z)-octadeca-2,13-dien-1-yl acetate
   lesson: sesiidae-C
@@ -317,6 +328,8 @@ molecules:
   formula: C20H36O2
   charge: 0
   solvent: vacuum
+  role: atlas_observed
+  atlas_compound: spa.cmpd.e2_z13_18_oac
   headgroup: acetate
   stereo:
     C2=C3: E
@@ -343,4 +356,4 @@ molecules:
     - 22
     - 32
   precompute: true
-  biological_context: 'TODO: cite the species/blend data before class use'
+  biological_context: from the Atlas teaching bundle (not yet exported); never written here by hand

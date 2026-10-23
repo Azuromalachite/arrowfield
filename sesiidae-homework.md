@@ -17,22 +17,36 @@ All five from `molecules.yaml`, chosen from a dropdown, never typed. The
 manifest guarantees every double bond's E/Z is set, and every compound is the
 C18 skeleton with C1 bearing the oxygen:
 
-| id | compound | role |
-| --- | --- | --- |
-| `z3z13_18_oh` | (3Z,13Z)-octadeca-3,13-dien-1-ol | act A: alcohol |
-| `z3z13_18_al` | (3Z,13Z)-octadeca-3,13-dienal | act A: aldehyde |
-| `z3z13_18_ac` | (3Z,13Z)-octadeca-3,13-dien-1-yl acetate | acts A, B: acetate, Z3 |
-| `e3z13_18_ac` | (3E,13Z)-octadeca-3,13-dien-1-yl acetate | acts B, C: E3 |
-| `e2z13_18_ac` | (2E,13Z)-octadeca-2,13-dien-1-yl acetate | act C: double bond moved to C2 |
+| id | compound | in the homework | Atlas compound |
+| --- | --- | --- | --- |
+| `z3z13_18_oh` | (3Z,13Z)-octadeca-3,13-dien-1-ol | act A: alcohol | `spa.cmpd.z3_z13_18_oh` |
+| `z3z13_18_al` | (3Z,13Z)-octadeca-3,13-dienal | act A: aldehyde | **teaching control**, none |
+| `z3z13_18_ac` | (3Z,13Z)-octadeca-3,13-dien-1-yl acetate | acts A, B: acetate, Z3 | `spa.cmpd.z3_z13_18_oac` |
+| `e3z13_18_ac` | (3E,13Z)-octadeca-3,13-dien-1-yl acetate | acts B, C: E3 | `spa.cmpd.e3_z13_18_oac` |
+| `e2z13_18_ac` | (2E,13Z)-octadeca-2,13-dien-1-yl acetate | act C: double bond moved to C2 | `spa.cmpd.e2_z13_18_oac` |
 
-The biological context (which species use which compound, in what blend) is
-`TODO: cite` before class use. The assignment must not state a biological
-fact without a source.
+Four of the five are compounds the Sesiidae Pheromone Atlas records;
+`molecules.yaml` names each by its Atlas ID, and the manifest builder checks
+that the structures agree. The aldehyde is different: it is a **teaching
+control**, built here so act A changes only the head group on the Z3,Z13
+backbone. It is not an observed pheromone. The aldehyde the Atlas records is
+(2E,13Z)-octadeca-2,13-dienal (`spa.cmpd.e2_z13_18_al`). Every page and
+card must show which of the two kinds a compound is.
+
+The biological context (which species produce or respond to which compound,
+in what blend) comes from the Atlas, through a teaching bundle exported from
+its records. It is never written here by hand, and the assignment must not
+state a biological fact the bundle does not carry.
 
 ## Data: precomputed, with the uncertainty attached
 
-- Every compound is precomputed as espmap records (the P3 fixture records,
-  extended to these five) on a **conformer ensemble**: the lowest-energy
+**Status:** none of the five ensembles is computed yet. espmap's only C18
+surfaces are its two Z3,Z13-18:OAc fixture conformers, which test the
+instrument, not this homework. The ensembles' canonical home is the Atlas's
+`computed/espmap/<Atlas ID>/`; Arrowfield reads them from the teaching bundle.
+
+- Each compound is to be precomputed as espmap records on a **conformer
+  ensemble**: the lowest-energy
   conformer plus shapes spread by radius of gyration, so folded ones are
   included. A single conformer is not enough here. For C18 chains, site
   means move a median 5.1 kcal/mol across conformers, and V_min 5.2 once
@@ -168,7 +182,12 @@ itself.
 - [ ] Re-check at the class basis if it is not def2-SVP. Basis moves C18
   V_max by +1.5 to +2.8, the same order as these differences.
 - [x] `head O` defined identically for OH, CHO and OAc (act A).
-- [ ] P3 records for the five compounds; espmap tagged v0.2.0; notebook pinned to it.
-- [ ] `--require-stereo` in espmap, or the manifest-only guarantee accepted.
-- [ ] Biological context cited.
+- [x] Four compounds named by their Atlas IDs, structures checked against the
+  Atlas; the aldehyde labelled a teaching control (2026-10-23).
+- [ ] Ensembles (10+ conformers) for the five compounds computed with a pinned
+  espmap release, stored in the Atlas's `computed/espmap/`, and exported as a
+  teaching bundle; notebook pinned to both.
+- [ ] `--require-stereo` in a tagged espmap. It is merged on master (3746cad)
+  but not yet released, so the manifest-only guarantee still holds.
+- [ ] Biological context from the Atlas teaching bundle, not written here.
 - [ ] McMurry section numbers for the class edition.
