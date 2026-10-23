@@ -433,13 +433,26 @@ def study_card_html(row, context):
                  f"<li>solvent: {esc(lim.get('solvent', 'not stated'))}</li>"
                  "<li>protein or membrane context: outside this study</li></ul>")
     parts.append('<p class="limits">This does not establish biological discrimination.</p>')
-    if prov.get("results_sha256"):
-        plan = (prov.get("plan_commit") or "")[:7]
-        parts.append(f'<div class="provenance">Plan frozen at {esc(plan or "commit not recorded")} · results '
-                     f'sha256 {esc(prov["results_sha256"][:12])}…</div>')
-    else:
-        parts.append('<div class="provenance warn">Provenance incomplete: the results file\'s sha256 is not '
-                     "recorded, so this card cannot be traced to a frozen results file.</div>")
+    # Provenance is shown only in a form that can be checked: a 64-hex results
+    # sha256 and a 7-40-hex plan commit. Anything else (missing, an int, a
+    # malformed string; probe round 3 of #11) is named, with a visible warning.
+    import re
+    sha, plan = prov.get("results_sha256"), prov.get("plan_commit")
+    sha_ok = isinstance(sha, str) and re.fullmatch(r"[0-9a-f]{64}", sha) is not None
+    plan_ok = isinstance(plan, str) and re.fullmatch(r"[0-9a-f]{7,40}", plan) is not None
+    known = []
+    if plan_ok:
+        known.append(f"Plan frozen at {plan[:7]}")
+    if sha_ok:
+        known.append(f"results sha256 {sha[:12]}…")
+    if known:
+        parts.append(f'<div class="provenance">{esc(" · ".join(known))}</div>')
+    missing = [w for ok, w in ((plan_ok, "the frozen plan's commit"), (sha_ok, "the results file's sha256"))
+               if not ok]
+    if missing:
+        parts.append(f'<div class="provenance warn">Provenance incomplete: {esc(" and ".join(missing))} '
+                     f'{"is" if len(missing) == 1 else "are"} not recorded in a verifiable form, so this '
+                     "card cannot be fully traced to the frozen study.</div>")
     parts.append("</div>")
     return "\n".join(parts)
 

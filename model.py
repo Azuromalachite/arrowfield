@@ -540,6 +540,10 @@ def study_row_malformed(row):
         v = getattr(row, name)
         if v is not None and not real_number(v):
             return f"{name} {v!r} is not a finite number"
+    n = row.n
+    if not (isinstance(n, (tuple, list)) and len(n) == 2
+            and all(isinstance(k, int) and not isinstance(k, bool) and k >= 0 for k in n)):
+        return f"n {n!r} is not two non-negative integers"
     if row.partition is not None and row.partition < 0:
         return f"partition {row.partition} is negative"
     for name in ("range_x", "range_y", "bootstrap_interval"):

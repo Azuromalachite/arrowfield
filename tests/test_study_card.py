@@ -28,17 +28,9 @@ CASES = SET["cases"]
 RULE = "espmap-sesiidae-001/range_partition_sign_v1"
 
 # --- what the card gets wrong today (measured, not intended) -------------------
-UNSAFE_NOW = {
-    # probe round 3 of #11: an int plan commit crashes the card; n that is not
-    # two non-negative integers is rendered
-    "provenance_plan_commit_int", "malformed_n_garbage", "malformed_n_bool",
-}
+UNSAFE_NOW = set()      # empty since the card met the probe rounds of #11; a new failing case goes here
 NOT_PREFERRED_NOW = set(UNSAFE_NOW)
-REQUIRES_MISSING_NOW = {
-    # a missing plan commit, or a results sha256 that is not 64 hex characters,
-    # renders with no provenance warning
-    ("provenance_plan_commit_missing", 0), ("provenance_sha_not_hex", 0),
-}
+REQUIRES_MISSING_NOW = set()
 
 
 def _mark(ids, cid):
