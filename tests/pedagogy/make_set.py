@@ -343,6 +343,22 @@ case("genus_without_folding", "A13 folded flag", "compare",
      outcomes=grades(SEPARATED="SAFE", SEPARATED_WITHIN_PARTITION="SAFE", OVERLAPPING="FALSE", **REFUSE_OK),
      prefer="SEPARATED", requires=["extended_n"], extra={"extended_n": None})
 
+# ------------------------------------------------ A15: what a one-geometry refusal says
+# The user's decision (2026-10-24): espmap's compare allows one geometry on a
+# side (flagged, never resolved); refusing it belongs here, and the refusal
+# must name what cannot be judged: conformational robustness. "Single
+# conformer: cannot judge" leaves a student free to read it as "too little
+# data" rather than "shape alone could produce this difference".
+for vid, na, nb in [("1v1", 1, 1), ("1v8", 1, 8), ("8v1", 8, 1)]:
+    case(f"one_geometry_says_why_{vid}", "A15 one-geometry wording", "compare",
+         "With one geometry on a side, the conformational spread is unmeasured. The card must say "
+         "it cannot judge conformational robustness, and that it is because one side has one "
+         "geometry: the reason a single structure cannot show an effect on a flexible molecule.",
+         a=ens(na, 2.0, 1.0), b=ens(nb, 6.0, 1.0),
+         outcomes=grades(CANNOT_JUDGE="SAFE_REFUSAL", SEPARATED="MISLEADING", OVERLAPPING="MISLEADING",
+                         SEPARATED_WITHIN_PARTITION="MISLEADING", **REFUSE_OK),
+         prefer="CANNOT_JUDGE", requires=["robustness_wording", "no_single_range"])
+
 # ------------------------------------------------ A9: language on every card
 # Checked on every A case's card, not as a case of its own: see LANGUAGE below.
 LANGUAGE = {
