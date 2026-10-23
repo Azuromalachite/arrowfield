@@ -193,3 +193,14 @@ def test_records_that_are_not_comparable_are_shown_as_not_comparable():
     assert card.status is ComparisonStatus.NOT_COMPARABLE and card.diff is None
     h = card_html(card)
     assert "NOT COMPARABLE" in h and "difference of conformer means" not in h
+
+
+def test_the_card_names_the_method_of_its_own_measurements():
+    """The scope line takes the method from the measurements' provenance: a
+    hard-coded 'gas phase' would be false on a card comparing PCM records."""
+    e, z = load_all(REC, "e2_butene"), load_all(REC, "z2_butene")
+    h = card_html(difference_card(e, z, "C2"))
+    assert "free molecule (" + e[0].provenance.method + ")" in h
+    pcm = [replace(v, provenance=replace(v.provenance, solvent="water")) for v in e + z]
+    h = card_html(difference_card(pcm[:3], pcm[3:], "C2"))
+    assert "PCM water" in h and "gas" not in h.split('class="scope"')[1]

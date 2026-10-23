@@ -171,6 +171,13 @@ class Verdict(Enum):
     OVERLAPPING = "not attributable to the change: the conformer ranges overlap"
     CANNOT_JUDGE = "single conformer: cannot judge"
     NOT_COMPARED = "not compared: the measurements have different analysis keys"
+    RULE_DEPENDENT = ("direction depends on the partition rule: every conformer differs one way "
+                      "under the nearest-nucleus rule, but the radius-scaled rule gives the opposite sign")
+
+
+class Refused(LookupError):
+    """A comparison that cannot be made, with the reason a student can act on
+    (a site buried in a named conformer). Raised, never returned as numbers."""
 
 
 @dataclass(frozen=True)
@@ -188,39 +195,70 @@ class Comparison:
     range_a: Optional[float] = None
     range_b: Optional[float] = None
     partition: Optional[float] = None
-    extended: Optional[dict] = None  # the same ranges over unfolded conformers only
+    extended: Optional[dict] = None  # the same ranges, and a verdict, over unfolded conformers only
+    diff_other_rule: Optional[float] = None
+    method: Optional[str] = None     # e.g. "b3lyp/def2svp, gas", shared by every measurement
+
+
+def _verdict(ma, mb, part, diff, diff_other):
+    """The verdict for two lists of site means (at least two each)."""
+    if not (min(mb) > max(ma) or max(mb) < min(ma)):
+        return Verdict.OVERLAPPING
+    if diff_other is not None and diff * diff_other < 0:
+        return Verdict.RULE_DEPENDENT
+    return Verdict.SEPARATED_WITHIN_PARTITION if abs(diff) <= part else Verdict.SEPARATED
 
 
 def compare(views_a, views_b, label, name_a="A", name_b="B", rule="nearest_nucleus"):
     """Compare a site between two molecules' conformers. Measurements with
-    different analysis keys are not compared at all: the result says so."""
+    different analysis keys are not compared at all: the result says so. A
+    site buried in any conformer, under either rule, is refused (Refused),
+    naming the conformer: dropping it would quietly change n. A difference
+    whose sign flips under the other partition rule is RULE_DEPENDENT."""
     if any(not comparable(views_a[0], v) for v in views_a[1:] + views_b):
         return Comparison(label, name_a, name_b, ComparisonStatus.NOT_COMPARABLE,
                           Verdict.NOT_COMPARED)
+    other = next(r for r in RULES if r != rule)
     a = [v.site(label, rule) for v in views_a]
     b = [v.site(label, rule) for v in views_b]
+    ao = [v.site(label, other) for v in views_a]
+    bo = [v.site(label, other) for v in views_b]
+    buried = [f"{v.name} ({r})" for vs, xs, r in ((views_a, a, rule), (views_b, b, rule),
+                                                  (views_a, ao, other), (views_b, bo, other))
+              for v, x in zip(vs, xs) if x.mean is None]
+    if buried:
+        raise Refused(f"site {label!r} has no surface in {', '.join(buried)}: it is buried in that "
+                      "conformer, so there is no site mean to compare. Compare a site that is exposed "
+                      "in every conformer, or read the folded conformer on its own.")
     ma, mb = [x.mean for x in a], [x.mean for x in b]
     part = max(x.partition or 0.0 for x in a + b)
     diff = float(np.mean(mb) - np.mean(ma))
+    diff_other = float(np.mean([x.mean for x in bo]) - np.mean([x.mean for x in ao]))
     extended = None
     ext_a = [m for m, v in zip(ma, views_a) if v.genus == 0]
     ext_b = [m for m, v in zip(mb, views_b) if v.genus == 0]
     if len(ext_a) < len(ma) or len(ext_b) < len(mb):
+        if min(len(ext_a), len(ext_b)) < 2:
+            ext_verdict = None                       # fewer than two extended conformers
+        else:
+            eo_a = [x.mean for x, v in zip(ao, views_a) if v.genus == 0]
+            eo_b = [x.mean for x, v in zip(bo, views_b) if v.genus == 0]
+            ext_verdict = _verdict(ext_a, ext_b, part, float(np.mean(ext_b) - np.mean(ext_a)),
+                                   float(np.mean(eo_b) - np.mean(eo_a)))
         extended = dict(n=(len(ext_a), len(ext_b)),
                         range_a=float(max(ext_a) - min(ext_a)) if len(ext_a) > 1 else None,
-                        range_b=float(max(ext_b) - min(ext_b)) if len(ext_b) > 1 else None)
+                        range_b=float(max(ext_b) - min(ext_b)) if len(ext_b) > 1 else None,
+                        verdict=ext_verdict)
     if min(len(a), len(b)) < 2:
         status, verdict = ComparisonStatus.SINGLE_CONFORMER, Verdict.CANNOT_JUDGE
     else:
         status = ComparisonStatus.COMPARABLE
-        if min(mb) > max(ma) or max(mb) < min(ma):
-            verdict = (Verdict.SEPARATED_WITHIN_PARTITION if abs(diff) <= part
-                       else Verdict.SEPARATED)
-        else:
-            verdict = Verdict.OVERLAPPING
+        verdict = _verdict(ma, mb, part, diff, diff_other)
     return Comparison(label, name_a, name_b, status, verdict, n=(len(a), len(b)), diff=diff,
-                      range_a=float(max(ma) - min(ma)), range_b=float(max(mb) - min(mb)),
-                      partition=float(part), extended=extended)
+                      range_a=float(max(ma) - min(ma)) if len(ma) > 1 else None,
+                      range_b=float(max(mb) - min(mb)) if len(mb) > 1 else None,
+                      partition=float(part), extended=extended, diff_other_rule=diff_other,
+                      method=views_a[0].provenance.method if views_a[0].provenance.xc else None)
 
 
 # ------------------------------------------------------------------ evidence

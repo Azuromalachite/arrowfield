@@ -21,7 +21,7 @@ PED = Path(__file__).with_name("pedagogy")
 sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(PED))
 from model import (Atom, ComparisonStatus, MoleculeView, Provenance, Scale,  # noqa: E402
-                   SiteMeasurement, compare)
+                   Refused, SiteMeasurement, compare)
 from views import card_html  # noqa: E402
 
 SET = json.loads((PED / "hostile_set.json").read_text(encoding="utf-8"))
@@ -30,27 +30,12 @@ BUILT = {"compare"}                       # components that exist; the rest skip
 NOW = [c for c in CASES if c["component"] in BUILT]
 
 # --- what the views get wrong today (measured, not intended) ---------------
-UNSAFE_NOW = {
-    # compare() reads one rule only: a direction that flips under the other
-    # rule is reported as SEPARATED
-    "rule_sign_flip_clear", "rule_sign_flip_narrow", "rule_sign_flip_negative_side",
-    # a buried site (mean None) reaches np.mean and raises TypeError
-    "buried_in_one_conformer", "buried_everywhere",
-}
-NOT_PREFERRED_NOW = set(UNSAFE_NOW)      # every other case already gets its preferred output
-REQUIRES_MISSING_NOW = {
-    # n = 1 prints a conformer range of 0.00, which reads as 'no variation'
-    ("single_conformer_1v1", "no_single_range"), ("single_conformer_1v20", "no_single_range"),
-    ("single_conformer_20v1", "no_single_range"),
-    # the extended row gives ranges, never a verdict for extended conformers
-    ("folded_drive_separation", "extended_verdict"), ("folded_hide_separation", "extended_verdict"),
-}
-SCOPE_CAVEAT_MISSING_NOW = {  # no card yet says what the number is of
-    "within_partition_well_inside", "within_partition_just_inside", "within_partition_negative",
-    "rule_sign_flip_clear", "rule_sign_flip_narrow", "rule_sign_flip_negative_side",
-    "folded_drive_separation", "folded_hide_separation", "folded_extended_single",
-    "overlap_mean_shift_strong", "overlap_mean_shift_weak",
-}
+# Empty since the views PR that met the set; a case added later that the
+# views fail goes here, with one line saying what the failure is.
+UNSAFE_NOW = set()
+NOT_PREFERRED_NOW = set()
+REQUIRES_MISSING_NOW = set()
+SCOPE_CAVEAT_MISSING_NOW = set()
 
 
 def views(members, name):
@@ -72,7 +57,7 @@ def run(c):
     label = c.get("label") or c["a"][0]["site"]
     try:
         cmp = compare(views(c["a"], "A"), views(c["b"], "B"), label, "A", "B")
-    except KeyError:
+    except (KeyError, Refused):          # a refusal that names its reason
         return "REFUSED", None, None
     except Exception:  # noqa: BLE001 - any other error is a crash, graded as such
         return "ERROR", None, None
