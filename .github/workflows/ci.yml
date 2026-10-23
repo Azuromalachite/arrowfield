@@ -19,6 +19,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           cache: pip
+          cache-dependency-path: requirements-ci.txt
       - run: pip install -r requirements-ci.txt
       # the manifest is generated: rebuilding it (every structure, stereo,
       # site and Atlas identity re-checked) must reproduce the committed file
