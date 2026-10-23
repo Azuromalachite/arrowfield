@@ -476,6 +476,34 @@ class TeachingCase:
 
 
 # ------------------------------------------------------------- frozen studies
+# The verdict rules Arrowfield knows how to show; a study row under any other
+# rule is refused, never shown as that study's.
+KNOWN_VERDICT_RULES = ("espmap-sesiidae-001/range_partition_sign_v1",)
+CONDITIONS = ("1_ranges_disjoint", "2_beyond_partition", "3_same_sign")
+
+
+def study_row_inconsistency(rule, outcome, cond, interval):
+    """None if a row's stated outcome follows from its own stated conditions
+    under its rule, else why not. This checks a record against itself, as a
+    charge that does not match its atoms would be: it never derives a verdict
+    from the measurements, and a consistent row is shown as the study wrote it.
+    range_partition_sign_v1 (the frozen plan, section 4): resolved iff all
+    three conditions hold; different on average iff 2 and 3 hold, 1 fails and
+    the bootstrap interval excludes 0; unresolved otherwise."""
+    if outcome in ("not evaluable", "no data"):
+        return None
+    if rule == "espmap-sesiidae-001/range_partition_sign_v1":
+        if set(cond) != set(CONDITIONS) or not all(isinstance(cond[k], bool) for k in CONDITIONS):
+            return f"conditions {sorted(cond)} are not exactly {CONDITIONS}, each true or false"
+        c1, c2, c3 = (cond[k] for k in CONDITIONS)
+        excl0 = interval is not None and (interval[0] > 0 or interval[1] < 0)
+        follows = ("resolved" if c1 and c2 and c3 else
+                   "different on average" if c2 and c3 and excl0 else "unresolved")
+        if outcome != follows:
+            return f"the row says {outcome!r}, but its own conditions {cond} and interval {interval} give {follows!r}"
+    return None
+
+
 @dataclass(frozen=True)
 class StudySite:
     """One site of one contrast in a frozen study, as the study decided it.
