@@ -1,5 +1,5 @@
 """study.py on the real espmap-sesiidae-001 results (tests/data, copied
-unedited from the Atlas at f286bc1) and the real aldehyde control records
+unedited from the Atlas at dabaf15, main after PR #1) and the real aldehyde control records
 (controls/). The adapter shows the study's own verdicts, never re-decides
 them, and passes each member's folded flag through as the index states it.
 """
