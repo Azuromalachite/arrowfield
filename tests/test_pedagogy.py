@@ -34,12 +34,7 @@ NOW = [c for c in CASES if c["component"] in BUILT]
 # a case added later that the views fail goes here, with one line saying why.
 UNSAFE_NOW = set()
 NOT_PREFERRED_NOW = set()
-REQUIRES_MISSING_NOW = {
-    # A15 (the user's decision, 2026-10-24): the one-geometry refusal says
-    # "single conformer: cannot judge", not what cannot be judged or why
-    ("one_geometry_says_why_1v1", "robustness_wording"), ("one_geometry_says_why_1v8", "robustness_wording"),
-    ("one_geometry_says_why_8v1", "robustness_wording"),
-}
+REQUIRES_MISSING_NOW = set()
 SCOPE_CAVEAT_MISSING_NOW = set()
 
 

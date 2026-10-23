@@ -95,7 +95,7 @@ Verdict rules, deliberately simple:
   every conformer of one differs from every conformer of the other in the
   same direction;
 - otherwise **"not attributable to the change"**;
-- with a single conformer per molecule: **"single conformer: cannot judge"**,
+- with one geometry on either side: **"cannot judge conformational robustness: one geometry on a side"**,
   never a verdict.
 
 Underneath it always shows the reading order: mean, ± area, partition, then
