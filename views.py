@@ -468,6 +468,8 @@ def study_card_html(row, context):
 # "roles": {compound id: atlas_observed | teaching_control |
 # computational_counterfactual}, "bundle_object": the TeachingBundle,
 # optional "study_rows"} (study rows are deliberately never shown here).
+# The TeachingBundle is the authority: a statement, contrast or provenance
+# claim that is not the bundle's own is refused, never shown as Atlas evidence.
 _ROLE_WORDS = {"teaching_control": "Teaching control: a constructed molecule, not an Atlas compound",
                "computational_counterfactual": "Computational counterfactual: a computational model, "
                                                "not an Atlas compound"}
@@ -488,13 +490,50 @@ def _ctx(context):
     return prov, roles, context.get("bundle_object")
 
 
-def _atlas_provenance(prov):
+def _is_commit(v):
     import re
-    v = prov.get("atlas_version")
-    if isinstance(v, str) and re.fullmatch(r"[0-9a-f]{7,40}", v):
-        return f'<div class="provenance">Atlas commit {_t(v[:7])}</div>'
-    return ('<div class="provenance warn">Provenance incomplete: the Atlas commit is not recorded, so this '
-            "evidence cannot be traced to an Atlas release.</div>")
+    return isinstance(v, str) and re.fullmatch(r"[0-9a-f]{7,40}", v) is not None
+
+
+def _bound(context):
+    """(TeachingBundle, roles, provenance html), or Refused. The bundle names
+    its commit; the context's provenance, where given, must agree with it."""
+    from model import Refused, TeachingBundle
+    prov, roles, bundle = _ctx(context)
+    if not isinstance(bundle, TeachingBundle):
+        raise Refused("no teaching bundle: Atlas evidence is shown only from the bundle it came from")
+    v, sha = prov.get("atlas_version"), prov.get("sha256")
+    same = v is None or v == bundle.atlas_version or (
+        _is_commit(v) and _is_commit(bundle.atlas_version)
+        and (v.startswith(bundle.atlas_version) or bundle.atlas_version.startswith(v)))
+    if not same:
+        raise Refused(f"the page names Atlas {v!r} but the bundle was built at {bundle.atlas_version!r}")
+    if sha is not None and sha != bundle.sha256:
+        raise Refused("the page names a bundle file hash that is not this bundle's")
+    if _is_commit(bundle.atlas_version):
+        prov_html = f'<div class="provenance">Atlas commit {_t(bundle.atlas_version[:7])}</div>'
+    else:
+        prov_html = ('<div class="provenance warn">Provenance incomplete: the Atlas commit is not recorded, '
+                     "so this evidence cannot be traced to an Atlas release.</div>")
+    return bundle, roles, prov_html
+
+
+def _same_record(a, b):
+    import dataclasses
+    return a is b or (type(a) is type(b) and all(getattr(a, f.name) == getattr(b, f.name)
+                                                 for f in dataclasses.fields(a)))
+
+
+def _canonical(statement, bundle):
+    """The bundle's own statement for this id; Refused when the one given is
+    not it."""
+    from model import Refused
+    own = bundle.observations.get(getattr(statement, "observation_id", None))
+    if own is None:
+        raise Refused(f"{getattr(statement, 'observation_id', statement)!r} is not an observation of this bundle")
+    if not _same_record(statement, own):
+        raise Refused(f"{own.observation_id}: the statement given differs from the bundle's record")
+    return own
 
 
 def _where(st):
@@ -534,13 +573,14 @@ def _compound_line(st, compound):
         lim = det.detection_limit
         lim_txt = (f"detection limit {lim['value']} {lim['unit']}" if isinstance(lim, dict) and "value" in lim
                    else "detection limit not stated")
-        return (f"not detected, {lim_txt}: a negative for this method, sample and population "
+        method = f"method {det.method.replace('_', ' ')}" if det.method else "method not stated"
+        return (f"not detected, {lim_txt}: a negative for this method ({method}), sample and population "
                 f"({_where(st)}) only")
     roles = st.roles.get(compound, ())
     if not roles:
         return "not tested in this observation (not part of this experiment)"
     if st.effect is None:
-        return f"{', '.join(roles)}; no effect recorded"
+        return f"{', '.join(roles)}; effect not recorded"
     words = f"{st.effect.replace('_', ' ')}, {_SIG_WORDS.get(st.significance, str(st.significance))}"
     out = f"{', '.join(roles)} in {st.assay or 'this assay'}: {words}"
     r = st.response
@@ -555,9 +595,9 @@ def evidence_card_html(statement, compound, context):
     (model.Refused) for a compound the bundle does not carry: the record
     cannot speak about it."""
     from model import Refused
-    prov, roles, bundle = _ctx(context)
-    known = set(bundle.compounds) if bundle is not None else set()
-    if compound not in known:
+    bundle, _, provenance = _bound(context)
+    statement = _canonical(statement, bundle)
+    if compound not in bundle.compounds:
         raise Refused(f"{compound!r} is not a compound of this teaching bundle: an Atlas observation "
                       "cannot be read for it")
     name = bundle.compounds[compound].shorthand or compound
@@ -567,7 +607,7 @@ def evidence_card_html(statement, compound, context):
              f'<div class="where">{_t(_where(statement))}</div>',
              f'<div class="verdict">{_t(line)}</div>']
     parts += _statement_block(statement)
-    parts += [_atlas_provenance(prov), "</div>"]
+    parts += [provenance, "</div>"]
     return "\n".join(parts)
 
 
@@ -575,10 +615,13 @@ def contrast_card_html(contrast, statements, context):
     """One ObservedContrast: its two observations side by side, each in its
     own context, with no verdict about the pair."""
     from model import Refused
-    prov, _, _ = _ctx(context)
-    ids = [s.observation_id for s in statements]
+    bundle, _, provenance = _bound(context)
+    if not any(_same_record(contrast, k) for k in bundle.contrasts):
+        raise Refused(f"{getattr(contrast, 'label', contrast)!r} is not a contrast of this bundle, as given")
+    ids = [getattr(s, "observation_id", None) for s in statements]
     if list(ids) != list(contrast.observation_ids):
         raise Refused(f"the statements given ({ids}) are not this contrast's ({list(contrast.observation_ids)})")
+    statements = [_canonical(s, bundle) for s in statements]
     parts = [f'<div class="card contrast-card"><div class="card-title">{_t(contrast.label)}</div>',
              "<p class='limits'>Two observations side by side, each in its own population, place, year and "
              "assay. The Atlas states each; it gives no verdict about the pair.</p>", '<div class="row">']
@@ -587,7 +630,7 @@ def contrast_card_html(contrast, statements, context):
                      f'{_t((st.assay or st.observation_type).replace("_", " "))}</div>')
         parts += _statement_block(st)
         parts.append("</div>")
-    parts += ["</div>", _atlas_provenance(prov), "</div>"]
+    parts += ["</div>", provenance, "</div>"]
     return "\n".join(parts)
 
 
@@ -597,13 +640,16 @@ def evidence_class_panel_html(compound, taxon_id, context):
     docs/evidence-classes.md). A teaching control or counterfactual is named
     as such and claims no evidence; an unknown compound is refused."""
     from model import Refused
-    prov, roles, bundle = _ctx(context)
+    bundle, roles, provenance = _bound(context)
     role = roles.get(compound)
     if role in _ROLE_WORDS:
+        if compound in bundle.compounds:
+            raise Refused(f"{compound!r} is an Atlas compound of this bundle, but the page calls it {role}: "
+                          "the roles are inconsistent with the bundle")
         return (f'<div class="card class-panel"><div class="card-title">{_t(compound)}</div>'
                 f"<p>{_t(_ROLE_WORDS[role])}; it has no Atlas evidence classes.</p>"
-                f"{_atlas_provenance(prov)}</div>")
-    if bundle is None or compound not in bundle.compounds:
+                f"{provenance}</div>")
+    if compound not in bundle.compounds:
         raise Refused(f"{compound!r} is neither a compound of this bundle nor given a role")
     bc = bundle.compounds[compound]
     in_case = set(bundle.observations)
@@ -634,7 +680,7 @@ def evidence_class_panel_html(compound, taxon_id, context):
                 parts.append("<p>female_pheromone_component is derived: the Atlas's join of a female detection "
                              "and an attraction in the same taxon. It is not an identification. "
                              f"Population match: {_t(pm)}.{_t(note)}</p>")
-    parts += [_atlas_provenance(prov), "</div>"]
+    parts += [provenance, "</div>"]
     return "\n".join(parts)
 
 

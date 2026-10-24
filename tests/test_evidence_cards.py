@@ -127,35 +127,7 @@ def _bundle(c, tmp_path):
     return _patched(RAW, c["bundle_patch"], tmp_path / "patched.json")
 
 
-XFAIL = {
-    "test_view_output_is_safe[observation_not_in_bundle]",
-    "test_view_output_is_safe[contrast_not_in_bundle]",
-    "test_view_output_is_safe[atlas_compound_labelled_control]",
-    "test_view_output_is_safe[atlas_compound_labelled_counterfactual]",
-    "test_view_output_is_safe[altered_statement_same_id]",
-    "test_view_output_is_safe[altered_negative_same_id]",
-    "test_view_output_is_safe[altered_contrast_statement]",
-    "test_view_output_is_safe[altered_contrast_text]",
-    "test_view_output_is_safe[context_version_disagrees]",
-    "test_view_output_is_safe[context_version_disagrees_contrast]",
-    "test_view_output_is_safe[context_sha_disagrees]",
-    "test_view_output_is_preferred[observation_not_in_bundle]",
-    "test_view_output_is_preferred[contrast_not_in_bundle]",
-    "test_view_output_is_preferred[atlas_compound_labelled_control]",
-    "test_view_output_is_preferred[atlas_compound_labelled_counterfactual]",
-    "test_view_output_is_preferred[altered_statement_same_id]",
-    "test_view_output_is_preferred[altered_negative_same_id]",
-    "test_view_output_is_preferred[altered_contrast_statement]",
-    "test_view_output_is_preferred[altered_contrast_text]",
-    "test_view_output_is_preferred[context_version_disagrees]",
-    "test_view_output_is_preferred[context_version_disagrees_contrast]",
-    "test_view_output_is_preferred[context_sha_disagrees]",
-    "test_a_rendered_view_meets_its_requirements[negative_names_its_method-0]",
-    "test_a_rendered_view_meets_its_requirements[limit_not_stated_names_its_method-0]",
-    "test_a_rendered_view_meets_its_requirements[effect_not_recorded-0]",
-    "test_a_rendered_view_meets_its_requirements[effect_not_recorded-1]",
-    "test_a_rendered_view_meets_its_requirements[context_provenance_absent-0]",
-}
+XFAIL = set()
 
 
 def _xfail(request, c):
