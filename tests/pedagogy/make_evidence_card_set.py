@@ -7,7 +7,7 @@ Written before the views exist (expectations first). It re-expresses the
 nine abstract evidence cases of hostile_set.json (B1-B5, which predate
 bundle.py) against the real Atlas teaching bundle, as bundle.py reads it, and
 extends them to the Atlas's evidence classes and population contexts. Inputs
-are real records: tests/data/sesiidae-homework-1.bundle.json (Atlas 30c4a11),
+are real records: tests/data/sesiidae-homework-1.bundle.json (Atlas 35112e1),
 loaded with bundle.load(), with an optional `bundle_patch` (path, value) for
 synthetic variants. The three views, all in views.py, all raising
 model.Refused when they cannot show the evidence faithfully:

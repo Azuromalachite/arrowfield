@@ -1,7 +1,7 @@
 {
  "generator": "tests/pedagogy/make_evidence_card_set.py",
  "bundle": "tests/data/sesiidae-homework-1.bundle.json",
- "atlas_version": "30c4a11",
+ "atlas_version": "35112e1",
  "grades": [
   "SAFE",
   "SAFE_REFUSAL",
@@ -21,7 +21,7 @@
    },
    "context": {
     "bundle": {
-     "atlas_version": "30c4a11",
+     "atlas_version": "35112e1",
      "sha256": "from bundle.load"
     },
     "roles": {
@@ -87,7 +87,7 @@
    },
    "context": {
     "bundle": {
-     "atlas_version": "30c4a11",
+     "atlas_version": "35112e1",
      "sha256": "from bundle.load"
     },
     "roles": {
@@ -147,7 +147,7 @@
    },
    "context": {
     "bundle": {
-     "atlas_version": "30c4a11",
+     "atlas_version": "35112e1",
      "sha256": "from bundle.load"
     },
     "roles": {
@@ -195,7 +195,7 @@
    },
    "context": {
     "bundle": {
-     "atlas_version": "30c4a11",
+     "atlas_version": "35112e1",
      "sha256": "from bundle.load"
     },
     "roles": {
@@ -255,7 +255,7 @@
    },
    "context": {
     "bundle": {
-     "atlas_version": "30c4a11",
+     "atlas_version": "35112e1",
      "sha256": "from bundle.load"
     },
     "roles": {
@@ -303,7 +303,7 @@
    },
    "context": {
     "bundle": {
-     "atlas_version": "30c4a11",
+     "atlas_version": "35112e1",
      "sha256": "from bundle.load"
     },
     "roles": {
@@ -381,7 +381,7 @@
    },
    "context": {
     "bundle": {
-     "atlas_version": "30c4a11",
+     "atlas_version": "35112e1",
      "sha256": "from bundle.load"
     },
     "roles": {
@@ -435,7 +435,7 @@
    },
    "context": {
     "bundle": {
-     "atlas_version": "30c4a11",
+     "atlas_version": "35112e1",
      "sha256": "from bundle.load"
     },
     "roles": {
@@ -525,7 +525,7 @@
    },
    "context": {
     "bundle": {
-     "atlas_version": "30c4a11",
+     "atlas_version": "35112e1",
      "sha256": "from bundle.load"
     },
     "roles": {
@@ -579,7 +579,7 @@
    },
    "context": {
     "bundle": {
-     "atlas_version": "30c4a11",
+     "atlas_version": "35112e1",
      "sha256": "from bundle.load"
     },
     "roles": {
@@ -628,7 +628,7 @@
    },
    "context": {
     "bundle": {
-     "atlas_version": "30c4a11",
+     "atlas_version": "35112e1",
      "sha256": "from bundle.load"
     },
     "roles": {
@@ -661,7 +661,7 @@
    },
    "context": {
     "bundle": {
-     "atlas_version": "30c4a11",
+     "atlas_version": "35112e1",
      "sha256": "from bundle.load"
     },
     "roles": {
@@ -720,7 +720,7 @@
    },
    "context": {
     "bundle": {
-     "atlas_version": "30c4a11",
+     "atlas_version": "35112e1",
      "sha256": "from bundle.load"
     },
     "roles": {
@@ -797,7 +797,7 @@
    },
    "context": {
     "bundle": {
-     "atlas_version": "30c4a11",
+     "atlas_version": "35112e1",
      "sha256": "from bundle.load"
     },
     "roles": {
@@ -868,7 +868,7 @@
    },
    "context": {
     "bundle": {
-     "atlas_version": "30c4a11",
+     "atlas_version": "35112e1",
      "sha256": "from bundle.load"
     },
     "roles": {
@@ -928,7 +928,7 @@
    },
    "context": {
     "bundle": {
-     "atlas_version": "30c4a11",
+     "atlas_version": "35112e1",
      "sha256": "from bundle.load"
     },
     "roles": {
@@ -984,7 +984,7 @@
    },
    "context": {
     "bundle": {
-     "atlas_version": "30c4a11",
+     "atlas_version": "35112e1",
      "sha256": "from bundle.load"
     },
     "roles": {
@@ -1040,7 +1040,7 @@
    },
    "context": {
     "bundle": {
-     "atlas_version": "30c4a11",
+     "atlas_version": "35112e1",
      "sha256": "from bundle.load"
     },
     "roles": {
@@ -1112,7 +1112,7 @@
    },
    "context": {
     "bundle": {
-     "atlas_version": "30c4a11",
+     "atlas_version": "35112e1",
      "sha256": "from bundle.load"
     },
     "roles": {
@@ -1178,7 +1178,7 @@
    },
    "context": {
     "bundle": {
-     "atlas_version": "30c4a11",
+     "atlas_version": "35112e1",
      "sha256": "from bundle.load"
     },
     "roles": {
@@ -1238,7 +1238,7 @@
    },
    "context": {
     "bundle": {
-     "atlas_version": "30c4a11",
+     "atlas_version": "35112e1",
      "sha256": "from bundle.load"
     },
     "roles": {
@@ -1292,7 +1292,7 @@
    },
    "context": {
     "bundle": {
-     "atlas_version": "30c4a11",
+     "atlas_version": "35112e1",
      "sha256": "from bundle.load"
     },
     "roles": {
@@ -1352,7 +1352,7 @@
    },
    "context": {
     "bundle": {
-     "atlas_version": "30c4a11",
+     "atlas_version": "35112e1",
      "sha256": "from bundle.load"
     },
     "roles": {
@@ -1417,7 +1417,7 @@
    },
    "context": {
     "bundle": {
-     "atlas_version": "30c4a11",
+     "atlas_version": "35112e1",
      "sha256": "from bundle.load"
     },
     "roles": {
@@ -1482,7 +1482,7 @@
    },
    "context": {
     "bundle": {
-     "atlas_version": "30c4a11",
+     "atlas_version": "35112e1",
      "sha256": "from bundle.load"
     },
     "roles": {
@@ -1515,7 +1515,7 @@
    },
    "context": {
     "bundle": {
-     "atlas_version": "30c4a11",
+     "atlas_version": "35112e1",
      "sha256": "from bundle.load"
     },
     "roles": {
@@ -1549,7 +1549,7 @@
    },
    "context": {
     "bundle": {
-     "atlas_version": "30c4a11",
+     "atlas_version": "35112e1",
      "sha256": "from bundle.load"
     },
     "roles": {

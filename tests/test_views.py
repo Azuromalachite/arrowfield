@@ -244,7 +244,7 @@ def test_every_real_study_row_renders_as_a_study_card():
 
 
 def test_every_real_record_renders_in_the_evidence_views():
-    """The whole homework bundle (Atlas 30c4a11): every observation for every
+    """The whole homework bundle (Atlas 35112e1): every observation for every
     bundle compound, every contrast, and every compound's classes in both
     taxa render, and none says what the records do not."""
     import re
