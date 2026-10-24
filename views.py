@@ -323,7 +323,7 @@ def _card_notes(card, context):
     from model import Refused, StudyResults
     if not isinstance(context, dict):
         return []                          # not a mapping: read as no context
-    roles = context.get("roles") if isinstance(context.get("roles"), dict) else {}
+    roles = _entry(context, "roles")
     bad = {k: v for k, v in roles.items() if v not in _CARD_ROLES}
     if bad:
         raise Refused(f"role(s) {bad} are not one of {_CARD_ROLES}: the card cannot say what those molecules are")
@@ -373,7 +373,9 @@ def card_html(card, context=None):
     model.Refused when it cannot be this card's study or a role is unknown,
     and when a number it would print is not finite."""
     import math
-    from model import Refused
+    from model import Comparison, Refused
+    if not isinstance(card, Comparison):
+        raise Refused(f"the difference card shows a model.Comparison, not a {type(card).__name__}")
     shown = (card.diff, card.partition, card.diff_other_rule, card.range_a, card.range_b)
     if card.status is not ComparisonStatus.NOT_COMPARABLE and any(
             v is not None and not (isinstance(v, (int, float)) and math.isfinite(v)) for v in shown):
@@ -580,13 +582,26 @@ def _t(x):
     return html.escape(str(x), quote=False)
 
 
+def _entry(context, key):
+    """A context mapping entry: absent (or None) reads as {}; present but not a
+    mapping is refused, never read as absent (the integration probe on
+    1cbab22; the user: "a validator, not a sanitizer")."""
+    from model import Refused
+    v = context.get(key)
+    if v is None:
+        return {}
+    if not isinstance(v, dict):
+        raise Refused(f"context {key!r} is a {type(v).__name__}, not a mapping: it cannot be read, and is "
+                      "not read as absent")
+    return v
+
+
 def _ctx(context):
-    """(provenance dict, roles dict, TeachingBundle or None): a non-mapping
-    entry reads as missing, as in the study card."""
+    """(provenance dict, roles dict, TeachingBundle or None). A whole context
+    that is not a mapping reads as none; an entry in it that is present but
+    malformed is refused."""
     context = context if isinstance(context, dict) else {}
-    prov = context.get("bundle") if isinstance(context.get("bundle"), dict) else {}
-    roles = context.get("roles") if isinstance(context.get("roles"), dict) else {}
-    return prov, roles, context.get("bundle_object")
+    return _entry(context, "bundle"), _entry(context, "roles"), context.get("bundle_object")
 
 
 def _is_commit(v):

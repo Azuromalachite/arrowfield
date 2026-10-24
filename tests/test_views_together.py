@@ -85,7 +85,7 @@ def test_each_view_keeps_its_contract_on_one_page():
 import pytest  # noqa: E402
 
 MALFORMED = ["card_given_a_statement", "card_roles_as_list", "evidence_provenance_as_list", "evidence_roles_as_list"]
-XFAIL = set(MALFORMED)       # measured on 1cbab22; only shrinks
+XFAIL = set()                # the 4 measured on 1cbab22 are met; only shrinks
 
 
 def _malformed(case_id):
