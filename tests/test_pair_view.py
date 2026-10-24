@@ -11,6 +11,7 @@ preferred, and every requirement holds. Until then each one's tests skip. The vi
 strict-xfail lists here, never edit an expectation.
 """
 import hashlib
+import html
 import json
 import math
 import re
@@ -48,7 +49,7 @@ def test_allowed_is_exactly_the_safe_outputs(c):
 def test_every_class_has_two_or_more_variants():
     from collections import Counter
     per = Counter(c["cls"].split()[0] for c in CASES)
-    assert sorted(per) == [f"P{i}" for i in range(1, 8)] + ["R1", "R2"] and min(per.values()) >= 2, per
+    assert sorted(per) == [f"P{i}" for i in range(1, 10)] + ["R1", "R2"] and min(per.values()) >= 2, per
 
 
 def test_retired_cases_name_existing_replacements():
@@ -280,8 +281,67 @@ def test_a_rendered_view_meets_its_requirements(c, i):
     if "check" in q:
         _check(q["check"], page, sides)
         return
-    target = page if q["on"] == "html" else re.sub(r"<[^>]+>", " ", page)
-    if "must" in q:
+    if "must" in q:          # inline spans add no space; tags go before entities are unescaped
+        text = html.unescape(re.sub(r"<[^>]+>", " ", re.sub(r"</?span[^>]*>", "", page)))
+        target = page if q["on"] == "html" else text
         assert re.search(q["must"], target, re.I), f"{q['why']} ({q['grade']} if missing)"
-    else:
+    else:                    # a ban reads the view's own words; verbatim text is exempt (the amendment)
+        target = page if q["on"] == "html" else _split(page)[0]
         assert not re.search(q["must_not"], target, re.I), f"{q['why']} ({q['grade']} if present)"
+
+
+@pytest.mark.parametrize("c", [c for c in CASES if c["component"] == "pair_view"], ids=lambda c: c["id"])
+def test_verbatim_spans_are_names_sources_or_labels(c):
+    """The exemption covers only text the view did not write: each span is
+    a molecule's name or record source, or a caller's label, exactly."""
+    out, page, sides = _run(c)
+    if out != "RENDERED":
+        return
+    labels = (c["context"].get("labels") or {}) if isinstance(c["context"].get("labels"), dict) else {}
+    allowed = {v.name for v in sides} | {v.provenance.source for v in sides} | set(labels.values())
+    for span in _split(page)[1]:
+        assert span in allowed, f"verbatim span is not a name, record source or label: {span!r}"
+
+
+def test_bans_catch_word_families():
+    import make_pair_view_set as g
+    ban = g.NO_CAUSE["must_not"]
+    for w in ("explains", "explained", "causes", "causal", "attractive", "attraction", "binds", "binding",
+              "pheromonal", "receptors", "reactivity", "resolved", "resolution", "specificity", "because"):
+        assert re.search(ban, w, re.I), w
+    for w in ("unresolved", "specified", "rebinding"):
+        assert not re.search(ban, w, re.I), w
+
+
+class _Verbatim(HTMLParser):
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.depth, self.stack, self.own, self.spans = 0, [], [], []
+
+    def handle_starttag(self, tag, attrs):
+        if tag in ("br", "img", "hr", "meta", "input"):
+            return
+        v = "verbatim" in (dict(attrs).get("class") or "").split()
+        self.stack.append(v)
+        if v:
+            self.depth += 1
+            if self.depth == 1:
+                self.spans.append("")
+
+    def handle_endtag(self, tag):
+        if tag in ("br", "img", "hr", "meta", "input") or not self.stack:
+            return
+        if self.stack.pop():
+            self.depth -= 1
+
+    def handle_data(self, d):
+        if self.depth:
+            self.spans[-1] += d
+        else:
+            self.own.append(d)
+
+
+def _split(page):
+    v = _Verbatim()
+    v.feed(page)
+    return " ".join(v.own), [x.strip() for x in v.spans]

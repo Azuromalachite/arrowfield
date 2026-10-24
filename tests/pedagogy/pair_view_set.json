@@ -86,7 +86,7 @@
      "on": "text"
     },
     {
-     "must_not": "because|explain|due to|caus|more reactive|reactivity|attract|binds?\\b|binding|pheromone|receptor|\\bresolved\\b|specific",
+     "must_not": "because|explain\\w*|due to|caus\\w*|reactiv\\w*|attract\\w*|\\bbind\\w*|pheromon\\w*|receptor\\w*|\\bresol(v|ut)\\w*|specific\\w*",
      "grade": "FALSE",
      "why": "two pictures show where the potential differs; they test no mechanism",
      "on": "text"
@@ -164,7 +164,7 @@
      "on": "text"
     },
     {
-     "must_not": "because|explain|due to|caus|more reactive|reactivity|attract|binds?\\b|binding|pheromone|receptor|\\bresolved\\b|specific",
+     "must_not": "because|explain\\w*|due to|caus\\w*|reactiv\\w*|attract\\w*|\\bbind\\w*|pheromon\\w*|receptor\\w*|\\bresol(v|ut)\\w*|specific\\w*",
      "grade": "FALSE",
      "why": "two pictures show where the potential differs; they test no mechanism",
      "on": "text"
@@ -241,7 +241,7 @@
      "on": "text"
     },
     {
-     "must_not": "because|explain|due to|caus|more reactive|reactivity|attract|binds?\\b|binding|pheromone|receptor|\\bresolved\\b|specific",
+     "must_not": "because|explain\\w*|due to|caus\\w*|reactiv\\w*|attract\\w*|\\bbind\\w*|pheromon\\w*|receptor\\w*|\\bresol(v|ut)\\w*|specific\\w*",
      "grade": "FALSE",
      "why": "two pictures show where the potential differs; they test no mechanism",
      "on": "text"
@@ -800,7 +800,7 @@
      "on": "text"
     },
     {
-     "must_not": "because|explain|due to|caus|more reactive|reactivity|attract|binds?\\b|binding|pheromone|receptor|\\bresolved\\b|specific",
+     "must_not": "because|explain\\w*|due to|caus\\w*|reactiv\\w*|attract\\w*|\\bbind\\w*|pheromon\\w*|receptor\\w*|\\bresol(v|ut)\\w*|specific\\w*",
      "grade": "FALSE",
      "why": "two pictures show where the potential differs; they test no mechanism",
      "on": "text"
@@ -1232,7 +1232,7 @@
      "on": "text"
     },
     {
-     "must_not": "because|explain|due to|caus|more reactive|reactivity|attract|binds?\\b|binding|pheromone|receptor|\\bresolved\\b|specific",
+     "must_not": "because|explain\\w*|due to|caus\\w*|reactiv\\w*|attract\\w*|\\bbind\\w*|pheromon\\w*|receptor\\w*|\\bresol(v|ut)\\w*|specific\\w*",
      "grade": "FALSE",
      "why": "two pictures show where the potential differs; they test no mechanism",
      "on": "text"
@@ -1789,7 +1789,7 @@
    "prefer": "RENDERED",
    "requires": [
     {
-     "must_not": "because|explain|due to|caus|more reactive|reactivity|attract|binds?\\b|binding|pheromone|receptor|\\bresolved\\b|specific",
+     "must_not": "because|explain\\w*|due to|caus\\w*|reactiv\\w*|attract\\w*|\\bbind\\w*|pheromon\\w*|receptor\\w*|\\bresol(v|ut)\\w*|specific\\w*",
      "grade": "FALSE",
      "why": "two pictures show where the potential differs; they test no mechanism",
      "on": "text"
@@ -1849,6 +1849,289 @@
      "on": "html"
     }
    ]
+  },
+  {
+   "id": "label_with_banned_words",
+   "cls": "P8 verbatim and own words",
+   "component": "pair_view",
+   "why": "Display labels (synthetic) reading 'attractive E isomer' and 'explains the Z response': the caller's text, shown verbatim in spans; the view's own words stay clean.",
+   "left": {
+    "record": "records/e2_butene__s1",
+    "patch": [],
+    "surface": null,
+    "geometry": null
+   },
+   "right": {
+    "record": "records/z2_butene__s1",
+    "patch": [],
+    "surface": null,
+    "geometry": null
+   },
+   "same_object": false,
+   "context": {
+    "labels": {
+     "left": "attractive E isomer",
+     "right": "explains the Z response"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "attractive E isomer",
+     "grade": "MISLEADING",
+     "why": "the label, unaltered",
+     "on": "text"
+    },
+    {
+     "must": "explains the Z response",
+     "grade": "MISLEADING",
+     "why": "the label, unaltered",
+     "on": "text"
+    },
+    {
+     "must_not": "because|explain\\w*|due to|caus\\w*|reactiv\\w*|attract\\w*|\\bbind\\w*|pheromon\\w*|receptor\\w*|\\bresol(v|ut)\\w*|specific\\w*",
+     "grade": "FALSE",
+     "why": "two pictures show where the potential differs; they test no mechanism",
+     "on": "text"
+    },
+    {
+     "check": "shared_scale",
+     "grade": "MISLEADING",
+     "why": "one scale, containing both records' own, for both pictures"
+    }
+   ]
+  },
+  {
+   "id": "name_with_banned_word",
+   "cls": "P8 verbatim and own words",
+   "component": "pair_view",
+   "why": "A molecule name (synthetic) 'inhibitor_receptor_conf': the record's name, verbatim in a span, never the view's words.",
+   "left": {
+    "record": "tests/data/pair/e3_z13_18_oac/conf_00",
+    "patch": [
+     [
+      "folded",
+      true
+     ],
+     [
+      "name",
+      "inhibitor_receptor_conf"
+     ]
+    ],
+    "surface": null,
+    "geometry": null
+   },
+   "right": {
+    "record": "tests/data/pair/e3_z13_18_oac/conf_02",
+    "patch": [
+     [
+      "folded",
+      false
+     ]
+    ],
+    "surface": null,
+    "geometry": null
+   },
+   "same_object": false,
+   "context": {},
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "inhibitor_receptor_conf",
+     "grade": "MISLEADING",
+     "why": "the name, unaltered",
+     "on": "text"
+    },
+    {
+     "must_not": "because|explain\\w*|due to|caus\\w*|reactiv\\w*|attract\\w*|\\bbind\\w*|pheromon\\w*|receptor\\w*|\\bresol(v|ut)\\w*|specific\\w*",
+     "grade": "FALSE",
+     "why": "two pictures show where the potential differs; they test no mechanism",
+     "on": "text"
+    }
+   ]
+  },
+  {
+   "id": "context_roles_given",
+   "cls": "P9 context",
+   "component": "pair_view",
+   "why": "Roles on a pair: v1 takes none (reconciling a control across views is the page builder's): refuse.",
+   "left": {
+    "record": "records/e2_butene__s1",
+    "patch": [],
+    "surface": null,
+    "geometry": null
+   },
+   "right": {
+    "record": "records/z2_butene__s1",
+    "patch": [],
+    "surface": null,
+    "geometry": null
+   },
+   "same_object": false,
+   "context": {
+    "roles": {
+     "z3_z13_18_al": "teaching_control"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "context_roles_empty",
+   "cls": "P9 context",
+   "component": "pair_view",
+   "why": "An empty roles mapping: still roles, which v1 takes none of: refuse.",
+   "left": {
+    "record": "records/e2_butene__s1",
+    "patch": [],
+    "surface": null,
+    "geometry": null
+   },
+   "right": {
+    "record": "records/z2_butene__s1",
+    "patch": [],
+    "surface": null,
+    "geometry": null
+   },
+   "same_object": false,
+   "context": {
+    "roles": {}
+   },
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "context_labels_not_mapping",
+   "cls": "P9 context",
+   "component": "pair_view",
+   "why": "Labels given as a string: not read as absent: refuse.",
+   "left": {
+    "record": "records/e2_butene__s1",
+    "patch": [],
+    "surface": null,
+    "geometry": null
+   },
+   "right": {
+    "record": "records/z2_butene__s1",
+    "patch": [],
+    "surface": null,
+    "geometry": null
+   },
+   "same_object": false,
+   "context": {
+    "labels": "E vs Z"
+   },
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "context_label_not_text",
+   "cls": "P9 context",
+   "component": "pair_view",
+   "why": "A label that is not text: refuse.",
+   "left": {
+    "record": "records/e2_butene__s1",
+    "patch": [],
+    "surface": null,
+    "geometry": null
+   },
+   "right": {
+    "record": "records/z2_butene__s1",
+    "patch": [],
+    "surface": null,
+    "geometry": null
+   },
+   "same_object": false,
+   "context": {
+    "labels": {
+     "left": 3,
+     "right": "Z"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "context_study_rows_not_list",
+   "cls": "P9 context",
+   "component": "pair_view",
+   "why": "Study_rows given as a string: refuse.",
+   "left": {
+    "record": "records/e2_butene__s1",
+    "patch": [],
+    "surface": null,
+    "geometry": null
+   },
+   "right": {
+    "record": "records/z2_butene__s1",
+    "patch": [],
+    "surface": null,
+    "geometry": null
+   },
+   "same_object": false,
+   "context": {
+    "study_rows": "resolved"
+   },
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
   },
   {
    "id": "charge_mismatch",

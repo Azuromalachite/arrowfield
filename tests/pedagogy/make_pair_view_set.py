@@ -40,6 +40,22 @@ only, never evidence) and "study_rows" (verdicts the page also shows; never
 linked). Pair view v1 refuses two different formal charges (P7): mixed-
 charge comparison is a later, deliberate decision.
 
+Amended before the view was built (the user, 2026-10-24, carrying #13's
+lessons into the frozen contract):
+- verbatim: text the view did not write is shown verbatim inside
+  class="verbatim", one string per span, and every span equals one of the
+  two molecules' names or record sources (MoleculeView.name,
+  provenance.source) or one of the caller's display labels, exactly. Word
+  bans read only the text outside those spans (P8);
+- word families: the bans cover families (explain*, caus*, attract*,
+  bind*, pheromon*, receptor*, reactiv*, resol(v|ut)*, specific*), with
+  near-misses on the other side tested;
+- no roles in v1: a context carrying "roles" is refused; whether a pair
+  holds a teaching control is the page builder's to reconcile (the
+  user's decision on cross-view roles). A context entry that is present
+  but malformed (labels not a mapping of text, study_rows not a list) is
+  refused, never read as absent (P9).
+
 The rendered page carries, for the harness and for any reader's tools:
 - a root element with data-relation, model.relation's value;
 - exactly one element with class "pair-scale": data-kind, data-vmin,
@@ -153,8 +169,9 @@ NOT_ESTABLISHED = must(r"not established", "MISLEADING",
                        "with a folded state unstated, shape comparability is not established, and the page says so")
 METHOD = must(r"b3lyp", "MISLEADING", "the method both pictures were computed with")
 # a picture pair is not evidence about biology, and says nothing about why
-NO_CAUSE = must_not(r"because|explain|due to|caus|more reactive|reactivity|attract|binds?\b|binding|"
-                    r"pheromone|receptor|\bresolved\b|specific", "FALSE",
+# word families, on the view's own words only (the amendment)
+NO_CAUSE = must_not(r"because|explain\w*|due to|caus\w*|reactiv\w*|attract\w*|\bbind\w*|pheromon\w*|"
+                    r"receptor\w*|\bresol(v|ut)\w*|specific\w*", "FALSE",
                     "two pictures show where the potential differs; they test no mechanism")
 CAPTION = [SHARED, UNITS, RANGE, CONVENTION, METHOD, NO_CAUSE]
 
@@ -337,6 +354,31 @@ case("label_is_markup", "P6 caption",
      [must_not(r"<script>alert", "FALSE", "escaped", on="html"), must(r"&lt;script&gt;", "MISLEADING",
                                                                        "shown as text", on="html")],
      context={"labels": {"left": "<script>alert(1)</script>", "right": "Z-2-butene"}})
+
+# --- P8 verbatim text and the view's own words (the amendment) ------------------------------------
+case("label_with_banned_words", "P8 verbatim and own words",
+     "Display labels (synthetic) reading 'attractive E isomer' and 'explains the Z response': the caller's "
+     "text, shown verbatim in spans; the view's own words stay clean.",
+     side(E2B), side(Z2B), SHOW, "RENDERED",
+     [must(r"attractive E isomer", "MISLEADING", "the label, unaltered"),
+      must(r"explains the Z response", "MISLEADING", "the label, unaltered"), NO_CAUSE, SHARED],
+     context={"labels": {"left": "attractive E isomer", "right": "explains the Z response"}})
+case("name_with_banned_word", "P8 verbatim and own words",
+     "A molecule name (synthetic) 'inhibitor_receptor_conf': the record's name, verbatim in a span, never "
+     "the view's words.",
+     side(E3F, patch=[("name", "inhibitor_receptor_conf")]), side(E3X), SHOW, "RENDERED",
+     [must(r"inhibitor_receptor_conf", "MISLEADING", "the name, unaltered"), NO_CAUSE])
+
+# --- P9 the context: no roles in v1; a present but malformed entry is refused ----------------
+for vid, ctx_, why in (
+        ("roles_given", {"roles": {"z3_z13_18_al": "teaching_control"}},
+         "roles on a pair: v1 takes none (reconciling a control across views is the page builder's)"),
+        ("roles_empty", {"roles": {}}, "an empty roles mapping: still roles, which v1 takes none of"),
+        ("labels_not_mapping", {"labels": "E vs Z"}, "labels given as a string: not read as absent"),
+        ("label_not_text", {"labels": {"left": 3, "right": "Z"}}, "a label that is not text"),
+        ("study_rows_not_list", {"study_rows": "resolved"}, "study_rows given as a string")):
+    case(f"context_{vid}", "P9 context", f"{why[0].upper()}{why[1:]}: refuse.",
+         side(E2B), side(Z2B), REFUSE_M, "REFUSED", context=ctx_)
 
 # --- P7 formal charge: pair view v1 compares one charge only ----------------------------------
 case("charge_mismatch", "P7 formal charge",
