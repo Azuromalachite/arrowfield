@@ -3327,6 +3327,358 @@
      "on": "text"
     }
    ]
+  },
+  {
+   "id": "vocabulary_effect_inhibited",
+   "cls": "E11 controlled words",
+   "component": "evidence_card",
+   "why": "An effect of 'inhibited' (synthetic): not one of the Atlas's words. Printed as the view's own phrase it would be the view's claim; refuse.",
+   "inputs": {
+    "observation_id": "spa.obs.synanthedon_tipuliformis.szocs_1990.trap_e3.hungary",
+    "compound": "spa.cmpd.e3_z13_18_oac"
+   },
+   "context": {
+    "bundle": {
+     "atlas_version": "35112e1",
+     "sha256": "from bundle.load"
+    },
+    "roles": {
+     "spa.cmpd.z3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.z3_z13_18_oh": "atlas_observed",
+     "spa.cmpd.e3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.e2_z13_18_oac": "atlas_observed",
+     "arrowfield.control.z3_z13_18_al": "teaching_control"
+    }
+   },
+   "bundle_patch": [
+    [
+     [
+      "observations",
+      4,
+      "outcome",
+      "effect"
+     ],
+     "inhibited"
+    ]
+   ],
+   "statement_patch": [],
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "vocabulary_significance_resolved",
+   "cls": "E11 controlled words",
+   "component": "evidence_card",
+   "why": "An significance of 'resolved' (synthetic): not one of the Atlas's words. Printed as the view's own phrase it would be the view's claim; refuse.",
+   "inputs": {
+    "observation_id": "spa.obs.synanthedon_tipuliformis.szocs_1990.trap_e3.tasmania_1986",
+    "compound": "spa.cmpd.e3_z13_18_oac"
+   },
+   "context": {
+    "bundle": {
+     "atlas_version": "35112e1",
+     "sha256": "from bundle.load"
+    },
+    "roles": {
+     "spa.cmpd.z3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.z3_z13_18_oh": "atlas_observed",
+     "spa.cmpd.e3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.e2_z13_18_oac": "atlas_observed",
+     "arrowfield.control.z3_z13_18_al": "teaching_control"
+    }
+   },
+   "bundle_patch": [
+    [
+     [
+      "observations",
+      5,
+      "outcome",
+      "significance"
+     ],
+     "resolved"
+    ]
+   ],
+   "statement_patch": [],
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "vocabulary_significance_explains",
+   "cls": "E11 controlled words",
+   "component": "evidence_card",
+   "why": "An significance of 'significant because of ESP' (synthetic): not one of the Atlas's words. Printed as the view's own phrase it would be the view's claim; refuse.",
+   "inputs": {
+    "observation_id": "spa.obs.synanthedon_tipuliformis.szocs_1990.trap_e3.tasmania_1986",
+    "compound": "spa.cmpd.e3_z13_18_oac"
+   },
+   "context": {
+    "bundle": {
+     "atlas_version": "35112e1",
+     "sha256": "from bundle.load"
+    },
+    "roles": {
+     "spa.cmpd.z3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.z3_z13_18_oh": "atlas_observed",
+     "spa.cmpd.e3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.e2_z13_18_oac": "atlas_observed",
+     "arrowfield.control.z3_z13_18_al": "teaching_control"
+    }
+   },
+   "bundle_patch": [
+    [
+     [
+      "observations",
+      5,
+      "outcome",
+      "significance"
+     ],
+     "significant because of ESP"
+    ]
+   ],
+   "statement_patch": [],
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "vocabulary_role_antagonist",
+   "cls": "E11 controlled words",
+   "component": "evidence_card",
+   "why": "Occurrence roles ['antagonist'] (synthetic): not the Atlas's role words. Refuse.",
+   "inputs": {
+    "observation_id": "spa.obs.synanthedon_tipuliformis.szocs_1990.trap_e3.hungary",
+    "compound": "spa.cmpd.e3_z13_18_oac"
+   },
+   "context": {
+    "bundle": {
+     "atlas_version": "35112e1",
+     "sha256": "from bundle.load"
+    },
+    "roles": {
+     "spa.cmpd.z3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.z3_z13_18_oh": "atlas_observed",
+     "spa.cmpd.e3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.e2_z13_18_oac": "atlas_observed",
+     "arrowfield.control.z3_z13_18_al": "teaching_control"
+    }
+   },
+   "bundle_patch": [
+    [
+     [
+      "compounds",
+      2,
+      "occurrences",
+      1,
+      "roles"
+     ],
+     [
+      "antagonist"
+     ]
+    ]
+   ],
+   "statement_patch": [],
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "vocabulary_role_explains",
+   "cls": "E11 controlled words",
+   "component": "evidence_card",
+   "why": "Occurrence roles ['inhibitor because ESP'] (synthetic): not the Atlas's role words. Refuse.",
+   "inputs": {
+    "observation_id": "spa.obs.synanthedon_tipuliformis.szocs_1990.trap_e3.hungary",
+    "compound": "spa.cmpd.e3_z13_18_oac"
+   },
+   "context": {
+    "bundle": {
+     "atlas_version": "35112e1",
+     "sha256": "from bundle.load"
+    },
+    "roles": {
+     "spa.cmpd.z3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.z3_z13_18_oh": "atlas_observed",
+     "spa.cmpd.e3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.e2_z13_18_oac": "atlas_observed",
+     "arrowfield.control.z3_z13_18_al": "teaching_control"
+    }
+   },
+   "bundle_patch": [
+    [
+     [
+      "compounds",
+      2,
+      "occurrences",
+      1,
+      "roles"
+     ],
+     [
+      "inhibitor because ESP"
+     ]
+    ]
+   ],
+   "statement_patch": [],
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "vocabulary_antennal_inactive_phrased",
+   "cls": "E11 controlled words",
+   "component": "evidence_card",
+   "why": "'antennal_inactive' is a real Atlas role word (no antennal response recorded). The view phrases it in its own words, which never say 'inactive'.",
+   "inputs": {
+    "observation_id": "spa.obs.synanthedon_tipuliformis.szocs_1990.trap_e3.hungary",
+    "compound": "spa.cmpd.e3_z13_18_oac"
+   },
+   "context": {
+    "bundle": {
+     "atlas_version": "35112e1",
+     "sha256": "from bundle.load"
+    },
+    "roles": {
+     "spa.cmpd.z3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.z3_z13_18_oh": "atlas_observed",
+     "spa.cmpd.e3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.e2_z13_18_oac": "atlas_observed",
+     "arrowfield.control.z3_z13_18_al": "teaching_control"
+    }
+   },
+   "bundle_patch": [
+    [
+     [
+      "compounds",
+      2,
+      "occurrences",
+      1,
+      "roles"
+     ],
+     [
+      "antennal_inactive"
+     ]
+    ]
+   ],
+   "statement_patch": [],
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "no antennal response",
+     "grade": "MISLEADING",
+     "why": "the role, phrased",
+     "on": "text"
+    },
+    {
+     "must_not": "inactiv\\w*|does not (make|produce|attract)|not (made|produced)|absent from|repel\\w*|inhibit\\w*|antagonis\\w*",
+     "grade": "FALSE",
+     "why": "an evidence view reports what was measured, never a role the record does not state",
+     "on": "text"
+    }
+   ]
+  },
+  {
+   "id": "vocabulary_caught_without_control_phrased",
+   "cls": "E11 controlled words",
+   "component": "evidence_card",
+   "why": "'caught_without_control' is a real Atlas effect word: phrased as males caught with no comparator run.",
+   "inputs": {
+    "observation_id": "spa.obs.synanthedon_tipuliformis.szocs_1990.trap_e3.hungary",
+    "compound": "spa.cmpd.e3_z13_18_oac"
+   },
+   "context": {
+    "bundle": {
+     "atlas_version": "35112e1",
+     "sha256": "from bundle.load"
+    },
+    "roles": {
+     "spa.cmpd.z3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.z3_z13_18_oh": "atlas_observed",
+     "spa.cmpd.e3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.e2_z13_18_oac": "atlas_observed",
+     "arrowfield.control.z3_z13_18_al": "teaching_control"
+    }
+   },
+   "bundle_patch": [
+    [
+     [
+      "observations",
+      4,
+      "outcome",
+      "effect"
+     ],
+     "caught_without_control"
+    ]
+   ],
+   "statement_patch": [],
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "no comparator",
+     "grade": "MISLEADING",
+     "why": "the effect, phrased",
+     "on": "text"
+    },
+    {
+     "must_not": "caught_without_control",
+     "grade": "MISLEADING",
+     "why": "not the raw enum",
+     "on": "text"
+    }
+   ]
   }
  ]
 }

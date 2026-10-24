@@ -32,7 +32,7 @@ HERE = Path(__file__).resolve().parents[1]
 PED = Path(__file__).with_name("pedagogy")
 sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(PED))
-from bundle import load  # noqa: E402
+from bundle import InvalidBundle, load  # noqa: E402
 
 SET = json.loads((PED / "evidence_card_set.json").read_text(encoding="utf-8"))
 CASES = SET["cases"]
@@ -56,7 +56,7 @@ def test_allowed_is_exactly_the_safe_outputs(c):
 
 def test_every_class_has_two_or_more_variants():
     per = Counter(c["cls"].split()[0] for c in CASES)
-    assert sorted(per) == sorted(f"E{i}" for i in range(1, 11)) and min(per.values()) >= 2, per
+    assert sorted(per) == sorted(f"E{i}" for i in range(1, 12)) and min(per.values()) >= 2, per
 
 
 # --- the facts the cases rest on, checked against the committed bundle --------------------
@@ -129,7 +129,23 @@ def _bundle(c, tmp_path):
     return _patched(RAW, c["bundle_patch"], tmp_path / "patched.json")
 
 
-XFAIL = set()
+# probe round 3 (on 3795473): effect, significance and role values pass through unchecked and
+# unphrased
+XFAIL = {
+    "test_view_output_is_safe[vocabulary_effect_inhibited]",
+    "test_view_output_is_safe[vocabulary_significance_resolved]",
+    "test_view_output_is_safe[vocabulary_significance_explains]",
+    "test_view_output_is_safe[vocabulary_role_antagonist]",
+    "test_view_output_is_safe[vocabulary_role_explains]",
+    "test_view_output_is_preferred[vocabulary_effect_inhibited]",
+    "test_view_output_is_preferred[vocabulary_significance_resolved]",
+    "test_view_output_is_preferred[vocabulary_significance_explains]",
+    "test_view_output_is_preferred[vocabulary_role_antagonist]",
+    "test_view_output_is_preferred[vocabulary_role_explains]",
+    "test_a_rendered_view_meets_its_requirements[vocabulary_antennal_inactive_phrased-0]",
+    "test_a_rendered_view_meets_its_requirements[vocabulary_antennal_inactive_phrased-1]",
+    "test_a_rendered_view_meets_its_requirements[vocabulary_caught_without_control_phrased-0]",
+}
 
 
 def _xfail(request, c):
@@ -188,7 +204,10 @@ def _strings(node, out):
 def _run(c, tmp_path):
     view = _view(c["component"])
     from model import Refused
-    b, raw = _bundle(c, tmp_path)
+    try:
+        b, raw = _bundle(c, tmp_path)
+    except InvalidBundle:            # the adapter refused the bundle: nothing is shown (E11)
+        return "REFUSED", None
     src = _patched(raw, c["statement_patch"], tmp_path / "inputs.json")[0] if c["statement_patch"] else b
     c["_raw"] = raw
     ctx = dict(c["context"], bundle_object=b)

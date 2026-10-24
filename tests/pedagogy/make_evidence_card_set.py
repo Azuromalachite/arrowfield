@@ -454,6 +454,43 @@ ev("atlas_statement_says_repel", "E10 verbatim and own words", HU, E3,
    [must(r"no repellent effect at Budapest", "MISLEADING", "the Atlas's sentence"), NO_OVERREACH],
    patch=[(["observations", oi(HU), "statement"], "Adding E3,Z13-18:OAc showed no repellent effect at Budapest.")])
 
+# --- E11 controlled words (probe round 3, on 3795473) ---------------------------------------------
+# effect, significance and occurrence roles are the Atlas's enums (observation.schema.json,
+# teaching-bundle.schema.json). A value outside them is refused (bundle.load or the view; the
+# harness reads an adapter refusal as REFUSED); every value inside them is the view's own,
+# explicit phrase, never the raw string passed through.
+T86 = "synanthedon_tipuliformis.szocs_1990.trap_e3.tasmania_1986"
+
+
+def occ(comp, oid):
+    c = next(i for i, x in enumerate(RAW["compounds"]) if x["atlas_id"] == comp)
+    k = next(j for j, o in enumerate(RAW["compounds"][c]["occurrences"]) if o["observation_id"] == P + oid)
+    return ["compounds", c, "occurrences", k, "roles"]
+
+
+for vid, oid, path, value in (
+        ("effect_inhibited", HU, ["outcome", "effect"], "inhibited"),
+        ("significance_resolved", T86, ["outcome", "significance"], "resolved"),
+        ("significance_explains", T86, ["outcome", "significance"], "significant because of ESP")):
+    ev(f"vocabulary_{vid}", "E11 controlled words", oid, E3,
+       f"An {path[-1]} of {value!r} (synthetic): not one of the Atlas's words. Printed as the view's own "
+       "phrase it would be the view's claim; refuse.", [], outcomes=REFUSE, prefer="REFUSED",
+       patch=[(["observations", oi(oid)] + path, value)])
+for vid, value in (("role_antagonist", ["antagonist"]), ("role_explains", ["inhibitor because ESP"])):
+    ev(f"vocabulary_{vid}", "E11 controlled words", HU, E3,
+       f"Occurrence roles {value} (synthetic): not the Atlas's role words. Refuse.", [], outcomes=REFUSE,
+       prefer="REFUSED", patch=[(occ(E3, HU), value)])
+ev("vocabulary_antennal_inactive_phrased", "E11 controlled words", HU, E3,
+   "'antennal_inactive' is a real Atlas role word (no antennal response recorded). The view phrases it in "
+   "its own words, which never say 'inactive'.",
+   [must(r"no antennal response", "MISLEADING", "the role, phrased"), NO_OVERREACH],
+   patch=[(occ(E3, HU), ["antennal_inactive"])])
+ev("vocabulary_caught_without_control_phrased", "E11 controlled words", HU, E3,
+   "'caught_without_control' is a real Atlas effect word: phrased as males caught with no comparator run.",
+   [must(r"no comparator", "MISLEADING", "the effect, phrased"), must_not(r"caught_without_control", "MISLEADING",
+                                                                       "not the raw enum")],
+   patch=[(["observations", oi(HU), "outcome", "effect"], "caught_without_control")])
+
 
 def document():
     obs = {o["observation_id"] for o in RAW["observations"]}
