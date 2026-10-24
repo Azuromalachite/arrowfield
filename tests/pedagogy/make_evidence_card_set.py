@@ -546,6 +546,30 @@ for vid, field, value, why in (
 case("panel_counts_consistent_render", "E12 printed values", "class_panel",
      f"The real row, n_observations {n_ids} with {n_ids} ids: consistent, shown.",
      {"compound": E3, "taxon_id": TIPU}, SHOW, "RENDERED", [must(r"addition_decreased", "MISLEADING", "the row")])
+# Which counts apply is the Atlas's own definition (scripts/build_evidence.py, rows(); the user:
+# "only enforce count arithmetic that is actually defined"): n_significant on behaviour classes
+# (attract*, addition*, female_pheromone_component), n_tentative on chemistry classes
+# (female_detected*, female_pheromone_component), null otherwise; population_match only on
+# female_pheromone_component. All 30 real rows follow it.
+oac_i = next(i for i, c in enumerate(RAW["compounds"]) if c["atlas_id"] == OAC)
+gland_row = next(j for j, e in enumerate(RAW["compounds"][oac_i]["evidence_classes"])
+                 if e["evidence_class"] == "female_detected_gland" and e["taxon_id"] == TENUIS)
+GLAND_CLS = ["compounds", oac_i, "evidence_classes", gland_row]
+for vid, comp, tax, path, value, why in (
+        ("tentative_on_behaviour", E3, TIPU, CLS + ["n_tentative"], 0, "a tentative count on a behaviour class"),
+        ("significant_missing", E3, TIPU, CLS + ["n_significant"], None, "no significant count on a behaviour class"),
+        ("significant_on_chemistry", OAC, TENUIS, GLAND_CLS + ["n_significant"], 0,
+         "a significant count on a chemistry class"),
+        ("tentative_missing", OAC, TENUIS, GLAND_CLS + ["n_tentative"], None, "no tentative count on a chemistry class"),
+        ("population_match_elsewhere", E3, TIPU, CLS + ["population_match"], "yes",
+         "a population match on a class other than female_pheromone_component")):
+    case(f"panel_{vid}", "E12 printed values", "class_panel",
+         f"{why[0].upper()}{why[1:]} (synthetic): an inconsistency the Atlas defines. Refuse.",
+         {"compound": comp, "taxon_id": tax}, REFUSE, "REFUSED", patch=[(path, value)])
+ev("context_not_a_mapping", "E12 printed values", GY, OAC,
+   "The observation's context given as a list (synthetic): the loader must refuse the shape, not coerce it.",
+   [], outcomes=REFUSE, prefer="REFUSED",
+   patch=[(["observations", oi(GY), "context"], [["population", "Korean population"]])])
 ev("unresolved_as_string", "E12 printed values", GN, OAC,
    "Unresolved items as a bare string (synthetic): it would show letter by letter. Refuse.", [],
    outcomes=REFUSE, prefer="REFUSED",
