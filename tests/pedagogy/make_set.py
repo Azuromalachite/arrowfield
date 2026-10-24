@@ -413,7 +413,11 @@ EV = [
      "by 'because', 'explains' or an arrow: nothing here tests the link."),
 ]
 for eid, cls, inp, outc, pref, why in EV:
-    case(eid, cls, "evidence_card", why, outcomes=outc, prefer=pref, extra={"input": inp})
+    # Retired (not edited) by the evidence views' PR: these abstract cases were
+    # re-expressed against the real bundle in tests/pedagogy/evidence_card_set.json
+    # (#12), which the built views are tested against.
+    case(eid, cls, "evidence_card", why, outcomes=outc, prefer=pref,
+         extra={"input": inp, "superseded_by": "tests/pedagogy/evidence_card_set.json"})
 
 # ------------------------------------------------ C: pictures (component to come)
 for eid, why in [

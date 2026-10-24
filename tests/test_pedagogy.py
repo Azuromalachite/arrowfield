@@ -159,6 +159,19 @@ def test_comparable_card_says_what_the_number_is_of(c):
     assert SET["language"]["scope_caveat"] in run(c)[2].lower()
 
 
-@pytest.mark.parametrize("c", [c for c in CASES if c["component"] not in BUILT], ids=lambda c: c["id"])
+@pytest.mark.parametrize("c", [c for c in CASES if c["component"] not in BUILT
+                               and not c.get("superseded_by")], ids=lambda c: c["id"])
 def test_component_to_come(c):
     pytest.skip(f"{c['component']} is not built yet; this case's expectations are fixed in hostile_set.json")
+
+
+def test_superseded_cases_point_at_their_replacement():
+    """The abstract evidence cases (B1-B5) are retired, not edited: each names
+    the set that replaced it, and that set exists and covers the evidence card."""
+    sup = [c for c in CASES if c.get("superseded_by")]
+    assert len(sup) == 9 and all(c["component"] == "evidence_card" for c in sup)
+    for c in sup:
+        target = HERE / c["superseded_by"]
+        assert target.is_file()
+        comps = {x["component"] for x in json.loads(target.read_text(encoding="utf-8"))["cases"]}
+        assert "evidence_card" in comps
