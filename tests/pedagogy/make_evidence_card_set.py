@@ -491,6 +491,43 @@ ev("vocabulary_caught_without_control_phrased", "E11 controlled words", HU, E3,
                                                                        "not the raw enum")],
    patch=[(["observations", oi(HU), "outcome", "effect"], "caught_without_control")])
 
+# --- E12 every printed record value is a controlled word, a number, or verbatim (probe round 4) --
+# observation_type and evidence_class are the Atlas's enums; detection-limit values, response
+# values and class counts are numbers (bool excluded); detected is a bool; roles are a list.
+cls_idx = next(i for i, c in enumerate(RAW["compounds"]) if c["atlas_id"] == E3)
+cls_row = next(j for j, e in enumerate(RAW["compounds"][cls_idx]["evidence_classes"])
+               if e["evidence_class"] == "addition_decreased" and e["taxon_id"] == TIPU)
+CLS = ["compounds", cls_idx, "evidence_classes", cls_row]
+for vid, comp, oid, path, value, why in (
+        ("observation_type", E3, HU, ["observations", oi(HU), "observation_type"], "repellency_assay",
+         "an observation type outside the Atlas's three"),
+        ("limit_value_text", OAC, GY, ["observations", oi(GY), "components", ci(GY, OAC), "detection_limit"],
+         {"value": "inhibited", "unit": "picogram"}, "a detection limit whose value is text"),
+        ("detected_as_text", OAC, GY, ["observations", oi(GY), "components", ci(GY, OAC), "detected"], "false",
+         "detected given as the string 'false' (read as true by bool())"),
+        ("response_value_bool", OH, T41, ["observations", oi(T41), "outcome", "response", "treatment_value"],
+         True, "a response value of true (an int to Python)"),
+        ("roles_as_string", E3, HU, occ(E3, HU), "treatment", "roles given as a string, not a list")):
+    ev(f"value_{vid}", "E12 printed values", oid, comp, f"{why[0].upper()}{why[1:]} (synthetic): refuse.",
+       [], outcomes=REFUSE, prefer="REFUSED", patch=[(path, value)])
+for vid, path, value, why in (
+        ("class_name_unknown", CLS + ["evidence_class"], "antagonist_effect", "a class name outside the Atlas's"),
+        ("class_name_explains", CLS + ["evidence_class"], "resolved_because_esp", "a class name with explanation words"),
+        ("class_count_text", CLS + ["n_observations"], "many because ESP", "an observation count given as text"),
+        ("class_count_bool", CLS + ["n_significant"], True, "a significant count of true")):
+    case(f"panel_{vid}", "E12 printed values", "class_panel", f"{why[0].upper()}{why[1:]} (synthetic): refuse.",
+         {"compound": E3, "taxon_id": TIPU}, REFUSE, "REFUSED", patch=[(path, value)])
+case("panel_antennal_inactive_class", "E12 printed values", "class_panel",
+     "'antennal_inactive' is a real Atlas class: shown as the Atlas's own term, in a span; the panel's own "
+     "words never say 'inactive'.",
+     {"compound": E3, "taxon_id": TIPU}, SHOW, "RENDERED",
+     [must(r"antennal_inactive", "MISLEADING", "the Atlas's class name"), NO_OVERREACH],
+     patch=[(CLS + ["evidence_class"], "antennal_inactive")])
+case("panel_taxon_not_in_bundle", "E12 printed values", "class_panel",
+     "A taxon id the bundle carries in no class row (and named with explanation words): refuse, rather than "
+     "print the caller's id as the panel's title.",
+     {"compound": OAC, "taxon_id": "spa.tax.because_esp"}, REFUSE, "REFUSED")
+
 
 def document():
     obs = {o["observation_id"] for o in RAW["observations"]}

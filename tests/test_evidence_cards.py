@@ -56,7 +56,7 @@ def test_allowed_is_exactly_the_safe_outputs(c):
 
 def test_every_class_has_two_or_more_variants():
     per = Counter(c["cls"].split()[0] for c in CASES)
-    assert sorted(per) == sorted(f"E{i}" for i in range(1, 12)) and min(per.values()) >= 2, per
+    assert sorted(per) == sorted(f"E{i}" for i in range(1, 13)) and min(per.values()) >= 2, per
 
 
 # --- the facts the cases rest on, checked against the committed bundle --------------------
@@ -129,7 +129,29 @@ def _bundle(c, tmp_path):
     return _patched(RAW, c["bundle_patch"], tmp_path / "patched.json")
 
 
-XFAIL = set()
+# probe round 4 (on 2c5776f): observation_type, limit and response values, detected, class
+# names and counts, and the panel taxon reach the page unchecked
+XFAIL = {
+    "test_view_output_is_safe[value_observation_type]",
+    "test_view_output_is_safe[value_limit_value_text]",
+    "test_view_output_is_safe[value_detected_as_text]",
+    "test_view_output_is_safe[value_response_value_bool]",
+    "test_view_output_is_safe[panel_class_name_unknown]",
+    "test_view_output_is_safe[panel_class_name_explains]",
+    "test_view_output_is_safe[panel_class_count_text]",
+    "test_view_output_is_safe[panel_class_count_bool]",
+    "test_view_output_is_safe[panel_taxon_not_in_bundle]",
+    "test_view_output_is_preferred[value_observation_type]",
+    "test_view_output_is_preferred[value_limit_value_text]",
+    "test_view_output_is_preferred[value_detected_as_text]",
+    "test_view_output_is_preferred[value_response_value_bool]",
+    "test_view_output_is_preferred[panel_class_name_unknown]",
+    "test_view_output_is_preferred[panel_class_name_explains]",
+    "test_view_output_is_preferred[panel_class_count_text]",
+    "test_view_output_is_preferred[panel_class_count_bool]",
+    "test_view_output_is_preferred[panel_taxon_not_in_bundle]",
+    "test_a_rendered_view_meets_its_requirements[panel_antennal_inactive_class-1]",
+}
 
 
 def _xfail(request, c):

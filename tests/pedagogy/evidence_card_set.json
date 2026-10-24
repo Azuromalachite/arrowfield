@@ -3679,6 +3679,516 @@
      "on": "text"
     }
    ]
+  },
+  {
+   "id": "value_observation_type",
+   "cls": "E12 printed values",
+   "component": "evidence_card",
+   "why": "An observation type outside the Atlas's three (synthetic): refuse.",
+   "inputs": {
+    "observation_id": "spa.obs.synanthedon_tipuliformis.szocs_1990.trap_e3.hungary",
+    "compound": "spa.cmpd.e3_z13_18_oac"
+   },
+   "context": {
+    "bundle": {
+     "atlas_version": "35112e1",
+     "sha256": "from bundle.load"
+    },
+    "roles": {
+     "spa.cmpd.z3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.z3_z13_18_oh": "atlas_observed",
+     "spa.cmpd.e3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.e2_z13_18_oac": "atlas_observed",
+     "arrowfield.control.z3_z13_18_al": "teaching_control"
+    }
+   },
+   "bundle_patch": [
+    [
+     [
+      "observations",
+      4,
+      "observation_type"
+     ],
+     "repellency_assay"
+    ]
+   ],
+   "statement_patch": [],
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "value_limit_value_text",
+   "cls": "E12 printed values",
+   "component": "evidence_card",
+   "why": "A detection limit whose value is text (synthetic): refuse.",
+   "inputs": {
+    "observation_id": "spa.obs.synanthedon_tenuis.yang_2012.gland",
+    "compound": "spa.cmpd.z3_z13_18_oac"
+   },
+   "context": {
+    "bundle": {
+     "atlas_version": "35112e1",
+     "sha256": "from bundle.load"
+    },
+    "roles": {
+     "spa.cmpd.z3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.z3_z13_18_oh": "atlas_observed",
+     "spa.cmpd.e3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.e2_z13_18_oac": "atlas_observed",
+     "arrowfield.control.z3_z13_18_al": "teaching_control"
+    }
+   },
+   "bundle_patch": [
+    [
+     [
+      "observations",
+      1,
+      "components",
+      1,
+      "detection_limit"
+     ],
+     {
+      "value": "inhibited",
+      "unit": "picogram"
+     }
+    ]
+   ],
+   "statement_patch": [],
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "value_detected_as_text",
+   "cls": "E12 printed values",
+   "component": "evidence_card",
+   "why": "Detected given as the string 'false' (read as true by bool()) (synthetic): refuse.",
+   "inputs": {
+    "observation_id": "spa.obs.synanthedon_tenuis.yang_2012.gland",
+    "compound": "spa.cmpd.z3_z13_18_oac"
+   },
+   "context": {
+    "bundle": {
+     "atlas_version": "35112e1",
+     "sha256": "from bundle.load"
+    },
+    "roles": {
+     "spa.cmpd.z3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.z3_z13_18_oh": "atlas_observed",
+     "spa.cmpd.e3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.e2_z13_18_oac": "atlas_observed",
+     "arrowfield.control.z3_z13_18_al": "teaching_control"
+    }
+   },
+   "bundle_patch": [
+    [
+     [
+      "observations",
+      1,
+      "components",
+      1,
+      "detected"
+     ],
+     "false"
+    ]
+   ],
+   "statement_patch": [],
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "value_response_value_bool",
+   "cls": "E12 printed values",
+   "component": "evidence_card",
+   "why": "A response value of true (an int to Python) (synthetic): refuse.",
+   "inputs": {
+    "observation_id": "spa.obs.synanthedon_tenuis.naka_2013.trap_z3z13oh_added.test4_1",
+    "compound": "spa.cmpd.z3_z13_18_oh"
+   },
+   "context": {
+    "bundle": {
+     "atlas_version": "35112e1",
+     "sha256": "from bundle.load"
+    },
+    "roles": {
+     "spa.cmpd.z3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.z3_z13_18_oh": "atlas_observed",
+     "spa.cmpd.e3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.e2_z13_18_oac": "atlas_observed",
+     "arrowfield.control.z3_z13_18_al": "teaching_control"
+    }
+   },
+   "bundle_patch": [
+    [
+     [
+      "observations",
+      2,
+      "outcome",
+      "response",
+      "treatment_value"
+     ],
+     true
+    ]
+   ],
+   "statement_patch": [],
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "value_roles_as_string",
+   "cls": "E12 printed values",
+   "component": "evidence_card",
+   "why": "Roles given as a string, not a list (synthetic): refuse.",
+   "inputs": {
+    "observation_id": "spa.obs.synanthedon_tipuliformis.szocs_1990.trap_e3.hungary",
+    "compound": "spa.cmpd.e3_z13_18_oac"
+   },
+   "context": {
+    "bundle": {
+     "atlas_version": "35112e1",
+     "sha256": "from bundle.load"
+    },
+    "roles": {
+     "spa.cmpd.z3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.z3_z13_18_oh": "atlas_observed",
+     "spa.cmpd.e3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.e2_z13_18_oac": "atlas_observed",
+     "arrowfield.control.z3_z13_18_al": "teaching_control"
+    }
+   },
+   "bundle_patch": [
+    [
+     [
+      "compounds",
+      2,
+      "occurrences",
+      1,
+      "roles"
+     ],
+     "treatment"
+    ]
+   ],
+   "statement_patch": [],
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "panel_class_name_unknown",
+   "cls": "E12 printed values",
+   "component": "class_panel",
+   "why": "A class name outside the Atlas's (synthetic): refuse.",
+   "inputs": {
+    "compound": "spa.cmpd.e3_z13_18_oac",
+    "taxon_id": "spa.tax.synanthedon_tipuliformis"
+   },
+   "context": {
+    "bundle": {
+     "atlas_version": "35112e1",
+     "sha256": "from bundle.load"
+    },
+    "roles": {
+     "spa.cmpd.z3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.z3_z13_18_oh": "atlas_observed",
+     "spa.cmpd.e3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.e2_z13_18_oac": "atlas_observed",
+     "arrowfield.control.z3_z13_18_al": "teaching_control"
+    }
+   },
+   "bundle_patch": [
+    [
+     [
+      "compounds",
+      2,
+      "evidence_classes",
+      3,
+      "evidence_class"
+     ],
+     "antagonist_effect"
+    ]
+   ],
+   "statement_patch": [],
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "panel_class_name_explains",
+   "cls": "E12 printed values",
+   "component": "class_panel",
+   "why": "A class name with explanation words (synthetic): refuse.",
+   "inputs": {
+    "compound": "spa.cmpd.e3_z13_18_oac",
+    "taxon_id": "spa.tax.synanthedon_tipuliformis"
+   },
+   "context": {
+    "bundle": {
+     "atlas_version": "35112e1",
+     "sha256": "from bundle.load"
+    },
+    "roles": {
+     "spa.cmpd.z3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.z3_z13_18_oh": "atlas_observed",
+     "spa.cmpd.e3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.e2_z13_18_oac": "atlas_observed",
+     "arrowfield.control.z3_z13_18_al": "teaching_control"
+    }
+   },
+   "bundle_patch": [
+    [
+     [
+      "compounds",
+      2,
+      "evidence_classes",
+      3,
+      "evidence_class"
+     ],
+     "resolved_because_esp"
+    ]
+   ],
+   "statement_patch": [],
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "panel_class_count_text",
+   "cls": "E12 printed values",
+   "component": "class_panel",
+   "why": "An observation count given as text (synthetic): refuse.",
+   "inputs": {
+    "compound": "spa.cmpd.e3_z13_18_oac",
+    "taxon_id": "spa.tax.synanthedon_tipuliformis"
+   },
+   "context": {
+    "bundle": {
+     "atlas_version": "35112e1",
+     "sha256": "from bundle.load"
+    },
+    "roles": {
+     "spa.cmpd.z3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.z3_z13_18_oh": "atlas_observed",
+     "spa.cmpd.e3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.e2_z13_18_oac": "atlas_observed",
+     "arrowfield.control.z3_z13_18_al": "teaching_control"
+    }
+   },
+   "bundle_patch": [
+    [
+     [
+      "compounds",
+      2,
+      "evidence_classes",
+      3,
+      "n_observations"
+     ],
+     "many because ESP"
+    ]
+   ],
+   "statement_patch": [],
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "panel_class_count_bool",
+   "cls": "E12 printed values",
+   "component": "class_panel",
+   "why": "A significant count of true (synthetic): refuse.",
+   "inputs": {
+    "compound": "spa.cmpd.e3_z13_18_oac",
+    "taxon_id": "spa.tax.synanthedon_tipuliformis"
+   },
+   "context": {
+    "bundle": {
+     "atlas_version": "35112e1",
+     "sha256": "from bundle.load"
+    },
+    "roles": {
+     "spa.cmpd.z3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.z3_z13_18_oh": "atlas_observed",
+     "spa.cmpd.e3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.e2_z13_18_oac": "atlas_observed",
+     "arrowfield.control.z3_z13_18_al": "teaching_control"
+    }
+   },
+   "bundle_patch": [
+    [
+     [
+      "compounds",
+      2,
+      "evidence_classes",
+      3,
+      "n_significant"
+     ],
+     true
+    ]
+   ],
+   "statement_patch": [],
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "panel_antennal_inactive_class",
+   "cls": "E12 printed values",
+   "component": "class_panel",
+   "why": "'antennal_inactive' is a real Atlas class: shown as the Atlas's own term, in a span; the panel's own words never say 'inactive'.",
+   "inputs": {
+    "compound": "spa.cmpd.e3_z13_18_oac",
+    "taxon_id": "spa.tax.synanthedon_tipuliformis"
+   },
+   "context": {
+    "bundle": {
+     "atlas_version": "35112e1",
+     "sha256": "from bundle.load"
+    },
+    "roles": {
+     "spa.cmpd.z3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.z3_z13_18_oh": "atlas_observed",
+     "spa.cmpd.e3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.e2_z13_18_oac": "atlas_observed",
+     "arrowfield.control.z3_z13_18_al": "teaching_control"
+    }
+   },
+   "bundle_patch": [
+    [
+     [
+      "compounds",
+      2,
+      "evidence_classes",
+      3,
+      "evidence_class"
+     ],
+     "antennal_inactive"
+    ]
+   ],
+   "statement_patch": [],
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "antennal_inactive",
+     "grade": "MISLEADING",
+     "why": "the Atlas's class name",
+     "on": "text"
+    },
+    {
+     "must_not": "inactiv\\w*|does not (make|produce|attract)|not (made|produced)|absent from|repel\\w*|inhibit\\w*|antagonis\\w*",
+     "grade": "FALSE",
+     "why": "an evidence view reports what was measured, never a role the record does not state",
+     "on": "text"
+    }
+   ]
+  },
+  {
+   "id": "panel_taxon_not_in_bundle",
+   "cls": "E12 printed values",
+   "component": "class_panel",
+   "why": "A taxon id the bundle carries in no class row (and named with explanation words): refuse, rather than print the caller's id as the panel's title.",
+   "inputs": {
+    "compound": "spa.cmpd.z3_z13_18_oac",
+    "taxon_id": "spa.tax.because_esp"
+   },
+   "context": {
+    "bundle": {
+     "atlas_version": "35112e1",
+     "sha256": "from bundle.load"
+    },
+    "roles": {
+     "spa.cmpd.z3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.z3_z13_18_oh": "atlas_observed",
+     "spa.cmpd.e3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.e2_z13_18_oac": "atlas_observed",
+     "arrowfield.control.z3_z13_18_al": "teaching_control"
+    }
+   },
+   "bundle_patch": [],
+   "statement_patch": [],
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
   }
  ]
 }
