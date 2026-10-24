@@ -579,7 +579,7 @@ case("panel_antennal_inactive_class", "E12 printed values", "class_panel",
      "words never say 'inactive'.",
      {"compound": E3, "taxon_id": TIPU}, SHOW, "RENDERED",
      [must(r"antennal_inactive", "MISLEADING", "the Atlas's class name"), NO_OVERREACH],
-     patch=[(CLS + ["evidence_class"], "antennal_inactive")])
+     patch=[(CLS + ["evidence_class"], "antennal_inactive"), (CLS + ["n_significant"], None)])   # a valid antennal row: no counts apply
 case("panel_taxon_not_in_bundle", "E12 printed values", "class_panel",
      "A taxon id the bundle carries in no class row (and named with explanation words): refuse, rather than "
      "print the caller's id as the panel's title.",
