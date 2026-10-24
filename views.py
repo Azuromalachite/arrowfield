@@ -474,6 +474,16 @@ _ROLES = ("atlas_observed", "teaching_control", "computational_counterfactual")
 _ROLE_WORDS = {"teaching_control": "Teaching control: a constructed molecule, not an Atlas compound",
                "computational_counterfactual": "Computational counterfactual: a computational model, "
                                                "not an Atlas compound"}
+# Every Atlas controlled word, in the views' own phrasing (bundle.py holds the vocabularies);
+# a word outside them is refused, never passed through as the view's claim (E11).
+_EFFECT_WORDS = {"increased": "increased", "decreased": "decreased", "no_effect": "no effect",
+                 "caught_without_control": "males caught; no comparator run"}
+_ROLE_PHRASES = {"treatment": "in the treatment", "comparator": "in the comparator", "detected": "detected",
+                 "not_detected": "not detected", "not_tested": "not tested",
+                 "antennal_active": "antennal response recorded",
+                 "antennal_inconsistent": "antennal response inconsistent",
+                 "antennal_inactive": "no antennal response recorded",
+                 "antennal_not_tested": "antennal response not tested"}
 _SIG_WORDS = {"significant": "significant", "not_significant": "not significant",
               "not_tested": "significance not tested", "not_reported": "significance not reported"}
 
@@ -604,13 +614,24 @@ def _compound_line(st, compound):
         method = f"method {_v(det.method)}" if det.method else "method not stated"
         return (f"not detected, {lim_txt}: a negative for this method ({method}), sample and population "
                 f"({_where_html(st)}) only")
+    from model import Refused
     roles = st.roles.get(compound, ())
     if not roles:
         return "not tested in this observation (not part of this experiment)"
+    unknown = [w for w in roles if w not in _ROLE_PHRASES]
+    if st.effect is not None and st.effect not in _EFFECT_WORDS:
+        unknown.append(st.effect)
+    if st.significance is not None and st.significance not in _SIG_WORDS:
+        unknown.append(st.significance)
+    if unknown:
+        raise Refused(f"{st.observation_id}: {unknown} are not the Atlas's controlled words; the view cannot "
+                      "phrase them")
+    said = "; ".join(_ROLE_PHRASES[w] for w in roles)
     if st.effect is None:
-        return f"{_t(', '.join(roles))}; effect not recorded"
-    words = f"{_t(st.effect.replace('_', ' '))}, {_t(_SIG_WORDS.get(st.significance, str(st.significance)))}"
-    out = f"{_t(', '.join(roles))} in {_v(st.assay) if st.assay else 'this assay'}: {words}"
+        return f"{_t(said)}; effect not recorded"
+    sig = _SIG_WORDS[st.significance] if st.significance is not None else "significance not recorded"
+    words = f"{_t(_EFFECT_WORDS[st.effect])}, {_t(sig)}"
+    out = f"{_t(said)}, in {_v(st.assay) if st.assay else 'this assay'}: {words}"
     r = st.response
     if r is not None and roles:
         def num(v):

@@ -33,6 +33,13 @@ COMPONENT = {"atlas_id", "detected", "method", "identification", "abundance_clas
 RESPONSE = {"measure", "unit", "treatment_value", "comparator_value", "qualifier"}
 COMPOUND = {"atlas_id", "shorthand", "systematic", "inchikey", "occurrences", "evidence_classes"}
 OCCURRENCE = {"observation_id", "roles"}
+# The Atlas's controlled words (its observation.schema.json and teaching-bundle.schema.json).
+# A value outside them is refused: a view phrases each of these in its own words, and an
+# unknown one would reach the page as Arrowfield's claim (probe round 3, #13).
+EFFECTS = ("increased", "decreased", "no_effect", "caught_without_control")
+SIGNIFICANCES = ("significant", "not_significant", "not_tested", "not_reported")
+ROLES = ("treatment", "comparator", "detected", "not_detected", "not_tested", "antennal_active",
+         "antennal_inconsistent", "antennal_inactive", "antennal_not_tested")
 EVIDENCE_CLASS = {"evidence_class", "taxon_id", "observation_ids", "populations", "n_observations",
                   "n_significant", "n_tentative", "population_match"}
 
@@ -76,6 +83,9 @@ def _statement(o, roles):
     _known(ev, EVIDENCE, f"{oid} evidence")
     out = o.get("outcome") or {}
     _known(out, OUTCOME, f"{oid} outcome")
+    for key, words in (("effect", EFFECTS), ("significance", SIGNIFICANCES)):
+        if out.get(key) is not None and out[key] not in words:
+            raise InvalidBundle(f"{oid} outcome: {key} {out[key]!r} is not one of the Atlas's words {words}")
     dets = []
     for c in o.get("components") or []:
         _known(c, COMPONENT, f"{oid} component")
@@ -130,6 +140,10 @@ def load(path):
             if occ["observation_id"] not in ids:
                 raise InvalidBundle(f"{path}: {c['atlas_id']} occurs in {occ['observation_id']}, "
                                     "which the bundle does not carry")
+            bad = [r for r in occ["roles"] if r not in ROLES]
+            if bad:
+                raise InvalidBundle(f"{path}: {c['atlas_id']} in {occ['observation_id']}: role(s) {bad} are not "
+                                    f"the Atlas's role words {ROLES}")
             roles.setdefault(occ["observation_id"], {})[c["atlas_id"]] = tuple(occ["roles"])
     contrasts = []
     for k in j["comparisons"]:

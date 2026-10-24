@@ -129,23 +129,7 @@ def _bundle(c, tmp_path):
     return _patched(RAW, c["bundle_patch"], tmp_path / "patched.json")
 
 
-# probe round 3 (on 3795473): effect, significance and role values pass through unchecked and
-# unphrased
-XFAIL = {
-    "test_view_output_is_safe[vocabulary_effect_inhibited]",
-    "test_view_output_is_safe[vocabulary_significance_resolved]",
-    "test_view_output_is_safe[vocabulary_significance_explains]",
-    "test_view_output_is_safe[vocabulary_role_antagonist]",
-    "test_view_output_is_safe[vocabulary_role_explains]",
-    "test_view_output_is_preferred[vocabulary_effect_inhibited]",
-    "test_view_output_is_preferred[vocabulary_significance_resolved]",
-    "test_view_output_is_preferred[vocabulary_significance_explains]",
-    "test_view_output_is_preferred[vocabulary_role_antagonist]",
-    "test_view_output_is_preferred[vocabulary_role_explains]",
-    "test_a_rendered_view_meets_its_requirements[vocabulary_antennal_inactive_phrased-0]",
-    "test_a_rendered_view_meets_its_requirements[vocabulary_antennal_inactive_phrased-1]",
-    "test_a_rendered_view_meets_its_requirements[vocabulary_caught_without_control_phrased-0]",
-}
+XFAIL = set()
 
 
 def _xfail(request, c):
