@@ -484,6 +484,8 @@ _ROLE_PHRASES = {"treatment": "in the treatment", "comparator": "in the comparat
                  "antennal_inconsistent": "antennal response inconsistent",
                  "antennal_inactive": "no antennal response recorded",
                  "antennal_not_tested": "antennal response not tested"}
+_OBS_TYPE_WORDS = {"chemical_measurement": "chemical measurement", "behavioural_response": "behavioural response",
+                   "electrophysiology": "electrophysiology"}
 _SIG_WORDS = {"significant": "significant", "not_significant": "not significant",
               "not_tested": "significance not tested", "not_reported": "significance not reported"}
 
@@ -593,29 +595,48 @@ def _statement_block(st):
     return parts
 
 
+def _obs_type(st):
+    """The observation type in the views' words; Refused outside the Atlas's three."""
+    from model import Refused
+    if st.observation_type not in _OBS_TYPE_WORDS:
+        raise Refused(f"{st.observation_id}: observation_type {st.observation_type!r} is not one of the Atlas's")
+    return _OBS_TYPE_WORDS[st.observation_type]
+
+
+def _real(v):
+    import math
+    return isinstance(v, (int, float)) and not isinstance(v, bool) and math.isfinite(v)
+
+
 def _compound_line(st, compound):
     """What the record says about this compound, in the record's own terms,
     as HTML: every free-text record field it repeats (place, method, unit,
     assay, measure, qualifier, abundance, identification) is its own verbatim
     span (probe round 2); the controlled words (effect, significance, roles)
     are the view's phrasing and fall under its word bans."""
+    from model import Refused
     def rec(x):
         return "not recorded" if x is None else _v(x)
     det = next((d for d in st.detections if d.compound == compound), None)
-    if st.observation_type == "chemical_measurement":
+    if _obs_type(st) == "chemical measurement":
         if det is None:
             return "not tested in this observation (not looked for in this measurement)"
+        if not isinstance(det.detected, bool):
+            raise Refused(f"{st.observation_id}: detected {det.detected!r} is not true or false")
         if det.detected:
             extra = [_v(x) for x in (det.abundance_class, det.identification) if x]
             return "detected" + (f" ({', '.join(extra)})" if extra else "")
         lim = det.detection_limit
+        if lim is not None and not (isinstance(lim, dict) and _real(lim.get("value"))):
+            raise Refused(f"{st.observation_id}: detection limit {lim!r} has no numeric value")
         lim_txt = (f"detection limit {_t(lim['value'])} {rec(lim.get('unit'))}"
                    if isinstance(lim, dict) and "value" in lim else "detection limit not stated")
         method = f"method {_v(det.method)}" if det.method else "method not stated"
         return (f"not detected, {lim_txt}: a negative for this method ({method}), sample and population "
                 f"({_where_html(st)}) only")
-    from model import Refused
     roles = st.roles.get(compound, ())
+    if not (isinstance(roles, (tuple, list)) and all(isinstance(w, str) for w in roles)):
+        raise Refused(f"{st.observation_id}: roles must be a list of role words, not {roles!r}")
     if not roles:
         return "not tested in this observation (not part of this experiment)"
     unknown = [w for w in roles if w not in _ROLE_PHRASES]
@@ -635,6 +656,8 @@ def _compound_line(st, compound):
     r = st.response
     if r is not None and roles:
         def num(v):
+            if v is not None and not _real(v):
+                raise Refused(f"{st.observation_id}: response value {v!r} is not a finite number")
             return "not recorded" if v is None else _t(v)
         out += (f"; {num(r.treatment_value)} vs {num(r.comparator_value)} {rec(r.unit)} "
                 f"({rec(r.measure)}, {_v(r.qualifier) if r.qualifier else 'as recorded'})")
@@ -654,7 +677,7 @@ def evidence_card_html(statement, compound, context):
     name = bundle.compounds[compound].shorthand or compound
     line = _compound_line(statement, compound)
     parts = [f'<div class="card evidence-card"><div class="card-title">{_v(name)} · {_v(statement.taxon)}'
-             f'<span class="unit">{_t(statement.observation_type.replace("_", " "))}</span></div>',
+             f'<span class="unit">{_t(_obs_type(statement))}</span></div>',
              f'<div class="where">{_where_html(statement)}</div>',
              f'<div class="verdict">{line}</div>']     # HTML: record fields spanned, the rest escaped
     parts += _statement_block(statement)
@@ -678,7 +701,7 @@ def contrast_card_html(contrast, statements, context):
              "assay. The Atlas states each; it gives no verdict about the pair.</p>", '<div class="row">']
     for st in statements:
         parts.append(f'<div class="panel"><div class="where">{_v(st.taxon)} · {_where_html(st)} · '
-                     f'{_v(st.assay) if st.assay else _t(st.observation_type.replace("_", " "))}</div>')
+                     f'{_v(st.assay) if st.assay else _t(_obs_type(st))}</div>')
         parts += _statement_block(st)
         parts.append("</div>")
     parts += ["</div>", provenance, "</div>"]
@@ -702,10 +725,21 @@ def evidence_class_panel_html(compound, taxon_id, context):
                 f"{provenance}</div>")
     if compound not in bundle.compounds:
         raise Refused(f"{compound!r} is neither a compound of this bundle nor given a role")
+    from bundle import EVIDENCE_CLASSES
     bc = bundle.compounds[compound]
+    taxa = {e.taxon_id for c in bundle.compounds.values() for e in c.evidence_classes}
+    if taxon_id not in taxa:
+        raise Refused(f"{taxon_id!r} is a taxon in none of this bundle's evidence classes")
     in_case = set(bundle.observations)
     rows = [e for e in bc.evidence_classes if e.taxon_id == taxon_id]
-    title = f'<div class="card-title">{_v(bc.shorthand or compound)} · {_t(taxon_id.split(".")[-1])}</div>'
+    for e in rows:     # as bundle.load checks, for a bundle built by hand
+        counts = (e.n_observations, e.n_significant, e.n_tentative)
+        if e.evidence_class not in EVIDENCE_CLASSES or not all(
+                (c is None and k) or (isinstance(c, int) and not isinstance(c, bool) and c >= 0)
+                for k, c in enumerate(counts)):
+            raise Refused(f"evidence class {e.evidence_class!r}: not one of the Atlas's classes, or its counts "
+                          "are not non-negative integers")
+    title = f'<div class="card-title">{_v(bc.shorthand or compound)} · {_v(taxon_id.split(".")[-1])}</div>'
     parts = [f'<div class="card class-panel">{title}',
              "<p class='limits'>The Atlas's evidence classes, derived from its records. Every row is kept; "
              "none is weighed against another.</p>"]
@@ -720,7 +754,7 @@ def evidence_class_panel_html(compound, taxon_id, context):
             outside = len(set(e.observation_ids) - in_case)
             sig = f"; {e.n_significant} reported significant" if e.n_significant is not None else ""
             sig += f"; {e.n_tentative} tentative" if e.n_tentative else ""
-            parts.append(f"<tr><td>{_t(e.evidence_class)}</td><td>{e.n_observations}{_t(sig)}</td>"
+            parts.append(f"<tr><td>{_v(e.evidence_class)}</td><td>{e.n_observations}{_t(sig)}</td>"
                          f"<td>{', '.join(_v(x) for x in e.populations)}</td>"
                          f"<td>{outside} of {e.n_observations} outside this case</td></tr>")
         parts.append("</table>")
