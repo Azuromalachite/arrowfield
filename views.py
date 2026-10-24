@@ -710,7 +710,7 @@ def evidence_class_panel_html(compound, taxon_id, context):
         raise Refused(f"{taxon_id!r} is a taxon in none of this bundle's evidence classes")
     in_case = set(bundle.observations)
     rows = [e for e in bc.evidence_classes if e.taxon_id == taxon_id]
-    title = f'<div class="card-title">{_v(bc.shorthand or compound)} · {_v(taxon_id.split(".")[-1])}</div>'
+    title = f'<div class="card-title">{_v(bc.shorthand or compound)} · {_v(taxon_id)}</div>'
     parts = [f'<div class="card class-panel">{title}',
              "<p class='limits'>The Atlas's evidence classes, derived from its records. Every row is kept; "
              "none is weighed against another.</p>"]
