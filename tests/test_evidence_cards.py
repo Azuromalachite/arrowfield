@@ -129,7 +129,22 @@ def _bundle(c, tmp_path):
     return _patched(RAW, c["bundle_patch"], tmp_path / "patched.json")
 
 
-XFAIL = set()
+# near-misses (on 57cbaa6): no count arithmetic, list fields coerced from strings, population
+# match unchecked
+XFAIL = {
+    "test_view_output_is_safe[panel_count_not_ids]",
+    "test_view_output_is_safe[panel_significant_exceeds]",
+    "test_view_output_is_safe[panel_populations_string]",
+    "test_view_output_is_safe[panel_observation_ids_string]",
+    "test_view_output_is_safe[panel_population_match_word]",
+    "test_view_output_is_safe[unresolved_as_string]",
+    "test_view_output_is_preferred[panel_count_not_ids]",
+    "test_view_output_is_preferred[panel_significant_exceeds]",
+    "test_view_output_is_preferred[panel_populations_string]",
+    "test_view_output_is_preferred[panel_observation_ids_string]",
+    "test_view_output_is_preferred[panel_population_match_word]",
+    "test_view_output_is_preferred[unresolved_as_string]",
+}
 
 
 def _xfail(request, c):

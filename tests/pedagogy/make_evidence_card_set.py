@@ -517,6 +517,39 @@ for vid, path, value, why in (
         ("class_count_bool", CLS + ["n_significant"], True, "a significant count of true")):
     case(f"panel_{vid}", "E12 printed values", "class_panel", f"{why[0].upper()}{why[1:]} (synthetic): refuse.",
          {"compound": E3, "taxon_id": TIPU}, REFUSE, "REFUSED", patch=[(path, value)])
+# The user's near-misses (relayed 2026-10-24, after round 4), on both sides of each rule; one
+# shared validator (model.py) serves bundle.load and hand-built bundles alike.
+for vid, value, outcomes, prefer, why in (
+        ("limit_value_half", 0.5, SHOW, "RENDERED", "a numeric limit of 0.5: a number, shown"),
+        ("limit_value_numeric_text", "0.5", REFUSE, "REFUSED", "the limit '0.5' as text: not the schema's number"),
+        ("limit_value_bool", True, REFUSE, "REFUSED", "a limit of true: a bool, not a number")):
+    ev(f"near_{vid}", "E12 printed values", GY, OAC, f"{why[0].upper()}{why[1:]}.",
+       [must(r"detection limit 0\.5", "MISLEADING", "the value as recorded")] if prefer == "RENDERED" else [],
+       outcomes=outcomes, prefer=prefer,
+       patch=[(["observations", oi(GY), "components", ci(GY, OAC), "detection_limit"],
+               {"value": value, "unit": "picogram"})])
+n_ids = len(RAW["compounds"][cls_idx]["evidence_classes"][cls_row]["observation_ids"])
+for vid, field, value, why in (
+        ("count_numeric_text", "n_observations", str(n_ids), "the count as text"),
+        ("count_fraction", "n_observations", n_ids + 0.5, "a fractional count"),
+        ("count_negative", "n_observations", -1, "a negative count"),
+        ("count_not_ids", "n_observations", n_ids + 2, f"{n_ids + 2} observations claimed for {n_ids} ids"),
+        ("significant_exceeds", "n_significant", n_ids + 1, "more significant than observed"),
+        ("significant_float", "n_significant", 1.0, "a significant count of 1.0 (a float)"),
+        ("tentative_negative", "n_tentative", -1, "a negative tentative count"),
+        ("tentative_text", "n_tentative", "2", "a tentative count as text"),
+        ("populations_string", "populations", "Tasmania", "populations as a bare string"),
+        ("observation_ids_string", "observation_ids", "spa.obs.x", "observation ids as a bare string"),
+        ("population_match_word", "population_match", "resolved", "a population match outside yes/no/unknown")):
+    case(f"panel_{vid}", "E12 printed values", "class_panel", f"{why[0].upper()}{why[1:]} (synthetic): refuse.",
+         {"compound": E3, "taxon_id": TIPU}, REFUSE, "REFUSED", patch=[(CLS + [field], value)])
+case("panel_counts_consistent_render", "E12 printed values", "class_panel",
+     f"The real row, n_observations {n_ids} with {n_ids} ids: consistent, shown.",
+     {"compound": E3, "taxon_id": TIPU}, SHOW, "RENDERED", [must(r"addition_decreased", "MISLEADING", "the row")])
+ev("unresolved_as_string", "E12 printed values", GN, OAC,
+   "Unresolved items as a bare string (synthetic): it would show letter by letter. Refuse.", [],
+   outcomes=REFUSE, prefer="REFUSED",
+   patch=[(["observations", oi(GN), "evidence", "unresolved"], "detection limit for the negatives")])
 case("panel_antennal_inactive_class", "E12 printed values", "class_panel",
      "'antennal_inactive' is a real Atlas class: shown as the Atlas's own term, in a span; the panel's own "
      "words never say 'inactive'.",
