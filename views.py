@@ -305,6 +305,17 @@ _CARD_ROLES = ("atlas_observed", "teaching_control", "computational_counterfactu
 _TIER_WORDS = {"primary": "a prespecified primary test", "secondary": "a prespecified secondary test"}
 
 
+def _esc(x):
+    # text content: quotes need no escaping, and an escaped apostrophe reads as &#x27; in plain text
+    return html.escape(str(x), quote=False)
+
+
+def _verbatim(x):
+    """Record text (a site label, a study's plan reference), verbatim and
+    marked: the card's word bans read only the text outside these spans."""
+    return f'<span class="verbatim">{_esc(x)}</span>'
+
+
 def _card_notes(card, context):
     """Notes from an optional context: the study's stance on this site, read
     from the study itself, and any teaching control. Refused when the context
@@ -337,20 +348,21 @@ def _card_notes(card, context):
             raise Refused(f"the study's {contrast} compares {rows[0].x} → {rows[0].y}, this card {x} → {y}: "
                           "its difference would carry another sign or describe another pair")
         row = next((s for s in rows if s.site == card.site), None)
+        plan = _verbatim(study.plan)
         if row is None:
-            notes.append(f"The study ({study.plan}) gives no verdict at this site: it does not test it.")
+            notes.append(f"The study ({plan}) gives no verdict at this site: it does not test it.")
         elif row.tier in _TIER_WORDS:
-            notes.append(f"The study ({study.plan}) decides this site as {_TIER_WORDS[row.tier]}, under a "
+            notes.append(f"The study ({plan}) decides this site as {_TIER_WORDS[row.tier]}, under a "
                          "different rule: its verdict is on the study card, not here.")
         else:
-            notes.append(f"The study ({study.plan}) reports this site as exploratory, under a different rule: "
+            notes.append(f"The study ({plan}) reports this site as exploratory, under a different rule: "
                          "its row is on the study card.")
     for slug, name in ((x, card.name_a), (y, card.name_b)):
         if roles.get(slug) == "teaching_control":
-            notes.append(f"{name} is a teaching control: a constructed molecule, not an Atlas compound. "
+            notes.append(f"{_esc(name)} is a teaching control: a constructed molecule, not an Atlas compound. "
                          "This comparison is descriptive only.")
         elif roles.get(slug) == "computational_counterfactual":
-            notes.append(f"{name} is a computational counterfactual, not an observed molecule. "
+            notes.append(f"{_esc(name)} is a computational counterfactual, not an observed molecule. "
                          "This comparison is descriptive only.")
     return notes
 
@@ -367,11 +379,10 @@ def card_html(card, context=None):
             v is not None and not (isinstance(v, (int, float)) and math.isfinite(v)) for v in shown):
         raise Refused("a difference, range or partition sensitivity on this card is not a finite number: "
                       "recompute the comparison")
-    # text content: quotes need no escaping, and an escaped apostrophe reads as &#x27; in plain text
-    notes = "".join(f'<div class="limits">{html.escape(n, quote=False)}</div>' for n in _card_notes(card, context))
-    label = f'<div class="label">{html.escape(_CARD_LABEL, quote=False)}</div>'
+    notes = "".join(f'<div class="limits">{n}</div>' for n in _card_notes(card, context))     # HTML, escaped
+    label = f'<div class="label">{_esc(_CARD_LABEL)}</div>'
     title = (f'<div class="card-title">{html.escape(card.name_a)} → {html.escape(card.name_b)} '
-             f'· site {html.escape(card.site)}<span class="unit">site mean, kcal/mol</span></div>')
+             f'· site {_verbatim(card.site)}<span class="unit">site mean, kcal/mol</span></div>')
     banner = (f'<div class="status status-{card.status.name.lower()}">'
               f'{card.status.value.upper()}</div>')
     if card.status is ComparisonStatus.NOT_COMPARABLE:

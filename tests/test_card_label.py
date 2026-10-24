@@ -36,11 +36,7 @@ RESULTS = HERE / "tests" / "data" / "espmap-sesiidae-001.results.json"
 # --- what the card gets wrong today (measured on the committed card) --------------------
 # Empty since the label fix (the 53 pairs #15 measured on the card before it). A case added
 # later that the card fails goes here, as "test[case]" or "test[case-i]", with why.
-# verbatim exemption (a762d41): the site label is not marked as record text
-XFAIL = {
-    "test_a_rendered_card_meets_its_requirements[outcome_word_in_site_label-3]",
-    "test_a_rendered_card_meets_its_requirements[outcome_word_in_site_label_with_study-3]",
-}
+XFAIL = set()
 
 
 def _xfail(request, key):
