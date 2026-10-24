@@ -431,6 +431,26 @@ rel("rel_flat_both_sides", "R2 identity not established",
     "geometry' would be false.", side(E3X, geometry="zeros"), side(E3F, geometry="zeros"), "REFUSED",
     {"SAME_GEOMETRY": "FALSE"})
 
+# probe on #18 (fa0e676): the relation depended on the bond list's order and missed a methyl-H
+# relabelling (atom 0 is a CH3 with H22, H23, H24 in E3 conf_02). The minimisation over
+# symmetry-equivalent atoms must not depend on how the input lists its atoms or bonds.
+rel("rel_methyl_h_swapped", "R1 relation",
+    "E3 conf_02 against itself with methyl H22 and H23 exchanging coordinates: one geometry, relabelled "
+    "(naive RMSD 0.33 A, 0 over symmetry).", side(E3X), side(E3X, geometry=["swap", 22, 23]), "SAME_GEOMETRY", ONE)
+rel("rel_bonds_shuffled_same", "R1 relation",
+    "The same geometry with its bond list reversed and each bond's direction flipped: the answer cannot "
+    "depend on the list's order.", side(E3X), side(E3X, geometry="bonds_shuffled"), "SAME_GEOMETRY", ONE)
+rel("rel_swap_and_shuffle", "R1 relation",
+    "Both at once: methyl H swapped on one side, bonds shuffled on the other.",
+    side(E3X, geometry=["swap", 22, 23]), side(E3X, geometry="bonds_shuffled"), "SAME_GEOMETRY", ONE)
+rel("rel_bonds_shuffled_conformers", "R1 relation",
+    "A true conformer pair (conf_00, conf_02) with one side's bonds shuffled: still two conformers.",
+    side(E3F), side(E3X, geometry="bonds_shuffled"), "CONFORMERS_OF_ONE_COMPOUND", ONE)
+rel("rel_bond_out_of_range", "R2 identity not established",
+    "A bond naming an atom the record does not have: the graph is not established. Refuse, with a plain "
+    "reason (not a C++ invariant).", side(E3X, geometry="bond_out_of_range"), side(E3F), "REFUSED",
+    {"SAME_GEOMETRY": "FALSE"})
+
 # Retired by the view's PR (not edited now): each abstract C1 case names its replacements.
 RETIRES = {"pair_different_render_keys": ["butene_e_vs_z", "ethanol_vs_acetaldehyde", "near_equal_scales",
                                           "forged_render_key"],

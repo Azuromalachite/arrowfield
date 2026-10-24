@@ -171,6 +171,14 @@ def _side(s):
     geo = s.get("geometry")
     if geo == "zeros":
         v = replace(v, xyz=np.zeros_like(v.xyz))
+    elif geo == "bonds_shuffled":            # reversed, and each bond's direction flipped
+        v = replace(v, bonds=tuple((j, i, o) for i, j, o in reversed(v.bonds)))
+    elif geo == "bond_out_of_range":
+        v = replace(v, bonds=tuple(v.bonds) + ((0, len(v.symbols), 1),))
+    elif isinstance(geo, list) and geo[0] == "swap":
+        xyz = v.xyz.copy()
+        xyz[[geo[1], geo[2]]] = xyz[[geo[2], geo[1]]]
+        v = replace(v, xyz=xyz)
     elif geo is not None:
         _, target, seed = geo
         d = np.random.default_rng(seed).standard_normal(v.xyz.shape)
@@ -213,14 +221,26 @@ def _run(c):
     return "RENDERED", page, (left, right)
 
 
+# the probe on #18 (fa0e676): the relation depends on bond-list order and misses a methyl-H
+# relabelling. Measured on fa0e676; only shrinks.
+XFAIL = {"rel_methyl_h_swapped", "rel_bonds_shuffled_same", "rel_swap_and_shuffle"}
+
+
+def _xfail(request, c):
+    if c["id"] in XFAIL:
+        request.applymarker(pytest.mark.xfail(strict=True, reason="relation on fa0e676"))
+
+
 @pytest.mark.parametrize("c", CASES, ids=[c["id"] for c in CASES])
-def test_view_output_is_safe(c):
+def test_view_output_is_safe(c, request):
+    _xfail(request, c)
     out = _run(c)[0]
     assert out in c["allowed"], f"{out}: {c['outcomes'][out]}"
 
 
 @pytest.mark.parametrize("c", [c for c in CASES if c["prefer"]], ids=lambda c: c["id"])
-def test_view_output_is_preferred(c):
+def test_view_output_is_preferred(c, request):
+    _xfail(request, c)
     assert _run(c)[0] == c["prefer"]
 
 
