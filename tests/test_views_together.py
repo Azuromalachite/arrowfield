@@ -75,3 +75,56 @@ def test_each_view_keeps_its_contract_on_one_page():
     assert set(spans) <= {"C3-H", load_results(tl.RESULTS).plan}
     # one escaping rule: no raw apostrophe entity anywhere on the page
     assert "&#x27;" not in page
+
+
+# The integration probe (on 1cbab22): context entries that are present but
+# malformed are refused, never read as absent (the user: "a validator, not a
+# sanitizer"); an absent entry stays absent, and a whole context that is not
+# a mapping still reads as none (#15's choice 6). And card_html refuses an
+# object that is not a Comparison, as the evidence views refuse one.
+import pytest  # noqa: E402
+
+MALFORMED = ["card_given_a_statement", "card_roles_as_list", "evidence_provenance_as_list", "evidence_roles_as_list"]
+XFAIL = set(MALFORMED)       # measured on 1cbab22; only shrinks
+
+
+def _malformed(case_id):
+    import views
+    import test_card_label as tl
+    from model import compare
+    from study import load_results
+    b = load(BUNDLE)
+    x, y = "z3_z13_18_oac", "z3_z13_18_al"
+    if case_id == "card_given_a_statement":
+        return lambda: views.card_html(b.observations[P + "synanthedon_tenuis.yang_2012.gland"], None)
+    if case_id == "card_roles_as_list":
+        card = compare(tl._views(x), tl._views(y), "C1-H", x, y)
+        return lambda: views.card_html(card, {"study": load_results(tl.RESULTS), "contrast": "A_headgroup (control: Al vs OAc)",
+                                              "x": x, "y": y, "roles": ["teaching_control"]})
+    st = b.observations[P + "synanthedon_tenuis.naka_2013.trap_z3z13oh_added.test4_1"]
+    bad = {"evidence_roles_as_list": {"roles": ["atlas_observed"]},
+           "evidence_provenance_as_list": {"bundle": ["35112e1"]}}[case_id]
+    return lambda: views.evidence_card_html(st, "spa.cmpd.z3_z13_18_oh", dict({"bundle_object": b}, **bad))
+
+
+@pytest.mark.parametrize("case_id", MALFORMED)
+def test_a_malformed_context_entry_or_object_is_refused(case_id, request):
+    from model import Refused
+    if case_id in XFAIL:
+        request.applymarker(pytest.mark.xfail(strict=True, reason="integration probe on 1cbab22"))
+    with pytest.raises(Refused):
+        _malformed(case_id)()
+
+
+def test_absent_entries_and_a_non_mapping_context_still_render():
+    """The other side of the rule: absent roles and provenance render, and a
+    whole non-mapping context reads as none for the card (#15)."""
+    import views
+    import test_card_label as tl
+    from model import compare
+    b = load(BUNDLE)
+    st = b.observations[P + "synanthedon_tenuis.naka_2013.trap_z3z13oh_added.test4_1"]
+    assert "evidence-card" in views.evidence_card_html(st, "spa.cmpd.z3_z13_18_oh", {"bundle_object": b})
+    x, y = "z3_z13_18_oac", "z3_z13_18_al"
+    card = compare(tl._views(x), tl._views(y), "C1-H", x, y)
+    assert "Teaching comparison" in views.card_html(card, "not a mapping")
