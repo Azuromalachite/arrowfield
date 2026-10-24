@@ -6,8 +6,8 @@ its safe outputs; all six classes have two or more variants; the fixtures in
 tests/data/pair are the Atlas's records, byte for byte; and the facts each
 case's reason cites are true of the records (a case that misdescribes its
 input would test the wrong thing).
-When views.pair_view_html exists: every output is safe and preferred, and
-every requirement holds. Until then those tests skip. The view's PR may add
+When model.relation and views.pair_view_html exist: every output is safe and
+preferred, and every requirement holds. Until then each one's tests skip. The view's PR may add
 strict-xfail lists here, never edit an expectation.
 """
 import hashlib
@@ -48,7 +48,7 @@ def test_allowed_is_exactly_the_safe_outputs(c):
 def test_every_class_has_two_or_more_variants():
     from collections import Counter
     per = Counter(c["cls"].split()[0] for c in CASES)
-    assert sorted(per) == [f"P{i}" for i in range(1, 7)] and min(per.values()) >= 2, per
+    assert sorted(per) == [f"P{i}" for i in range(1, 8)] + ["R1", "R2"] and min(per.values()) >= 2, per
 
 
 def test_retired_cases_name_existing_replacements():
@@ -115,12 +115,47 @@ def test_the_records_say_what_the_cases_say():
     assert v[g.E3X].name.startswith("conf_0") and v[g.Z3X].name.startswith("conf_0")
 
 
-# --- the view (to come) --------------------------------------------------------------------
-def _view():
+def _mol(v):
     import views
-    if not hasattr(views, "pair_view_html"):
-        pytest.skip("views.pair_view_html is not built yet; its expectations are fixed in pair_view_set.json")
-    return views.pair_view_html
+    return views.mol_from_view(v, v.mapped_smiles)
+
+
+def _rms(a, b):
+    """Symmetric RMSD after superposition, all atoms (2000 matches: an upper bound)."""
+    from rdkit.Chem import rdMolAlign
+    return rdMolAlign.GetBestRMS(_mol(a), _mol(b), maxMatches=2000)
+
+
+def test_the_same_geometry_threshold_sits_where_it_was_measured():
+    """The docstring's measurement, re-checked on the committed records: the
+    equivalent seed pairs sit far below SAME_GEOMETRY_RMSD, the true conformers
+    far above it, and the synthetic displacements on their stated sides."""
+    import make_pair_view_set as g
+    t = SET["same_geometry_rmsd"]
+    assert t == g.SAME_GEOMETRY_RMSD == 0.01
+    for a, b in ((g.E2B, g.E2B2), (g.ACAL, g.ACAL2), (g.ETOH, g.ETOH2)):
+        assert _rms(_load(a), _load(b)) < 1e-5 < t
+    assert _rms(_load(g.E3F), _load(g.E3X)) > 2.0 > 100 * t
+    e3 = _load(g.E3X)
+    assert _rms(e3, _side(g.side(g.E3X, geometry=["rmsd", 0.005, 1]))) <= 0.005 < t
+    assert _rms(e3, _side(g.side(g.E3X, geometry=["rmsd", 0.04, 2]))) > 3 * t
+
+
+def test_model_threshold_is_the_frozen_one():
+    import model
+    if not hasattr(model, "SAME_GEOMETRY_RMSD"):
+        pytest.skip("model.SAME_GEOMETRY_RMSD is not defined yet")
+    assert model.SAME_GEOMETRY_RMSD == SET["same_geometry_rmsd"]
+
+
+# --- the view (to come) --------------------------------------------------------------------
+def _view(component):
+    import model
+    import views
+    mod, name = (views, "pair_view_html") if component == "pair_view" else (model, "relation")
+    if not hasattr(mod, name):
+        pytest.skip(f"{mod.__name__}.{name} is not built yet; its expectations are fixed in pair_view_set.json")
+    return getattr(mod, name)
 
 
 def _side(s):
@@ -132,6 +167,15 @@ def _side(s):
             v = replace(v, **{outer: replace(getattr(v, outer), **{inner: value})})
         else:
             v = replace(v, **{field: value})
+    geo = s.get("geometry")
+    if geo == "zeros":
+        v = replace(v, xyz=np.zeros_like(v.xyz))
+    elif geo is not None:
+        _, target, seed = geo
+        d = np.random.default_rng(seed).standard_normal(v.xyz.shape)
+        d -= d.mean(0)
+        d *= target / math.sqrt(float((d ** 2).sum(1).mean()))
+        v = replace(v, xyz=v.xyz + d)
     op = s["surface"]
     if op == "none":
         v = replace(v, surface_loader=None)
@@ -153,11 +197,13 @@ def _side(s):
 
 
 def _run(c):
-    view = _view()
+    view = _view(c["component"])
     from model import Refused
     left = _side(c["left"])
     right = left if c["same_object"] else _side(c["right"])
     try:
+        if c["component"] == "relation":
+            return view(left, right).value.upper(), None, (left, right)
         page = view(left, right, dict(c["context"]))
     except Refused:
         return "REFUSED", None, (left, right)
@@ -195,18 +241,23 @@ def _check(what, page, sides):
     scale = [a for a, k in zip(p.found, classes) if "pair-scale" in k]
     panels = [a for a, k in zip(p.found, classes) if "pair-panel" in k]
     if what == "shared_scale":
+        # the frozen rule (make_pair_view_set's docstring), exactly
         assert len(scale) == 1 and len(panels) == 2, "one pair-scale and two pair-panels"
-        s = scale[0]
-        lo, hi = float(s["data-vmin"]), float(s["data-vmax"])
-        assert math.isfinite(lo) and math.isfinite(hi) and lo < hi
-        for q in panels:
-            assert math.isclose(float(q["data-vmin"]), lo, abs_tol=1e-9)
-            assert math.isclose(float(q["data-vmax"]), hi, abs_tol=1e-9)
-        assert lo <= min(v.scale.vmin for v in sides) + 1e-6 and hi >= max(v.scale.vmax for v in sides) - 1e-6
-        if any(v.scale.kind == "diverging" for v in sides):
-            assert s["data-kind"] == "diverging" and math.isclose(lo, -hi, rel_tol=1e-12)
+        lo = min(v.scale.vmin for v in sides)
+        hi = max(v.scale.vmax for v in sides)
+        if any(v.scale.kind == "diverging" for v in sides) or lo < 0 < hi:
+            m = max(abs(lo), abs(hi))
+            kind, want = "diverging", (-m, m)
         else:
-            assert s["data-kind"] == "sequential", "neither side changes sign: no zero to centre on"
+            kind, want = "sequential", (lo, hi)
+        s = scale[0]
+        assert s.get("data-unit") == "kcal/mol"
+        assert s["data-kind"] == kind and s["data-cmap"] == SET["cmap"][kind], (s, kind)
+        got = (float(s["data-vmin"]), float(s["data-vmax"]))
+        assert all(math.isclose(x, y, rel_tol=1e-9, abs_tol=1e-9) for x, y in zip(got, want)), (got, want)
+        for q in panels:          # each picture's effective scale is the shared one
+            assert q.get("data-scale") == "shared" and q.get("data-cmap") == s["data-cmap"]
+            assert (float(q["data-vmin"]), float(q["data-vmax"])) == got
         return
     if what.startswith("relation="):
         rel = [a["data-relation"] for a in p.found if "data-relation" in a]
@@ -220,6 +271,7 @@ REQ = [(c, i) for c in CASES for i in range(len(c["requires"]))]
 
 
 @pytest.mark.parametrize("c,i", REQ, ids=[f"{c['id']}-{i}" for c, i in REQ])
+# (relation cases carry no requirements: their output is the judgement itself)
 def test_a_rendered_view_meets_its_requirements(c, i):
     out, page, sides = _run(c)
     if out != "RENDERED":
