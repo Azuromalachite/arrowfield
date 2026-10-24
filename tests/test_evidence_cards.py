@@ -129,7 +129,21 @@ def _bundle(c, tmp_path):
     return _patched(RAW, c["bundle_patch"], tmp_path / "patched.json")
 
 
-XFAIL = set()
+# exact-field spans (on 1099b7d): the panel spans the taxon id with its prefix stripped
+XFAIL = {
+    "test_verbatim_spans_are_record_text[study_verdict_beside_classes]",
+    "test_verbatim_spans_are_record_text[population_specific_roles]",
+    "test_verbatim_spans_are_record_text[increase_and_decrease_both_kept]",
+    "test_verbatim_spans_are_record_text[derived_class_is_a_join]",
+    "test_verbatim_spans_are_record_text[outside_this_case]",
+    "test_verbatim_spans_are_record_text[no_class_is_not_absence]",
+    "test_verbatim_spans_are_record_text[population_match_no]",
+    "test_verbatim_spans_are_record_text[population_match_unknown]",
+    "test_verbatim_spans_are_record_text[full_commit_in_context_agrees]",
+    "test_verbatim_spans_are_record_text[tentative_counts_shown]",
+    "test_verbatim_spans_are_record_text[panel_counts_consistent_render]",
+    "test_verbatim_spans_are_record_text[panel_antennal_inactive_class]",
+}
 
 
 def _xfail(request, c):
@@ -260,7 +274,7 @@ def test_verbatim_spans_are_record_text(c, tmp_path, request):
         return
     record = _strings(c["_raw"], []) + _strings(c["statement_patch"], [])
     for span in _split(page)[1]:
-        assert any(span in r for r in record), f"verbatim span not found in the record: {span!r}"
+        assert span in record, f"verbatim span is not a field the record carries, exactly: {span!r}"
 
 
 def test_bans_catch_word_families():
