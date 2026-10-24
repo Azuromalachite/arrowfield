@@ -214,3 +214,30 @@ def test_the_card_names_the_method_of_its_own_measurements():
     pcm = [replace(v, provenance=replace(v.provenance, solvent="water")) for v in e + z]
     h = card_html(difference_card(pcm[:3], pcm[3:], "C2"))
     assert "PCM water" in h and "gas" not in h.split('class="scope"')[1]
+
+
+def test_every_real_study_row_renders_as_a_study_card():
+    """All rows of the real espmap-sesiidae-001 results (tests/data) render;
+    an extended-only row renders beside its own all-member row, and is
+    refused beside another site's."""
+    import json
+    from model import Refused
+    from study import load_results
+    from views import study_card_html
+    r = load_results(HERE / "tests" / "data" / "espmap-sesiidae-001.results.json")
+    roles = {s: "atlas_observed" for s in r.molecules} | {"z3_z13_18_al": "teaching_control"}
+    ctx = {"provenance": {"results_sha256": r.sha256, "plan_commit": "7e3465859bc2b8950078238f0bffb0ea6b4dd512"},
+           "molecules": roles, "limitations": {"basis_sensitivity": "not run", "solvent": "not studied",
+                                               "phase": "gas", "method": "B3LYP/def2-SVP"}}
+    n = 0
+    for s in r.sites:
+        c = dict(ctx)
+        if s.population != "all":
+            c["all_member_row"] = r.site(s.contrast, s.site, "all")
+        page = study_card_html(s, c)
+        assert "range_partition_sign_v1" in page and "biological discrimination" in page
+        n += 1
+    assert n == len(r.sites) > 100
+    ext = r.site("C_position", "C4-H", "extended")
+    with pytest.raises(Refused, match="not this site"):
+        study_card_html(ext, dict(ctx, all_member_row=r.site("C_position", "C2-H", "all")))

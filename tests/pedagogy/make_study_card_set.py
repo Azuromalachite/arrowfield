@@ -80,13 +80,14 @@ C3 = row("C_position", "e3_z13_18_oac", "e2_z13_18_oac", "C3-H", "unresolved",
 CASES = []
 
 
-def case(id, cls, why, r, c, outcomes, prefer, requires=()):
+def case(id, cls, why, r, c, outcomes, prefer, requires=(), extra=None):
     outcomes = dict(outcomes)
     outcomes.setdefault("ERROR", "CRASH")
     allowed = sorted(k for k, g in outcomes.items() if g in ("SAFE", "SAFE_REFUSAL"))
     assert prefer is None or prefer in allowed, id
     CASES.append(dict(id=id, cls=cls, component="study_card", why=why, row=r, context=c,
-                      outcomes=outcomes, allowed=allowed, prefer=prefer, requires=list(requires)))
+                      outcomes=outcomes, allowed=allowed, prefer=prefer, requires=list(requires),
+                      **(extra or {})))
 
 
 def must(pat, grade, why, on="text"):
@@ -247,6 +248,86 @@ case("provenance_shown", "S12 provenance",
      "With full provenance, the card names the rule and the frozen plan's commit.",
      C4, ctx(), SHOW, "RENDERED",
      [RULE_NAMED, must(r"7e34658", "MISLEADING", "the frozen plan's commit")])
+
+# 13. malformed numbers in a row that claims a verdict (held-out probe of #11)
+# A reversed interval read naively 'excludes 0' and lets 'different on
+# average' through; a NaN difference renders as '+nan'. A verdict-bearing row
+# must carry finite numbers and ordered intervals, or be refused.
+NAN, INF = float("nan"), float("inf")
+REFUSE = {"RENDERED": "FALSE", "REFUSED": "SAFE_REFUSAL"}
+for vid, r, grade_r in (
+        ("interval_reversed", dict(B3, bootstrap_interval=[2.2, -0.6]), "FALSE"),
+        ("interval_nan", dict(B3, bootstrap_interval=[NAN, 3.4]), "FALSE"),
+        ("delta_nan", dict(C4, delta=NAN), "MISLEADING"),
+        ("range_inf", dict(C4, range_y=[6.66, INF]), "MISLEADING"),
+        ("range_reversed", dict(C4, range_x=[5.54, 0.22]), "MISLEADING"),
+        ("partition_nan", dict(C4, partition=NAN), "MISLEADING")):
+    case(f"malformed_{vid}", "S13 malformed numbers",
+         "A row that claims a verdict must carry finite numbers and ordered (low, high) intervals; "
+         "anything else is a corrupt record, refused rather than rendered as if measured.",
+         r, ctx(), {"RENDERED": grade_r, "REFUSED": "SAFE_REFUSAL"}, "REFUSED")
+
+# Probe round 2 of #11: Python's True and False are numbers to isinstance(.., int),
+# so a boolean slipped through as a delta, a partition or an interval bound,
+# and reached the card through the all-member row too.
+for vid, r, c in (("bool_delta", dict(C4, delta=True), ctx()),
+                  ("bool_partition", dict(C4, partition=False), ctx()),
+                  ("bool_interval", dict(B3, bootstrap_interval=[True, 2.0]), ctx()),
+                  ("bool_in_all_member_row", dict(C4, population="extended", n=[17, 14]),
+                   ctx(all_member_row=dict(C4, partition=True)))):
+    case(f"malformed_{vid}", "S13 malformed numbers",
+         "A boolean is not a measurement: a row (or the all-member row beside it) carrying True or "
+         "False where a number belongs is corrupt and refused.",
+         r, c, {"RENDERED": "FALSE", "REFUSED": "SAFE_REFUSAL"}, "REFUSED")
+# ...and a not-evaluable row's ranges were formatted without any check: a
+# string crashed the card, an infinity was shown. The card may still show a
+# not-evaluable row, but only well-formed ranges, and never crash.
+for vid, rx in (("range_garbage", ["a", None]), ("range_infinite", [-INF, 1.0])):
+    case(f"not_evaluable_{vid}", "S4 not evaluable",
+         "A not-evaluable row carries no verdict, so stray numbers do not make it corrupt; but a "
+         "range that is not a finite (low, high) pair must not be shown, and must not crash the card.",
+         dict(B3, outcome="not evaluable", range_x=rx, delta=NAN, partition=-4.0,
+              bootstrap_interval=[5.0, 1.0]), ctx(), SHOW, "RENDERED",
+         [must(r"not evaluable", "FALSE", "the study's word"),
+          must_not(r"\binf\b|infinity|\bnan\b|∞", "MISLEADING", "no infinite or NaN value shown"),
+          must_not(r"Δ|difference of (the )?means", "MISLEADING", "no difference value shown")])
+
+# Probe round 3 of #11: provenance the card cannot verify. A plan commit that
+# is not a hex string (an int crashed the card) or is missing, or a results
+# sha256 that is not 64 hex characters, must not look fully sourced.
+WARN = must(r"provenance (incomplete|missing)|unverified source|source not (recorded|verified)",
+            "MISLEADING", "a visible warning")
+for vid, prov in (("plan_commit_int", dict(PROV, plan_commit=7346580)),
+                  ("plan_commit_missing", dict(PROV, plan_commit=None)),
+                  ("sha_not_hex", dict(PROV, results_sha256="not-a-sha"))):
+    case(f"provenance_{vid}", "S12 provenance",
+         "Provenance the card cannot verify: show the verdict with a visible warning (or refuse); "
+         "never crash, never present it as fully sourced.",
+         C4, ctx(provenance=prov), SHOW, "RENDERED", [WARN])
+# ...and a verdict row whose n is not two non-negative integers.
+for vid, n in (("n_garbage", ["x", -3]), ("n_bool", [True, 20])):
+    case(f"malformed_{vid}", "S13 malformed numbers",
+         "A verdict rests on n members per side; n that is not two non-negative integers is a "
+         "corrupt record.",
+         dict(C4, n=n), ctx(), {"RENDERED": "MISLEADING", "REFUSED": "SAFE_REFUSAL"}, "REFUSED")
+
+
+# Probe round 4 of #11: context entries that are not mappings (a provenance
+# given as a list crashed the card), and n given as numpy integers, which a
+# study built from array counts produces and which are perfectly good counts.
+for vid, c in (("provenance_list", ctx(provenance=["f" * 64, PROV["plan_commit"]])),
+               ("molecules_list", ctx(molecules=["z3_z13_18_al"])),
+               ("limitations_string", ctx(limitations="gas, def2-SVP"))):
+    case(f"context_not_a_mapping_{vid}", "S12 provenance",
+         "A context entry that is not a mapping is treated as missing: the card never crashes, and "
+         "never claims what it could not read (a missing provenance shows the warning).",
+         C4, c, SHOW, "RENDERED",
+         [WARN] if vid == "provenance_list" else [must_not(r"basis[^.;]{0,40}(?<!not )\brun\b", "MISLEADING",
+                                                          "nothing claimed as run")])
+case("n_numpy_integers", "S13 malformed numbers",
+     "n given as numpy integers (np.int64, np.int32) is a valid count; the card must not refuse it. "
+     "The harness converts n to numpy integers for this case (row_n_numpy).",
+     C4, ctx(), {"RENDERED": "SAFE", "REFUSED": "SAFE_REFUSAL"}, "RENDERED", extra={"row_n_numpy": True})
 
 
 def document():

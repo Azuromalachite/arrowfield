@@ -27,6 +27,15 @@ SET = json.loads((PED / "study_card_set.json").read_text(encoding="utf-8"))
 CASES = SET["cases"]
 RULE = "espmap-sesiidae-001/range_partition_sign_v1"
 
+# --- what the card gets wrong today (measured, not intended) -------------------
+UNSAFE_NOW = set()      # empty since the card met the probe rounds of #11; a new failing case goes here
+NOT_PREFERRED_NOW = set(UNSAFE_NOW)
+REQUIRES_MISSING_NOW = set()
+
+
+def _mark(ids, cid):
+    return [pytest.mark.xfail(strict=True, reason="listed as failing now")] if cid in ids else []
+
 
 def test_the_committed_set_is_what_the_generator_writes():
     import make_study_card_set
@@ -42,7 +51,7 @@ def test_allowed_is_exactly_the_safe_outputs(c):
 
 def test_all_twelve_states_have_two_or_more_variants():
     per = Counter(c["cls"].split()[0] for c in CASES)
-    assert sorted(per) == sorted(f"S{i}" for i in range(1, 13))
+    assert sorted(per) == sorted(f"S{i}" for i in range(1, 14))
     assert min(per.values()) >= 2, per
 
 
@@ -57,6 +66,8 @@ def _follows(row):
 def test_the_set_premises_hold(c):
     """A card case tests the card, not a corrupt input, unless it says so."""
     r = c["row"]
+    if c["cls"].startswith("S13"):
+        return                                         # malformed numbers: no premise to check
     if c["cls"].startswith(("S9", "S12")) and r["verdict_rule"] != RULE:
         return                                         # the case is about the rule itself
     if r["outcome"] == "not evaluable":
@@ -78,9 +89,12 @@ def _card():
 def _run(c):
     card = _card()                                     # skips until the card exists
     from model import Refused, StudySite               # StudySite arrives with study.py (#8)
+    row = {k: (tuple(v) if isinstance(v, list) else v) for k, v in c["row"].items()}
+    if c.get("row_n_numpy"):                           # JSON cannot carry numpy integers
+        import numpy as np
+        row["n"] = (np.int64(row["n"][0]), np.int32(row["n"][1]))
     try:
-        page = card(StudySite(**{k: (tuple(v) if isinstance(v, list) else v) for k, v in c["row"].items()}),
-                    c["context"])
+        page = card(StudySite(**row), c["context"])
     except Refused:
         return "REFUSED", None
     except Exception:  # noqa: BLE001 - any other error is a crash, graded as such
@@ -88,13 +102,14 @@ def _run(c):
     return "RENDERED", page
 
 
-@pytest.mark.parametrize("c", CASES, ids=[c["id"] for c in CASES])
+@pytest.mark.parametrize("c", [pytest.param(c, id=c["id"], marks=_mark(UNSAFE_NOW, c["id"])) for c in CASES])
 def test_card_output_is_safe(c):
     out, _ = _run(c)
     assert out in c["allowed"], f"{out}: {c['outcomes'][out]}"
 
 
-@pytest.mark.parametrize("c", [c for c in CASES if c["prefer"]], ids=lambda c: c["id"])
+@pytest.mark.parametrize("c", [pytest.param(c, id=c["id"], marks=_mark(NOT_PREFERRED_NOW, c["id"]))
+                               for c in CASES if c["prefer"]])
 def test_card_output_is_preferred(c):
     assert _run(c)[0] == c["prefer"]
 
@@ -102,7 +117,9 @@ def test_card_output_is_preferred(c):
 REQ = [(c, i) for c in CASES for i in range(len(c["requires"]))]
 
 
-@pytest.mark.parametrize("c,i", REQ, ids=[f"{c['id']}-{i}" for c, i in REQ])
+@pytest.mark.parametrize("c,i", [pytest.param(c, i, id=f"{c['id']}-{i}",
+                                              marks=_mark(REQUIRES_MISSING_NOW, (c["id"], i)))
+                                 for c, i in REQ])
 def test_a_rendered_card_meets_its_requirements(c, i):
     out, page = _run(c)
     if out != "RENDERED":

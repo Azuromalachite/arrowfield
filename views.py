@@ -316,6 +316,151 @@ def card_html(card):
 <div class="scope">{_scope(card)}</div></div>"""
 
 
+# --------------------------------------------------------- study-verdict card
+_HEADLINE = {
+    "resolved": "Resolved under this study's protocol",
+    "different on average": "Different on average: not resolved",
+    "unresolved": "Not resolved under this study's protocol",
+    "not evaluable": "Not evaluable: the study gives no verdict for this contrast",
+    "no data": "No data: the study has no value for this site",
+}
+_SAYS = {
+    "resolved": "The free molecule's ESP at this site separates the two by more than their conformational "
+                "variation, under this protocol.",
+    "different on average": "The means differ, but the observed conformer ranges overlap.",
+    "unresolved": "Under this protocol, free-molecule ESP does not separate the two at this site.",
+    "not evaluable": "Too many members were excluded, or an excluded member was folded (plan section 3).",
+    "no data": "",
+}
+_CONDITION_WORDS = (("1_ranges_disjoint", "conformer ranges separated"),
+                    ("2_beyond_partition", "beyond the partition sensitivity"),
+                    ("3_same_sign", "same sign under the radius-scaled rule"))
+
+
+def _sfmt(x, fmt="+.2f"):
+    return "–" if x is None else format(x, fmt)
+
+
+def _span(r):
+    """A (low, high) range, or why it is not shown: a not-evaluable row may
+    carry anything, and only a finite ordered pair is displayed (probe round
+    2 of #11: a string range crashed the card, an infinite one was shown)."""
+    from model import _bad_pair
+    if r is None:
+        return "–"
+    if _bad_pair(r):
+        return "not shown (not a finite range)"
+    return f"{_sfmt(r[0])} … {_sfmt(r[1])}"
+
+
+def study_card_html(row, context):
+    """One frozen-study row: the study's own verdict at one site of one
+    contrast, never re-decided here. row is a model.StudySite; context
+    carries provenance ({results_sha256, plan_commit}), each molecule's role
+    ({slug: atlas_observed | teaching_control}), the limitations ({basis_
+    sensitivity, solvent, phase, method}) and, for the extended-only
+    sensitivity, the all-member row it sits beside.
+
+    Refused (model.Refused), never rendered: a row under a rule Arrowfield
+    does not know; a row whose outcome contradicts its own conditions; an
+    extended-only row without its all-member row. Specified by the hostile
+    set tests/pedagogy/study_card_set.json (#10)."""
+    from model import KNOWN_VERDICT_RULES, Refused, study_row_inconsistency, study_row_malformed
+    if row.verdict_rule not in KNOWN_VERDICT_RULES:
+        raise Refused(f"verdict rule {row.verdict_rule!r} is not one Arrowfield can show: a study's "
+                      "verdict is shown only under the rule that decided it")
+    why = study_row_inconsistency(row.verdict_rule, row.outcome, row.conditions or {},
+                                  row.bootstrap_interval) or study_row_malformed(row)
+    if why:
+        raise Refused(f"this study row is corrupt and is not shown: {why}")
+    # A context, or an entry of it, that is not a mapping is read as missing:
+    # never a crash, never a claim the card could not read (probe round 4).
+    context = context if isinstance(context, dict) else {}
+    primary = context.get("all_member_row")
+    if isinstance(primary, dict):                      # given as data: read it as a StudySite
+        from model import StudySite
+        primary = StudySite(**{k: (tuple(v) if isinstance(v, list) else v) for k, v in primary.items()})
+    if row.population != "all":
+        if primary is None:
+            raise Refused("an extended-only sensitivity row is shown only beside the all-member result; "
+                          "pass the all-member row as context['all_member_row']")
+        if (primary.population, primary.contrast, primary.site, primary.verdict_rule) != \
+                ("all", row.contrast, row.site, row.verdict_rule):
+            raise Refused("the all-member row given is not this site's all-member result "
+                          f"({primary.population} {primary.contrast} {primary.site}); a sensitivity is "
+                          "shown only beside its own primary result")
+        why = study_row_inconsistency(primary.verdict_rule, primary.outcome, primary.conditions or {},
+                                      primary.bootstrap_interval) or study_row_malformed(primary)
+        if why:
+            raise Refused(f"the all-member row is corrupt and is not shown: {why}")
+    prov, roles, lim = (x if isinstance(x, dict) else {}
+                        for x in (context.get("provenance"), context.get("molecules"),
+                                  context.get("limitations")))
+    def esc(t):
+        return html.escape(str(t), quote=False)      # text, not attribute values
+    title = (f'<div class="card-title">{esc(row.site)} · {esc(row.x)} → {esc(row.y)}'
+             f'<span class="unit">{esc(row.contrast)}, kcal/mol</span></div>')
+    parts = [f'<div class="card study-card">{title}',
+             '<div class="status">STUDY VERDICT</div>',
+             f'<div class="verdict verdict-{row.outcome.replace(" ", "-")}">{esc(_HEADLINE[row.outcome])}</div>',
+             f'<div class="rule">Decided by {esc(row.verdict_rule)}.</div>']
+    if row.tier == "exploratory":
+        parts.append('<div class="flag">Exploratory site: not a prespecified test, and never interpreted.</div>')
+    if row.population != "all":
+        parts.append(f'<div class="flag">Sensitivity analysis: extended (unfolded) conformers only '
+                     f'(n = {row.n[0]} / {row.n[1]}), shown beside the all-members result, never instead '
+                     f'of it. All members: {esc(_HEADLINE[primary.outcome])}.</div>')
+    controls = [s for s in (row.x, row.y) if roles.get(s) == "teaching_control"]
+    if controls:
+        parts.append(f'<div class="flag">Teaching control: {esc(", ".join(controls))} is a constructed molecule, '
+                     'not an Atlas compound; descriptive chemistry only.</div>')
+    if _SAYS[row.outcome]:
+        parts.append(f"<p>{esc(_SAYS[row.outcome])}</p>")
+    rows = [f"<tr><td>{esc(row.x)} conformer range (n = {row.n[0]})</td><td>{_span(row.range_x)}</td></tr>",
+            f"<tr><td>{esc(row.y)} conformer range (n = {row.n[1]})</td><td>{_span(row.range_y)}</td></tr>"]
+    if row.outcome not in ("not evaluable", "no data"):
+        rows = ([f"<tr><td>Δ mean ({esc(row.y)} − {esc(row.x)})</td><td>{_sfmt(row.delta)}</td></tr>"] + rows +
+                [f"<tr><td>partition sensitivity</td><td>{_sfmt(row.partition, '.2f')}</td></tr>",
+                 f"<tr><td>bootstrap interval over the selected conformers</td>"
+                 f"<td>{_span(row.bootstrap_interval)}</td></tr>"])
+    parts.append("<table>" + "".join(rows) + "</table>")
+    if row.outcome not in ("not evaluable", "no data") and row.conditions:
+        parts.append("<ul class='conditions'>" + "".join(
+            f"<li>{'✓' if row.conditions.get(k) else '✗'} {w}</li>" for k, w in _CONDITION_WORDS) + "</ul>")
+        parts.append('<p class="limits">The bootstrap interval resamples the selected conformers: it describes '
+                     "this set of shapes, not a population.</p>")
+    method = lim.get("method", "method not stated")
+    parts.append(f'<div class="scope">Scope: free molecule · {esc(method)} · {esc(lim.get("phase", "phase not stated"))} '
+                 "phase.</div>")
+    parts.append("<ul class='limits'>"
+                 f"<li>basis sensitivity: {esc(lim.get('basis_sensitivity', 'not stated'))}</li>"
+                 f"<li>solvent: {esc(lim.get('solvent', 'not stated'))}</li>"
+                 "<li>protein or membrane context: outside this study</li></ul>")
+    parts.append('<p class="limits">This does not establish biological discrimination.</p>')
+    # Provenance is shown only in a form that can be checked: a 64-hex results
+    # sha256 and a 7-40-hex plan commit. Anything else (missing, an int, a
+    # malformed string; probe round 3 of #11) is named, with a visible warning.
+    import re
+    sha, plan = prov.get("results_sha256"), prov.get("plan_commit")
+    sha_ok = isinstance(sha, str) and re.fullmatch(r"[0-9a-f]{64}", sha) is not None
+    plan_ok = isinstance(plan, str) and re.fullmatch(r"[0-9a-f]{7,40}", plan) is not None
+    known = []
+    if plan_ok:
+        known.append(f"Plan frozen at {plan[:7]}")
+    if sha_ok:
+        known.append(f"results sha256 {sha[:12]}…")
+    if known:
+        parts.append(f'<div class="provenance">{esc(" · ".join(known))}</div>')
+    missing = [w for ok, w in ((plan_ok, "the frozen plan's commit"), (sha_ok, "the results file's sha256"))
+               if not ok]
+    if missing:
+        parts.append(f'<div class="provenance warn">Provenance incomplete: {esc(" and ".join(missing))} '
+                     f'{"is" if len(missing) == 1 else "are"} not recorded in a verifiable form, so this '
+                     "card cannot be fully traced to the frozen study.</div>")
+    parts.append("</div>")
+    return "\n".join(parts)
+
+
 # ----------------------------------------------------------------------- page
 CSS = """
 :root { --ink:#111; --muted:#666; --line:#ddd; --card:#fafafa; }
@@ -332,6 +477,9 @@ td:first-child, th:first-child { text-align:left; }
 .card-title { font-weight:600; margin-bottom:6px; } .unit { font-weight:400; color:var(--muted); margin-left:8px; font-size:13px; }
 .verdict { margin-top:8px; font-weight:600; } .verdict-ext { margin-top:4px; }
 .scope { margin-top:8px; color:var(--muted); font-size:13px; }
+.study-card .rule, .study-card .provenance { color:var(--muted); font-size:13px; margin-top:4px; }
+.study-card .flag { margin-top:6px; padding:4px 8px; border-left:3px solid var(--ink); }
+.study-card .warn { color:#a40000; } .study-card ul { margin:6px 0; padding-left:18px; }
 .status { display:inline-block; font-size:12px; font-weight:700; letter-spacing:.04em; padding:1px 6px;
           border:1px solid var(--ink); border-radius:4px; margin-bottom:6px; }
 .limits { color:var(--muted); font-size:13px; max-width:900px; margin-top:12px; }

@@ -2350,6 +2350,1636 @@
      "on": "text"
     }
    ]
+  },
+  {
+   "id": "malformed_interval_reversed",
+   "cls": "S13 malformed numbers",
+   "component": "study_card",
+   "why": "A row that claims a verdict must carry finite numbers and ordered (low, high) intervals; anything else is a corrupt record, refused rather than rendered as if measured.",
+   "row": {
+    "verdict_rule": "espmap-sesiidae-001/range_partition_sign_v1",
+    "contrast": "B_stereo",
+    "x": "z3_z13_18_oac",
+    "y": "e3_z13_18_oac",
+    "population": "all",
+    "tier": "primary",
+    "site": "C3-H",
+    "outcome": "different on average",
+    "n": [
+     20,
+     20
+    ],
+    "delta": 2.31,
+    "delta_other_rule": 2.31,
+    "partition": 0.93,
+    "partition_max_member": 0.93,
+    "range_x": [
+     -2.78,
+     5.02
+    ],
+    "range_y": [
+     1.04,
+     6.6
+    ],
+    "mean_x": null,
+    "mean_y": null,
+    "bootstrap_interval": [
+     2.2,
+     -0.6
+    ],
+    "conditions": {
+     "1_ranges_disjoint": false,
+     "2_beyond_partition": true,
+     "3_same_sign": true
+    }
+   },
+   "context": {
+    "provenance": {
+     "results_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+     "plan_commit": "7e3465859bc2b8950078238f0bffb0ea6b4dd512"
+    },
+    "molecules": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    },
+    "limitations": {
+     "basis_sensitivity": "not run",
+     "solvent": "not studied",
+     "phase": "gas",
+     "method": "B3LYP/def2-SVP"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "malformed_interval_nan",
+   "cls": "S13 malformed numbers",
+   "component": "study_card",
+   "why": "A row that claims a verdict must carry finite numbers and ordered (low, high) intervals; anything else is a corrupt record, refused rather than rendered as if measured.",
+   "row": {
+    "verdict_rule": "espmap-sesiidae-001/range_partition_sign_v1",
+    "contrast": "B_stereo",
+    "x": "z3_z13_18_oac",
+    "y": "e3_z13_18_oac",
+    "population": "all",
+    "tier": "primary",
+    "site": "C3-H",
+    "outcome": "different on average",
+    "n": [
+     20,
+     20
+    ],
+    "delta": 2.31,
+    "delta_other_rule": 2.31,
+    "partition": 0.93,
+    "partition_max_member": 0.93,
+    "range_x": [
+     -2.78,
+     5.02
+    ],
+    "range_y": [
+     1.04,
+     6.6
+    ],
+    "mean_x": null,
+    "mean_y": null,
+    "bootstrap_interval": [
+     NaN,
+     3.4
+    ],
+    "conditions": {
+     "1_ranges_disjoint": false,
+     "2_beyond_partition": true,
+     "3_same_sign": true
+    }
+   },
+   "context": {
+    "provenance": {
+     "results_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+     "plan_commit": "7e3465859bc2b8950078238f0bffb0ea6b4dd512"
+    },
+    "molecules": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    },
+    "limitations": {
+     "basis_sensitivity": "not run",
+     "solvent": "not studied",
+     "phase": "gas",
+     "method": "B3LYP/def2-SVP"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "malformed_delta_nan",
+   "cls": "S13 malformed numbers",
+   "component": "study_card",
+   "why": "A row that claims a verdict must carry finite numbers and ordered (low, high) intervals; anything else is a corrupt record, refused rather than rendered as if measured.",
+   "row": {
+    "verdict_rule": "espmap-sesiidae-001/range_partition_sign_v1",
+    "contrast": "C_position",
+    "x": "e3_z13_18_oac",
+    "y": "e2_z13_18_oac",
+    "population": "all",
+    "tier": "primary",
+    "site": "C4-H",
+    "outcome": "resolved",
+    "n": [
+     20,
+     20
+    ],
+    "delta": NaN,
+    "delta_other_rule": 5.22,
+    "partition": 0.69,
+    "partition_max_member": 0.69,
+    "range_x": [
+     0.22,
+     5.54
+    ],
+    "range_y": [
+     6.66,
+     9.53
+    ],
+    "mean_x": null,
+    "mean_y": null,
+    "bootstrap_interval": [
+     4.57,
+     5.88
+    ],
+    "conditions": {
+     "1_ranges_disjoint": true,
+     "2_beyond_partition": true,
+     "3_same_sign": true
+    }
+   },
+   "context": {
+    "provenance": {
+     "results_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+     "plan_commit": "7e3465859bc2b8950078238f0bffb0ea6b4dd512"
+    },
+    "molecules": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    },
+    "limitations": {
+     "basis_sensitivity": "not run",
+     "solvent": "not studied",
+     "phase": "gas",
+     "method": "B3LYP/def2-SVP"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "malformed_range_inf",
+   "cls": "S13 malformed numbers",
+   "component": "study_card",
+   "why": "A row that claims a verdict must carry finite numbers and ordered (low, high) intervals; anything else is a corrupt record, refused rather than rendered as if measured.",
+   "row": {
+    "verdict_rule": "espmap-sesiidae-001/range_partition_sign_v1",
+    "contrast": "C_position",
+    "x": "e3_z13_18_oac",
+    "y": "e2_z13_18_oac",
+    "population": "all",
+    "tier": "primary",
+    "site": "C4-H",
+    "outcome": "resolved",
+    "n": [
+     20,
+     20
+    ],
+    "delta": 5.22,
+    "delta_other_rule": 5.22,
+    "partition": 0.69,
+    "partition_max_member": 0.69,
+    "range_x": [
+     0.22,
+     5.54
+    ],
+    "range_y": [
+     6.66,
+     Infinity
+    ],
+    "mean_x": null,
+    "mean_y": null,
+    "bootstrap_interval": [
+     4.57,
+     5.88
+    ],
+    "conditions": {
+     "1_ranges_disjoint": true,
+     "2_beyond_partition": true,
+     "3_same_sign": true
+    }
+   },
+   "context": {
+    "provenance": {
+     "results_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+     "plan_commit": "7e3465859bc2b8950078238f0bffb0ea6b4dd512"
+    },
+    "molecules": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    },
+    "limitations": {
+     "basis_sensitivity": "not run",
+     "solvent": "not studied",
+     "phase": "gas",
+     "method": "B3LYP/def2-SVP"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "malformed_range_reversed",
+   "cls": "S13 malformed numbers",
+   "component": "study_card",
+   "why": "A row that claims a verdict must carry finite numbers and ordered (low, high) intervals; anything else is a corrupt record, refused rather than rendered as if measured.",
+   "row": {
+    "verdict_rule": "espmap-sesiidae-001/range_partition_sign_v1",
+    "contrast": "C_position",
+    "x": "e3_z13_18_oac",
+    "y": "e2_z13_18_oac",
+    "population": "all",
+    "tier": "primary",
+    "site": "C4-H",
+    "outcome": "resolved",
+    "n": [
+     20,
+     20
+    ],
+    "delta": 5.22,
+    "delta_other_rule": 5.22,
+    "partition": 0.69,
+    "partition_max_member": 0.69,
+    "range_x": [
+     5.54,
+     0.22
+    ],
+    "range_y": [
+     6.66,
+     9.53
+    ],
+    "mean_x": null,
+    "mean_y": null,
+    "bootstrap_interval": [
+     4.57,
+     5.88
+    ],
+    "conditions": {
+     "1_ranges_disjoint": true,
+     "2_beyond_partition": true,
+     "3_same_sign": true
+    }
+   },
+   "context": {
+    "provenance": {
+     "results_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+     "plan_commit": "7e3465859bc2b8950078238f0bffb0ea6b4dd512"
+    },
+    "molecules": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    },
+    "limitations": {
+     "basis_sensitivity": "not run",
+     "solvent": "not studied",
+     "phase": "gas",
+     "method": "B3LYP/def2-SVP"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "malformed_partition_nan",
+   "cls": "S13 malformed numbers",
+   "component": "study_card",
+   "why": "A row that claims a verdict must carry finite numbers and ordered (low, high) intervals; anything else is a corrupt record, refused rather than rendered as if measured.",
+   "row": {
+    "verdict_rule": "espmap-sesiidae-001/range_partition_sign_v1",
+    "contrast": "C_position",
+    "x": "e3_z13_18_oac",
+    "y": "e2_z13_18_oac",
+    "population": "all",
+    "tier": "primary",
+    "site": "C4-H",
+    "outcome": "resolved",
+    "n": [
+     20,
+     20
+    ],
+    "delta": 5.22,
+    "delta_other_rule": 5.22,
+    "partition": NaN,
+    "partition_max_member": 0.69,
+    "range_x": [
+     0.22,
+     5.54
+    ],
+    "range_y": [
+     6.66,
+     9.53
+    ],
+    "mean_x": null,
+    "mean_y": null,
+    "bootstrap_interval": [
+     4.57,
+     5.88
+    ],
+    "conditions": {
+     "1_ranges_disjoint": true,
+     "2_beyond_partition": true,
+     "3_same_sign": true
+    }
+   },
+   "context": {
+    "provenance": {
+     "results_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+     "plan_commit": "7e3465859bc2b8950078238f0bffb0ea6b4dd512"
+    },
+    "molecules": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    },
+    "limitations": {
+     "basis_sensitivity": "not run",
+     "solvent": "not studied",
+     "phase": "gas",
+     "method": "B3LYP/def2-SVP"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "malformed_bool_delta",
+   "cls": "S13 malformed numbers",
+   "component": "study_card",
+   "why": "A boolean is not a measurement: a row (or the all-member row beside it) carrying True or False where a number belongs is corrupt and refused.",
+   "row": {
+    "verdict_rule": "espmap-sesiidae-001/range_partition_sign_v1",
+    "contrast": "C_position",
+    "x": "e3_z13_18_oac",
+    "y": "e2_z13_18_oac",
+    "population": "all",
+    "tier": "primary",
+    "site": "C4-H",
+    "outcome": "resolved",
+    "n": [
+     20,
+     20
+    ],
+    "delta": true,
+    "delta_other_rule": 5.22,
+    "partition": 0.69,
+    "partition_max_member": 0.69,
+    "range_x": [
+     0.22,
+     5.54
+    ],
+    "range_y": [
+     6.66,
+     9.53
+    ],
+    "mean_x": null,
+    "mean_y": null,
+    "bootstrap_interval": [
+     4.57,
+     5.88
+    ],
+    "conditions": {
+     "1_ranges_disjoint": true,
+     "2_beyond_partition": true,
+     "3_same_sign": true
+    }
+   },
+   "context": {
+    "provenance": {
+     "results_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+     "plan_commit": "7e3465859bc2b8950078238f0bffb0ea6b4dd512"
+    },
+    "molecules": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    },
+    "limitations": {
+     "basis_sensitivity": "not run",
+     "solvent": "not studied",
+     "phase": "gas",
+     "method": "B3LYP/def2-SVP"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "malformed_bool_partition",
+   "cls": "S13 malformed numbers",
+   "component": "study_card",
+   "why": "A boolean is not a measurement: a row (or the all-member row beside it) carrying True or False where a number belongs is corrupt and refused.",
+   "row": {
+    "verdict_rule": "espmap-sesiidae-001/range_partition_sign_v1",
+    "contrast": "C_position",
+    "x": "e3_z13_18_oac",
+    "y": "e2_z13_18_oac",
+    "population": "all",
+    "tier": "primary",
+    "site": "C4-H",
+    "outcome": "resolved",
+    "n": [
+     20,
+     20
+    ],
+    "delta": 5.22,
+    "delta_other_rule": 5.22,
+    "partition": false,
+    "partition_max_member": 0.69,
+    "range_x": [
+     0.22,
+     5.54
+    ],
+    "range_y": [
+     6.66,
+     9.53
+    ],
+    "mean_x": null,
+    "mean_y": null,
+    "bootstrap_interval": [
+     4.57,
+     5.88
+    ],
+    "conditions": {
+     "1_ranges_disjoint": true,
+     "2_beyond_partition": true,
+     "3_same_sign": true
+    }
+   },
+   "context": {
+    "provenance": {
+     "results_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+     "plan_commit": "7e3465859bc2b8950078238f0bffb0ea6b4dd512"
+    },
+    "molecules": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    },
+    "limitations": {
+     "basis_sensitivity": "not run",
+     "solvent": "not studied",
+     "phase": "gas",
+     "method": "B3LYP/def2-SVP"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "malformed_bool_interval",
+   "cls": "S13 malformed numbers",
+   "component": "study_card",
+   "why": "A boolean is not a measurement: a row (or the all-member row beside it) carrying True or False where a number belongs is corrupt and refused.",
+   "row": {
+    "verdict_rule": "espmap-sesiidae-001/range_partition_sign_v1",
+    "contrast": "B_stereo",
+    "x": "z3_z13_18_oac",
+    "y": "e3_z13_18_oac",
+    "population": "all",
+    "tier": "primary",
+    "site": "C3-H",
+    "outcome": "different on average",
+    "n": [
+     20,
+     20
+    ],
+    "delta": 2.31,
+    "delta_other_rule": 2.31,
+    "partition": 0.93,
+    "partition_max_member": 0.93,
+    "range_x": [
+     -2.78,
+     5.02
+    ],
+    "range_y": [
+     1.04,
+     6.6
+    ],
+    "mean_x": null,
+    "mean_y": null,
+    "bootstrap_interval": [
+     true,
+     2.0
+    ],
+    "conditions": {
+     "1_ranges_disjoint": false,
+     "2_beyond_partition": true,
+     "3_same_sign": true
+    }
+   },
+   "context": {
+    "provenance": {
+     "results_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+     "plan_commit": "7e3465859bc2b8950078238f0bffb0ea6b4dd512"
+    },
+    "molecules": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    },
+    "limitations": {
+     "basis_sensitivity": "not run",
+     "solvent": "not studied",
+     "phase": "gas",
+     "method": "B3LYP/def2-SVP"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "malformed_bool_in_all_member_row",
+   "cls": "S13 malformed numbers",
+   "component": "study_card",
+   "why": "A boolean is not a measurement: a row (or the all-member row beside it) carrying True or False where a number belongs is corrupt and refused.",
+   "row": {
+    "verdict_rule": "espmap-sesiidae-001/range_partition_sign_v1",
+    "contrast": "C_position",
+    "x": "e3_z13_18_oac",
+    "y": "e2_z13_18_oac",
+    "population": "extended",
+    "tier": "primary",
+    "site": "C4-H",
+    "outcome": "resolved",
+    "n": [
+     17,
+     14
+    ],
+    "delta": 5.22,
+    "delta_other_rule": 5.22,
+    "partition": 0.69,
+    "partition_max_member": 0.69,
+    "range_x": [
+     0.22,
+     5.54
+    ],
+    "range_y": [
+     6.66,
+     9.53
+    ],
+    "mean_x": null,
+    "mean_y": null,
+    "bootstrap_interval": [
+     4.57,
+     5.88
+    ],
+    "conditions": {
+     "1_ranges_disjoint": true,
+     "2_beyond_partition": true,
+     "3_same_sign": true
+    }
+   },
+   "context": {
+    "provenance": {
+     "results_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+     "plan_commit": "7e3465859bc2b8950078238f0bffb0ea6b4dd512"
+    },
+    "molecules": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    },
+    "limitations": {
+     "basis_sensitivity": "not run",
+     "solvent": "not studied",
+     "phase": "gas",
+     "method": "B3LYP/def2-SVP"
+    },
+    "all_member_row": {
+     "verdict_rule": "espmap-sesiidae-001/range_partition_sign_v1",
+     "contrast": "C_position",
+     "x": "e3_z13_18_oac",
+     "y": "e2_z13_18_oac",
+     "population": "all",
+     "tier": "primary",
+     "site": "C4-H",
+     "outcome": "resolved",
+     "n": [
+      20,
+      20
+     ],
+     "delta": 5.22,
+     "delta_other_rule": 5.22,
+     "partition": true,
+     "partition_max_member": 0.69,
+     "range_x": [
+      0.22,
+      5.54
+     ],
+     "range_y": [
+      6.66,
+      9.53
+     ],
+     "mean_x": null,
+     "mean_y": null,
+     "bootstrap_interval": [
+      4.57,
+      5.88
+     ],
+     "conditions": {
+      "1_ranges_disjoint": true,
+      "2_beyond_partition": true,
+      "3_same_sign": true
+     }
+    }
+   },
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "not_evaluable_range_garbage",
+   "cls": "S4 not evaluable",
+   "component": "study_card",
+   "why": "A not-evaluable row carries no verdict, so stray numbers do not make it corrupt; but a range that is not a finite (low, high) pair must not be shown, and must not crash the card.",
+   "row": {
+    "verdict_rule": "espmap-sesiidae-001/range_partition_sign_v1",
+    "contrast": "B_stereo",
+    "x": "z3_z13_18_oac",
+    "y": "e3_z13_18_oac",
+    "population": "all",
+    "tier": "primary",
+    "site": "C3-H",
+    "outcome": "not evaluable",
+    "n": [
+     20,
+     20
+    ],
+    "delta": NaN,
+    "delta_other_rule": 2.31,
+    "partition": -4.0,
+    "partition_max_member": 0.93,
+    "range_x": [
+     "a",
+     null
+    ],
+    "range_y": [
+     1.04,
+     6.6
+    ],
+    "mean_x": null,
+    "mean_y": null,
+    "bootstrap_interval": [
+     5.0,
+     1.0
+    ],
+    "conditions": {
+     "1_ranges_disjoint": false,
+     "2_beyond_partition": true,
+     "3_same_sign": true
+    }
+   },
+   "context": {
+    "provenance": {
+     "results_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+     "plan_commit": "7e3465859bc2b8950078238f0bffb0ea6b4dd512"
+    },
+    "molecules": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    },
+    "limitations": {
+     "basis_sensitivity": "not run",
+     "solvent": "not studied",
+     "phase": "gas",
+     "method": "B3LYP/def2-SVP"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "not evaluable",
+     "grade": "FALSE",
+     "why": "the study's word",
+     "on": "text"
+    },
+    {
+     "must_not": "\\binf\\b|infinity|\\bnan\\b|∞",
+     "grade": "MISLEADING",
+     "why": "no infinite or NaN value shown",
+     "on": "text"
+    },
+    {
+     "must_not": "Δ|difference of (the )?means",
+     "grade": "MISLEADING",
+     "why": "no difference value shown",
+     "on": "text"
+    }
+   ]
+  },
+  {
+   "id": "not_evaluable_range_infinite",
+   "cls": "S4 not evaluable",
+   "component": "study_card",
+   "why": "A not-evaluable row carries no verdict, so stray numbers do not make it corrupt; but a range that is not a finite (low, high) pair must not be shown, and must not crash the card.",
+   "row": {
+    "verdict_rule": "espmap-sesiidae-001/range_partition_sign_v1",
+    "contrast": "B_stereo",
+    "x": "z3_z13_18_oac",
+    "y": "e3_z13_18_oac",
+    "population": "all",
+    "tier": "primary",
+    "site": "C3-H",
+    "outcome": "not evaluable",
+    "n": [
+     20,
+     20
+    ],
+    "delta": NaN,
+    "delta_other_rule": 2.31,
+    "partition": -4.0,
+    "partition_max_member": 0.93,
+    "range_x": [
+     -Infinity,
+     1.0
+    ],
+    "range_y": [
+     1.04,
+     6.6
+    ],
+    "mean_x": null,
+    "mean_y": null,
+    "bootstrap_interval": [
+     5.0,
+     1.0
+    ],
+    "conditions": {
+     "1_ranges_disjoint": false,
+     "2_beyond_partition": true,
+     "3_same_sign": true
+    }
+   },
+   "context": {
+    "provenance": {
+     "results_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+     "plan_commit": "7e3465859bc2b8950078238f0bffb0ea6b4dd512"
+    },
+    "molecules": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    },
+    "limitations": {
+     "basis_sensitivity": "not run",
+     "solvent": "not studied",
+     "phase": "gas",
+     "method": "B3LYP/def2-SVP"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "not evaluable",
+     "grade": "FALSE",
+     "why": "the study's word",
+     "on": "text"
+    },
+    {
+     "must_not": "\\binf\\b|infinity|\\bnan\\b|∞",
+     "grade": "MISLEADING",
+     "why": "no infinite or NaN value shown",
+     "on": "text"
+    },
+    {
+     "must_not": "Δ|difference of (the )?means",
+     "grade": "MISLEADING",
+     "why": "no difference value shown",
+     "on": "text"
+    }
+   ]
+  },
+  {
+   "id": "provenance_plan_commit_int",
+   "cls": "S12 provenance",
+   "component": "study_card",
+   "why": "Provenance the card cannot verify: show the verdict with a visible warning (or refuse); never crash, never present it as fully sourced.",
+   "row": {
+    "verdict_rule": "espmap-sesiidae-001/range_partition_sign_v1",
+    "contrast": "C_position",
+    "x": "e3_z13_18_oac",
+    "y": "e2_z13_18_oac",
+    "population": "all",
+    "tier": "primary",
+    "site": "C4-H",
+    "outcome": "resolved",
+    "n": [
+     20,
+     20
+    ],
+    "delta": 5.22,
+    "delta_other_rule": 5.22,
+    "partition": 0.69,
+    "partition_max_member": 0.69,
+    "range_x": [
+     0.22,
+     5.54
+    ],
+    "range_y": [
+     6.66,
+     9.53
+    ],
+    "mean_x": null,
+    "mean_y": null,
+    "bootstrap_interval": [
+     4.57,
+     5.88
+    ],
+    "conditions": {
+     "1_ranges_disjoint": true,
+     "2_beyond_partition": true,
+     "3_same_sign": true
+    }
+   },
+   "context": {
+    "provenance": {
+     "results_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+     "plan_commit": 7346580
+    },
+    "molecules": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    },
+    "limitations": {
+     "basis_sensitivity": "not run",
+     "solvent": "not studied",
+     "phase": "gas",
+     "method": "B3LYP/def2-SVP"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "provenance (incomplete|missing)|unverified source|source not (recorded|verified)",
+     "grade": "MISLEADING",
+     "why": "a visible warning",
+     "on": "text"
+    }
+   ]
+  },
+  {
+   "id": "provenance_plan_commit_missing",
+   "cls": "S12 provenance",
+   "component": "study_card",
+   "why": "Provenance the card cannot verify: show the verdict with a visible warning (or refuse); never crash, never present it as fully sourced.",
+   "row": {
+    "verdict_rule": "espmap-sesiidae-001/range_partition_sign_v1",
+    "contrast": "C_position",
+    "x": "e3_z13_18_oac",
+    "y": "e2_z13_18_oac",
+    "population": "all",
+    "tier": "primary",
+    "site": "C4-H",
+    "outcome": "resolved",
+    "n": [
+     20,
+     20
+    ],
+    "delta": 5.22,
+    "delta_other_rule": 5.22,
+    "partition": 0.69,
+    "partition_max_member": 0.69,
+    "range_x": [
+     0.22,
+     5.54
+    ],
+    "range_y": [
+     6.66,
+     9.53
+    ],
+    "mean_x": null,
+    "mean_y": null,
+    "bootstrap_interval": [
+     4.57,
+     5.88
+    ],
+    "conditions": {
+     "1_ranges_disjoint": true,
+     "2_beyond_partition": true,
+     "3_same_sign": true
+    }
+   },
+   "context": {
+    "provenance": {
+     "results_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+     "plan_commit": null
+    },
+    "molecules": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    },
+    "limitations": {
+     "basis_sensitivity": "not run",
+     "solvent": "not studied",
+     "phase": "gas",
+     "method": "B3LYP/def2-SVP"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "provenance (incomplete|missing)|unverified source|source not (recorded|verified)",
+     "grade": "MISLEADING",
+     "why": "a visible warning",
+     "on": "text"
+    }
+   ]
+  },
+  {
+   "id": "provenance_sha_not_hex",
+   "cls": "S12 provenance",
+   "component": "study_card",
+   "why": "Provenance the card cannot verify: show the verdict with a visible warning (or refuse); never crash, never present it as fully sourced.",
+   "row": {
+    "verdict_rule": "espmap-sesiidae-001/range_partition_sign_v1",
+    "contrast": "C_position",
+    "x": "e3_z13_18_oac",
+    "y": "e2_z13_18_oac",
+    "population": "all",
+    "tier": "primary",
+    "site": "C4-H",
+    "outcome": "resolved",
+    "n": [
+     20,
+     20
+    ],
+    "delta": 5.22,
+    "delta_other_rule": 5.22,
+    "partition": 0.69,
+    "partition_max_member": 0.69,
+    "range_x": [
+     0.22,
+     5.54
+    ],
+    "range_y": [
+     6.66,
+     9.53
+    ],
+    "mean_x": null,
+    "mean_y": null,
+    "bootstrap_interval": [
+     4.57,
+     5.88
+    ],
+    "conditions": {
+     "1_ranges_disjoint": true,
+     "2_beyond_partition": true,
+     "3_same_sign": true
+    }
+   },
+   "context": {
+    "provenance": {
+     "results_sha256": "not-a-sha",
+     "plan_commit": "7e3465859bc2b8950078238f0bffb0ea6b4dd512"
+    },
+    "molecules": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    },
+    "limitations": {
+     "basis_sensitivity": "not run",
+     "solvent": "not studied",
+     "phase": "gas",
+     "method": "B3LYP/def2-SVP"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "provenance (incomplete|missing)|unverified source|source not (recorded|verified)",
+     "grade": "MISLEADING",
+     "why": "a visible warning",
+     "on": "text"
+    }
+   ]
+  },
+  {
+   "id": "malformed_n_garbage",
+   "cls": "S13 malformed numbers",
+   "component": "study_card",
+   "why": "A verdict rests on n members per side; n that is not two non-negative integers is a corrupt record.",
+   "row": {
+    "verdict_rule": "espmap-sesiidae-001/range_partition_sign_v1",
+    "contrast": "C_position",
+    "x": "e3_z13_18_oac",
+    "y": "e2_z13_18_oac",
+    "population": "all",
+    "tier": "primary",
+    "site": "C4-H",
+    "outcome": "resolved",
+    "n": [
+     "x",
+     -3
+    ],
+    "delta": 5.22,
+    "delta_other_rule": 5.22,
+    "partition": 0.69,
+    "partition_max_member": 0.69,
+    "range_x": [
+     0.22,
+     5.54
+    ],
+    "range_y": [
+     6.66,
+     9.53
+    ],
+    "mean_x": null,
+    "mean_y": null,
+    "bootstrap_interval": [
+     4.57,
+     5.88
+    ],
+    "conditions": {
+     "1_ranges_disjoint": true,
+     "2_beyond_partition": true,
+     "3_same_sign": true
+    }
+   },
+   "context": {
+    "provenance": {
+     "results_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+     "plan_commit": "7e3465859bc2b8950078238f0bffb0ea6b4dd512"
+    },
+    "molecules": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    },
+    "limitations": {
+     "basis_sensitivity": "not run",
+     "solvent": "not studied",
+     "phase": "gas",
+     "method": "B3LYP/def2-SVP"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "malformed_n_bool",
+   "cls": "S13 malformed numbers",
+   "component": "study_card",
+   "why": "A verdict rests on n members per side; n that is not two non-negative integers is a corrupt record.",
+   "row": {
+    "verdict_rule": "espmap-sesiidae-001/range_partition_sign_v1",
+    "contrast": "C_position",
+    "x": "e3_z13_18_oac",
+    "y": "e2_z13_18_oac",
+    "population": "all",
+    "tier": "primary",
+    "site": "C4-H",
+    "outcome": "resolved",
+    "n": [
+     true,
+     20
+    ],
+    "delta": 5.22,
+    "delta_other_rule": 5.22,
+    "partition": 0.69,
+    "partition_max_member": 0.69,
+    "range_x": [
+     0.22,
+     5.54
+    ],
+    "range_y": [
+     6.66,
+     9.53
+    ],
+    "mean_x": null,
+    "mean_y": null,
+    "bootstrap_interval": [
+     4.57,
+     5.88
+    ],
+    "conditions": {
+     "1_ranges_disjoint": true,
+     "2_beyond_partition": true,
+     "3_same_sign": true
+    }
+   },
+   "context": {
+    "provenance": {
+     "results_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+     "plan_commit": "7e3465859bc2b8950078238f0bffb0ea6b4dd512"
+    },
+    "molecules": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    },
+    "limitations": {
+     "basis_sensitivity": "not run",
+     "solvent": "not studied",
+     "phase": "gas",
+     "method": "B3LYP/def2-SVP"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "context_not_a_mapping_provenance_list",
+   "cls": "S12 provenance",
+   "component": "study_card",
+   "why": "A context entry that is not a mapping is treated as missing: the card never crashes, and never claims what it could not read (a missing provenance shows the warning).",
+   "row": {
+    "verdict_rule": "espmap-sesiidae-001/range_partition_sign_v1",
+    "contrast": "C_position",
+    "x": "e3_z13_18_oac",
+    "y": "e2_z13_18_oac",
+    "population": "all",
+    "tier": "primary",
+    "site": "C4-H",
+    "outcome": "resolved",
+    "n": [
+     20,
+     20
+    ],
+    "delta": 5.22,
+    "delta_other_rule": 5.22,
+    "partition": 0.69,
+    "partition_max_member": 0.69,
+    "range_x": [
+     0.22,
+     5.54
+    ],
+    "range_y": [
+     6.66,
+     9.53
+    ],
+    "mean_x": null,
+    "mean_y": null,
+    "bootstrap_interval": [
+     4.57,
+     5.88
+    ],
+    "conditions": {
+     "1_ranges_disjoint": true,
+     "2_beyond_partition": true,
+     "3_same_sign": true
+    }
+   },
+   "context": {
+    "provenance": [
+     "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+     "7e3465859bc2b8950078238f0bffb0ea6b4dd512"
+    ],
+    "molecules": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    },
+    "limitations": {
+     "basis_sensitivity": "not run",
+     "solvent": "not studied",
+     "phase": "gas",
+     "method": "B3LYP/def2-SVP"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "provenance (incomplete|missing)|unverified source|source not (recorded|verified)",
+     "grade": "MISLEADING",
+     "why": "a visible warning",
+     "on": "text"
+    }
+   ]
+  },
+  {
+   "id": "context_not_a_mapping_molecules_list",
+   "cls": "S12 provenance",
+   "component": "study_card",
+   "why": "A context entry that is not a mapping is treated as missing: the card never crashes, and never claims what it could not read (a missing provenance shows the warning).",
+   "row": {
+    "verdict_rule": "espmap-sesiidae-001/range_partition_sign_v1",
+    "contrast": "C_position",
+    "x": "e3_z13_18_oac",
+    "y": "e2_z13_18_oac",
+    "population": "all",
+    "tier": "primary",
+    "site": "C4-H",
+    "outcome": "resolved",
+    "n": [
+     20,
+     20
+    ],
+    "delta": 5.22,
+    "delta_other_rule": 5.22,
+    "partition": 0.69,
+    "partition_max_member": 0.69,
+    "range_x": [
+     0.22,
+     5.54
+    ],
+    "range_y": [
+     6.66,
+     9.53
+    ],
+    "mean_x": null,
+    "mean_y": null,
+    "bootstrap_interval": [
+     4.57,
+     5.88
+    ],
+    "conditions": {
+     "1_ranges_disjoint": true,
+     "2_beyond_partition": true,
+     "3_same_sign": true
+    }
+   },
+   "context": {
+    "provenance": {
+     "results_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+     "plan_commit": "7e3465859bc2b8950078238f0bffb0ea6b4dd512"
+    },
+    "molecules": [
+     "z3_z13_18_al"
+    ],
+    "limitations": {
+     "basis_sensitivity": "not run",
+     "solvent": "not studied",
+     "phase": "gas",
+     "method": "B3LYP/def2-SVP"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must_not": "basis[^.;]{0,40}(?<!not )\\brun\\b",
+     "grade": "MISLEADING",
+     "why": "nothing claimed as run",
+     "on": "text"
+    }
+   ]
+  },
+  {
+   "id": "context_not_a_mapping_limitations_string",
+   "cls": "S12 provenance",
+   "component": "study_card",
+   "why": "A context entry that is not a mapping is treated as missing: the card never crashes, and never claims what it could not read (a missing provenance shows the warning).",
+   "row": {
+    "verdict_rule": "espmap-sesiidae-001/range_partition_sign_v1",
+    "contrast": "C_position",
+    "x": "e3_z13_18_oac",
+    "y": "e2_z13_18_oac",
+    "population": "all",
+    "tier": "primary",
+    "site": "C4-H",
+    "outcome": "resolved",
+    "n": [
+     20,
+     20
+    ],
+    "delta": 5.22,
+    "delta_other_rule": 5.22,
+    "partition": 0.69,
+    "partition_max_member": 0.69,
+    "range_x": [
+     0.22,
+     5.54
+    ],
+    "range_y": [
+     6.66,
+     9.53
+    ],
+    "mean_x": null,
+    "mean_y": null,
+    "bootstrap_interval": [
+     4.57,
+     5.88
+    ],
+    "conditions": {
+     "1_ranges_disjoint": true,
+     "2_beyond_partition": true,
+     "3_same_sign": true
+    }
+   },
+   "context": {
+    "provenance": {
+     "results_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+     "plan_commit": "7e3465859bc2b8950078238f0bffb0ea6b4dd512"
+    },
+    "molecules": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    },
+    "limitations": "gas, def2-SVP"
+   },
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must_not": "basis[^.;]{0,40}(?<!not )\\brun\\b",
+     "grade": "MISLEADING",
+     "why": "nothing claimed as run",
+     "on": "text"
+    }
+   ]
+  },
+  {
+   "id": "n_numpy_integers",
+   "cls": "S13 malformed numbers",
+   "component": "study_card",
+   "why": "n given as numpy integers (np.int64, np.int32) is a valid count; the card must not refuse it. The harness converts n to numpy integers for this case (row_n_numpy).",
+   "row": {
+    "verdict_rule": "espmap-sesiidae-001/range_partition_sign_v1",
+    "contrast": "C_position",
+    "x": "e3_z13_18_oac",
+    "y": "e2_z13_18_oac",
+    "population": "all",
+    "tier": "primary",
+    "site": "C4-H",
+    "outcome": "resolved",
+    "n": [
+     20,
+     20
+    ],
+    "delta": 5.22,
+    "delta_other_rule": 5.22,
+    "partition": 0.69,
+    "partition_max_member": 0.69,
+    "range_x": [
+     0.22,
+     5.54
+    ],
+    "range_y": [
+     6.66,
+     9.53
+    ],
+    "mean_x": null,
+    "mean_y": null,
+    "bootstrap_interval": [
+     4.57,
+     5.88
+    ],
+    "conditions": {
+     "1_ranges_disjoint": true,
+     "2_beyond_partition": true,
+     "3_same_sign": true
+    }
+   },
+   "context": {
+    "provenance": {
+     "results_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+     "plan_commit": "7e3465859bc2b8950078238f0bffb0ea6b4dd512"
+    },
+    "molecules": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    },
+    "limitations": {
+     "basis_sensitivity": "not run",
+     "solvent": "not studied",
+     "phase": "gas",
+     "method": "B3LYP/def2-SVP"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [],
+   "row_n_numpy": true
   }
  ]
 }
