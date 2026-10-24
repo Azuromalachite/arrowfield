@@ -1,0 +1,970 @@
+{
+ "generator": "tests/pedagogy/make_homework_page_set.py",
+ "grades": [
+  "SAFE",
+  "SAFE_REFUSAL",
+  "CRASH",
+  "MISLEADING",
+  "FALSE"
+ ],
+ "drop": "<drop>",
+ "plan": {
+  "case_id": "sesiidae-homework-1",
+  "title": "Sesiidae homework: when does molecular electronics explain biological specificity?",
+  "molecules": {
+   "z3_z13_18_oh": {
+    "name": "(3Z,13Z)-octadeca-3,13-dien-1-ol",
+    "role": "atlas_observed",
+    "atlas_id": "spa.cmpd.z3_z13_18_oh"
+   },
+   "z3_z13_18_al": {
+    "name": "(3Z,13Z)-octadeca-3,13-dienal",
+    "role": "teaching_control",
+    "atlas_id": null
+   },
+   "z3_z13_18_oac": {
+    "name": "(3Z,13Z)-octadeca-3,13-dien-1-yl acetate",
+    "role": "atlas_observed",
+    "atlas_id": "spa.cmpd.z3_z13_18_oac"
+   },
+   "e3_z13_18_oac": {
+    "name": "(3E,13Z)-octadeca-3,13-dien-1-yl acetate",
+    "role": "atlas_observed",
+    "atlas_id": "spa.cmpd.e3_z13_18_oac"
+   },
+   "e2_z13_18_oac": {
+    "name": "(2E,13Z)-octadeca-2,13-dien-1-yl acetate",
+    "role": "atlas_observed",
+    "atlas_id": "spa.cmpd.e2_z13_18_oac"
+   }
+  },
+  "acts": [
+   {
+    "id": "A",
+    "contrasts": [
+     "A_headgroup",
+     "A_headgroup (control: Al vs OAc)",
+     "A_headgroup (control: Al vs OH)"
+    ],
+    "title": "What the head group does",
+    "predict": "Where is each molecule most electron-rich? Which has an H-bond donor? Does adding the acetyl make \"everything more negative\"?",
+    "tasks": [
+     "Identify the largest electrostatic differences between the three head groups and explain them with ordinary organic chemistry: electronegativity, resonance in the ester, donor and acceptor.",
+     "Explore how far the head-group perturbation appears to extend, with the difference card. These chain-site comparisons are descriptive and exploratory, not a prespecified test."
+    ],
+    "expected": "This act is the \"ESP works\" act. Global V_max: resolved, the prespecified result.",
+    "blocks": [
+     {
+      "view": "study_card",
+      "contrast": "A_headgroup",
+      "site": "global V_max"
+     },
+     {
+      "view": "study_card",
+      "contrast": "A_headgroup",
+      "site": "head O"
+     },
+     {
+      "view": "difference_card",
+      "contrast": "A_headgroup",
+      "x": "z3_z13_18_oac",
+      "y": "z3_z13_18_oh",
+      "site": "head O"
+     },
+     {
+      "view": "difference_card",
+      "contrast": "A_headgroup (control: Al vs OAc)",
+      "x": "z3_z13_18_oac",
+      "y": "z3_z13_18_al",
+      "site": "C1-H"
+     },
+     {
+      "view": "contrast_card",
+      "label": "S. tenuis gland, Japan and Korea"
+     },
+     {
+      "view": "class_panel",
+      "molecule": "z3_z13_18_oac",
+      "taxon_id": "spa.tax.synanthedon_tenuis"
+     }
+    ]
+   },
+   {
+    "id": "B",
+    "contrasts": [
+     "B_stereo"
+    ],
+    "title": "What E/Z does (E3 vs Z3 acetate)",
+    "predict": "Does changing E to Z at C3 mainly change the charge distribution, or the shape?",
+    "tasks": [
+     "Read the difference card at C3-H, C4-H and head O. Is each difference larger than that site's conformer range? Than its partition sensitivity?",
+     "Look at the extended and folded conformers of one compound side by side, on the same scale."
+    ],
+    "expected": "E/Z is not resolved at any site. C3-H: different on average.",
+    "blocks": [
+     {
+      "view": "study_card",
+      "contrast": "B_stereo",
+      "site": "C3-H"
+     },
+     {
+      "view": "difference_card",
+      "contrast": "B_stereo",
+      "x": "z3_z13_18_oac",
+      "y": "e3_z13_18_oac",
+      "site": "C3-H"
+     },
+     {
+      "view": "pair_view",
+      "left": {
+       "slug": "e3_z13_18_oac",
+       "conformer": "conf_00"
+      },
+      "right": {
+       "slug": "e3_z13_18_oac",
+       "conformer": "conf_02"
+      }
+     }
+    ]
+   },
+   {
+    "id": "C",
+    "contrasts": [
+     "C_position"
+    ],
+    "title": "Where the double bond is (E2 vs E3 acetate)",
+    "predict": "Moving C=C by one carbon. Which sites should change, and by how much compared with act B?",
+    "tasks": [
+     "Compare C2-H, C3-H and C4-H between the two compounds, with the difference card. Which differences exceed the conformer range?",
+     "Does free-molecule ESP give a convincing reason an organism or enzyme would treat these two compounds differently?"
+    ],
+    "expected": "Resolved at C4 only. Question 2's honest answer stays no.",
+    "blocks": [
+     {
+      "view": "study_card",
+      "contrast": "C_position",
+      "site": "C4-H"
+     },
+     {
+      "view": "difference_card",
+      "contrast": "C_position",
+      "x": "e3_z13_18_oac",
+      "y": "e2_z13_18_oac",
+      "site": "C4-H"
+     },
+     {
+      "view": "evidence_card",
+      "observation_id": "spa.obs.synanthedon_tipuliformis.szocs_1990.trap_e3.hungary",
+      "molecule": "e3_z13_18_oac"
+     }
+    ]
+   },
+   {
+    "id": "D",
+    "contrasts": [],
+    "title": "What is missing",
+    "predict": "The organism makes, or responds to, one particular compound. Suppose free-molecule ESP does not explain the distinction. What information is missing, and how would you get it?",
+    "tasks": [],
+    "expected": "The receptor's or enzyme's geometry, active-site residues, orientation, dynamics, and experimental evidence.",
+    "blocks": []
+   }
+  ]
+ },
+ "cases": [
+  {
+   "id": "real_plan_student",
+   "cls": "H1 the real plan",
+   "why": "The homework as written, for a student: renders, with every rule below holding at once, and no expected answer on the page.",
+   "plan_patch": [],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "block_roles",
+     "grade": "FALSE",
+     "why": "every block names each molecule's one role, the plan's"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    },
+    {
+     "check": "footer",
+     "grade": "MISLEADING",
+     "why": "one provenance footer naming the commit, results sha, espmap, keys"
+    },
+    {
+     "check": "study_words_in_study_cards",
+     "grade": "FALSE",
+     "why": "the study's outcome words only inside study cards"
+    },
+    {
+     "check": "no_bridge",
+     "grade": "FALSE",
+     "why": "nothing the page writes joins an ESP difference to a biological result"
+    },
+    {
+     "must": "teaching control",
+     "grade": "FALSE",
+     "why": "the aldehyde named as a teaching control"
+    },
+    {
+     "must_not": "ESP works|honest answer stays no|for the instructor",
+     "grade": "MISLEADING",
+     "why": "no expected answers on a student's page"
+    }
+   ]
+  },
+  {
+   "id": "real_plan_instructor",
+   "cls": "H1 the real plan",
+   "why": "The same plan for the instructor: the expected answers appear, labelled for the instructor.",
+   "plan_patch": [],
+   "source_ops": [],
+   "audience": "instructor",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "block_roles",
+     "grade": "FALSE",
+     "why": "every block names each molecule's one role, the plan's"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    },
+    {
+     "check": "footer",
+     "grade": "MISLEADING",
+     "why": "one provenance footer naming the commit, results sha, espmap, keys"
+    },
+    {
+     "check": "study_words_in_study_cards",
+     "grade": "FALSE",
+     "why": "the study's outcome words only inside study cards"
+    },
+    {
+     "check": "no_bridge",
+     "grade": "FALSE",
+     "why": "nothing the page writes joins an ESP difference to a biological result"
+    },
+    {
+     "must": "for the instructor",
+     "grade": "MISLEADING",
+     "why": "labelled"
+    },
+    {
+     "must": "ESP works",
+     "grade": "MISLEADING",
+     "why": "the expected answer, verbatim"
+    }
+   ]
+  },
+  {
+   "id": "role_conflict_in_block",
+   "cls": "H2 roles",
+   "why": "A block carrying its own role for the aldehyde ('atlas_observed'): the page's one role would be contradicted on one card. A block never carries a role: refuse.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "blocks",
+      3,
+      "roles"
+     ],
+     {
+      "z3_z13_18_al": "atlas_observed"
+     }
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "control_given_an_atlas_id",
+   "cls": "H2 roles",
+   "why": "The aldehyde stays a teaching control but is given the acetate's Atlas id: a control the bundle carries is not a control.",
+   "plan_patch": [
+    [
+     [
+      "molecules",
+      "z3_z13_18_al",
+      "atlas_id"
+     ],
+     "spa.cmpd.z3_z13_18_oac"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "observed_not_in_bundle",
+   "cls": "H2 roles",
+   "why": "The alcohol called an Atlas compound under an id the bundle does not carry.",
+   "plan_patch": [
+    [
+     [
+      "molecules",
+      "z3_z13_18_oh",
+      "atlas_id"
+     ],
+     "spa.cmpd.not_in_this_bundle"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "control_called_observed",
+   "cls": "H2 roles",
+   "why": "The aldehyde called an Atlas compound: its ensemble's own source id is arrowfield.control.*. The data contradicts the plan; refuse.",
+   "plan_patch": [
+    [
+     [
+      "molecules",
+      "z3_z13_18_al",
+      "role"
+     ],
+     "atlas_observed"
+    ],
+    [
+     [
+      "molecules",
+      "z3_z13_18_al",
+      "atlas_id"
+     ],
+     "spa.cmpd.z3_z13_18_al"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "role_outside_vocabulary",
+   "cls": "H2 roles",
+   "why": "A role of 'control-ish': outside the vocabulary.",
+   "plan_patch": [
+    [
+     [
+      "molecules",
+      "z3_z13_18_al",
+      "role"
+     ],
+     "control-ish"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "molecule_not_in_plan",
+   "cls": "H2 roles",
+   "why": "A difference card naming a slug the plan's molecules do not list: no role to show. Refuse.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      1,
+      "blocks",
+      1,
+      "y"
+     ],
+     "z3_z13_18_unknown"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "acts_out_of_order",
+   "cls": "H3 acts",
+   "why": "Act B before act A: the homework's order is the argument. Refuse.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "id"
+     ],
+     "B"
+    ],
+    [
+     [
+      "acts",
+      1,
+      "id"
+     ],
+     "A"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "act_missing",
+   "cls": "H3 acts",
+   "why": "No act C: the plan is not the homework. Refuse.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      2
+     ],
+     "<drop>"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "act_duplicated",
+   "cls": "H3 acts",
+   "why": "Two acts B.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      2,
+      "id"
+     ],
+     "B"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "study_card_from_another_act",
+   "cls": "H3 acts",
+   "why": "Act B showing C_position's C4-H study card: another act's verdict. Refuse.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      1,
+      "blocks",
+      0
+     ],
+     {
+      "view": "study_card",
+      "contrast": "C_position",
+      "site": "C4-H"
+     }
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "difference_card_other_molecules",
+   "cls": "H3 acts",
+   "why": "Act B's card comparing E3 with E2 under B_stereo: not the act's pair. Refuse.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      1,
+      "blocks",
+      1,
+      "x"
+     ],
+     "e2_z13_18_oac"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "view_in_act_d",
+   "cls": "H3 acts",
+   "why": "A difference card in act D, the act about what free-molecule ESP cannot show. Refuse.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      3,
+      "blocks",
+      "+"
+     ],
+     {
+      "view": "difference_card",
+      "contrast": "C_position",
+      "x": "e3_z13_18_oac",
+      "y": "e2_z13_18_oac",
+      "site": "C4-H"
+     }
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "prediction_missing",
+   "cls": "H3 acts",
+   "why": "Act C without its prediction: the reveal would come first. Refuse.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      2,
+      "predict"
+     ],
+     ""
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "analysis_keys_differ",
+   "cls": "H4 provenance",
+   "why": "One ensemble under another analysis key: the homework requires one key throughout. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    "e2_other_key"
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "results_unknown_rule",
+   "cls": "H4 provenance",
+   "why": "A results file under a verdict rule Arrowfield does not know: no study card can be shown. Refuse the page.",
+   "plan_patch": [],
+   "source_ops": [
+    "results_unknown_rule"
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "bundle_without_commit",
+   "cls": "H4 provenance",
+   "why": "A bundle whose atlas_version is not a commit: the page renders, its footer saying the provenance is incomplete.",
+   "plan_patch": [],
+   "source_ops": [
+    "bundle_unknown"
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "provenance incomplete",
+     "grade": "MISLEADING",
+     "why": "said, in the footer"
+    },
+    {
+     "check": "footer",
+     "grade": "MISLEADING",
+     "why": "one provenance footer naming the commit, results sha, espmap, keys"
+    }
+   ]
+  },
+  {
+   "id": "conformer_not_in_ensemble",
+   "cls": "H4 provenance",
+   "why": "The pair view's conformer from outside the molecule's sources: no record to show. Refuse.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      1,
+      "blocks",
+      2,
+      "right",
+      "conformer"
+     ],
+     "conf_99"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "tested_site_without_study_card",
+   "cls": "H5 study and teaching",
+   "why": "Act B's difference card at C3-H with no C3-H study card in the act: the card points to a study card the page does not hold. Refuse.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      1,
+      "blocks",
+      0
+     ],
+     "<drop>"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "exploratory_site_without_study_card",
+   "cls": "H5 study and teaching",
+   "why": "Act A's card at the aldehyde's C1-H, a site no study row tests: it needs no study card. Renders.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "blocks",
+      0
+     ],
+     "<drop>"
+    ],
+    [
+     [
+      "acts",
+      0,
+      "blocks",
+      0
+     ],
+     "<drop>"
+    ],
+    [
+     [
+      "acts",
+      0,
+      "blocks",
+      0
+     ],
+     "<drop>"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "block_roles",
+     "grade": "FALSE",
+     "why": "every block names each molecule's one role, the plan's"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    },
+    {
+     "check": "footer",
+     "grade": "MISLEADING",
+     "why": "one provenance footer naming the commit, results sha, espmap, keys"
+    },
+    {
+     "check": "study_words_in_study_cards",
+     "grade": "FALSE",
+     "why": "the study's outcome words only inside study cards"
+    },
+    {
+     "check": "no_bridge",
+     "grade": "FALSE",
+     "why": "nothing the page writes joins an ESP difference to a biological result"
+    }
+   ]
+  },
+  {
+   "id": "study_card_site_not_in_study",
+   "cls": "H5 study and teaching",
+   "why": "A study card for a site the study has no row for (B_stereo, C9-H is exploratory; C20-H does not exist). Refuse.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      1,
+      "blocks",
+      0
+     ],
+     {
+      "view": "study_card",
+      "contrast": "B_stereo",
+      "site": "C20-H"
+     }
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "evidence_beside_resolved_card",
+   "cls": "H6 no bridge",
+   "why": "Act C as written: a resolved C4-H study card and difference card beside an evidence card recording a trap response. Both render; the page's own words add no 'because', no 'explains'.",
+   "plan_patch": [],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_bridge",
+     "grade": "FALSE",
+     "why": "nothing the page writes joins an ESP difference to a biological result"
+    },
+    {
+     "check": "study_words_in_study_cards",
+     "grade": "FALSE",
+     "why": "the study's outcome words only inside study cards"
+    }
+   ]
+  },
+  {
+   "id": "plan_text_is_verbatim",
+   "cls": "H6 no bridge",
+   "why": "A plan task carrying 'because' (authored text): shown verbatim in a span, not linted, and not the page's own words.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "tasks",
+      "+"
+     ],
+     "Say whether the acetate looks less negative because the ester is a weaker donor."
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "because the ester is a weaker donor",
+     "grade": "MISLEADING",
+     "why": "the task, verbatim"
+    },
+    {
+     "check": "no_bridge",
+     "grade": "FALSE",
+     "why": "nothing the page writes joins an ESP difference to a biological result"
+    }
+   ]
+  }
+ ]
+}
