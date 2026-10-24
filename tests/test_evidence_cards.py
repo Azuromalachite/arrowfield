@@ -129,22 +129,7 @@ def _bundle(c, tmp_path):
     return _patched(RAW, c["bundle_patch"], tmp_path / "patched.json")
 
 
-# Atlas count semantics (on 490bb16): which counts apply per class is not checked, and the
-# loader coerces context
-XFAIL = {
-    "test_view_output_is_safe[panel_tentative_on_behaviour]",
-    "test_view_output_is_safe[panel_significant_missing]",
-    "test_view_output_is_safe[panel_significant_on_chemistry]",
-    "test_view_output_is_safe[panel_tentative_missing]",
-    "test_view_output_is_safe[panel_population_match_elsewhere]",
-    "test_view_output_is_safe[context_not_a_mapping]",
-    "test_view_output_is_preferred[panel_tentative_on_behaviour]",
-    "test_view_output_is_preferred[panel_significant_missing]",
-    "test_view_output_is_preferred[panel_significant_on_chemistry]",
-    "test_view_output_is_preferred[panel_tentative_missing]",
-    "test_view_output_is_preferred[panel_population_match_elsewhere]",
-    "test_view_output_is_preferred[context_not_a_mapping]",
-}
+XFAIL = set()
 
 
 def _xfail(request, c):

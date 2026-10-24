@@ -94,8 +94,8 @@ def _statement(o, roles):
     return EvidenceStatement(
         observation_id=oid, observation_type=o["observation_type"],
         taxon=tax["accepted_name"], taxon_as_reported=tax.get("name_as_reported"),
-        statement=o["statement"], context=dict(o.get("context") or {}),
-        reference=dict(o.get("reference") or {}), source_location=o.get("source_location"),
+        statement=o["statement"], context={} if o.get("context") is None else o["context"],
+        reference={} if o.get("reference") is None else o["reference"], source_location=o.get("source_location"),
         assay=o.get("assay"), experiment_id=o.get("experiment_id"),
         materials=_seq(o.get("materials")), treatment=_seq(o.get("treatment")),
         comparator=o.get("comparator"), dose=o.get("dose"), trap=o.get("trap"),

@@ -467,6 +467,17 @@ EVIDENCE_CLASSES = ("female_detected_gland", "female_detected_emission", "female
 POPULATION_MATCH = ("yes", "no", "unknown")
 
 
+def _behaviour(cls):
+    """Classes that carry n_significant, as the Atlas builds them
+    (scripts/build_evidence.py, rows())."""
+    return cls.startswith(("attract", "addition")) or cls == "female_pheromone_component"
+
+
+def _chemistry(cls):
+    """Classes that carry n_tentative (the same function)."""
+    return cls.startswith("female_detected") or cls == "female_pheromone_component"
+
+
 def _is_real(v):
     """A finite real number; a bool is not one (True is an int to Python)."""
     import math
@@ -593,15 +604,20 @@ def evidence_class_problems(e, where=""):
         out.append(f"{w}: an observation id repeats")
     if not _is_texts(e.populations):
         out.append(f"{w}: populations are not a list of text")
-    if e.population_match is not None and e.population_match not in POPULATION_MATCH:
+    fpc = e.evidence_class == "female_pheromone_component"
+    if fpc and e.population_match not in POPULATION_MATCH:
         out.append(f"{w}: population_match {e.population_match!r} is not one of {POPULATION_MATCH}")
+    if not fpc and e.population_match is not None:
+        out.append(f"{w}: population_match is set, but only female_pheromone_component carries one")
     if not _is_count(e.n_observations):
         out.append(f"{w}: n_observations {e.n_observations!r} is not a non-negative integer")
     elif _is_texts(e.observation_ids) and e.n_observations != len(set(e.observation_ids)):
         out.append(f"{w}: n_observations {e.n_observations} but {len(set(e.observation_ids))} observation ids")
-    for name in ("n_significant", "n_tentative"):
+    for name, applies in (("n_significant", _behaviour), ("n_tentative", _chemistry)):
         v = getattr(e, name)
-        if v is None:
+        if not applies(e.evidence_class):
+            if v is not None:      # the Atlas: a count that does not apply is null
+                out.append(f"{w}: {name} {v!r} given, but it does not apply to this class")
             continue
         if not _is_count(v):
             out.append(f"{w}: {name} {v!r} is not a non-negative integer")
