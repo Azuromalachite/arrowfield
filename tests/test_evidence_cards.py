@@ -129,22 +129,7 @@ def _bundle(c, tmp_path):
     return _patched(RAW, c["bundle_patch"], tmp_path / "patched.json")
 
 
-# near-misses (on 57cbaa6): no count arithmetic, list fields coerced from strings, population
-# match unchecked
-XFAIL = {
-    "test_view_output_is_safe[panel_count_not_ids]",
-    "test_view_output_is_safe[panel_significant_exceeds]",
-    "test_view_output_is_safe[panel_populations_string]",
-    "test_view_output_is_safe[panel_observation_ids_string]",
-    "test_view_output_is_safe[panel_population_match_word]",
-    "test_view_output_is_safe[unresolved_as_string]",
-    "test_view_output_is_preferred[panel_count_not_ids]",
-    "test_view_output_is_preferred[panel_significant_exceeds]",
-    "test_view_output_is_preferred[panel_populations_string]",
-    "test_view_output_is_preferred[panel_observation_ids_string]",
-    "test_view_output_is_preferred[panel_population_match_word]",
-    "test_view_output_is_preferred[unresolved_as_string]",
-}
+XFAIL = set()
 
 
 def _xfail(request, c):
@@ -294,9 +279,62 @@ def test_bans_catch_word_families():
 def test_the_views_phrase_exactly_the_atlas_vocabularies():
     """Every controlled word bundle.load admits has a phrase in the views, and
     no phrase exists for a word it refuses: the two lists cannot drift."""
-    import bundle
+    import model
     import views
-    assert set(views._EFFECT_WORDS) == set(bundle.EFFECTS)
-    assert set(views._SIG_WORDS) == set(bundle.SIGNIFICANCES)
-    assert set(views._ROLE_PHRASES) == set(bundle.ROLES)
-    assert set(views._OBS_TYPE_WORDS) == set(bundle.OBSERVATION_TYPES)
+    assert set(views._EFFECT_WORDS) == set(model.EFFECTS)
+    assert set(views._SIG_WORDS) == set(model.SIGNIFICANCES)
+    assert set(views._ROLE_PHRASES) == set(model.ROLES)
+    assert set(views._OBS_TYPE_WORDS) == set(model.OBSERVATION_TYPES)
+
+
+HAND = [("detections", "one Detection, not a list"), ("roles", "a bare role string"),
+        ("unresolved", "a bare string"), ("observation_type", "repellency_assay"),
+        ("effect", "inhibited"), ("significance", "resolved"), ("limit", "0.5 as text"),
+        ("limit_bool", "true"), ("response", "a bool value"), ("class_name", "antagonist_effect"),
+        ("count_fraction", "3.5"), ("count_ids", "unequal to ids"), ("populations", "a bare string")]
+
+
+@pytest.mark.parametrize("what,why", HAND, ids=[h[0] for h in HAND])
+def test_a_hand_built_bundle_meets_the_same_validator(what, why):
+    """The shared validator guards a bundle built without bundle.load: each
+    broken field is a bundle_problem, and every view refuses it."""
+    from dataclasses import replace
+    import model
+    import views
+    b = load(BUNDLE)
+    gy = "spa.obs.synanthedon_tenuis.yang_2012.gland"
+    hu = "spa.obs.synanthedon_tipuliformis.szocs_1990.trap_e3.hungary"
+    oac, e3, tipu = "spa.cmpd.z3_z13_18_oac", "spa.cmpd.e3_z13_18_oac", "spa.tax.synanthedon_tipuliformis"
+    obs, comps = dict(b.observations), dict(b.compounds)
+    st, oid, comp = obs[hu], hu, e3
+    if what == "detections":
+        st, oid, comp = replace(obs[gy], detections=obs[gy].detections[0]), gy, oac
+    elif what == "roles":
+        st = replace(st, roles={e3: "treatment"})
+    elif what == "unresolved":
+        st, oid, comp = replace(obs[gy], unresolved="detection limit"), gy, oac
+    elif what in ("observation_type", "effect", "significance"):
+        st = replace(st, **{what: why})
+    elif what in ("limit", "limit_bool"):
+        d = obs[gy].detections
+        bad = replace(d[1], detection_limit={"value": "0.5" if what == "limit" else True, "unit": "picogram"})
+        st, oid, comp = replace(obs[gy], detections=(d[0], bad) + d[2:]), gy, oac
+    elif what == "response":
+        st = replace(st, response=replace(st.response, treatment_value=True))
+    else:
+        c = comps[e3]
+        k = next(i for i, e in enumerate(c.evidence_classes) if e.taxon_id == tipu)
+        e = c.evidence_classes[k]
+        e = {"class_name": replace(e, evidence_class="antagonist_effect"),
+             "count_fraction": replace(e, n_observations=3.5),
+             "count_ids": replace(e, n_observations=e.n_observations + 2),
+             "populations": replace(e, populations="Tasmania")}[what]
+        comps[e3] = replace(c, evidence_classes=c.evidence_classes[:k] + (e,) + c.evidence_classes[k + 1:])
+    obs[oid] = st
+    hb = replace(b, observations=obs, compounds=comps)
+    assert model.bundle_problems(hb), why
+    ctx = {"bundle_object": hb, "roles": {}}
+    with pytest.raises(model.Refused):
+        views.evidence_card_html(hb.observations[oid], comp, ctx)
+    with pytest.raises(model.Refused):
+        views.evidence_class_panel_html(e3, tipu, ctx)

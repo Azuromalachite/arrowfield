@@ -449,6 +449,204 @@ class TeachingBundle:
     espmap: tuple = ()                  # computed ensembles the bundle carries, as given
 
 
+# ------------------------------------------------------- bundle validation
+# The Atlas's controlled words (its observation.schema.json and
+# teaching-bundle.schema.json). One validator, bundle_problems, serves
+# bundle.load and a bundle built by hand alike, so a view never meets a
+# value it would have to trust (probe rounds 3-4 on #13; the user's
+# direction: one shared semantic validator for both paths).
+OBSERVATION_TYPES = ("chemical_measurement", "behavioural_response", "electrophysiology")
+EFFECTS = ("increased", "decreased", "no_effect", "caught_without_control")
+SIGNIFICANCES = ("significant", "not_significant", "not_tested", "not_reported")
+ROLES = ("treatment", "comparator", "detected", "not_detected", "not_tested", "antennal_active",
+         "antennal_inconsistent", "antennal_inactive", "antennal_not_tested")
+EVIDENCE_CLASSES = ("female_detected_gland", "female_detected_emission", "female_detected_combined",
+                    "female_not_detected", "antennal_active", "antennal_inconsistent", "antennal_inactive",
+                    "attractant_alone", "attractive_lure_component", "addition_increased",
+                    "addition_decreased", "addition_no_effect", "female_pheromone_component")
+POPULATION_MATCH = ("yes", "no", "unknown")
+
+
+def _is_real(v):
+    """A finite real number; a bool is not one (True is an int to Python)."""
+    import math
+    return isinstance(v, (int, float)) and not isinstance(v, bool) and math.isfinite(v)
+
+
+def _is_count(v):
+    return isinstance(v, int) and not isinstance(v, bool) and v >= 0
+
+
+def _is_text(v, optional=False):
+    return (v is None and optional) or isinstance(v, str)
+
+
+def _is_texts(v):
+    """A tuple of strings: never a bare string, which iterates as letters."""
+    return isinstance(v, tuple) and all(isinstance(x, str) for x in v)
+
+
+def _detection_problems(d, where):
+    if not isinstance(d, Detection):
+        return [f"{where}: a detection is a {type(d).__name__}, not a Detection"]
+    out = []
+    if not _is_text(d.compound):
+        out.append(f"{where}: detection compound {d.compound!r} is not an id")
+    if not isinstance(d.detected, bool):
+        out.append(f"{where} {d.compound}: detected {d.detected!r} is not true or false")
+    for name in ("method", "identification", "abundance_class"):
+        if not _is_text(getattr(d, name), optional=True):
+            out.append(f"{where} {d.compound}: {name} {getattr(d, name)!r} is not text")
+    lim = d.detection_limit
+    if lim is not None and not (isinstance(lim, dict) and _is_real(lim.get("value")) and lim["value"] >= 0
+                                and _is_text(lim.get("unit"))):
+        out.append(f"{where} {d.compound}: detection limit {lim!r} is not a non-negative number with a unit")
+    if not isinstance(d.measurements, tuple):
+        out.append(f"{where} {d.compound}: measurements are not a list")
+    return out
+
+
+def statement_problems(st):
+    """Every way one EvidenceStatement breaks the Atlas's vocabulary, types
+    or container shapes; empty when it may be shown."""
+    if not isinstance(st, EvidenceStatement):
+        return [f"an observation is a {type(st).__name__}, not an EvidenceStatement"]
+    w = repr(st.observation_id)
+    out = []
+    if not _is_text(st.observation_id):
+        out.append(f"observation id {w} is not text")
+    if st.observation_type not in OBSERVATION_TYPES:
+        out.append(f"{w}: observation_type {st.observation_type!r} is not one of {OBSERVATION_TYPES}")
+    if st.effect is not None and st.effect not in EFFECTS:
+        out.append(f"{w}: effect {st.effect!r} is not one of {EFFECTS}")
+    if st.significance is not None and st.significance not in SIGNIFICANCES:
+        out.append(f"{w}: significance {st.significance!r} is not one of {SIGNIFICANCES}")
+    for name in ("taxon", "statement"):
+        if not _is_text(getattr(st, name)):
+            out.append(f"{w}: {name} is not text")
+    for name in ("taxon_as_reported", "source_location", "assay", "author_statement"):
+        if not _is_text(getattr(st, name), optional=True):
+            out.append(f"{w}: {name} is not text")
+    for name in ("context", "reference"):
+        if not isinstance(getattr(st, name), dict):
+            out.append(f"{w}: {name} is not a mapping")
+    if isinstance(st.context, dict):
+        for k in ("population", "locality"):
+            if not _is_text(st.context.get(k), optional=True):
+                out.append(f"{w}: context {k} is not text")
+    if isinstance(st.reference, dict):
+        for k in ("citation", "doi"):
+            if not _is_text(st.reference.get(k), optional=True):
+                out.append(f"{w}: reference {k} is not text")
+    if not _is_texts(st.unresolved):
+        out.append(f"{w}: unresolved items are not a list of text")
+    for name in ("materials", "treatment"):
+        if not isinstance(getattr(st, name), tuple):
+            out.append(f"{w}: {name} is not a list")
+    if not isinstance(st.detections, tuple):
+        out.append(f"{w}: detections are a {type(st.detections).__name__}, not a list")
+    else:
+        for d in st.detections:
+            out += _detection_problems(d, w)
+    if not isinstance(st.roles, dict):
+        out.append(f"{w}: roles are not a mapping")
+    else:
+        for comp, rs in st.roles.items():
+            if not _is_texts(rs) or not rs:
+                out.append(f"{w}: roles of {comp} must be a non-empty list of role words, not {rs!r}")
+            else:
+                bad = [r for r in rs if r not in ROLES]
+                if bad:
+                    out.append(f"{w}: role(s) {bad} of {comp} are not the Atlas's role words {ROLES}")
+    r = st.response
+    if r is not None:
+        if not isinstance(r, Response):
+            out.append(f"{w}: response is a {type(r).__name__}, not a Response")
+        else:
+            for name in ("measure", "unit"):
+                if not _is_text(getattr(r, name)):
+                    out.append(f"{w}: response {name} is not text")
+            if not _is_text(r.qualifier, optional=True):
+                out.append(f"{w}: response qualifier is not text")
+            for name in ("treatment_value", "comparator_value"):
+                v = getattr(r, name)
+                if v is not None and not _is_real(v):
+                    out.append(f"{w}: response {name} {v!r} is not a finite number")
+    return out
+
+
+def evidence_class_problems(e, where=""):
+    """Every way one EvidenceClass breaks the Atlas's vocabulary, types or
+    arithmetic: n_observations counts its distinct observation ids, and the
+    significant and tentative counts are at most that."""
+    if not isinstance(e, EvidenceClass):
+        return [f"{where}: an evidence class is a {type(e).__name__}, not an EvidenceClass"]
+    w = f"{where} class {e.evidence_class!r}"
+    out = []
+    if e.evidence_class not in EVIDENCE_CLASSES:
+        out.append(f"{w}: not one of the Atlas's classes {EVIDENCE_CLASSES}")
+    if not _is_text(e.taxon_id):
+        out.append(f"{w}: taxon id is not text")
+    if not _is_texts(e.observation_ids):
+        out.append(f"{w}: observation ids are not a list of ids")
+    elif len(set(e.observation_ids)) != len(e.observation_ids):
+        out.append(f"{w}: an observation id repeats")
+    if not _is_texts(e.populations):
+        out.append(f"{w}: populations are not a list of text")
+    if e.population_match is not None and e.population_match not in POPULATION_MATCH:
+        out.append(f"{w}: population_match {e.population_match!r} is not one of {POPULATION_MATCH}")
+    if not _is_count(e.n_observations):
+        out.append(f"{w}: n_observations {e.n_observations!r} is not a non-negative integer")
+    elif _is_texts(e.observation_ids) and e.n_observations != len(set(e.observation_ids)):
+        out.append(f"{w}: n_observations {e.n_observations} but {len(set(e.observation_ids))} observation ids")
+    for name in ("n_significant", "n_tentative"):
+        v = getattr(e, name)
+        if v is None:
+            continue
+        if not _is_count(v):
+            out.append(f"{w}: {name} {v!r} is not a non-negative integer")
+        elif _is_count(e.n_observations) and v > e.n_observations:
+            out.append(f"{w}: {name} {v} exceeds n_observations {e.n_observations}")
+    return out
+
+
+def bundle_problems(b):
+    """Every problem in a TeachingBundle, however it was built: empty when
+    the views may show it. bundle.load raises on these; the views refuse."""
+    if not isinstance(b, TeachingBundle):
+        return [f"the bundle is a {type(b).__name__}, not a TeachingBundle"]
+    out = []
+    if not _is_text(b.atlas_version):
+        out.append("atlas_version is not text")
+    if not isinstance(b.observations, dict):
+        return out + ["observations are not a mapping"]
+    for oid, st in b.observations.items():
+        out += statement_problems(st)
+        if isinstance(st, EvidenceStatement) and st.observation_id != oid:
+            out.append(f"observation {oid!r} carries the id {st.observation_id!r}")
+    if not isinstance(b.compounds, dict):
+        return out + ["compounds are not a mapping"]
+    for cid, c in b.compounds.items():
+        if not isinstance(c, BundleCompound) or c.atlas_id != cid:
+            out.append(f"compound {cid!r} is not a BundleCompound with that id")
+            continue
+        if not _is_text(c.shorthand, optional=True):
+            out.append(f"compound {cid!r}: shorthand is not text")
+        if not isinstance(c.evidence_classes, tuple):
+            out.append(f"compound {cid!r}: evidence classes are not a list")
+            continue
+        for e in c.evidence_classes:
+            out += evidence_class_problems(e, f"compound {cid!r}")
+    if not isinstance(b.contrasts, tuple):
+        out.append("contrasts are not a list")
+    else:
+        for k in b.contrasts:
+            if not (isinstance(k, ObservedContrast) and _is_text(k.label) and _is_texts(k.observation_ids)
+                    and all(i in b.observations for i in k.observation_ids)):
+                out.append(f"contrast {getattr(k, 'label', k)!r} is malformed or names observations not carried")
+    return out
+
+
 @dataclass(frozen=True)
 class CaseMolecule:
     id: str                             # an Atlas id, or arrowfield.control.*

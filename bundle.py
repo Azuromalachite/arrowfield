@@ -16,6 +16,7 @@ import json
 import math
 from pathlib import Path
 
+import model
 from model import (BundleCompound, Detection, EvidenceClass, EvidenceStatement, ObservedContrast,
                    Response, TeachingBundle)
 
@@ -33,27 +34,11 @@ COMPONENT = {"atlas_id", "detected", "method", "identification", "abundance_clas
 RESPONSE = {"measure", "unit", "treatment_value", "comparator_value", "qualifier"}
 COMPOUND = {"atlas_id", "shorthand", "systematic", "inchikey", "occurrences", "evidence_classes"}
 OCCURRENCE = {"observation_id", "roles"}
-# The Atlas's controlled words (its observation.schema.json and teaching-bundle.schema.json).
-# A value outside them is refused: a view phrases each of these in its own words, and an
-# unknown one would reach the page as Arrowfield's claim (probe round 3, #13).
-EFFECTS = ("increased", "decreased", "no_effect", "caught_without_control")
-SIGNIFICANCES = ("significant", "not_significant", "not_tested", "not_reported")
-ROLES = ("treatment", "comparator", "detected", "not_detected", "not_tested", "antennal_active",
-         "antennal_inconsistent", "antennal_inactive", "antennal_not_tested")
-OBSERVATION_TYPES = ("chemical_measurement", "behavioural_response", "electrophysiology")
-EVIDENCE_CLASSES = ("female_detected_gland", "female_detected_emission", "female_detected_combined",
-                    "female_not_detected", "antennal_active", "antennal_inconsistent", "antennal_inactive",
-                    "attractant_alone", "attractive_lure_component", "addition_increased",
-                    "addition_decreased", "addition_no_effect", "female_pheromone_component")
-
-
-def _number(v):
-    """A finite real number; a bool is not one (True is an int to Python)."""
-    return isinstance(v, (int, float)) and not isinstance(v, bool) and math.isfinite(v)
-
-
-def _count(v, nullable):
-    return (v is None and nullable) or (isinstance(v, int) and not isinstance(v, bool) and v >= 0)
+# The Atlas's controlled words and every value check live in model.py
+# (bundle_problems), shared with bundles built by hand: this module only
+# parses, without coercing a value into the shape it should have had.
+EFFECTS, SIGNIFICANCES, ROLES = model.EFFECTS, model.SIGNIFICANCES, model.ROLES
+OBSERVATION_TYPES, EVIDENCE_CLASSES = model.OBSERVATION_TYPES, model.EVIDENCE_CLASSES
 EVIDENCE_CLASS = {"evidence_class", "taxon_id", "observation_ids", "populations", "n_observations",
                   "n_significant", "n_tentative", "population_match"}
 
@@ -78,14 +63,16 @@ def _known(d, allowed, where):
                             "model them in model.py and bundle.py before showing this bundle")
 
 
+def _seq(v):
+    """A JSON list as a tuple; anything else as it is, for the validator to
+    refuse (tuple() of a string would make letters of it)."""
+    return () if v is None else tuple(v) if isinstance(v, list) else v
+
+
 def _response(r, where):
     if r is None:
         return None
     _known(r, RESPONSE, where)
-    for k in ("treatment_value", "comparator_value"):
-        v = r.get(k)
-        if v is not None and not _number(v):
-            raise InvalidBundle(f"{where}: {k} {v!r} is not a finite number")
     return Response(r["measure"], r["unit"], r.get("treatment_value"), r.get("comparator_value"),
                     r.get("qualifier"))
 
@@ -97,22 +84,12 @@ def _statement(o, roles):
     _known(ev, EVIDENCE, f"{oid} evidence")
     out = o.get("outcome") or {}
     _known(out, OUTCOME, f"{oid} outcome")
-    for key, words in (("effect", EFFECTS), ("significance", SIGNIFICANCES)):
-        if out.get(key) is not None and out[key] not in words:
-            raise InvalidBundle(f"{oid} outcome: {key} {out[key]!r} is not one of the Atlas's words {words}")
     dets = []
     for c in o.get("components") or []:
         _known(c, COMPONENT, f"{oid} component")
-        if not isinstance(c["detected"], bool):
-            raise InvalidBundle(f"{oid} component {c['atlas_id']}: detected {c['detected']!r} is not true or false")
-        lim = c.get("detection_limit")
-        if lim is not None and not (isinstance(lim, dict) and _number(lim.get("value"))):
-            raise InvalidBundle(f"{oid} component {c['atlas_id']}: detection_limit {lim!r} has no numeric value")
         dets.append(Detection(c["atlas_id"], c["detected"], c.get("method"),
                               c.get("identification"), c.get("abundance_class"),
-                              c.get("detection_limit"), tuple(c.get("measurements") or ())))
-    if o["observation_type"] not in OBSERVATION_TYPES:
-        raise InvalidBundle(f"{oid}: observation_type {o['observation_type']!r} is not one of {OBSERVATION_TYPES}")
+                              c.get("detection_limit"), _seq(c.get("measurements"))))
     tax = o["taxon"]
     return EvidenceStatement(
         observation_id=oid, observation_type=o["observation_type"],
@@ -120,13 +97,13 @@ def _statement(o, roles):
         statement=o["statement"], context=dict(o.get("context") or {}),
         reference=dict(o.get("reference") or {}), source_location=o.get("source_location"),
         assay=o.get("assay"), experiment_id=o.get("experiment_id"),
-        materials=tuple(o.get("materials") or ()), treatment=tuple(o.get("treatment") or ()),
+        materials=_seq(o.get("materials")), treatment=_seq(o.get("treatment")),
         comparator=o.get("comparator"), dose=o.get("dose"), trap=o.get("trap"),
         dispenser=o.get("dispenser"), effect=out.get("effect"), significance=out.get("significance"),
         response=_response(out.get("response"), f"{oid} response"), detections=tuple(dets),
         roles=roles.get(oid, {}), author_statement=ev.get("author_statement"),
         author_statement_form=ev.get("author_statement_form"), atlas_notes=ev.get("atlas_notes"),
-        unresolved=tuple(ev.get("unresolved") or ()))
+        unresolved=_seq(ev.get("unresolved")))
 
 
 def load(path):
@@ -150,31 +127,18 @@ def load(path):
         classes = []
         for e in c.get("evidence_classes") or []:
             _known(e, EVIDENCE_CLASS, f"compound {c['atlas_id']} evidence class")
-            where = f"compound {c['atlas_id']} evidence class {e.get('evidence_class')!r}"
-            if e["evidence_class"] not in EVIDENCE_CLASSES:
-                raise InvalidBundle(f"{where}: not one of the Atlas's classes {EVIDENCE_CLASSES}")
-            if not (_count(e["n_observations"], False) and _count(e.get("n_significant"), True)
-                    and _count(e.get("n_tentative"), True)):
-                raise InvalidBundle(f"{where}: counts must be non-negative integers")
-            classes.append(EvidenceClass(e["evidence_class"], e["taxon_id"], tuple(e["observation_ids"]),
-                                         tuple(e.get("populations") or ()), e["n_observations"],
+            classes.append(EvidenceClass(e["evidence_class"], e["taxon_id"], _seq(e["observation_ids"]),
+                                         _seq(e.get("populations")), e["n_observations"],
                                          e.get("n_significant"), e.get("n_tentative"),
                                          e.get("population_match")))
         compounds[c["atlas_id"]] = BundleCompound(c["atlas_id"], c.get("shorthand"), c.get("systematic"),
                                                   c.get("inchikey"), tuple(classes))
         for occ in c.get("occurrences") or []:
             _known(occ, OCCURRENCE, f"compound {c['atlas_id']} occurrence")
-            if not (isinstance(occ["roles"], list) and all(isinstance(r, str) for r in occ["roles"])):
-                raise InvalidBundle(f"{path}: {c['atlas_id']} in {occ['observation_id']}: roles must be a list of "
-                                    f"role words, not {occ['roles']!r}")
             if occ["observation_id"] not in ids:
                 raise InvalidBundle(f"{path}: {c['atlas_id']} occurs in {occ['observation_id']}, "
                                     "which the bundle does not carry")
-            bad = [r for r in occ["roles"] if r not in ROLES]
-            if bad:
-                raise InvalidBundle(f"{path}: {c['atlas_id']} in {occ['observation_id']}: role(s) {bad} are not "
-                                    f"the Atlas's role words {ROLES}")
-            roles.setdefault(occ["observation_id"], {})[c["atlas_id"]] = tuple(occ["roles"])
+            roles.setdefault(occ["observation_id"], {})[c["atlas_id"]] = _seq(occ["roles"])
     contrasts = []
     for k in j["comparisons"]:
         missing = [i for i in k["observation_ids"] if i not in ids]
@@ -185,6 +149,10 @@ def load(path):
         contrasts.append(ObservedContrast(k["case_label"], tuple(k["observation_ids"]),
                                           oc.get("a"), oc.get("b")))
     obs = {o["observation_id"]: _statement(o, roles) for o in j["observations"]}
-    return TeachingBundle(j["case_id"], j["case_title"], j["atlas_version"],
-                          hashlib.sha256(Path(path).read_bytes()).hexdigest(), obs, compounds,
-                          tuple(contrasts), tuple(j.get("espmap") or ()))
+    b = TeachingBundle(j["case_id"], j["case_title"], j["atlas_version"],
+                       hashlib.sha256(Path(path).read_bytes()).hexdigest(), obs, compounds,
+                       tuple(contrasts), tuple(j.get("espmap") or ()))
+    problems = model.bundle_problems(b)
+    if problems:
+        raise InvalidBundle(f"{path}: {problems[0]}" + (f" (and {len(problems) - 1} more)" if len(problems) > 1 else ""))
+    return b

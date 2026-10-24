@@ -515,6 +515,10 @@ def _bound(context):
     prov, roles, bundle = _ctx(context)
     if not isinstance(bundle, TeachingBundle):
         raise Refused("no teaching bundle: Atlas evidence is shown only from the bundle it came from")
+    from model import bundle_problems     # the one validator bundle.load uses too
+    problems = bundle_problems(bundle)
+    if problems:
+        raise Refused(f"the bundle cannot be shown: {problems[0]}")
     v, sha = prov.get("atlas_version"), prov.get("sha256")
     same = v in (None, "") or v == bundle.atlas_version or (       # "" reads as not given, as None
         _is_commit(v) and _is_commit(bundle.atlas_version)
@@ -596,16 +600,8 @@ def _statement_block(st):
 
 
 def _obs_type(st):
-    """The observation type in the views' words; Refused outside the Atlas's three."""
-    from model import Refused
-    if st.observation_type not in _OBS_TYPE_WORDS:
-        raise Refused(f"{st.observation_id}: observation_type {st.observation_type!r} is not one of the Atlas's")
+    """The observation type in the views' words (model.bundle_problems has checked it)."""
     return _OBS_TYPE_WORDS[st.observation_type]
-
-
-def _real(v):
-    import math
-    return isinstance(v, (int, float)) and not isinstance(v, bool) and math.isfinite(v)
 
 
 def _compound_line(st, compound):
@@ -614,39 +610,24 @@ def _compound_line(st, compound):
     assay, measure, qualifier, abundance, identification) is its own verbatim
     span (probe round 2); the controlled words (effect, significance, roles)
     are the view's phrasing and fall under its word bans."""
-    from model import Refused
     def rec(x):
         return "not recorded" if x is None else _v(x)
     det = next((d for d in st.detections if d.compound == compound), None)
     if _obs_type(st) == "chemical measurement":
         if det is None:
             return "not tested in this observation (not looked for in this measurement)"
-        if not isinstance(det.detected, bool):
-            raise Refused(f"{st.observation_id}: detected {det.detected!r} is not true or false")
         if det.detected:
             extra = [_v(x) for x in (det.abundance_class, det.identification) if x]
             return "detected" + (f" ({', '.join(extra)})" if extra else "")
         lim = det.detection_limit
-        if lim is not None and not (isinstance(lim, dict) and _real(lim.get("value"))):
-            raise Refused(f"{st.observation_id}: detection limit {lim!r} has no numeric value")
         lim_txt = (f"detection limit {_t(lim['value'])} {rec(lim.get('unit'))}"
                    if isinstance(lim, dict) and "value" in lim else "detection limit not stated")
         method = f"method {_v(det.method)}" if det.method else "method not stated"
         return (f"not detected, {lim_txt}: a negative for this method ({method}), sample and population "
                 f"({_where_html(st)}) only")
     roles = st.roles.get(compound, ())
-    if not (isinstance(roles, (tuple, list)) and all(isinstance(w, str) for w in roles)):
-        raise Refused(f"{st.observation_id}: roles must be a list of role words, not {roles!r}")
     if not roles:
         return "not tested in this observation (not part of this experiment)"
-    unknown = [w for w in roles if w not in _ROLE_PHRASES]
-    if st.effect is not None and st.effect not in _EFFECT_WORDS:
-        unknown.append(st.effect)
-    if st.significance is not None and st.significance not in _SIG_WORDS:
-        unknown.append(st.significance)
-    if unknown:
-        raise Refused(f"{st.observation_id}: {unknown} are not the Atlas's controlled words; the view cannot "
-                      "phrase them")
     said = "; ".join(_ROLE_PHRASES[w] for w in roles)
     if st.effect is None:
         return f"{_t(said)}; effect not recorded"
@@ -656,8 +637,6 @@ def _compound_line(st, compound):
     r = st.response
     if r is not None and roles:
         def num(v):
-            if v is not None and not _real(v):
-                raise Refused(f"{st.observation_id}: response value {v!r} is not a finite number")
             return "not recorded" if v is None else _t(v)
         out += (f"; {num(r.treatment_value)} vs {num(r.comparator_value)} {rec(r.unit)} "
                 f"({rec(r.measure)}, {_v(r.qualifier) if r.qualifier else 'as recorded'})")
@@ -725,20 +704,12 @@ def evidence_class_panel_html(compound, taxon_id, context):
                 f"{provenance}</div>")
     if compound not in bundle.compounds:
         raise Refused(f"{compound!r} is neither a compound of this bundle nor given a role")
-    from bundle import EVIDENCE_CLASSES
     bc = bundle.compounds[compound]
     taxa = {e.taxon_id for c in bundle.compounds.values() for e in c.evidence_classes}
     if taxon_id not in taxa:
         raise Refused(f"{taxon_id!r} is a taxon in none of this bundle's evidence classes")
     in_case = set(bundle.observations)
     rows = [e for e in bc.evidence_classes if e.taxon_id == taxon_id]
-    for e in rows:     # as bundle.load checks, for a bundle built by hand
-        counts = (e.n_observations, e.n_significant, e.n_tentative)
-        if e.evidence_class not in EVIDENCE_CLASSES or not all(
-                (c is None and k) or (isinstance(c, int) and not isinstance(c, bool) and c >= 0)
-                for k, c in enumerate(counts)):
-            raise Refused(f"evidence class {e.evidence_class!r}: not one of the Atlas's classes, or its counts "
-                          "are not non-negative integers")
     title = f'<div class="card-title">{_v(bc.shorthand or compound)} · {_v(taxon_id.split(".")[-1])}</div>'
     parts = [f'<div class="card class-panel">{title}',
              "<p class='limits'>The Atlas's evidence classes, derived from its records. Every row is kept; "
@@ -760,7 +731,7 @@ def evidence_class_panel_html(compound, taxon_id, context):
         parts.append("</table>")
         for e in rows:
             if e.evidence_class == "female_pheromone_component":
-                pm = e.population_match if e.population_match in ("yes", "no", "unknown") else "unknown"
+                pm = e.population_match or "unknown"     # checked against yes/no/unknown
                 note = ("" if pm == "yes" else " The join may cross populations or name one place two ways: "
                         "read the records.")
                 parts.append("<p>female_pheromone_component is derived: the Atlas's join of a female detection "
