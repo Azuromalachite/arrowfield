@@ -129,16 +129,7 @@ def _bundle(c, tmp_path):
     return _patched(RAW, c["bundle_patch"], tmp_path / "patched.json")
 
 
-# verbatim exemption (2e42d6d): the views mark no record text as verbatim, so a quoted
-# banned word reads as the view's own
-XFAIL = {
-    "test_a_rendered_view_meets_its_requirements[real_quote_inhibited-2]",
-    "test_a_rendered_view_meets_its_requirements[quote_says_inactive-2]",
-    "test_a_rendered_view_meets_its_requirements[quote_says_repel-2]",
-    "test_a_rendered_view_meets_its_requirements[quote_says_antagonist-2]",
-    "test_a_rendered_view_meets_its_requirements[quote_says_because_esp-3]",
-    "test_a_rendered_view_meets_its_requirements[atlas_statement_says_repel-1]",
-}
+XFAIL = set()
 
 
 def _xfail(request, c):
@@ -247,7 +238,9 @@ def test_a_rendered_view_meets_its_requirements(c, i, tmp_path, request):
     q = c["requires"][i]
     own, _ = _split(page)
     if "must" in q:          # what must be shown may be shown in the record's words
-        target = page if q["on"] == "html" else re.sub(r"<[^>]+>", " ", html.unescape(page))
+        # inline spans add no space (as in a browser); block tags separate words
+        text = html.unescape(re.sub(r"<[^>]+>", " ", re.sub(r"</?span[^>]*>", "", page)))
+        target = page if q["on"] == "html" else text
         assert re.search(q["must"], target, re.I), f"{q['why']} ({q['grade']} if missing)"
     else:                    # a ban reads the view's own words; verbatim record text is exempt
         target = page if q["on"] == "html" else own
