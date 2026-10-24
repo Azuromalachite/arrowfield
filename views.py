@@ -320,8 +320,15 @@ def _card_notes(card, context):
     notes = []
     study = context.get("study")
     if study is not None:
+        from model import KNOWN_VERDICT_RULES
         if not isinstance(study, StudyResults):
             raise Refused("the study must be a StudyResults read by study.load_results, which checks the file")
+        if study.verdict_rule not in KNOWN_VERDICT_RULES:
+            raise Refused(f"the study's verdict rule {study.verdict_rule!r} is not one Arrowfield knows "
+                          f"({KNOWN_VERDICT_RULES}): its tiers cannot be described")
+        if (card.name_a, card.name_b) != (x, y):
+            raise Refused(f"this card compares {card.name_a} → {card.name_b}, but the study context names "
+                          f"{x} → {y}: the study's statement would be attached to another pair or direction")
         contrast = context.get("contrast")
         rows = [s for s in study.sites if s.contrast == contrast and s.population == "all"]
         if not rows:
@@ -351,7 +358,15 @@ def _card_notes(card, context):
 def card_html(card, context=None):
     """The difference card. context (optional): {"study": StudyResults,
     "contrast", "x", "y": the card's molecules' slugs, "roles": {slug: role}};
-    model.Refused when it cannot be this card's study or a role is unknown."""
+    model.Refused when it cannot be this card's study or a role is unknown,
+    and when a number it would print is not finite."""
+    import math
+    from model import Refused
+    shown = (card.diff, card.partition, card.diff_other_rule, card.range_a, card.range_b)
+    if card.status is not ComparisonStatus.NOT_COMPARABLE and any(
+            v is not None and not (isinstance(v, (int, float)) and math.isfinite(v)) for v in shown):
+        raise Refused("a difference, range or partition sensitivity on this card is not a finite number: "
+                      "recompute the comparison")
     # text content: quotes need no escaping, and an escaped apostrophe reads as &#x27; in plain text
     notes = "".join(f'<div class="limits">{html.escape(n, quote=False)}</div>' for n in _card_notes(card, context))
     label = f'<div class="label">{html.escape(_CARD_LABEL, quote=False)}</div>'

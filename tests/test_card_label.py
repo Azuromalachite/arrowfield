@@ -34,20 +34,7 @@ RESULTS = HERE / "tests" / "data" / "espmap-sesiidae-001.results.json"
 # --- what the card gets wrong today (measured on the committed card) --------------------
 # Empty since the label fix (the 53 pairs #15 measured on the card before it). A case added
 # later that the card fails goes here, as "test[case]" or "test[case-i]", with why.
-# probe round 1 (on ab58c1a): the card is not checked against the context pair or the
-# study rule, and prints non-finite numbers
-XFAIL = {
-    "test_card_output_is_safe[card_pair_not_context_pair]",
-    "test_card_output_is_safe[card_pair_swapped_against_context]",
-    "test_card_output_is_safe[study_unknown_rule]",
-    "test_card_output_is_preferred[card_pair_not_context_pair]",
-    "test_card_output_is_preferred[card_pair_swapped_against_context]",
-    "test_card_output_is_preferred[study_unknown_rule]",
-    "test_card_output_is_preferred[nan_difference]",
-    "test_card_output_is_preferred[infinite_partition]",
-    "test_a_rendered_card_meets_its_requirements[nan_difference-0]",
-    "test_a_rendered_card_meets_its_requirements[infinite_partition-0]",
-}
+XFAIL = set()
 
 
 def _xfail(request, key):
