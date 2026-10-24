@@ -1,2 +1,4 @@
 # controls/ is checksummed byte for byte (SHA256SUMS, record_sha256): never convert its line endings
 controls/** -text
+# tests/data/pair/ is checked byte for byte against the Atlas (members.json): the same rule
+tests/data/pair/** -text
