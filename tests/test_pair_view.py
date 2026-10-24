@@ -223,7 +223,7 @@ def _run(c):
 
 # the probe on #18 (fa0e676): the relation depends on bond-list order and misses a methyl-H
 # relabelling. Measured on fa0e676; only shrinks.
-XFAIL = {"rel_methyl_h_swapped", "rel_bonds_shuffled_same", "rel_swap_and_shuffle"}
+XFAIL = set()                # the 3 measured on fa0e676 are met; only shrinks
 
 
 def _xfail(request, c):

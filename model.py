@@ -465,7 +465,55 @@ class Relation(Enum):
 # 0.98 A (heavy atoms) and 1.40 A (all atoms, closest five).
 SAME_GEOMETRY_RMSD = 0.01
 _MIN_ATOM_SEPARATION = 0.5      # A: closer than any bond; a geometry with such a pair is no geometry
-_RMSD_MATCHES = 10000           # symmetry matches tried; the minimum over them bounds the RMSD from above
+_HEAVY_MATCHES = 1000           # heavy-atom symmetry matches tried (a C18 chain has a handful)
+_ASSIGN_ROUNDS = 20             # superpose / reassign hydrogens until the assignment is stable
+
+
+def _kabsch(P, Q):
+    """(rmsd, rotation, centre of P, centre of Q) superposing P onto Q."""
+    p0, q0 = P.mean(0), Q.mean(0)
+    u, _, vt = np.linalg.svd((P - p0).T @ (Q - q0))
+    d = np.sign(np.linalg.det(vt.T @ u.T))
+    r = vt.T @ np.diag([1.0, 1.0, d]) @ u.T
+    rmsd = float(np.sqrt((((P - p0) @ r.T - (Q - q0)) ** 2).sum(1).mean()))
+    return rmsd, r, p0, q0
+
+
+def _best_rmsd(ma, xa, mb, xb):
+    """All-atom RMSD after optimal superposition, minimised over symmetry-
+    equivalent atoms, independent of how either input orders its atoms or
+    bonds (the probe on #18): heavy atoms through the graph's own symmetry
+    matches; each heavy atom's hydrogens by an optimal assignment among
+    themselves (hydrogens on one parent are interchangeable: relabelling them
+    changes neither the geometry nor its surface), alternated with a Kabsch
+    superposition on all atoms until the assignment is stable."""
+    from itertools import permutations
+    from rdkit import Chem
+    heavy_a = [a.GetIdx() for a in ma.GetAtoms() if a.GetAtomicNum() > 1]
+    heavy_b = [a.GetIdx() for a in mb.GetAtoms() if a.GetAtomicNum() > 1]
+    hyd = lambda m, i: sorted(n.GetIdx() for n in m.GetAtomWithIdx(i).GetNeighbors() if n.GetAtomicNum() == 1)  # noqa: E731
+    matches = Chem.RemoveHs(mb).GetSubstructMatches(Chem.RemoveHs(ma), uniquify=False, useChirality=False,
+                                                    maxMatches=_HEAVY_MATCHES)
+    best = np.inf
+    for match in matches:
+        pairs = [(heavy_a[k], heavy_b[j]) for k, j in enumerate(match)]
+        groups = [(hyd(ma, i), hyd(mb, j)) for i, j in pairs]
+        if any(len(ga) != len(gb) for ga, gb in groups):
+            continue
+        mapping = pairs + [(h, g) for ga, gb in groups for h, g in zip(ga, gb)]
+        for _ in range(_ASSIGN_ROUNDS):
+            ia, ib = zip(*mapping)
+            rmsd, r, p0, q0 = _kabsch(xa[list(ia)], xb[list(ib)])
+            moved = (xa - p0) @ r.T + q0
+            new = list(pairs)
+            for ga, gb in groups:
+                new += min((list(zip(ga, perm)) for perm in permutations(gb)),
+                           key=lambda m: sum(float(((moved[h] - xb[g]) ** 2).sum()) for h, g in m))
+            if sorted(new) == sorted(mapping):
+                break
+            mapping = new
+        best = min(best, rmsd)
+    return best
 
 
 def _identity(v):
@@ -482,6 +530,12 @@ def _identity(v):
         if d[np.triu_indices(len(xyz), 1)].min() < _MIN_ATOM_SEPARATION:
             raise Refused(f"{v.name}: two atoms closer than {_MIN_ATOM_SEPARATION} A: no geometry to assign "
                           "stereo from")
+    n = len(xyz)
+    if v.bonds is not None and not all(
+            isinstance(bd, (tuple, list)) and len(bd) == 3 and all(isinstance(k, int) and not isinstance(k, bool)
+                                                                for k in bd[:2]) and 0 <= bd[0] < n and 0 <= bd[1] < n
+            for bd in v.bonds):
+        raise Refused(f"{v.name}: a bond names an atom the record does not have; its graph is not established")
     try:
         m = Chem.Mol(views.mol_from_view(v, v.mapped_smiles))
     except Exception as e:  # noqa: BLE001 - any failure to build the graph is 'not established'
@@ -508,9 +562,7 @@ def relation(a, b):
     sb, cb, mb = _identity(b)
     if (sa, ca) != (sb, cb):
         return Relation.TWO_COMPOUNDS
-    from rdkit import Chem
-    from rdkit.Chem import rdMolAlign
-    rmsd = rdMolAlign.GetBestRMS(Chem.Mol(ma), Chem.Mol(mb), maxMatches=_RMSD_MATCHES)
+    rmsd = _best_rmsd(ma, np.asarray(a.xyz, float), mb, np.asarray(b.xyz, float))
     return Relation.SAME_GEOMETRY if rmsd <= SAME_GEOMETRY_RMSD else Relation.CONFORMERS_OF_ONE_COMPOUND
 
 
