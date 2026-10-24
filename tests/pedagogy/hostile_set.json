@@ -5804,7 +5804,10 @@
     "effect": null,
     "significance": "not_tested",
     "role": "treatment"
-   }
+   },
+   "superseded_by": [
+    "tests/pedagogy/evidence_card_set.json#compound_not_in_observation"
+   ]
   },
   {
    "id": "no_effect_significant_test",
@@ -5827,7 +5830,10 @@
     "effect": "no_effect",
     "significance": "not_significant",
     "role": "treatment"
-   }
+   },
+   "superseded_by": [
+    "tests/pedagogy/evidence_card_set.json#no_effect_not_significant"
+   ]
   },
   {
    "id": "effect_not_reported",
@@ -5850,7 +5856,10 @@
     "effect": "increased",
     "significance": "not_reported",
     "role": "treatment"
-   }
+   },
+   "superseded_by": [
+    "tests/pedagogy/evidence_card_set.json#no_effect_significance_not_reported"
+   ]
   },
   {
    "id": "two_studies_disagree",
@@ -5875,7 +5884,11 @@
      "decreased"
     ],
     "same_taxon": true
-   }
+   },
+   "superseded_by": [
+    "tests/pedagogy/evidence_card_set.json#opposite_effects_two_places",
+    "tests/pedagogy/evidence_card_set.json#increase_and_decrease_both_kept"
+   ]
   },
   {
    "id": "teaching_control_not_observed",
@@ -5897,7 +5910,11 @@
    "input": {
     "compound": "arrowfield.control.z3_z13_18_al",
     "evidence_status": "teaching_control"
-   }
+   },
+   "superseded_by": [
+    "tests/pedagogy/evidence_card_set.json#teaching_control_classes",
+    "tests/pedagogy/evidence_card_set.json#teaching_control_in_observation"
+   ]
   },
   {
    "id": "counterfactual_labelled",
@@ -5919,7 +5936,10 @@
    "input": {
     "compound": "(hypothetical)",
     "evidence_status": "computational_counterfactual"
-   }
+   },
+   "superseded_by": [
+    "tests/pedagogy/evidence_card_set.json#counterfactual_classes"
+   ]
   },
   {
    "id": "assay_contexts_kept_apart",
@@ -5943,7 +5963,10 @@
      "gc_ead"
     ],
     "same_compounds": true
-   }
+   },
+   "superseded_by": [
+    "tests/pedagogy/evidence_card_set.json#gland_vs_lure"
+   ]
   },
   {
    "id": "populations_kept_apart",
@@ -5976,7 +5999,11 @@
      "increased",
      "no_effect"
     ]
-   }
+   },
+   "superseded_by": [
+    "tests/pedagogy/evidence_card_set.json#glands_two_populations",
+    "tests/pedagogy/evidence_card_set.json#population_specific_roles"
+   ]
   },
   {
    "id": "difference_not_specificity",
@@ -5997,7 +6024,11 @@
    "input": {
     "comparison": "resolved",
     "observation": "species_specific_attraction"
-   }
+   },
+   "superseded_by": [
+    "tests/pedagogy/evidence_card_set.json#study_verdict_on_the_same_page",
+    "tests/pedagogy/evidence_card_set.json#study_verdict_beside_classes"
+   ]
   },
   {
    "id": "pair_different_render_keys",

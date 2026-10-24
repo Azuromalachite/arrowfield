@@ -241,3 +241,23 @@ def test_every_real_study_row_renders_as_a_study_card():
     ext = r.site("C_position", "C4-H", "extended")
     with pytest.raises(Refused, match="not this site"):
         study_card_html(ext, dict(ctx, all_member_row=r.site("C_position", "C2-H", "all")))
+
+
+def test_every_real_record_renders_in_the_evidence_views():
+    """The whole homework bundle (Atlas 35112e1): every observation for every
+    bundle compound, every contrast, and every compound's classes in both
+    taxa render, and none says what the records do not."""
+    import re
+    from bundle import load
+    from views import contrast_card_html, evidence_card_html, evidence_class_panel_html
+    b = load(HERE / "tests" / "data" / "sesiidae-homework-1.bundle.json")
+    ctx = {"bundle": {"atlas_version": b.atlas_version, "sha256": b.sha256}, "bundle_object": b}
+    bad = re.compile(r"inactive|not (made|produced)|repel|inhibitor|antagonist|\boverall\b|on balance|"
+                     r"\bESP\b|electrostatic|\bresolved\b|because", re.I)
+    pages = [evidence_card_html(st, cid, ctx) for st in b.observations.values() for cid in b.compounds]
+    pages += [contrast_card_html(k, [b.observations[o] for o in k.observation_ids], ctx) for k in b.contrasts]
+    pages += [evidence_class_panel_html(cid, tax, ctx) for cid in b.compounds
+              for tax in ("spa.tax.synanthedon_tenuis", "spa.tax.synanthedon_tipuliformis")]
+    assert len(pages) == len(b.observations) * len(b.compounds) + len(b.contrasts) + 2 * len(b.compounds)
+    for p in pages:
+        assert not bad.search(re.sub(r"<[^>]+>", " ", p)), re.sub(r"<[^>]+>", " ", p)[:300]

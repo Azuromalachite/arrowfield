@@ -7,7 +7,7 @@ Written before the views exist (expectations first). It re-expresses the
 nine abstract evidence cases of hostile_set.json (B1-B5, which predate
 bundle.py) against the real Atlas teaching bundle, as bundle.py reads it, and
 extends them to the Atlas's evidence classes and population contexts. Inputs
-are real records: tests/data/sesiidae-homework-1.bundle.json (Atlas 30c4a11),
+are real records: tests/data/sesiidae-homework-1.bundle.json (Atlas 35112e1),
 loaded with bundle.load(), with an optional `bundle_patch` (path, value) for
 synthetic variants. The three views, all in views.py, all raising
 model.Refused when they cannot show the evidence faithfully:
@@ -22,7 +22,16 @@ model.Refused when they cannot show the evidence faithfully:
 
 context: {"bundle": {"atlas_version", "sha256"}, "roles": {compound id:
 atlas_observed | teaching_control | computational_counterfactual},
-optional "study_rows": study verdicts the page also shows}.
+optional "study_rows": study verdicts the page also shows}. "sha256":
+"from bundle.load" stands for the loaded bundle's own hash, which the
+harness fills in (the file's bytes differ with line endings).
+
+The bundle object is the authority (E8, E9): a statement, a contrast or a
+provenance claim that is not the bundle's own is refused, never shown as
+Atlas evidence. `statement_patch` (path, value) builds the inputs the view
+is handed from a patched copy of the bundle, while the view is given the
+unpatched bundle: the same id with altered content. A path ending in "+"
+appends.
 
 Grades as in the other sets (SAFE, SAFE_REFUSAL, CRASH, MISLEADING, FALSE);
 `allowed` is exactly the safe outputs; a rendered view must meet every
@@ -33,6 +42,7 @@ method, sample and population only; absence of a class row is not evidence
 of absence; female_pheromone_component is the Atlas's join of two lines of
 evidence, not an identification, and its population_match must be read.
 """
+import copy
 import json
 import re
 from pathlib import Path
@@ -57,13 +67,14 @@ def ctx(**kw):
     return c
 
 
-def case(id, cls, component, why, inputs, outcomes, prefer, requires=(), context=None, patch=()):
+def case(id, cls, component, why, inputs, outcomes, prefer, requires=(), context=None, patch=(), spatch=()):
     outcomes = dict(outcomes)
     outcomes.setdefault("ERROR", "CRASH")
     allowed = sorted(k for k, g in outcomes.items() if g in ("SAFE", "SAFE_REFUSAL"))
     assert prefer is None or prefer in allowed, id
     CASES.append(dict(id=id, cls=cls, component=component, why=why, inputs=inputs,
                       context=context if context is not None else ctx(), bundle_patch=[list(p) for p in patch],
+                      statement_patch=[list(p) for p in spatch],
                       outcomes=outcomes, allowed=allowed, prefer=prefer, requires=list(requires)))
 
 
@@ -78,12 +89,20 @@ def must_not(pat, grade, why, on="text"):
 SHOW = {"RENDERED": "SAFE", "REFUSED": "SAFE_REFUSAL"}
 REFUSE = {"RENDERED": "FALSE", "REFUSED": "SAFE_REFUSAL"}
 # never on an evidence view: interpretation the records do not carry
-NO_OVERREACH = must_not(r"inactive|does not (make|produce|attract)|not (made|produced)|absent from|"
-                        r"repel|inhibitor|antagonist", "FALSE",
+# Word bans read the view's own words only (the user, 2026-10-24, after probe round 1):
+# text copied from a record (the Atlas statement, the authors' quotation, unresolved
+# items, citation, labels, places, names) is shown verbatim inside class="verbatim",
+# attributed, and is exempt; the harness checks every verbatim span is record text.
+# The bans cover word families (inhibit*, repel*, antagonis*, inactiv*, resol(v|ut)*).
+NO_OVERREACH = must_not(r"inactiv\w*|does not (make|produce|attract)|not (made|produced)|absent from|"
+                        r"repel\w*|inhibit\w*|antagonis\w*", "FALSE",
                         "an evidence view reports what was measured, never a role the record does not state")
 NO_NETTING = must_not(r"\boverall\b|in general|on balance|\bnet\b|taken together|consensus", "MISLEADING",
                       "the Atlas never nets opposite results out; neither does the view")
-NO_ESP = must_not(r"\bESP\b|electrostatic|kcal|resolved|because|explain|due to|caus", "FALSE",
+# \bresol(v|ut)\w*: the study's verdict word and its family (resolved, resolves,
+# resolvable, resolution; probe round 1), never the Atlas's own 'unresolved'
+# items, which E2 requires the card to show (no word boundary inside them)
+NO_ESP = must_not(r"\bESP\b|electrostatic|kcal|\bresol(v|ut)\w*|because|explain|due to|caus", "FALSE",
                   "an evidence view never links a computed difference to a biological response")
 
 
@@ -139,11 +158,14 @@ ev("unresolved_items_shown", "E2 provenance", "synanthedon_tenuis.naka_2013.glan
    "The record lists what it could not resolve (the detection limit for the negatives): the card shows it.",
    [must(r"unresolved", "MISLEADING", "labelled"), must(r"detection limit for the negatives", "MISLEADING",
                                                         "the item itself")])
+# Re-expressed in the trust-boundary commit: the bundle, not the caller's
+# context, names the commit (E9), so "missing" is now a bundle whose
+# atlas_version is not a commit. The context-absent case is E9's.
 ev("atlas_version_missing", "E2 provenance", "synanthedon_tenuis.naka_2013.gland", OAC,
    "Without the Atlas commit the card cannot be traced: a visible warning, or refusal.",
    [must(r"provenance (incomplete|missing)|atlas (version|commit) (not recorded|missing|unknown)",
          "MISLEADING", "a visible warning")],
-   context=ctx(bundle={"atlas_version": None, "sha256": None}))
+   context=ctx(bundle={"atlas_version": None, "sha256": None}), patch=[(["atlas_version"], "unknown")])
 
 # --- E3 roles: constructed molecules never become observed --------------------------------------
 case("teaching_control_classes", "E3 roles", "class_panel",
@@ -253,14 +275,315 @@ for vid, val, req in (("no", "no", r"population match:? ?no"), ("unknown", "unkn
        patch=[(["compounds", idx, "evidence_classes", jdx, "population_match"], val)])
 
 # --- E7 what cannot be shown --------------------------------------------------------------
+def oi(oid):
+    return next(i for i, o in enumerate(RAW["observations"]) if o["observation_id"] == P + oid)
+
+
+def ci(oid, comp):
+    return next(j for j, x in enumerate(RAW["observations"][oi(oid)]["components"]) if x["atlas_id"] == comp)
+
+
+# Since the trust-boundary commit the view itself is handed these (a
+# fabricated statement or contrast, built by statement_patch), so the
+# refusal is the view's, not the harness's.
+fake_obs = dict(copy.deepcopy(RAW["observations"][oi("synanthedon_tenuis.naka_2013.gland")]),
+                observation_id=P + "synanthedon_tenuis.not_in_this_bundle")
 ev("observation_not_in_bundle", "E7 refusals", "synanthedon_tenuis.not_in_this_bundle", OAC,
-   "An observation id the bundle does not carry: refuse, never guess.", [], outcomes=REFUSE, prefer="REFUSED")
+   "An observation id the bundle does not carry: refuse, never guess.", [], outcomes=REFUSE, prefer="REFUSED",
+   spatch=[(["observations", "+"], fake_obs)])
 case("contrast_not_in_bundle", "E7 refusals", "contrast_card",
      "A contrast label the bundle does not carry: refuse.", {"contrast_label": "no such contrast"},
-     REFUSE, "REFUSED")
+     REFUSE, "REFUSED",
+     spatch=[(["comparisons", "+"], dict(copy.deepcopy(RAW["comparisons"][0]), case_label="no such contrast"))])
 case("class_panel_unknown_compound", "E7 refusals", "class_panel",
      "A compound neither in the bundle nor given a role: refuse.",
      {"compound": "spa.cmpd.not_here", "taxon_id": TENUIS}, REFUSE, "REFUSED")
+
+# --- trust boundary (review of #13, at 64082a4): cases added before the views change ---------
+# E1: the wording of a missing effect, and the method a negative is bounded by
+def method_pat(oid, comp):
+    m = RAW["observations"][oi(oid)]["components"][ci(oid, comp)]["method"]
+    return re.escape(m).replace("_", "[_ ]")
+
+
+ev("negative_names_its_method", "E1 absence and negatives", "synanthedon_tenuis.yang_2012.gland", OAC,
+   "A negative is bounded by its method: the card names the record's method, not just 'this method'.",
+   [must(method_pat("synanthedon_tenuis.yang_2012.gland", OAC), "MISLEADING", "the method itself")])
+ev("limit_not_stated_names_its_method", "E1 absence and negatives", "synanthedon_tenuis.naka_2013.gland", OH,
+   "The same when the limit is not stated: the method is still named.",
+   [must(method_pat("synanthedon_tenuis.naka_2013.gland", OH), "MISLEADING", "the method itself")])
+ev("effect_not_recorded", "E1 absence and negatives", "synanthedon_tenuis.naka_2013.trap_z3z13oh_added.test4_1", OH,
+   "A record with no effect field (synthetic) does not state an effect: 'no effect recorded' reads as a "
+   "tested zero effect.",
+   [must(r"effect not recorded|does not state an effect", "MISLEADING", "said as missing"),
+    must_not(r"no effect", "MISLEADING", "never a tested zero"), NO_OVERREACH],
+   patch=[(["observations", oi("synanthedon_tenuis.naka_2013.trap_z3z13oh_added.test4_1"), "outcome", "effect"],
+           None)])
+
+# E3: bundle membership wins over a caller's role
+for vid, comp, tax, role in (("control", OAC, TENUIS, "teaching_control"),
+                             ("counterfactual", E3, TIPU, "computational_counterfactual")):
+    case(f"atlas_compound_labelled_{vid}", "E3 roles", "class_panel",
+         f"The caller's roles call an Atlas compound a {role}: the bundle carries it, so the roles are wrong. "
+         "Saying 'not an Atlas compound' would erase its evidence: refuse the inconsistent input.",
+         {"compound": comp, "taxon_id": tax}, REFUSE, "REFUSED", context=ctx(roles=dict(ROLES, **{comp: role})))
+
+# E8: the statement and contrast shown are the bundle's own
+GLAND_N, GLAND_Y = "synanthedon_tenuis.naka_2013.gland", "synanthedon_tenuis.yang_2012.gland"
+ev("altered_statement_same_id", "E8 bound to the bundle", GLAND_N, OAC,
+   "A statement carrying a real observation id with altered text is not the Atlas's: shown, it puts words "
+   "in the Atlas's mouth.", [], outcomes=REFUSE, prefer="REFUSED",
+   spatch=[(["observations", oi(GLAND_N), "statement"], "Z3,Z13-18:OAc is the sex pheromone of Synanthedon tenuis.")])
+ev("altered_negative_same_id", "E8 bound to the bundle", GLAND_Y, OAC,
+   "The same id with the detection limit changed from 100 pg to 1 pg: a stronger negative than the record's.",
+   [], outcomes=REFUSE, prefer="REFUSED",
+   spatch=[(["observations", oi(GLAND_Y), "components", ci(GLAND_Y, OAC), "detection_limit"],
+            {"unit": "picogram", "value": 1})])
+case("altered_contrast_statement", "E8 bound to the bundle", "contrast_card",
+     "The right contrast and ids, but the Korean gland statement altered: refuse.",
+     {"contrast_label": "S. tenuis gland, Japan and Korea"}, REFUSE, "REFUSED",
+     spatch=[(["observations", oi(GLAND_Y), "statement"], "Korean females make the same blend as Japanese ones.")])
+case("altered_contrast_text", "E8 bound to the bundle", "contrast_card",
+     "The contrast's own observed text altered under its real label and ids: not the bundle's contrast.",
+     {"contrast_label": "S. tenuis gland, Japan and Korea"}, REFUSE, "REFUSED",
+     spatch=[(["comparisons", 0, "observed_contrast", "a"], "Both populations use Z3,Z13-18:OAc.")])
+
+# E9: provenance is the bundle's; a caller's claim that disagrees is refused
+FULL = "35112e1bc6ecd89525b74cc5c39a77cdbf87018f"
+assert FULL.startswith(RAW["atlas_version"]), "update FULL with the fixture's commit"
+ev("context_version_disagrees", "E9 provenance from the bundle", GLAND_N, OAC,
+   "The page's context says Atlas 30c4a11 (the fixture's old, false label) for a bundle built at another "
+   "commit: one of them is wrong, so show neither.",
+   [], outcomes=REFUSE, prefer="REFUSED", context=ctx(bundle={"atlas_version": "30c4a11", "sha256": "from bundle.load"}))
+case("context_version_disagrees_contrast", "E9 provenance from the bundle", "contrast_card",
+     "The same disagreement on the contrast card.", {"contrast_label": "S. tenuis gland, Japan and Korea"},
+     REFUSE, "REFUSED", context=ctx(bundle={"atlas_version": "30c4a11", "sha256": "from bundle.load"}))
+case("context_sha_disagrees", "E9 provenance from the bundle", "class_panel",
+     "The context names a bundle file hash that is not this bundle's: a stale page.",
+     {"compound": OAC, "taxon_id": TENUIS}, REFUSE, "REFUSED",
+     context=ctx(bundle={"atlas_version": RAW["atlas_version"], "sha256": "0" * 64}))
+ev("context_provenance_absent", "E9 provenance from the bundle", GLAND_N, OAC,
+   "No provenance in the context: the bundle names its commit, and the card shows that one.",
+   [must(r"atlas commit " + re.escape(RAW["atlas_version"]), "MISLEADING", "the bundle's commit")],
+   context={"roles": dict(ROLES)})
+case("full_commit_in_context_agrees", "E9 provenance from the bundle", "class_panel",
+     "The context gives the full hash of the bundle's commit: that agrees, so the panel renders.",
+     {"compound": OAC, "taxon_id": TENUIS}, SHOW, "RENDERED",
+     [must(r"atlas commit " + re.escape(RAW["atlas_version"]), "MISLEADING", "the bundle's commit")],
+     context=ctx(bundle={"atlas_version": FULL, "sha256": "from bundle.load"}))
+
+# --- held-out probe round 1 (Publishing, on 64082a4): its findings, as cases ----------------
+# (the author-quote findings wait on the user's decision between verbatim quotes and the word ban)
+T86 = "synanthedon_tipuliformis.szocs_1990.trap_e3.tasmania_1986"
+ev("altered_effect_same_id", "E8 bound to the bundle", T86, E3,
+   "Tasmania 1986 with its effect and statement turned from decreased to increased, same id: the card "
+   "would show the opposite of the record.", [], outcomes=REFUSE, prefer="REFUSED",
+   spatch=[(["observations", oi(T86), "outcome", "effect"], "increased"),
+           (["observations", oi(T86), "statement"], "Adding E3,Z13-18:OAc increased catches at Huonville.")])
+case("contrast_invented_label", "E8 bound to the bundle", "contrast_card",
+     "An invented contrast carrying the real Hungary and Tasmania 1986 ids and texts: not one of the bundle's.",
+     {"contrast_label": "S. tipuliformis, probe-invented pair"}, REFUSE, "REFUSED",
+     spatch=[(["comparisons", "+"], dict(copy.deepcopy(RAW["comparisons"][2]),
+                                         case_label="S. tipuliformis, probe-invented pair"))])
+ev("card_role_outside_vocabulary", "E3 roles", "synanthedon_tipuliformis.szocs_1990.trap_e3.hungary", E3,
+   "The page's roles call E3 'confirmed_pheromone': not one of the three roles. Refuse rather than ignore it.",
+   [], outcomes=REFUSE, prefer="REFUSED", context=ctx(roles=dict(ROLES, **{E3: "confirmed_pheromone"})))
+ev("card_atlas_compound_as_counterfactual", "E3 roles", "synanthedon_tipuliformis.szocs_1990.trap_e3.hungary",
+   E3, "The page calls an Atlas compound a computational counterfactual: the evidence card refuses the "
+   "inconsistent roles, as the class panel does.", [], outcomes=REFUSE, prefer="REFUSED",
+   context=ctx(roles=dict(ROLES, **{E3: "computational_counterfactual"})))
+ev("doi_not_recorded", "E2 provenance", "synanthedon_tenuis.yang_2012.gland", OAC,
+   "The reference without its DOI (synthetic): the authors' words still shown, and the missing DOI said, "
+   "so a reader does not think it was left off by the card.",
+   [must(r"doi not (recorded|given|stated)", "MISLEADING", "the gap, said")],
+   patch=[(["observations", oi("synanthedon_tenuis.yang_2012.gland"), "reference", "doi"], None)])
+ev("comparator_value_not_recorded", "E1 absence and negatives",
+   "synanthedon_tenuis.naka_2013.trap_z3z13oh_added.test4_1", OH,
+   "A response with no comparator value (synthetic): 'not recorded', never 'None'.",
+   [must(r"not recorded", "MISLEADING", "the gap, said"), must_not(r"\bNone\b", "MISLEADING", "no raw null")],
+   patch=[(["observations", oi("synanthedon_tenuis.naka_2013.trap_z3z13oh_added.test4_1"), "outcome", "response",
+            "comparator_value"], None)])
+cp("tentative_counts_shown", OAC, TENUIS,
+   "A class row with tentative observations (synthetic: n_tentative 2): the panel shows them, as it shows "
+   "the significant ones.", [must(r"\b2 tentative|tentative:? 2", "MISLEADING", "the count")],
+   patch=[(["compounds", idx, "evidence_classes", jdx, "n_tentative"], 2)])
+
+# --- E10 verbatim record text and the view's own words (probe round 1, finding C) ------------
+YT, HU = "synanthedon_tenuis.yang_2012.trap_acetate_added", "synanthedon_tipuliformis.szocs_1990.trap_e3.hungary"
+ev("real_quote_inhibited", "E10 verbatim and own words", YT, OAC,
+   "The real Yang 2012 quotation says the acetate 'strongly inhibited attraction of males'. It is the "
+   "measured result in the authors' words: shown verbatim and attributed, while the view's own words "
+   "still never add a role.",
+   [must(r"strongly inhibited attraction", "MISLEADING", "the authors' words, unaltered"),
+    must(r"the authors'? words", "MISLEADING", "attributed"), NO_OVERREACH, NO_ESP])
+for vid, oid, comp, quote in (
+        ("inactive", HU, E3, "E3,Z13-18:OAc was inactive in this test."),
+        ("repel", YT, OAC, "the blend appeared to repel males at high dose."),
+        ("antagonist", YT, OAC, "Z3,Z13-18:OAc acted as a behavioural antagonist."),
+        ("because_esp", HU, E3, "catches rose because the electrostatic potential of the E3 isomer explains its fit.")):
+    ev(f"quote_says_{vid}", "E10 verbatim and own words", oid, comp,
+       f"A quotation (synthetic) containing a banned word ('{quote}'): the authors' words are shown as they "
+       "are, attributed; the bans apply to the view's own words.",
+       [must(re.escape(quote), "MISLEADING", "the quotation, unaltered"),
+        must(r"the authors'? words", "MISLEADING", "attributed"), NO_OVERREACH, NO_ESP],
+       patch=[(["observations", oi(oid), "evidence", "author_statement"], quote)])
+# probe round 2 (on 48b27f5): record fields interpolated into the view's own sentence must be
+# spanned too, one field each, or a banned word in the record lands in the view's words
+GY, GN, T41 = ("synanthedon_tenuis.yang_2012.gland", "synanthedon_tenuis.naka_2013.gland",
+               "synanthedon_tenuis.naka_2013.trap_z3z13oh_added.test4_1")
+ev("population_in_negative_sentence", "E10 verbatim and own words", GY, OAC,
+   "A population (synthetic) named 'inactive-strain population', repeated in the not-detected sentence: it "
+   "stays the record's words, in a span.",
+   [must(r"inactive-strain population", "MISLEADING", "the record's population"), NO_OVERREACH],
+   patch=[(["observations", oi(GY), "context", "population"], "inactive-strain population")])
+ev("population_resolved_in_negative_sentence", "E10 verbatim and own words", GN, E3,
+   "A population (synthetic) named 'resolved-lineage population', in the same sentence.",
+   [must(r"resolved-lineage population", "MISLEADING", "the record's population"), NO_ESP],
+   patch=[(["observations", oi(GN), "context", "population"], "resolved-lineage population")])
+ev("method_in_negative_sentence", "E10 verbatim and own words", GY, OAC,
+   "A detection method (synthetic) reading 'gland_extract_inhibition_assay': the record's method string, "
+   "verbatim in a span, never the view's words.",
+   [must(r"gland_extract_inhibition_assay", "MISLEADING", "the record's method, verbatim"), NO_OVERREACH],
+   patch=[(["observations", oi(GY), "components", ci(GY, OAC), "method"], "gland_extract_inhibition_assay")])
+ev("response_unit_in_effect_sentence", "E10 verbatim and own words", T41, OH,
+   "A response unit (synthetic) reading 'catches_explained_per_trap', interpolated into the effect sentence.",
+   [must(r"catches_explained_per_trap", "MISLEADING", "the record's unit"), NO_ESP],
+   patch=[(["observations", oi(T41), "outcome", "response", "unit"], "catches_explained_per_trap")])
+ev("atlas_statement_says_repel", "E10 verbatim and own words", HU, E3,
+   "The Atlas statement itself (synthetic) containing 'repellent': shown verbatim as the Atlas's sentence.",
+   [must(r"no repellent effect at Budapest", "MISLEADING", "the Atlas's sentence"), NO_OVERREACH],
+   patch=[(["observations", oi(HU), "statement"], "Adding E3,Z13-18:OAc showed no repellent effect at Budapest.")])
+
+# --- E11 controlled words (probe round 3, on 3795473) ---------------------------------------------
+# effect, significance and occurrence roles are the Atlas's enums (observation.schema.json,
+# teaching-bundle.schema.json). A value outside them is refused (bundle.load or the view; the
+# harness reads an adapter refusal as REFUSED); every value inside them is the view's own,
+# explicit phrase, never the raw string passed through.
+T86 = "synanthedon_tipuliformis.szocs_1990.trap_e3.tasmania_1986"
+
+
+def occ(comp, oid):
+    c = next(i for i, x in enumerate(RAW["compounds"]) if x["atlas_id"] == comp)
+    k = next(j for j, o in enumerate(RAW["compounds"][c]["occurrences"]) if o["observation_id"] == P + oid)
+    return ["compounds", c, "occurrences", k, "roles"]
+
+
+for vid, oid, path, value in (
+        ("effect_inhibited", HU, ["outcome", "effect"], "inhibited"),
+        ("significance_resolved", T86, ["outcome", "significance"], "resolved"),
+        ("significance_explains", T86, ["outcome", "significance"], "significant because of ESP")):
+    ev(f"vocabulary_{vid}", "E11 controlled words", oid, E3,
+       f"An {path[-1]} of {value!r} (synthetic): not one of the Atlas's words. Printed as the view's own "
+       "phrase it would be the view's claim; refuse.", [], outcomes=REFUSE, prefer="REFUSED",
+       patch=[(["observations", oi(oid)] + path, value)])
+for vid, value in (("role_antagonist", ["antagonist"]), ("role_explains", ["inhibitor because ESP"])):
+    ev(f"vocabulary_{vid}", "E11 controlled words", HU, E3,
+       f"Occurrence roles {value} (synthetic): not the Atlas's role words. Refuse.", [], outcomes=REFUSE,
+       prefer="REFUSED", patch=[(occ(E3, HU), value)])
+ev("vocabulary_antennal_inactive_phrased", "E11 controlled words", HU, E3,
+   "'antennal_inactive' is a real Atlas role word (no antennal response recorded). The view phrases it in "
+   "its own words, which never say 'inactive'.",
+   [must(r"no antennal response", "MISLEADING", "the role, phrased"), NO_OVERREACH],
+   patch=[(occ(E3, HU), ["antennal_inactive"])])
+ev("vocabulary_caught_without_control_phrased", "E11 controlled words", HU, E3,
+   "'caught_without_control' is a real Atlas effect word: phrased as males caught with no comparator run.",
+   [must(r"no comparator", "MISLEADING", "the effect, phrased"), must_not(r"caught_without_control", "MISLEADING",
+                                                                       "not the raw enum")],
+   patch=[(["observations", oi(HU), "outcome", "effect"], "caught_without_control")])
+
+# --- E12 every printed record value is a controlled word, a number, or verbatim (probe round 4) --
+# observation_type and evidence_class are the Atlas's enums; detection-limit values, response
+# values and class counts are numbers (bool excluded); detected is a bool; roles are a list.
+cls_idx = next(i for i, c in enumerate(RAW["compounds"]) if c["atlas_id"] == E3)
+cls_row = next(j for j, e in enumerate(RAW["compounds"][cls_idx]["evidence_classes"])
+               if e["evidence_class"] == "addition_decreased" and e["taxon_id"] == TIPU)
+CLS = ["compounds", cls_idx, "evidence_classes", cls_row]
+for vid, comp, oid, path, value, why in (
+        ("observation_type", E3, HU, ["observations", oi(HU), "observation_type"], "repellency_assay",
+         "an observation type outside the Atlas's three"),
+        ("limit_value_text", OAC, GY, ["observations", oi(GY), "components", ci(GY, OAC), "detection_limit"],
+         {"value": "inhibited", "unit": "picogram"}, "a detection limit whose value is text"),
+        ("detected_as_text", OAC, GY, ["observations", oi(GY), "components", ci(GY, OAC), "detected"], "false",
+         "detected given as the string 'false' (read as true by bool())"),
+        ("response_value_bool", OH, T41, ["observations", oi(T41), "outcome", "response", "treatment_value"],
+         True, "a response value of true (an int to Python)"),
+        ("roles_as_string", E3, HU, occ(E3, HU), "treatment", "roles given as a string, not a list")):
+    ev(f"value_{vid}", "E12 printed values", oid, comp, f"{why[0].upper()}{why[1:]} (synthetic): refuse.",
+       [], outcomes=REFUSE, prefer="REFUSED", patch=[(path, value)])
+for vid, path, value, why in (
+        ("class_name_unknown", CLS + ["evidence_class"], "antagonist_effect", "a class name outside the Atlas's"),
+        ("class_name_explains", CLS + ["evidence_class"], "resolved_because_esp", "a class name with explanation words"),
+        ("class_count_text", CLS + ["n_observations"], "many because ESP", "an observation count given as text"),
+        ("class_count_bool", CLS + ["n_significant"], True, "a significant count of true")):
+    case(f"panel_{vid}", "E12 printed values", "class_panel", f"{why[0].upper()}{why[1:]} (synthetic): refuse.",
+         {"compound": E3, "taxon_id": TIPU}, REFUSE, "REFUSED", patch=[(path, value)])
+# The user's near-misses (relayed 2026-10-24, after round 4), on both sides of each rule; one
+# shared validator (model.py) serves bundle.load and hand-built bundles alike.
+for vid, value, outcomes, prefer, why in (
+        ("limit_value_half", 0.5, SHOW, "RENDERED", "a numeric limit of 0.5: a number, shown"),
+        ("limit_value_numeric_text", "0.5", REFUSE, "REFUSED", "the limit '0.5' as text: not the schema's number"),
+        ("limit_value_bool", True, REFUSE, "REFUSED", "a limit of true: a bool, not a number")):
+    ev(f"near_{vid}", "E12 printed values", GY, OAC, f"{why[0].upper()}{why[1:]}.",
+       [must(r"detection limit 0\.5", "MISLEADING", "the value as recorded")] if prefer == "RENDERED" else [],
+       outcomes=outcomes, prefer=prefer,
+       patch=[(["observations", oi(GY), "components", ci(GY, OAC), "detection_limit"],
+               {"value": value, "unit": "picogram"})])
+n_ids = len(RAW["compounds"][cls_idx]["evidence_classes"][cls_row]["observation_ids"])
+for vid, field, value, why in (
+        ("count_numeric_text", "n_observations", str(n_ids), "the count as text"),
+        ("count_fraction", "n_observations", n_ids + 0.5, "a fractional count"),
+        ("count_negative", "n_observations", -1, "a negative count"),
+        ("count_not_ids", "n_observations", n_ids + 2, f"{n_ids + 2} observations claimed for {n_ids} ids"),
+        ("significant_exceeds", "n_significant", n_ids + 1, "more significant than observed"),
+        ("significant_float", "n_significant", 1.0, "a significant count of 1.0 (a float)"),
+        ("tentative_negative", "n_tentative", -1, "a negative tentative count"),
+        ("tentative_text", "n_tentative", "2", "a tentative count as text"),
+        ("populations_string", "populations", "Tasmania", "populations as a bare string"),
+        ("observation_ids_string", "observation_ids", "spa.obs.x", "observation ids as a bare string"),
+        ("population_match_word", "population_match", "resolved", "a population match outside yes/no/unknown")):
+    case(f"panel_{vid}", "E12 printed values", "class_panel", f"{why[0].upper()}{why[1:]} (synthetic): refuse.",
+         {"compound": E3, "taxon_id": TIPU}, REFUSE, "REFUSED", patch=[(CLS + [field], value)])
+case("panel_counts_consistent_render", "E12 printed values", "class_panel",
+     f"The real row, n_observations {n_ids} with {n_ids} ids: consistent, shown.",
+     {"compound": E3, "taxon_id": TIPU}, SHOW, "RENDERED", [must(r"addition_decreased", "MISLEADING", "the row")])
+# Which counts apply is the Atlas's own definition (scripts/build_evidence.py, rows(); the user:
+# "only enforce count arithmetic that is actually defined"): n_significant on behaviour classes
+# (attract*, addition*, female_pheromone_component), n_tentative on chemistry classes
+# (female_detected*, female_pheromone_component), null otherwise; population_match only on
+# female_pheromone_component. All 30 real rows follow it.
+oac_i = next(i for i, c in enumerate(RAW["compounds"]) if c["atlas_id"] == OAC)
+gland_row = next(j for j, e in enumerate(RAW["compounds"][oac_i]["evidence_classes"])
+                 if e["evidence_class"] == "female_detected_gland" and e["taxon_id"] == TENUIS)
+GLAND_CLS = ["compounds", oac_i, "evidence_classes", gland_row]
+for vid, comp, tax, path, value, why in (
+        ("tentative_on_behaviour", E3, TIPU, CLS + ["n_tentative"], 0, "a tentative count on a behaviour class"),
+        ("significant_missing", E3, TIPU, CLS + ["n_significant"], None, "no significant count on a behaviour class"),
+        ("significant_on_chemistry", OAC, TENUIS, GLAND_CLS + ["n_significant"], 0,
+         "a significant count on a chemistry class"),
+        ("tentative_missing", OAC, TENUIS, GLAND_CLS + ["n_tentative"], None, "no tentative count on a chemistry class"),
+        ("population_match_elsewhere", E3, TIPU, CLS + ["population_match"], "yes",
+         "a population match on a class other than female_pheromone_component")):
+    case(f"panel_{vid}", "E12 printed values", "class_panel",
+         f"{why[0].upper()}{why[1:]} (synthetic): an inconsistency the Atlas defines. Refuse.",
+         {"compound": comp, "taxon_id": tax}, REFUSE, "REFUSED", patch=[(path, value)])
+ev("context_not_a_mapping", "E12 printed values", GY, OAC,
+   "The observation's context given as a list (synthetic): the loader must refuse the shape, not coerce it.",
+   [], outcomes=REFUSE, prefer="REFUSED",
+   patch=[(["observations", oi(GY), "context"], [["population", "Korean population"]])])
+ev("unresolved_as_string", "E12 printed values", GN, OAC,
+   "Unresolved items as a bare string (synthetic): it would show letter by letter. Refuse.", [],
+   outcomes=REFUSE, prefer="REFUSED",
+   patch=[(["observations", oi(GN), "evidence", "unresolved"], "detection limit for the negatives")])
+case("panel_antennal_inactive_class", "E12 printed values", "class_panel",
+     "'antennal_inactive' is a real Atlas class: shown as the Atlas's own term, in a span; the panel's own "
+     "words never say 'inactive'.",
+     {"compound": E3, "taxon_id": TIPU}, SHOW, "RENDERED",
+     [must(r"antennal_inactive", "MISLEADING", "the Atlas's class name"), NO_OVERREACH],
+     patch=[(CLS + ["evidence_class"], "antennal_inactive"), (CLS + ["n_significant"], None)])   # a valid antennal row: no counts apply
+case("panel_taxon_not_in_bundle", "E12 printed values", "class_panel",
+     "A taxon id the bundle carries in no class row (and named with explanation words): refuse, rather than "
+     "print the caller's id as the panel's title.",
+     {"compound": OAC, "taxon_id": "spa.tax.because_esp"}, REFUSE, "REFUSED")
 
 
 def document():
@@ -275,7 +598,7 @@ def document():
             continue
         if "observation_id" in i and c["prefer"] == "RENDERED":
             assert i["observation_id"] in obs, c["id"]
-        if "contrast_label" in i:
+        if "contrast_label" in i and not c["statement_patch"]:      # an appended fabrication is not
             assert i["contrast_label"] in labels, c["id"]
     return json.dumps({"generator": "tests/pedagogy/make_evidence_card_set.py",
                        "bundle": "tests/data/sesiidae-homework-1.bundle.json", "atlas_version": RAW["atlas_version"],
