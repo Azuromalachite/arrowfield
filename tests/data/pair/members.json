@@ -1,0 +1,37 @@
+{
+ "source": "Atlas 35112e1, computed/espmap/<compound>/b3lyp_def2-svp_gas_espmap-v0.2.1/ensemble.json (folded, record_sha256); NPZ from the run behind those records",
+ "members": [
+  {
+   "atlas_id": "spa.cmpd.e3_z13_18_oac",
+   "conformer": "conf_00",
+   "record": "e3_z13_18_oac/conf_00.json",
+   "record_sha256": "28d502329f256bf951e83be90a133d3293c6d8ecb3236f4fdcc863506c11b103",
+   "npz_sha256": "4845f6a69b734606da8b8c5d4fd5b93020c795680f81b8a921db4ca680489ff7",
+   "folded": true
+  },
+  {
+   "atlas_id": "spa.cmpd.e3_z13_18_oac",
+   "conformer": "conf_02",
+   "record": "e3_z13_18_oac/conf_02.json",
+   "record_sha256": "30add82e4da696e2e769f3953fc2dafd5171afbbc061a37348544164092c4b53",
+   "npz_sha256": "475730f7305b550ed4e8b730575a3617716e416df4d27a56262fb4881ca46e39",
+   "folded": false
+  },
+  {
+   "atlas_id": "spa.cmpd.z3_z13_18_oac",
+   "conformer": "conf_00",
+   "record": "z3_z13_18_oac/conf_00.json",
+   "record_sha256": "880c5f3b41619e4acd3092ca6decf10d727ce104f58303804a3b0bef6e22aef9",
+   "npz_sha256": "39f9b38fb0a56fb1d066bc2a27c5ce3c7fee5674765581dafc9e0269051a794e",
+   "folded": false
+  },
+  {
+   "atlas_id": "spa.cmpd.z3_z13_18_oac",
+   "conformer": "conf_01",
+   "record": "z3_z13_18_oac/conf_01.json",
+   "record_sha256": "ce910e087d15abd6ea189f4ef66c0bd1486f7a694810b11f51ee4272d41731b6",
+   "npz_sha256": "ffde14f68cb2fa725706b2bc10795a233ef63331e958146aeb0c0abd4e9451a9",
+   "folded": true
+  }
+ ]
+}
