@@ -433,15 +433,21 @@ for eid, cls, inp, outc, pref, why in EV:
                                                 for r in REPLACED_BY[eid]]})
 
 # ------------------------------------------------ C: pictures (component to come)
+PAIR_RETIRES = json.loads((Path(__file__).with_name("pair_view_set.json")).read_text(encoding="utf-8"))["retires"]
 for eid, why in [
     ("pair_different_render_keys", "Two ESP pictures with different colour scales side by side: the same "
                                    "colour means different kcal/mol, so the eye compares the wrong things."),
     ("pair_one_folded", "A folded and an extended conformer side by side read as two molecules' shapes, "
                         "not as one molecule's conformational range."),
 ]:
+    # Retired (not edited) by the pair view's PR: re-expressed against real
+    # records in tests/pedagogy/pair_view_set.json (#14, #17), whose "retires"
+    # map names each replacement; pair_one_folded's same-compound half was
+    # reversed there by the user's decision (Act B renders folded/extended).
     case(eid, "C1 pictures", "pair_view", why,
          outcomes={"REFUSED": "SAFE_REFUSAL", "SHARED_SCALE": "SAFE", "SIDE_BY_SIDE_AS_IS": "MISLEADING"},
-         prefer="SHARED_SCALE" if "render" in eid else "REFUSED")
+         prefer="SHARED_SCALE" if "render" in eid else "REFUSED",
+         extra={"superseded_by": [f"tests/pedagogy/pair_view_set.json#{r}" for r in PAIR_RETIRES[eid]]})
 
 
 def premises():
