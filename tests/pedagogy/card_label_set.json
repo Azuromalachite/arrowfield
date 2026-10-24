@@ -1,0 +1,721 @@
+{
+ "generator": "tests/pedagogy/make_card_label_set.py",
+ "grades": [
+  "SAFE",
+  "SAFE_REFUSAL",
+  "CRASH",
+  "MISLEADING",
+  "FALSE"
+ ],
+ "cases": [
+  {
+   "id": "control_c1_separated",
+   "cls": "L1 no study row",
+   "why": "Acetate vs the aldehyde control at C1-H: the card measures 'separated'; the study has no row at any Act A chain site. Unlabelled, 'every conformer differs in the same direction' reads as a result.",
+   "x": "z3_z13_18_oac",
+   "y": "z3_z13_18_al",
+   "site": "C1-H",
+   "context": {
+    "study": "results",
+    "contrast": "A_headgroup (control: Al vs OAc)",
+    "x": "z3_z13_18_oac",
+    "y": "z3_z13_18_al",
+    "roles": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "teaching comparison",
+     "grade": "MISLEADING",
+     "why": "the card says what it is"
+    },
+    {
+     "must": "not a (prespecified )?test|a look,? not a test",
+     "grade": "MISLEADING",
+     "why": "a look, not a test"
+    },
+    {
+     "must": "(the |this )?card'?s (own )?rule",
+     "grade": "MISLEADING",
+     "why": "the verdict is the card's rule's, not the study's"
+    },
+    {
+     "must_not": "\\bresolved\\b|\\bunresolved\\b|different on average",
+     "grade": "FALSE",
+     "why": "the study's outcome words belong to the study's rule and the study card"
+    },
+    {
+     "must": "(gives|has|makes) no (verdict|test|comparison)|no (study )?verdict (here|at this site)|does not test this site",
+     "grade": "MISLEADING",
+     "why": "the study is silent here, and the card says so"
+    },
+    {
+     "must": "constructed|teaching control",
+     "grade": "MISLEADING",
+     "why": "the aldehyde is not an Atlas compound"
+    },
+    {
+     "must": "descriptive",
+     "grade": "MISLEADING",
+     "why": "a control's comparison is descriptive chemistry only"
+    }
+   ],
+   "measured": "SEPARATED"
+  },
+  {
+   "id": "control_c2_separated",
+   "cls": "L1 no study row",
+   "why": "The alcohol vs the aldehyde control at C2-H: 'separated', no study row.",
+   "x": "z3_z13_18_oh",
+   "y": "z3_z13_18_al",
+   "site": "C2-H",
+   "context": {
+    "study": "results",
+    "contrast": "A_headgroup (control: Al vs OH)",
+    "x": "z3_z13_18_oh",
+    "y": "z3_z13_18_al",
+    "roles": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "teaching comparison",
+     "grade": "MISLEADING",
+     "why": "the card says what it is"
+    },
+    {
+     "must": "not a (prespecified )?test|a look,? not a test",
+     "grade": "MISLEADING",
+     "why": "a look, not a test"
+    },
+    {
+     "must": "(the |this )?card'?s (own )?rule",
+     "grade": "MISLEADING",
+     "why": "the verdict is the card's rule's, not the study's"
+    },
+    {
+     "must_not": "\\bresolved\\b|\\bunresolved\\b|different on average",
+     "grade": "FALSE",
+     "why": "the study's outcome words belong to the study's rule and the study card"
+    },
+    {
+     "must": "(gives|has|makes) no (verdict|test|comparison)|no (study )?verdict (here|at this site)|does not test this site",
+     "grade": "MISLEADING",
+     "why": "the study is silent here, and the card says so"
+    },
+    {
+     "must": "constructed|teaching control",
+     "grade": "MISLEADING",
+     "why": "the aldehyde is not an Atlas compound"
+    },
+    {
+     "must": "descriptive",
+     "grade": "MISLEADING",
+     "why": "a control's comparison is descriptive chemistry only"
+    }
+   ],
+   "measured": "SEPARATED"
+  },
+  {
+   "id": "chain_no_row",
+   "cls": "L1 no study row",
+   "why": "Acetate vs alcohol at C3-H (Act A item 2's chain comparison): the ranges overlap, the study has no row.",
+   "x": "z3_z13_18_oac",
+   "y": "z3_z13_18_oh",
+   "site": "C3-H",
+   "context": {
+    "study": "results",
+    "contrast": "A_headgroup",
+    "x": "z3_z13_18_oac",
+    "y": "z3_z13_18_oh",
+    "roles": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "teaching comparison",
+     "grade": "MISLEADING",
+     "why": "the card says what it is"
+    },
+    {
+     "must": "not a (prespecified )?test|a look,? not a test",
+     "grade": "MISLEADING",
+     "why": "a look, not a test"
+    },
+    {
+     "must": "(the |this )?card'?s (own )?rule",
+     "grade": "MISLEADING",
+     "why": "the verdict is the card's rule's, not the study's"
+    },
+    {
+     "must_not": "\\bresolved\\b|\\bunresolved\\b|different on average",
+     "grade": "FALSE",
+     "why": "the study's outcome words belong to the study's rule and the study card"
+    },
+    {
+     "must": "(gives|has|makes) no (verdict|test|comparison)|no (study )?verdict (here|at this site)|does not test this site",
+     "grade": "MISLEADING",
+     "why": "the study is silent here, and the card says so"
+    },
+    {
+     "must_not": "teaching control|constructed",
+     "grade": "FALSE",
+     "why": "no control on this card"
+    }
+   ],
+   "measured": "OVERLAPPING"
+  },
+  {
+   "id": "b_c3_primary_vocabulary",
+   "cls": "L2 study row",
+   "why": "B C3-H, primary: the study says 'different on average'; the card's rule says 'not attributable to the change'. Side by side they read as a contradiction unless the card says the study decides under another rule, on the study card.",
+   "x": "z3_z13_18_oac",
+   "y": "e3_z13_18_oac",
+   "site": "C3-H",
+   "context": {
+    "study": "results",
+    "contrast": "B_stereo",
+    "x": "z3_z13_18_oac",
+    "y": "e3_z13_18_oac",
+    "roles": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "teaching comparison",
+     "grade": "MISLEADING",
+     "why": "the card says what it is"
+    },
+    {
+     "must": "not a (prespecified )?test|a look,? not a test",
+     "grade": "MISLEADING",
+     "why": "a look, not a test"
+    },
+    {
+     "must": "(the |this )?card'?s (own )?rule",
+     "grade": "MISLEADING",
+     "why": "the verdict is the card's rule's, not the study's"
+    },
+    {
+     "must_not": "\\bresolved\\b|\\bunresolved\\b|different on average",
+     "grade": "FALSE",
+     "why": "the study's outcome words belong to the study's rule and the study card"
+    },
+    {
+     "must": "study card",
+     "grade": "MISLEADING",
+     "why": "where the study's verdict is"
+    },
+    {
+     "must": "(a |its own |another |a different )rule|rules? differ",
+     "grade": "MISLEADING",
+     "why": "the study decides under a different rule"
+    },
+    {
+     "must": "prespecified",
+     "grade": "MISLEADING",
+     "why": "a primary site is a test"
+    }
+   ],
+   "measured": "OVERLAPPING"
+  },
+  {
+   "id": "c_c4_primary_agrees",
+   "cls": "L2 study row",
+   "why": "C C4-H, primary: the study resolves it and the card says 'separated'. Agreement does not make the card the test: it still points to the study card and never says 'resolved'.",
+   "x": "e3_z13_18_oac",
+   "y": "e2_z13_18_oac",
+   "site": "C4-H",
+   "context": {
+    "study": "results",
+    "contrast": "C_position",
+    "x": "e3_z13_18_oac",
+    "y": "e2_z13_18_oac",
+    "roles": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "teaching comparison",
+     "grade": "MISLEADING",
+     "why": "the card says what it is"
+    },
+    {
+     "must": "not a (prespecified )?test|a look,? not a test",
+     "grade": "MISLEADING",
+     "why": "a look, not a test"
+    },
+    {
+     "must": "(the |this )?card'?s (own )?rule",
+     "grade": "MISLEADING",
+     "why": "the verdict is the card's rule's, not the study's"
+    },
+    {
+     "must_not": "\\bresolved\\b|\\bunresolved\\b|different on average",
+     "grade": "FALSE",
+     "why": "the study's outcome words belong to the study's rule and the study card"
+    },
+    {
+     "must": "study card",
+     "grade": "MISLEADING",
+     "why": "where the study's verdict is"
+    },
+    {
+     "must": "(a |its own |another |a different )rule|rules? differ",
+     "grade": "MISLEADING",
+     "why": "the study decides under a different rule"
+    }
+   ],
+   "measured": "SEPARATED"
+  },
+  {
+   "id": "b_c5_exploratory",
+   "cls": "L2 study row",
+   "why": "B C5-H is an exploratory row of the study: the card calls it exploratory.",
+   "x": "z3_z13_18_oac",
+   "y": "e3_z13_18_oac",
+   "site": "C5-H",
+   "context": {
+    "study": "results",
+    "contrast": "B_stereo",
+    "x": "z3_z13_18_oac",
+    "y": "e3_z13_18_oac",
+    "roles": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "teaching comparison",
+     "grade": "MISLEADING",
+     "why": "the card says what it is"
+    },
+    {
+     "must": "not a (prespecified )?test|a look,? not a test",
+     "grade": "MISLEADING",
+     "why": "a look, not a test"
+    },
+    {
+     "must": "(the |this )?card'?s (own )?rule",
+     "grade": "MISLEADING",
+     "why": "the verdict is the card's rule's, not the study's"
+    },
+    {
+     "must_not": "\\bresolved\\b|\\bunresolved\\b|different on average",
+     "grade": "FALSE",
+     "why": "the study's outcome words belong to the study's rule and the study card"
+    },
+    {
+     "must": "exploratory",
+     "grade": "MISLEADING",
+     "why": "the row's tier"
+    }
+   ],
+   "measured": "OVERLAPPING"
+  },
+  {
+   "id": "head_o_control_secondary",
+   "cls": "L2 study row",
+   "why": "The alcohol vs the aldehyde at head O, a secondary row: the card's rule says the direction depends on the partition rule; the study, 'unresolved'. Control and study card both named.",
+   "x": "z3_z13_18_oh",
+   "y": "z3_z13_18_al",
+   "site": "head O",
+   "context": {
+    "study": "results",
+    "contrast": "A_headgroup (control: Al vs OH)",
+    "x": "z3_z13_18_oh",
+    "y": "z3_z13_18_al",
+    "roles": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "teaching comparison",
+     "grade": "MISLEADING",
+     "why": "the card says what it is"
+    },
+    {
+     "must": "not a (prespecified )?test|a look,? not a test",
+     "grade": "MISLEADING",
+     "why": "a look, not a test"
+    },
+    {
+     "must": "(the |this )?card'?s (own )?rule",
+     "grade": "MISLEADING",
+     "why": "the verdict is the card's rule's, not the study's"
+    },
+    {
+     "must_not": "\\bresolved\\b|\\bunresolved\\b|different on average",
+     "grade": "FALSE",
+     "why": "the study's outcome words belong to the study's rule and the study card"
+    },
+    {
+     "must": "study card",
+     "grade": "MISLEADING",
+     "why": "where the study's verdict is"
+    },
+    {
+     "must": "constructed|teaching control",
+     "grade": "MISLEADING",
+     "why": "the aldehyde is not an Atlas compound"
+    },
+    {
+     "must": "descriptive",
+     "grade": "MISLEADING",
+     "why": "a control's comparison is descriptive chemistry only"
+    }
+   ],
+   "measured": "RULE_DEPENDENT"
+  },
+  {
+   "id": "reversed_order",
+   "cls": "L3 study mismatch",
+   "why": "E3 → Z3 on the card, but B is Z3 → E3: the card's difference has the opposite sign to the study's. Pointing to the study card as if they matched invites a sign error. Refuse.",
+   "x": "e3_z13_18_oac",
+   "y": "z3_z13_18_oac",
+   "site": "C3-H",
+   "context": {
+    "study": "results",
+    "contrast": "B_stereo",
+    "x": "e3_z13_18_oac",
+    "y": "z3_z13_18_oac",
+    "roles": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": [],
+   "measured": "OVERLAPPING"
+  },
+  {
+   "id": "wrong_contrast",
+   "cls": "L3 study mismatch",
+   "why": "Acetate vs aldehyde at C1-H handed B's contrast (Z3 vs E3): another pair. Refuse.",
+   "x": "z3_z13_18_oac",
+   "y": "z3_z13_18_al",
+   "site": "C1-H",
+   "context": {
+    "study": "results",
+    "contrast": "B_stereo",
+    "x": "z3_z13_18_oac",
+    "y": "z3_z13_18_al",
+    "roles": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": [],
+   "measured": "SEPARATED"
+  },
+  {
+   "id": "unknown_contrast",
+   "cls": "L3 study mismatch",
+   "why": "A contrast id the study does not have: refuse, never guess a tier.",
+   "x": "z3_z13_18_oac",
+   "y": "e3_z13_18_oac",
+   "site": "C3-H",
+   "context": {
+    "study": "results",
+    "contrast": "D_new",
+    "x": "z3_z13_18_oac",
+    "y": "e3_z13_18_oac",
+    "roles": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": [],
+   "measured": "OVERLAPPING"
+  },
+  {
+   "id": "study_not_results",
+   "cls": "L3 study mismatch",
+   "why": "The study given as the raw results JSON, not a StudyResults read by study.load_results (which refuses corrupt and partial files): refuse.",
+   "x": "z3_z13_18_oac",
+   "y": "e3_z13_18_oac",
+   "site": "C3-H",
+   "context": {
+    "study": "raw",
+    "contrast": "B_stereo",
+    "x": "z3_z13_18_oac",
+    "y": "e3_z13_18_oac",
+    "roles": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": [],
+   "measured": "OVERLAPPING"
+  },
+  {
+   "id": "butene_no_study",
+   "cls": "L4 no study",
+   "why": "The organic notebook's E/Z-butene card (alkene C2, 'separated'): no study on the page. Labelled a teaching comparison, naming no study.",
+   "x": "pilot:e2_butene",
+   "y": "pilot:z2_butene",
+   "site": "C2",
+   "context": null,
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "teaching comparison",
+     "grade": "MISLEADING",
+     "why": "the card says what it is"
+    },
+    {
+     "must": "not a (prespecified )?test|a look,? not a test",
+     "grade": "MISLEADING",
+     "why": "a look, not a test"
+    },
+    {
+     "must": "(the |this )?card'?s (own )?rule",
+     "grade": "MISLEADING",
+     "why": "the verdict is the card's rule's, not the study's"
+    },
+    {
+     "must_not": "\\bresolved\\b|\\bunresolved\\b|different on average",
+     "grade": "FALSE",
+     "why": "the study's outcome words belong to the study's rule and the study card"
+    },
+    {
+     "must_not": "study card|frozen study|espmap-sesiidae",
+     "grade": "MISLEADING",
+     "why": "no study here"
+    }
+   ],
+   "measured": "SEPARATED"
+  },
+  {
+   "id": "context_not_mapping",
+   "cls": "L4 no study",
+   "why": "A context that is a string: read as no context. The card renders its label and claims nothing about a study.",
+   "x": "z3_z13_18_oac",
+   "y": "z3_z13_18_al",
+   "site": "C1-H",
+   "context": "A_headgroup (control: Al vs OAc)",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "teaching comparison",
+     "grade": "MISLEADING",
+     "why": "the card says what it is"
+    },
+    {
+     "must": "not a (prespecified )?test|a look,? not a test",
+     "grade": "MISLEADING",
+     "why": "a look, not a test"
+    },
+    {
+     "must": "(the |this )?card'?s (own )?rule",
+     "grade": "MISLEADING",
+     "why": "the verdict is the card's rule's, not the study's"
+    },
+    {
+     "must_not": "\\bresolved\\b|\\bunresolved\\b|different on average",
+     "grade": "FALSE",
+     "why": "the study's outcome words belong to the study's rule and the study card"
+    },
+    {
+     "must_not": "study card|prespecified",
+     "grade": "MISLEADING",
+     "why": "no study read"
+    }
+   ],
+   "measured": "SEPARATED"
+  },
+  {
+   "id": "role_outside_vocabulary",
+   "cls": "L4 no study",
+   "why": "The aldehyde's role given as 'control-ish': outside the vocabulary. Refuse rather than drop the control label.",
+   "x": "z3_z13_18_oac",
+   "y": "z3_z13_18_al",
+   "site": "C1-H",
+   "context": {
+    "study": "results",
+    "contrast": "A_headgroup (control: Al vs OAc)",
+    "x": "z3_z13_18_oac",
+    "y": "z3_z13_18_al",
+    "roles": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "control-ish"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": [],
+   "measured": "SEPARATED"
+  }
+ ]
+}
