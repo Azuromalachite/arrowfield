@@ -33,6 +33,7 @@
     }
    },
    "bundle_patch": [],
+   "statement_patch": [],
    "outcomes": {
     "RENDERED": "SAFE",
     "REFUSED": "SAFE_REFUSAL",
@@ -99,6 +100,7 @@
     }
    },
    "bundle_patch": [],
+   "statement_patch": [],
    "outcomes": {
     "RENDERED": "SAFE",
     "REFUSED": "SAFE_REFUSAL",
@@ -159,6 +161,7 @@
     }
    },
    "bundle_patch": [],
+   "statement_patch": [],
    "outcomes": {
     "RENDERED": "SAFE",
     "REFUSED": "SAFE_REFUSAL",
@@ -207,6 +210,7 @@
     }
    },
    "bundle_patch": [],
+   "statement_patch": [],
    "outcomes": {
     "RENDERED": "SAFE",
     "REFUSED": "SAFE_REFUSAL",
@@ -267,6 +271,7 @@
     }
    },
    "bundle_patch": [],
+   "statement_patch": [],
    "outcomes": {
     "RENDERED": "SAFE",
     "REFUSED": "SAFE_REFUSAL",
@@ -315,6 +320,7 @@
     }
    },
    "bundle_patch": [],
+   "statement_patch": [],
    "outcomes": {
     "RENDERED": "SAFE",
     "REFUSED": "SAFE_REFUSAL",
@@ -393,6 +399,7 @@
     }
    },
    "bundle_patch": [],
+   "statement_patch": [],
    "outcomes": {
     "RENDERED": "SAFE",
     "REFUSED": "SAFE_REFUSAL",
@@ -447,6 +454,7 @@
     }
    },
    "bundle_patch": [],
+   "statement_patch": [],
    "outcomes": {
     "RENDERED": "SAFE",
     "REFUSED": "SAFE_REFUSAL",
@@ -494,7 +502,15 @@
      "arrowfield.control.z3_z13_18_al": "teaching_control"
     }
    },
-   "bundle_patch": [],
+   "bundle_patch": [
+    [
+     [
+      "atlas_version"
+     ],
+     "unknown"
+    ]
+   ],
+   "statement_patch": [],
    "outcomes": {
     "RENDERED": "SAFE",
     "REFUSED": "SAFE_REFUSAL",
@@ -537,6 +553,7 @@
     }
    },
    "bundle_patch": [],
+   "statement_patch": [],
    "outcomes": {
     "RENDERED": "SAFE",
     "REFUSED": "SAFE_REFUSAL",
@@ -592,6 +609,7 @@
     }
    },
    "bundle_patch": [],
+   "statement_patch": [],
    "outcomes": {
     "RENDERED": "SAFE",
     "REFUSED": "SAFE_REFUSAL",
@@ -640,6 +658,7 @@
     }
    },
    "bundle_patch": [],
+   "statement_patch": [],
    "outcomes": {
     "RENDERED": "FALSE",
     "REFUSED": "SAFE_REFUSAL",
@@ -673,6 +692,7 @@
     }
    },
    "bundle_patch": [],
+   "statement_patch": [],
    "outcomes": {
     "RENDERED": "SAFE",
     "REFUSED": "SAFE_REFUSAL",
@@ -732,6 +752,7 @@
     }
    },
    "bundle_patch": [],
+   "statement_patch": [],
    "outcomes": {
     "RENDERED": "SAFE",
     "REFUSED": "SAFE_REFUSAL",
@@ -809,6 +830,7 @@
     }
    },
    "bundle_patch": [],
+   "statement_patch": [],
    "outcomes": {
     "RENDERED": "SAFE",
     "REFUSED": "SAFE_REFUSAL",
@@ -880,6 +902,7 @@
     }
    },
    "bundle_patch": [],
+   "statement_patch": [],
    "outcomes": {
     "RENDERED": "SAFE",
     "REFUSED": "SAFE_REFUSAL",
@@ -948,6 +971,7 @@
     ]
    },
    "bundle_patch": [],
+   "statement_patch": [],
    "outcomes": {
     "RENDERED": "SAFE",
     "REFUSED": "SAFE_REFUSAL",
@@ -1004,6 +1028,7 @@
     ]
    },
    "bundle_patch": [],
+   "statement_patch": [],
    "outcomes": {
     "RENDERED": "SAFE",
     "REFUSED": "SAFE_REFUSAL",
@@ -1052,6 +1077,7 @@
     }
    },
    "bundle_patch": [],
+   "statement_patch": [],
    "outcomes": {
     "RENDERED": "SAFE",
     "REFUSED": "SAFE_REFUSAL",
@@ -1124,6 +1150,7 @@
     }
    },
    "bundle_patch": [],
+   "statement_patch": [],
    "outcomes": {
     "RENDERED": "SAFE",
     "REFUSED": "SAFE_REFUSAL",
@@ -1190,6 +1217,7 @@
     }
    },
    "bundle_patch": [],
+   "statement_patch": [],
    "outcomes": {
     "RENDERED": "SAFE",
     "REFUSED": "SAFE_REFUSAL",
@@ -1250,6 +1278,7 @@
     }
    },
    "bundle_patch": [],
+   "statement_patch": [],
    "outcomes": {
     "RENDERED": "SAFE",
     "REFUSED": "SAFE_REFUSAL",
@@ -1304,6 +1333,7 @@
     }
    },
    "bundle_patch": [],
+   "statement_patch": [],
    "outcomes": {
     "RENDERED": "SAFE",
     "REFUSED": "SAFE_REFUSAL",
@@ -1375,6 +1405,7 @@
      "no"
     ]
    ],
+   "statement_patch": [],
    "outcomes": {
     "RENDERED": "SAFE",
     "REFUSED": "SAFE_REFUSAL",
@@ -1440,6 +1471,7 @@
      "unknown"
     ]
    ],
+   "statement_patch": [],
    "outcomes": {
     "RENDERED": "SAFE",
     "REFUSED": "SAFE_REFUSAL",
@@ -1494,6 +1526,134 @@
     }
    },
    "bundle_patch": [],
+   "statement_patch": [
+    [
+     [
+      "observations",
+      "+"
+     ],
+     {
+      "components": [
+       {
+        "abundance_class": "major",
+        "atlas_id": "spa.cmpd.z3_z13_18_oac",
+        "detected": true,
+        "detection_limit": null,
+        "identification": "confirmed",
+        "measurements": [
+         {
+          "qualifier": "approximate",
+          "unit": "ng_per_female",
+          "value": 2
+         }
+        ],
+        "method": "gland_extract_gc_ead_florisil_and_gc_ms_db23_vs_four_3_13_isomers"
+       },
+       {
+        "abundance_class": null,
+        "atlas_id": "spa.cmpd.e3_z13_18_oac",
+        "detected": false,
+        "detection_limit": null,
+        "identification": null,
+        "measurements": [],
+        "method": "gland_extract_gc_ms_mass_chromatograms_db23"
+       },
+       {
+        "abundance_class": null,
+        "atlas_id": "spa.cmpd.z3_e13_18_oac",
+        "detected": false,
+        "detection_limit": null,
+        "identification": null,
+        "measurements": [],
+        "method": "gland_extract_gc_ms_mass_chromatograms_db23"
+       },
+       {
+        "abundance_class": null,
+        "atlas_id": "spa.cmpd.e3_e13_18_oac",
+        "detected": false,
+        "detection_limit": null,
+        "identification": null,
+        "measurements": [],
+        "method": "gland_extract_gc_ms_mass_chromatograms_db23"
+       },
+       {
+        "abundance_class": null,
+        "atlas_id": "spa.cmpd.e2_z13_18_oac",
+        "detected": false,
+        "detection_limit": null,
+        "identification": null,
+        "measurements": [],
+        "method": "gland_extract_gc_ms_mass_chromatograms_db23"
+       },
+       {
+        "abundance_class": null,
+        "atlas_id": "spa.cmpd.e3_z13_18_oh",
+        "detected": false,
+        "detection_limit": null,
+        "identification": null,
+        "measurements": [],
+        "method": "gland_extract_gc_ms_mass_chromatograms_db23"
+       },
+       {
+        "abundance_class": null,
+        "atlas_id": "spa.cmpd.z3_z13_18_oh",
+        "detected": false,
+        "detection_limit": null,
+        "identification": null,
+        "measurements": [],
+        "method": "gland_extract_gc_ms_mass_chromatograms_db23"
+       },
+       {
+        "abundance_class": null,
+        "atlas_id": "spa.cmpd.e2_z13_18_al",
+        "detected": false,
+        "detection_limit": null,
+        "identification": null,
+        "measurements": [],
+        "method": "gland_extract_gc_ms_mass_chromatograms_db23"
+       }
+      ],
+      "context": {
+       "behavioural_state": "calling",
+       "life_stage": "adult",
+       "locality": "Toyota City (formerly Fujioka Town), Aichi Prefecture, Japan",
+       "mating_status": "virgin",
+       "n_individuals": 9,
+       "population": "Japanese population",
+       "rearing": "field_collected_reared",
+       "sampling_unit": "individual",
+       "sex": "female"
+      },
+      "evidence": {
+       "atlas_notes": "About 20 larvae from a persimmon orchard, January 2002, reared at 25 C, 15L:9D; nine females emerged and all were extracted, 1-2 days old, calling 12-15 h after lights on. Titre 'about 2 ng/female' from five 1-female-equivalent GC-MS runs (N = 5). Geometry from retention on DB-23 (KI 2639) against all four 3,13 isomers; the authors note the EI spectra of the isomers are quite similar, and the diagnostic ions suggested the 3,13 positions. Negatives: no peaks at the retention times of the other three 3,13 acetates, E2,Z13-18:OAc, E3,Z13- and Z3,Z13-18:OH, or E2,Z13-18:Al (Fig. 2). Z2,Z13- and E2,E13-18:OAc are not recorded as negatives: their standards elute at or beside the Z3,Z13-18:OAc peak in Fig. 2a, so retention alone cannot exclude them (Atlas reading). Atlas note: Korean S. tenuis glands showed the reverse, Z3,Z13-18:OH present and Z3,Z13-18:OAc absent below about 100 pg (spa.obs.synanthedon_tenuis.yang_2012.gland).",
+       "author_statement": "The extract included only Z3,Z13-18:OAc, but no alcohols or aldehydes were detected.",
+       "author_statement_form": null,
+       "unresolved": [
+        "detection limit for the negatives",
+        "dispersion of the 2 ng titre"
+       ]
+      },
+      "experiment_id": null,
+      "materials": [
+       "gland_extract"
+      ],
+      "observation_id": "spa.obs.synanthedon_tenuis.not_in_this_bundle",
+      "observation_type": "chemical_measurement",
+      "reference": {
+       "atlas_id": "spa.ref.naka_2013",
+       "citation": "Naka H, Suzuki T, Watarai T, Horie Y, Mochizuki F, Mochizuki A, Tsuchida K, Arita Y, Ando T (2013) Identification of the sex pheromone secreted by Synanthedon tenuis (Lepidoptera: Sesiidae). Appl Entomol Zool 48:27-33.",
+       "doi": "10.1007/s13355-012-0148-0"
+      },
+      "source_location": "Results; Figs. 1-2",
+      "statement": "Synanthedon tenuis (Japanese population; Toyota City (formerly Fujioka Town), Aichi Prefecture, Japan), gland_extract: detected Z3,Z13-18:OAc [confirmed; major; 2 ng_per_female approximate]; not detected E3,Z13-18:OAc, Z3,E13-18:OAc, E3,E13-18:OAc, E2,Z13-18:OAc, E3,Z13-18:OH, Z3,Z13-18:OH, E2,Z13-18:Al",
+      "taxon": {
+       "accepted_name": "Synanthedon tenuis",
+       "atlas_id": "spa.tax.synanthedon_tenuis",
+       "name_as_reported": "Synanthedon tenuis"
+      }
+     }
+    ]
+   ],
    "outcomes": {
     "RENDERED": "FALSE",
     "REFUSED": "SAFE_REFUSAL",
@@ -1527,6 +1687,25 @@
     }
    },
    "bundle_patch": [],
+   "statement_patch": [
+    [
+     [
+      "comparisons",
+      "+"
+     ],
+     {
+      "case_label": "no such contrast",
+      "observation_ids": [
+       "spa.obs.synanthedon_tenuis.naka_2013.gland",
+       "spa.obs.synanthedon_tenuis.yang_2012.gland"
+      ],
+      "observed_contrast": {
+       "a": "Synanthedon tenuis (Japanese population; Toyota City (formerly Fujioka Town), Aichi Prefecture, Japan), gland_extract: detected Z3,Z13-18:OAc [confirmed; major; 2 ng_per_female approximate]; not detected E3,Z13-18:OAc, Z3,E13-18:OAc, E3,E13-18:OAc, E2,Z13-18:OAc, E3,Z13-18:OH, Z3,Z13-18:OH, E2,Z13-18:Al",
+       "b": "Synanthedon tenuis (Korean population; Gimhae, Republic of Korea), gland_extract: detected Z3,Z13-18:OH [major]; not detected Z3,Z13-18:OAc [limit 100 pg]"
+      }
+     }
+    ]
+   ],
    "outcomes": {
     "RENDERED": "FALSE",
     "REFUSED": "SAFE_REFUSAL",
@@ -1561,6 +1740,7 @@
     }
    },
    "bundle_patch": [],
+   "statement_patch": [],
    "outcomes": {
     "RENDERED": "FALSE",
     "REFUSED": "SAFE_REFUSAL",
@@ -1571,6 +1751,593 @@
    ],
    "prefer": "REFUSED",
    "requires": []
+  },
+  {
+   "id": "negative_names_its_method",
+   "cls": "E1 absence and negatives",
+   "component": "evidence_card",
+   "why": "A negative is bounded by its method: the card names the record's method, not just 'this method'.",
+   "inputs": {
+    "observation_id": "spa.obs.synanthedon_tenuis.yang_2012.gland",
+    "compound": "spa.cmpd.z3_z13_18_oac"
+   },
+   "context": {
+    "bundle": {
+     "atlas_version": "35112e1",
+     "sha256": "from bundle.load"
+    },
+    "roles": {
+     "spa.cmpd.z3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.z3_z13_18_oh": "atlas_observed",
+     "spa.cmpd.e3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.e2_z13_18_oac": "atlas_observed",
+     "arrowfield.control.z3_z13_18_al": "teaching_control"
+    }
+   },
+   "bundle_patch": [],
+   "statement_patch": [],
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "gland[_ ]extract[_ ]gc[_ ]ms[_ ]db5ms[_ ]and[_ ]db23[_ ]vs[_ ]standards",
+     "grade": "MISLEADING",
+     "why": "the method itself",
+     "on": "text"
+    }
+   ]
+  },
+  {
+   "id": "limit_not_stated_names_its_method",
+   "cls": "E1 absence and negatives",
+   "component": "evidence_card",
+   "why": "The same when the limit is not stated: the method is still named.",
+   "inputs": {
+    "observation_id": "spa.obs.synanthedon_tenuis.naka_2013.gland",
+    "compound": "spa.cmpd.z3_z13_18_oh"
+   },
+   "context": {
+    "bundle": {
+     "atlas_version": "35112e1",
+     "sha256": "from bundle.load"
+    },
+    "roles": {
+     "spa.cmpd.z3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.z3_z13_18_oh": "atlas_observed",
+     "spa.cmpd.e3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.e2_z13_18_oac": "atlas_observed",
+     "arrowfield.control.z3_z13_18_al": "teaching_control"
+    }
+   },
+   "bundle_patch": [],
+   "statement_patch": [],
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "gland[_ ]extract[_ ]gc[_ ]ms[_ ]mass[_ ]chromatograms[_ ]db23",
+     "grade": "MISLEADING",
+     "why": "the method itself",
+     "on": "text"
+    }
+   ]
+  },
+  {
+   "id": "effect_not_recorded",
+   "cls": "E1 absence and negatives",
+   "component": "evidence_card",
+   "why": "A record with no effect field (synthetic) does not state an effect: 'no effect recorded' reads as a tested zero effect.",
+   "inputs": {
+    "observation_id": "spa.obs.synanthedon_tenuis.naka_2013.trap_z3z13oh_added.test4_1",
+    "compound": "spa.cmpd.z3_z13_18_oh"
+   },
+   "context": {
+    "bundle": {
+     "atlas_version": "35112e1",
+     "sha256": "from bundle.load"
+    },
+    "roles": {
+     "spa.cmpd.z3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.z3_z13_18_oh": "atlas_observed",
+     "spa.cmpd.e3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.e2_z13_18_oac": "atlas_observed",
+     "arrowfield.control.z3_z13_18_al": "teaching_control"
+    }
+   },
+   "bundle_patch": [
+    [
+     [
+      "observations",
+      2,
+      "outcome",
+      "effect"
+     ],
+     null
+    ]
+   ],
+   "statement_patch": [],
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "effect not recorded|does not state an effect",
+     "grade": "MISLEADING",
+     "why": "said as missing",
+     "on": "text"
+    },
+    {
+     "must_not": "no effect",
+     "grade": "MISLEADING",
+     "why": "never a tested zero",
+     "on": "text"
+    },
+    {
+     "must_not": "inactive|does not (make|produce|attract)|not (made|produced)|absent from|repel|inhibitor|antagonist",
+     "grade": "FALSE",
+     "why": "an evidence view reports what was measured, never a role the record does not state",
+     "on": "text"
+    }
+   ]
+  },
+  {
+   "id": "atlas_compound_labelled_control",
+   "cls": "E3 roles",
+   "component": "class_panel",
+   "why": "The caller's roles call an Atlas compound a teaching_control: the bundle carries it, so the roles are wrong. Saying 'not an Atlas compound' would erase its evidence: refuse the inconsistent input.",
+   "inputs": {
+    "compound": "spa.cmpd.z3_z13_18_oac",
+    "taxon_id": "spa.tax.synanthedon_tenuis"
+   },
+   "context": {
+    "bundle": {
+     "atlas_version": "35112e1",
+     "sha256": "from bundle.load"
+    },
+    "roles": {
+     "spa.cmpd.z3_z13_18_oac": "teaching_control",
+     "spa.cmpd.z3_z13_18_oh": "atlas_observed",
+     "spa.cmpd.e3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.e2_z13_18_oac": "atlas_observed",
+     "arrowfield.control.z3_z13_18_al": "teaching_control"
+    }
+   },
+   "bundle_patch": [],
+   "statement_patch": [],
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "atlas_compound_labelled_counterfactual",
+   "cls": "E3 roles",
+   "component": "class_panel",
+   "why": "The caller's roles call an Atlas compound a computational_counterfactual: the bundle carries it, so the roles are wrong. Saying 'not an Atlas compound' would erase its evidence: refuse the inconsistent input.",
+   "inputs": {
+    "compound": "spa.cmpd.e3_z13_18_oac",
+    "taxon_id": "spa.tax.synanthedon_tipuliformis"
+   },
+   "context": {
+    "bundle": {
+     "atlas_version": "35112e1",
+     "sha256": "from bundle.load"
+    },
+    "roles": {
+     "spa.cmpd.z3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.z3_z13_18_oh": "atlas_observed",
+     "spa.cmpd.e3_z13_18_oac": "computational_counterfactual",
+     "spa.cmpd.e2_z13_18_oac": "atlas_observed",
+     "arrowfield.control.z3_z13_18_al": "teaching_control"
+    }
+   },
+   "bundle_patch": [],
+   "statement_patch": [],
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "altered_statement_same_id",
+   "cls": "E8 bound to the bundle",
+   "component": "evidence_card",
+   "why": "A statement carrying a real observation id with altered text is not the Atlas's: shown, it puts words in the Atlas's mouth.",
+   "inputs": {
+    "observation_id": "spa.obs.synanthedon_tenuis.naka_2013.gland",
+    "compound": "spa.cmpd.z3_z13_18_oac"
+   },
+   "context": {
+    "bundle": {
+     "atlas_version": "35112e1",
+     "sha256": "from bundle.load"
+    },
+    "roles": {
+     "spa.cmpd.z3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.z3_z13_18_oh": "atlas_observed",
+     "spa.cmpd.e3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.e2_z13_18_oac": "atlas_observed",
+     "arrowfield.control.z3_z13_18_al": "teaching_control"
+    }
+   },
+   "bundle_patch": [],
+   "statement_patch": [
+    [
+     [
+      "observations",
+      0,
+      "statement"
+     ],
+     "Z3,Z13-18:OAc is the sex pheromone of Synanthedon tenuis."
+    ]
+   ],
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "altered_negative_same_id",
+   "cls": "E8 bound to the bundle",
+   "component": "evidence_card",
+   "why": "The same id with the detection limit changed from 100 pg to 1 pg: a stronger negative than the record's.",
+   "inputs": {
+    "observation_id": "spa.obs.synanthedon_tenuis.yang_2012.gland",
+    "compound": "spa.cmpd.z3_z13_18_oac"
+   },
+   "context": {
+    "bundle": {
+     "atlas_version": "35112e1",
+     "sha256": "from bundle.load"
+    },
+    "roles": {
+     "spa.cmpd.z3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.z3_z13_18_oh": "atlas_observed",
+     "spa.cmpd.e3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.e2_z13_18_oac": "atlas_observed",
+     "arrowfield.control.z3_z13_18_al": "teaching_control"
+    }
+   },
+   "bundle_patch": [],
+   "statement_patch": [
+    [
+     [
+      "observations",
+      1,
+      "components",
+      1,
+      "detection_limit"
+     ],
+     {
+      "unit": "picogram",
+      "value": 1
+     }
+    ]
+   ],
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "altered_contrast_statement",
+   "cls": "E8 bound to the bundle",
+   "component": "contrast_card",
+   "why": "The right contrast and ids, but the Korean gland statement altered: refuse.",
+   "inputs": {
+    "contrast_label": "S. tenuis gland, Japan and Korea"
+   },
+   "context": {
+    "bundle": {
+     "atlas_version": "35112e1",
+     "sha256": "from bundle.load"
+    },
+    "roles": {
+     "spa.cmpd.z3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.z3_z13_18_oh": "atlas_observed",
+     "spa.cmpd.e3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.e2_z13_18_oac": "atlas_observed",
+     "arrowfield.control.z3_z13_18_al": "teaching_control"
+    }
+   },
+   "bundle_patch": [],
+   "statement_patch": [
+    [
+     [
+      "observations",
+      1,
+      "statement"
+     ],
+     "Korean females make the same blend as Japanese ones."
+    ]
+   ],
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "altered_contrast_text",
+   "cls": "E8 bound to the bundle",
+   "component": "contrast_card",
+   "why": "The contrast's own observed text altered under its real label and ids: not the bundle's contrast.",
+   "inputs": {
+    "contrast_label": "S. tenuis gland, Japan and Korea"
+   },
+   "context": {
+    "bundle": {
+     "atlas_version": "35112e1",
+     "sha256": "from bundle.load"
+    },
+    "roles": {
+     "spa.cmpd.z3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.z3_z13_18_oh": "atlas_observed",
+     "spa.cmpd.e3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.e2_z13_18_oac": "atlas_observed",
+     "arrowfield.control.z3_z13_18_al": "teaching_control"
+    }
+   },
+   "bundle_patch": [],
+   "statement_patch": [
+    [
+     [
+      "comparisons",
+      0,
+      "observed_contrast",
+      "a"
+     ],
+     "Both populations use Z3,Z13-18:OAc."
+    ]
+   ],
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "context_version_disagrees",
+   "cls": "E9 provenance from the bundle",
+   "component": "evidence_card",
+   "why": "The page's context says Atlas 30c4a11 (the fixture's old, false label) for a bundle built at another commit: one of them is wrong, so show neither.",
+   "inputs": {
+    "observation_id": "spa.obs.synanthedon_tenuis.naka_2013.gland",
+    "compound": "spa.cmpd.z3_z13_18_oac"
+   },
+   "context": {
+    "bundle": {
+     "atlas_version": "30c4a11",
+     "sha256": "from bundle.load"
+    },
+    "roles": {
+     "spa.cmpd.z3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.z3_z13_18_oh": "atlas_observed",
+     "spa.cmpd.e3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.e2_z13_18_oac": "atlas_observed",
+     "arrowfield.control.z3_z13_18_al": "teaching_control"
+    }
+   },
+   "bundle_patch": [],
+   "statement_patch": [],
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "context_version_disagrees_contrast",
+   "cls": "E9 provenance from the bundle",
+   "component": "contrast_card",
+   "why": "The same disagreement on the contrast card.",
+   "inputs": {
+    "contrast_label": "S. tenuis gland, Japan and Korea"
+   },
+   "context": {
+    "bundle": {
+     "atlas_version": "30c4a11",
+     "sha256": "from bundle.load"
+    },
+    "roles": {
+     "spa.cmpd.z3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.z3_z13_18_oh": "atlas_observed",
+     "spa.cmpd.e3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.e2_z13_18_oac": "atlas_observed",
+     "arrowfield.control.z3_z13_18_al": "teaching_control"
+    }
+   },
+   "bundle_patch": [],
+   "statement_patch": [],
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "context_sha_disagrees",
+   "cls": "E9 provenance from the bundle",
+   "component": "class_panel",
+   "why": "The context names a bundle file hash that is not this bundle's: a stale page.",
+   "inputs": {
+    "compound": "spa.cmpd.z3_z13_18_oac",
+    "taxon_id": "spa.tax.synanthedon_tenuis"
+   },
+   "context": {
+    "bundle": {
+     "atlas_version": "35112e1",
+     "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "roles": {
+     "spa.cmpd.z3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.z3_z13_18_oh": "atlas_observed",
+     "spa.cmpd.e3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.e2_z13_18_oac": "atlas_observed",
+     "arrowfield.control.z3_z13_18_al": "teaching_control"
+    }
+   },
+   "bundle_patch": [],
+   "statement_patch": [],
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "context_provenance_absent",
+   "cls": "E9 provenance from the bundle",
+   "component": "evidence_card",
+   "why": "No provenance in the context: the bundle names its commit, and the card shows that one.",
+   "inputs": {
+    "observation_id": "spa.obs.synanthedon_tenuis.naka_2013.gland",
+    "compound": "spa.cmpd.z3_z13_18_oac"
+   },
+   "context": {
+    "roles": {
+     "spa.cmpd.z3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.z3_z13_18_oh": "atlas_observed",
+     "spa.cmpd.e3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.e2_z13_18_oac": "atlas_observed",
+     "arrowfield.control.z3_z13_18_al": "teaching_control"
+    }
+   },
+   "bundle_patch": [],
+   "statement_patch": [],
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "atlas commit 35112e1",
+     "grade": "MISLEADING",
+     "why": "the bundle's commit",
+     "on": "text"
+    }
+   ]
+  },
+  {
+   "id": "full_commit_in_context_agrees",
+   "cls": "E9 provenance from the bundle",
+   "component": "class_panel",
+   "why": "The context gives the full hash of the bundle's commit: that agrees, so the panel renders.",
+   "inputs": {
+    "compound": "spa.cmpd.z3_z13_18_oac",
+    "taxon_id": "spa.tax.synanthedon_tenuis"
+   },
+   "context": {
+    "bundle": {
+     "atlas_version": "35112e1bc6ecd89525b74cc5c39a77cdbf87018f",
+     "sha256": "from bundle.load"
+    },
+    "roles": {
+     "spa.cmpd.z3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.z3_z13_18_oh": "atlas_observed",
+     "spa.cmpd.e3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.e2_z13_18_oac": "atlas_observed",
+     "arrowfield.control.z3_z13_18_al": "teaching_control"
+    }
+   },
+   "bundle_patch": [],
+   "statement_patch": [],
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "atlas commit 35112e1",
+     "grade": "MISLEADING",
+     "why": "the bundle's commit",
+     "on": "text"
+    }
+   ]
   }
  ]
 }

@@ -412,12 +412,25 @@ EV = [
      "A resolved ESP difference shown next to a species-specific response must not be joined to it "
      "by 'because', 'explains' or an arrow: nothing here tests the link."),
 ]
+# Retired (not edited) by the evidence views' PR: these abstract cases were
+# re-expressed against the real bundle in tests/pedagogy/evidence_card_set.json
+# (#12), which the built views are tested against. Each names the cases there
+# that replace it.
+REPLACED_BY = {
+    "not_tested_is_not_negative": ["compound_not_in_observation"],
+    "no_effect_significant_test": ["no_effect_not_significant"],
+    "effect_not_reported": ["no_effect_significance_not_reported"],
+    "two_studies_disagree": ["opposite_effects_two_places", "increase_and_decrease_both_kept"],
+    "teaching_control_not_observed": ["teaching_control_classes", "teaching_control_in_observation"],
+    "counterfactual_labelled": ["counterfactual_classes"],
+    "assay_contexts_kept_apart": ["gland_vs_lure"],
+    "populations_kept_apart": ["glands_two_populations", "population_specific_roles"],
+    "difference_not_specificity": ["study_verdict_on_the_same_page", "study_verdict_beside_classes"],
+}
 for eid, cls, inp, outc, pref, why in EV:
-    # Retired (not edited) by the evidence views' PR: these abstract cases were
-    # re-expressed against the real bundle in tests/pedagogy/evidence_card_set.json
-    # (#12), which the built views are tested against.
     case(eid, cls, "evidence_card", why, outcomes=outc, prefer=pref,
-         extra={"input": inp, "superseded_by": "tests/pedagogy/evidence_card_set.json"})
+         extra={"input": inp, "superseded_by": [f"tests/pedagogy/evidence_card_set.json#{r}"
+                                                for r in REPLACED_BY[eid]]})
 
 # ------------------------------------------------ C: pictures (component to come)
 for eid, why in [

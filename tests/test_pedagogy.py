@@ -167,11 +167,12 @@ def test_component_to_come(c):
 
 def test_superseded_cases_point_at_their_replacement():
     """The abstract evidence cases (B1-B5) are retired, not edited: each names
-    the set that replaced it, and that set exists and covers the evidence card."""
+    the cases that replaced it (file#case_id), and every one of them exists."""
     sup = [c for c in CASES if c.get("superseded_by")]
     assert len(sup) == 9 and all(c["component"] == "evidence_card" for c in sup)
     for c in sup:
-        target = HERE / c["superseded_by"]
-        assert target.is_file()
-        comps = {x["component"] for x in json.loads(target.read_text(encoding="utf-8"))["cases"]}
-        assert "evidence_card" in comps
+        assert c["superseded_by"], c["id"]
+        for ref in c["superseded_by"]:
+            path, _, case_id = ref.partition("#")
+            ids = {x["id"] for x in json.loads((HERE / path).read_text(encoding="utf-8"))["cases"]}
+            assert case_id in ids, (c["id"], ref)

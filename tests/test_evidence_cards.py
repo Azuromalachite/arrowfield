@@ -8,8 +8,14 @@ case that misdescribes its record would test the wrong thing).
 When views.evidence_card_html, contrast_card_html and evidence_class_panel_html
 exist: every output is safe and preferred, and every requirement holds.
 Until then those tests skip. The views' PR may add strict-xfail lists here,
-never edit an expectation. These cases supersede hostile_set.json's B1-B5,
-which stay there (skipped) until the views PR retires them.
+never edit an expectation. These cases supersede hostile_set.json's B1-B5.
+
+The view is handed what the case builds: the bundle's own statement and
+contrast, or, with `statement_patch`, ones built from a patched copy while
+the view gets the unpatched bundle (E7, E8). The harness never refuses on
+the view's behalf. XFAIL lists the (test, case) pairs the views did not yet
+meet when the trust-boundary cases were added; it only shrinks, and a pair
+that starts passing fails the run until it is removed.
 """
 import copy
 import json
@@ -48,7 +54,7 @@ def test_allowed_is_exactly_the_safe_outputs(c):
 
 def test_every_class_has_two_or_more_variants():
     per = Counter(c["cls"].split()[0] for c in CASES)
-    assert sorted(per) == [f"E{i}" for i in range(1, 8)] and min(per.values()) >= 2, per
+    assert sorted(per) == [f"E{i}" for i in range(1, 10)] and min(per.values()) >= 2, per
 
 
 # --- the facts the cases rest on, checked against the committed bundle --------------------
@@ -101,39 +107,81 @@ def _view(component):
     return getattr(views, name)
 
 
-def _bundle(c, tmp_path):
-    if not c["bundle_patch"]:
-        return load(BUNDLE)
-    raw = copy.deepcopy(RAW)
-    for path, value in c["bundle_patch"]:
+def _patched(raw, patch, path_):
+    raw = copy.deepcopy(raw)
+    for path, value in patch:
         node = raw
         for key in path[:-1]:
             node = node[key]
-        node[path[-1]] = value
-    p = tmp_path / "patched.json"
-    p.write_text(json.dumps(raw), encoding="utf-8")
-    return load(p)
+        if path[-1] == "+":
+            node.append(value)
+        else:
+            node[path[-1]] = value
+    path_.write_text(json.dumps(raw), encoding="utf-8")
+    return load(path_), raw
+
+
+def _bundle(c, tmp_path):
+    if not c["bundle_patch"]:
+        return load(BUNDLE), RAW
+    return _patched(RAW, c["bundle_patch"], tmp_path / "patched.json")
+
+
+XFAIL = {
+    "test_view_output_is_safe[observation_not_in_bundle]",
+    "test_view_output_is_safe[contrast_not_in_bundle]",
+    "test_view_output_is_safe[atlas_compound_labelled_control]",
+    "test_view_output_is_safe[atlas_compound_labelled_counterfactual]",
+    "test_view_output_is_safe[altered_statement_same_id]",
+    "test_view_output_is_safe[altered_negative_same_id]",
+    "test_view_output_is_safe[altered_contrast_statement]",
+    "test_view_output_is_safe[altered_contrast_text]",
+    "test_view_output_is_safe[context_version_disagrees]",
+    "test_view_output_is_safe[context_version_disagrees_contrast]",
+    "test_view_output_is_safe[context_sha_disagrees]",
+    "test_view_output_is_preferred[observation_not_in_bundle]",
+    "test_view_output_is_preferred[contrast_not_in_bundle]",
+    "test_view_output_is_preferred[atlas_compound_labelled_control]",
+    "test_view_output_is_preferred[atlas_compound_labelled_counterfactual]",
+    "test_view_output_is_preferred[altered_statement_same_id]",
+    "test_view_output_is_preferred[altered_negative_same_id]",
+    "test_view_output_is_preferred[altered_contrast_statement]",
+    "test_view_output_is_preferred[altered_contrast_text]",
+    "test_view_output_is_preferred[context_version_disagrees]",
+    "test_view_output_is_preferred[context_version_disagrees_contrast]",
+    "test_view_output_is_preferred[context_sha_disagrees]",
+    "test_a_rendered_view_meets_its_requirements[negative_names_its_method-0]",
+    "test_a_rendered_view_meets_its_requirements[limit_not_stated_names_its_method-0]",
+    "test_a_rendered_view_meets_its_requirements[effect_not_recorded-0]",
+    "test_a_rendered_view_meets_its_requirements[effect_not_recorded-1]",
+    "test_a_rendered_view_meets_its_requirements[context_provenance_absent-0]",
+}
+
+
+def _xfail(request, c):
+    if f"{request.function.__name__}[{c['id']}]" in XFAIL:
+        request.applymarker(pytest.mark.xfail(strict=True, reason="trust-boundary case not yet met"))
 
 
 def _run(c, tmp_path):
     view = _view(c["component"])
     from model import Refused
-    b = _bundle(c, tmp_path)
+    b, raw = _bundle(c, tmp_path)
+    src = _patched(raw, c["statement_patch"], tmp_path / "inputs.json")[0] if c["statement_patch"] else b
     ctx = dict(c["context"], bundle_object=b)
+    if isinstance(ctx.get("bundle"), dict) and ctx["bundle"].get("sha256") == "from bundle.load":
+        ctx["bundle"] = dict(ctx["bundle"], sha256=b.sha256)
     i = c["inputs"]
+    # an input the case cannot build is the case's error, not a refusal
+    if c["component"] == "evidence_card":
+        args = (src.observations[i["observation_id"]], i["compound"], ctx)
+    elif c["component"] == "contrast_card":
+        k = next(k for k in src.contrasts if k.label == i["contrast_label"])
+        args = (k, [src.observations[o] for o in k.observation_ids], ctx)
+    else:
+        args = (i["compound"], i["taxon_id"], ctx)
     try:
-        if c["component"] == "evidence_card":
-            st = b.observations.get(i["observation_id"])
-            if st is None:
-                raise Refused(f"{i['observation_id']} is not in the bundle")
-            page = view(st, i["compound"], ctx)
-        elif c["component"] == "contrast_card":
-            k = next((k for k in b.contrasts if k.label == i["contrast_label"]), None)
-            if k is None:
-                raise Refused(f"{i['contrast_label']!r} is not in the bundle")
-            page = view(k, [b.observations[o] for o in k.observation_ids], ctx)
-        else:
-            page = view(i["compound"], i["taxon_id"], ctx)
+        page = view(*args)
     except Refused:
         return "REFUSED", None
     except Exception:  # noqa: BLE001 - any other error is a crash, graded as such
@@ -142,13 +190,15 @@ def _run(c, tmp_path):
 
 
 @pytest.mark.parametrize("c", CASES, ids=[c["id"] for c in CASES])
-def test_view_output_is_safe(c, tmp_path):
+def test_view_output_is_safe(c, tmp_path, request):
+    _xfail(request, c)
     out, _ = _run(c, tmp_path)
     assert out in c["allowed"], f"{out}: {c['outcomes'][out]}"
 
 
 @pytest.mark.parametrize("c", [c for c in CASES if c["prefer"]], ids=lambda c: c["id"])
-def test_view_output_is_preferred(c, tmp_path):
+def test_view_output_is_preferred(c, tmp_path, request):
+    _xfail(request, c)
     assert _run(c, tmp_path)[0] == c["prefer"]
 
 
@@ -156,7 +206,9 @@ REQ = [(c, i) for c in CASES for i in range(len(c["requires"]))]
 
 
 @pytest.mark.parametrize("c,i", REQ, ids=[f"{c['id']}-{i}" for c, i in REQ])
-def test_a_rendered_view_meets_its_requirements(c, i, tmp_path):
+def test_a_rendered_view_meets_its_requirements(c, i, tmp_path, request):
+    if f"test_a_rendered_view_meets_its_requirements[{c['id']}-{i}]" in XFAIL:
+        request.applymarker(pytest.mark.xfail(strict=True, reason="trust-boundary case not yet met"))
     out, page = _run(c, tmp_path)
     if out != "RENDERED":
         return

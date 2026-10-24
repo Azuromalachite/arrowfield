@@ -22,7 +22,16 @@ model.Refused when they cannot show the evidence faithfully:
 
 context: {"bundle": {"atlas_version", "sha256"}, "roles": {compound id:
 atlas_observed | teaching_control | computational_counterfactual},
-optional "study_rows": study verdicts the page also shows}.
+optional "study_rows": study verdicts the page also shows}. "sha256":
+"from bundle.load" stands for the loaded bundle's own hash, which the
+harness fills in (the file's bytes differ with line endings).
+
+The bundle object is the authority (E8, E9): a statement, a contrast or a
+provenance claim that is not the bundle's own is refused, never shown as
+Atlas evidence. `statement_patch` (path, value) builds the inputs the view
+is handed from a patched copy of the bundle, while the view is given the
+unpatched bundle: the same id with altered content. A path ending in "+"
+appends.
 
 Grades as in the other sets (SAFE, SAFE_REFUSAL, CRASH, MISLEADING, FALSE);
 `allowed` is exactly the safe outputs; a rendered view must meet every
@@ -33,6 +42,7 @@ method, sample and population only; absence of a class row is not evidence
 of absence; female_pheromone_component is the Atlas's join of two lines of
 evidence, not an identification, and its population_match must be read.
 """
+import copy
 import json
 import re
 from pathlib import Path
@@ -57,13 +67,14 @@ def ctx(**kw):
     return c
 
 
-def case(id, cls, component, why, inputs, outcomes, prefer, requires=(), context=None, patch=()):
+def case(id, cls, component, why, inputs, outcomes, prefer, requires=(), context=None, patch=(), spatch=()):
     outcomes = dict(outcomes)
     outcomes.setdefault("ERROR", "CRASH")
     allowed = sorted(k for k, g in outcomes.items() if g in ("SAFE", "SAFE_REFUSAL"))
     assert prefer is None or prefer in allowed, id
     CASES.append(dict(id=id, cls=cls, component=component, why=why, inputs=inputs,
                       context=context if context is not None else ctx(), bundle_patch=[list(p) for p in patch],
+                      statement_patch=[list(p) for p in spatch],
                       outcomes=outcomes, allowed=allowed, prefer=prefer, requires=list(requires)))
 
 
@@ -141,11 +152,14 @@ ev("unresolved_items_shown", "E2 provenance", "synanthedon_tenuis.naka_2013.glan
    "The record lists what it could not resolve (the detection limit for the negatives): the card shows it.",
    [must(r"unresolved", "MISLEADING", "labelled"), must(r"detection limit for the negatives", "MISLEADING",
                                                         "the item itself")])
+# Re-expressed in the trust-boundary commit: the bundle, not the caller's
+# context, names the commit (E9), so "missing" is now a bundle whose
+# atlas_version is not a commit. The context-absent case is E9's.
 ev("atlas_version_missing", "E2 provenance", "synanthedon_tenuis.naka_2013.gland", OAC,
    "Without the Atlas commit the card cannot be traced: a visible warning, or refusal.",
    [must(r"provenance (incomplete|missing)|atlas (version|commit) (not recorded|missing|unknown)",
          "MISLEADING", "a visible warning")],
-   context=ctx(bundle={"atlas_version": None, "sha256": None}))
+   context=ctx(bundle={"atlas_version": None, "sha256": None}), patch=[(["atlas_version"], "unknown")])
 
 # --- E3 roles: constructed molecules never become observed --------------------------------------
 case("teaching_control_classes", "E3 roles", "class_panel",
@@ -255,14 +269,102 @@ for vid, val, req in (("no", "no", r"population match:? ?no"), ("unknown", "unkn
        patch=[(["compounds", idx, "evidence_classes", jdx, "population_match"], val)])
 
 # --- E7 what cannot be shown --------------------------------------------------------------
+def oi(oid):
+    return next(i for i, o in enumerate(RAW["observations"]) if o["observation_id"] == P + oid)
+
+
+def ci(oid, comp):
+    return next(j for j, x in enumerate(RAW["observations"][oi(oid)]["components"]) if x["atlas_id"] == comp)
+
+
+# Since the trust-boundary commit the view itself is handed these (a
+# fabricated statement or contrast, built by statement_patch), so the
+# refusal is the view's, not the harness's.
+fake_obs = dict(copy.deepcopy(RAW["observations"][oi("synanthedon_tenuis.naka_2013.gland")]),
+                observation_id=P + "synanthedon_tenuis.not_in_this_bundle")
 ev("observation_not_in_bundle", "E7 refusals", "synanthedon_tenuis.not_in_this_bundle", OAC,
-   "An observation id the bundle does not carry: refuse, never guess.", [], outcomes=REFUSE, prefer="REFUSED")
+   "An observation id the bundle does not carry: refuse, never guess.", [], outcomes=REFUSE, prefer="REFUSED",
+   spatch=[(["observations", "+"], fake_obs)])
 case("contrast_not_in_bundle", "E7 refusals", "contrast_card",
      "A contrast label the bundle does not carry: refuse.", {"contrast_label": "no such contrast"},
-     REFUSE, "REFUSED")
+     REFUSE, "REFUSED",
+     spatch=[(["comparisons", "+"], dict(copy.deepcopy(RAW["comparisons"][0]), case_label="no such contrast"))])
 case("class_panel_unknown_compound", "E7 refusals", "class_panel",
      "A compound neither in the bundle nor given a role: refuse.",
      {"compound": "spa.cmpd.not_here", "taxon_id": TENUIS}, REFUSE, "REFUSED")
+
+# --- trust boundary (review of #13, at 64082a4): cases added before the views change ---------
+# E1: the wording of a missing effect, and the method a negative is bounded by
+def method_pat(oid, comp):
+    m = RAW["observations"][oi(oid)]["components"][ci(oid, comp)]["method"]
+    return re.escape(m).replace("_", "[_ ]")
+
+
+ev("negative_names_its_method", "E1 absence and negatives", "synanthedon_tenuis.yang_2012.gland", OAC,
+   "A negative is bounded by its method: the card names the record's method, not just 'this method'.",
+   [must(method_pat("synanthedon_tenuis.yang_2012.gland", OAC), "MISLEADING", "the method itself")])
+ev("limit_not_stated_names_its_method", "E1 absence and negatives", "synanthedon_tenuis.naka_2013.gland", OH,
+   "The same when the limit is not stated: the method is still named.",
+   [must(method_pat("synanthedon_tenuis.naka_2013.gland", OH), "MISLEADING", "the method itself")])
+ev("effect_not_recorded", "E1 absence and negatives", "synanthedon_tenuis.naka_2013.trap_z3z13oh_added.test4_1", OH,
+   "A record with no effect field (synthetic) does not state an effect: 'no effect recorded' reads as a "
+   "tested zero effect.",
+   [must(r"effect not recorded|does not state an effect", "MISLEADING", "said as missing"),
+    must_not(r"no effect", "MISLEADING", "never a tested zero"), NO_OVERREACH],
+   patch=[(["observations", oi("synanthedon_tenuis.naka_2013.trap_z3z13oh_added.test4_1"), "outcome", "effect"],
+           None)])
+
+# E3: bundle membership wins over a caller's role
+for vid, comp, tax, role in (("control", OAC, TENUIS, "teaching_control"),
+                             ("counterfactual", E3, TIPU, "computational_counterfactual")):
+    case(f"atlas_compound_labelled_{vid}", "E3 roles", "class_panel",
+         f"The caller's roles call an Atlas compound a {role}: the bundle carries it, so the roles are wrong. "
+         "Saying 'not an Atlas compound' would erase its evidence: refuse the inconsistent input.",
+         {"compound": comp, "taxon_id": tax}, REFUSE, "REFUSED", context=ctx(roles=dict(ROLES, **{comp: role})))
+
+# E8: the statement and contrast shown are the bundle's own
+GLAND_N, GLAND_Y = "synanthedon_tenuis.naka_2013.gland", "synanthedon_tenuis.yang_2012.gland"
+ev("altered_statement_same_id", "E8 bound to the bundle", GLAND_N, OAC,
+   "A statement carrying a real observation id with altered text is not the Atlas's: shown, it puts words "
+   "in the Atlas's mouth.", [], outcomes=REFUSE, prefer="REFUSED",
+   spatch=[(["observations", oi(GLAND_N), "statement"], "Z3,Z13-18:OAc is the sex pheromone of Synanthedon tenuis.")])
+ev("altered_negative_same_id", "E8 bound to the bundle", GLAND_Y, OAC,
+   "The same id with the detection limit changed from 100 pg to 1 pg: a stronger negative than the record's.",
+   [], outcomes=REFUSE, prefer="REFUSED",
+   spatch=[(["observations", oi(GLAND_Y), "components", ci(GLAND_Y, OAC), "detection_limit"],
+            {"unit": "picogram", "value": 1})])
+case("altered_contrast_statement", "E8 bound to the bundle", "contrast_card",
+     "The right contrast and ids, but the Korean gland statement altered: refuse.",
+     {"contrast_label": "S. tenuis gland, Japan and Korea"}, REFUSE, "REFUSED",
+     spatch=[(["observations", oi(GLAND_Y), "statement"], "Korean females make the same blend as Japanese ones.")])
+case("altered_contrast_text", "E8 bound to the bundle", "contrast_card",
+     "The contrast's own observed text altered under its real label and ids: not the bundle's contrast.",
+     {"contrast_label": "S. tenuis gland, Japan and Korea"}, REFUSE, "REFUSED",
+     spatch=[(["comparisons", 0, "observed_contrast", "a"], "Both populations use Z3,Z13-18:OAc.")])
+
+# E9: provenance is the bundle's; a caller's claim that disagrees is refused
+FULL = "35112e1bc6ecd89525b74cc5c39a77cdbf87018f"
+assert FULL.startswith(RAW["atlas_version"]), "update FULL with the fixture's commit"
+ev("context_version_disagrees", "E9 provenance from the bundle", GLAND_N, OAC,
+   "The page's context says Atlas 30c4a11 (the fixture's old, false label) for a bundle built at another "
+   "commit: one of them is wrong, so show neither.",
+   [], outcomes=REFUSE, prefer="REFUSED", context=ctx(bundle={"atlas_version": "30c4a11", "sha256": "from bundle.load"}))
+case("context_version_disagrees_contrast", "E9 provenance from the bundle", "contrast_card",
+     "The same disagreement on the contrast card.", {"contrast_label": "S. tenuis gland, Japan and Korea"},
+     REFUSE, "REFUSED", context=ctx(bundle={"atlas_version": "30c4a11", "sha256": "from bundle.load"}))
+case("context_sha_disagrees", "E9 provenance from the bundle", "class_panel",
+     "The context names a bundle file hash that is not this bundle's: a stale page.",
+     {"compound": OAC, "taxon_id": TENUIS}, REFUSE, "REFUSED",
+     context=ctx(bundle={"atlas_version": RAW["atlas_version"], "sha256": "0" * 64}))
+ev("context_provenance_absent", "E9 provenance from the bundle", GLAND_N, OAC,
+   "No provenance in the context: the bundle names its commit, and the card shows that one.",
+   [must(r"atlas commit " + re.escape(RAW["atlas_version"]), "MISLEADING", "the bundle's commit")],
+   context={"roles": dict(ROLES)})
+case("full_commit_in_context_agrees", "E9 provenance from the bundle", "class_panel",
+     "The context gives the full hash of the bundle's commit: that agrees, so the panel renders.",
+     {"compound": OAC, "taxon_id": TENUIS}, SHOW, "RENDERED",
+     [must(r"atlas commit " + re.escape(RAW["atlas_version"]), "MISLEADING", "the bundle's commit")],
+     context=ctx(bundle={"atlas_version": FULL, "sha256": "from bundle.load"}))
 
 
 def document():
