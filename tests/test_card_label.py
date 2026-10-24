@@ -32,63 +32,9 @@ SITES = json.loads((HERE / "tests" / "data" / "card_label_sites.json").read_text
 RESULTS = HERE / "tests" / "data" / "espmap-sesiidae-001.results.json"
 
 # --- what the card gets wrong today (measured on the committed card) --------------------
-# card_html takes no context: no label, no study pointer, no control or no-row note, and it
-# cannot refuse a mismatched study. Each entry is "test[case]" or "test[case-i]".
-XFAIL = {
-    "test_card_output_is_safe[reversed_order]",
-    "test_card_output_is_safe[wrong_contrast]",
-    "test_card_output_is_safe[unknown_contrast]",
-    "test_card_output_is_safe[study_not_results]",
-    "test_card_output_is_safe[role_outside_vocabulary]",
-    "test_card_output_is_preferred[reversed_order]",
-    "test_card_output_is_preferred[wrong_contrast]",
-    "test_card_output_is_preferred[unknown_contrast]",
-    "test_card_output_is_preferred[study_not_results]",
-    "test_card_output_is_preferred[role_outside_vocabulary]",
-    "test_a_rendered_card_meets_its_requirements[control_c1_separated-0]",
-    "test_a_rendered_card_meets_its_requirements[control_c1_separated-1]",
-    "test_a_rendered_card_meets_its_requirements[control_c1_separated-2]",
-    "test_a_rendered_card_meets_its_requirements[control_c1_separated-4]",
-    "test_a_rendered_card_meets_its_requirements[control_c1_separated-5]",
-    "test_a_rendered_card_meets_its_requirements[control_c1_separated-6]",
-    "test_a_rendered_card_meets_its_requirements[control_c2_separated-0]",
-    "test_a_rendered_card_meets_its_requirements[control_c2_separated-1]",
-    "test_a_rendered_card_meets_its_requirements[control_c2_separated-2]",
-    "test_a_rendered_card_meets_its_requirements[control_c2_separated-4]",
-    "test_a_rendered_card_meets_its_requirements[control_c2_separated-5]",
-    "test_a_rendered_card_meets_its_requirements[control_c2_separated-6]",
-    "test_a_rendered_card_meets_its_requirements[chain_no_row-0]",
-    "test_a_rendered_card_meets_its_requirements[chain_no_row-1]",
-    "test_a_rendered_card_meets_its_requirements[chain_no_row-2]",
-    "test_a_rendered_card_meets_its_requirements[chain_no_row-4]",
-    "test_a_rendered_card_meets_its_requirements[b_c3_primary_vocabulary-0]",
-    "test_a_rendered_card_meets_its_requirements[b_c3_primary_vocabulary-1]",
-    "test_a_rendered_card_meets_its_requirements[b_c3_primary_vocabulary-2]",
-    "test_a_rendered_card_meets_its_requirements[b_c3_primary_vocabulary-4]",
-    "test_a_rendered_card_meets_its_requirements[b_c3_primary_vocabulary-5]",
-    "test_a_rendered_card_meets_its_requirements[b_c3_primary_vocabulary-6]",
-    "test_a_rendered_card_meets_its_requirements[c_c4_primary_agrees-0]",
-    "test_a_rendered_card_meets_its_requirements[c_c4_primary_agrees-1]",
-    "test_a_rendered_card_meets_its_requirements[c_c4_primary_agrees-2]",
-    "test_a_rendered_card_meets_its_requirements[c_c4_primary_agrees-4]",
-    "test_a_rendered_card_meets_its_requirements[c_c4_primary_agrees-5]",
-    "test_a_rendered_card_meets_its_requirements[b_c5_exploratory-0]",
-    "test_a_rendered_card_meets_its_requirements[b_c5_exploratory-1]",
-    "test_a_rendered_card_meets_its_requirements[b_c5_exploratory-2]",
-    "test_a_rendered_card_meets_its_requirements[b_c5_exploratory-4]",
-    "test_a_rendered_card_meets_its_requirements[head_o_control_secondary-0]",
-    "test_a_rendered_card_meets_its_requirements[head_o_control_secondary-1]",
-    "test_a_rendered_card_meets_its_requirements[head_o_control_secondary-2]",
-    "test_a_rendered_card_meets_its_requirements[head_o_control_secondary-4]",
-    "test_a_rendered_card_meets_its_requirements[head_o_control_secondary-5]",
-    "test_a_rendered_card_meets_its_requirements[head_o_control_secondary-6]",
-    "test_a_rendered_card_meets_its_requirements[butene_no_study-0]",
-    "test_a_rendered_card_meets_its_requirements[butene_no_study-1]",
-    "test_a_rendered_card_meets_its_requirements[butene_no_study-2]",
-    "test_a_rendered_card_meets_its_requirements[context_not_mapping-0]",
-    "test_a_rendered_card_meets_its_requirements[context_not_mapping-1]",
-    "test_a_rendered_card_meets_its_requirements[context_not_mapping-2]",
-}
+# Empty since the label fix (the 53 pairs #15 measured on the card before it). A case added
+# later that the card fails goes here, as "test[case]" or "test[case-i]", with why.
+XFAIL = set()
 
 
 def _xfail(request, key):
