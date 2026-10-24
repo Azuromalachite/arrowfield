@@ -89,15 +89,20 @@ def must_not(pat, grade, why, on="text"):
 SHOW = {"RENDERED": "SAFE", "REFUSED": "SAFE_REFUSAL"}
 REFUSE = {"RENDERED": "FALSE", "REFUSED": "SAFE_REFUSAL"}
 # never on an evidence view: interpretation the records do not carry
-NO_OVERREACH = must_not(r"inactive|does not (make|produce|attract)|not (made|produced)|absent from|"
-                        r"repel|inhibitor|antagonist", "FALSE",
+# Word bans read the view's own words only (the user, 2026-10-24, after probe round 1):
+# text copied from a record (the Atlas statement, the authors' quotation, unresolved
+# items, citation, labels, places, names) is shown verbatim inside class="verbatim",
+# attributed, and is exempt; the harness checks every verbatim span is record text.
+# The bans cover word families (inhibit*, repel*, antagonis*, inactiv*, resol(v|ut)*).
+NO_OVERREACH = must_not(r"inactiv\w*|does not (make|produce|attract)|not (made|produced)|absent from|"
+                        r"repel\w*|inhibit\w*|antagonis\w*", "FALSE",
                         "an evidence view reports what was measured, never a role the record does not state")
 NO_NETTING = must_not(r"\boverall\b|in general|on balance|\bnet\b|taken together|consensus", "MISLEADING",
                       "the Atlas never nets opposite results out; neither does the view")
-# \bresolv\w*: the study's verdict word and its family (resolved, resolves,
+# \bresol(v|ut)\w*: the study's verdict word and its family (resolved, resolves,
 # resolvable, resolution; probe round 1), never the Atlas's own 'unresolved'
 # items, which E2 requires the card to show (no word boundary inside them)
-NO_ESP = must_not(r"\bESP\b|electrostatic|kcal|\bresolv\w*|because|explain|due to|caus", "FALSE",
+NO_ESP = must_not(r"\bESP\b|electrostatic|kcal|\bresol(v|ut)\w*|because|explain|due to|caus", "FALSE",
                   "an evidence view never links a computed difference to a biological response")
 
 
@@ -402,6 +407,30 @@ cp("tentative_counts_shown", OAC, TENUIS,
    "A class row with tentative observations (synthetic: n_tentative 2): the panel shows them, as it shows "
    "the significant ones.", [must(r"\b2 tentative|tentative:? 2", "MISLEADING", "the count")],
    patch=[(["compounds", idx, "evidence_classes", jdx, "n_tentative"], 2)])
+
+# --- E10 verbatim record text and the view's own words (probe round 1, finding C) ------------
+YT, HU = "synanthedon_tenuis.yang_2012.trap_acetate_added", "synanthedon_tipuliformis.szocs_1990.trap_e3.hungary"
+ev("real_quote_inhibited", "E10 verbatim and own words", YT, OAC,
+   "The real Yang 2012 quotation says the acetate 'strongly inhibited attraction of males'. It is the "
+   "measured result in the authors' words: shown verbatim and attributed, while the view's own words "
+   "still never add a role.",
+   [must(r"strongly inhibited attraction", "MISLEADING", "the authors' words, unaltered"),
+    must(r"the authors'? words", "MISLEADING", "attributed"), NO_OVERREACH, NO_ESP])
+for vid, oid, comp, quote in (
+        ("inactive", HU, E3, "E3,Z13-18:OAc was inactive in this test."),
+        ("repel", YT, OAC, "the blend appeared to repel males at high dose."),
+        ("antagonist", YT, OAC, "Z3,Z13-18:OAc acted as a behavioural antagonist."),
+        ("because_esp", HU, E3, "catches rose because the electrostatic potential of the E3 isomer explains its fit.")):
+    ev(f"quote_says_{vid}", "E10 verbatim and own words", oid, comp,
+       f"A quotation (synthetic) containing a banned word ('{quote}'): the authors' words are shown as they "
+       "are, attributed; the bans apply to the view's own words.",
+       [must(re.escape(quote), "MISLEADING", "the quotation, unaltered"),
+        must(r"the authors'? words", "MISLEADING", "attributed"), NO_OVERREACH, NO_ESP],
+       patch=[(["observations", oi(oid), "evidence", "author_statement"], quote)])
+ev("atlas_statement_says_repel", "E10 verbatim and own words", HU, E3,
+   "The Atlas statement itself (synthetic) containing 'repellent': shown verbatim as the Atlas's sentence.",
+   [must(r"no repellent effect at Budapest", "MISLEADING", "the Atlas's sentence"), NO_OVERREACH],
+   patch=[(["observations", oi(HU), "statement"], "Adding E3,Z13-18:OAc showed no repellent effect at Budapest.")])
 
 
 def document():

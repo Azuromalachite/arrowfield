@@ -18,10 +18,12 @@ meet when the trust-boundary cases were added; it only shrinks, and a pair
 that starts passing fails the run until it is removed.
 """
 import copy
+import html
 import json
 import re
 import sys
 from collections import Counter
+from html.parser import HTMLParser
 from pathlib import Path
 
 import pytest
@@ -54,7 +56,7 @@ def test_allowed_is_exactly_the_safe_outputs(c):
 
 def test_every_class_has_two_or_more_variants():
     per = Counter(c["cls"].split()[0] for c in CASES)
-    assert sorted(per) == [f"E{i}" for i in range(1, 10)] and min(per.values()) >= 2, per
+    assert sorted(per) == sorted(f"E{i}" for i in range(1, 11)) and min(per.values()) >= 2, per
 
 
 # --- the facts the cases rest on, checked against the committed bundle --------------------
@@ -127,7 +129,16 @@ def _bundle(c, tmp_path):
     return _patched(RAW, c["bundle_patch"], tmp_path / "patched.json")
 
 
-XFAIL = set()
+# verbatim exemption (2e42d6d): the views mark no record text as verbatim, so a quoted
+# banned word reads as the view's own
+XFAIL = {
+    "test_a_rendered_view_meets_its_requirements[real_quote_inhibited-2]",
+    "test_a_rendered_view_meets_its_requirements[quote_says_inactive-2]",
+    "test_a_rendered_view_meets_its_requirements[quote_says_repel-2]",
+    "test_a_rendered_view_meets_its_requirements[quote_says_antagonist-2]",
+    "test_a_rendered_view_meets_its_requirements[quote_says_because_esp-3]",
+    "test_a_rendered_view_meets_its_requirements[atlas_statement_says_repel-1]",
+}
 
 
 def _xfail(request, c):
@@ -135,11 +146,60 @@ def _xfail(request, c):
         request.applymarker(pytest.mark.xfail(strict=True, reason="trust-boundary case not yet met"))
 
 
+class _Verbatim(HTMLParser):
+    """Splits a page's text into the view's own words and the verbatim record
+    text (elements with class "verbatim", and everything inside them)."""
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.depth, self.stack, self.own, self.spans = 0, [], [], []
+
+    def handle_starttag(self, tag, attrs):
+        if tag in ("br", "img", "hr", "meta", "input"):
+            return
+        v = "verbatim" in (dict(attrs).get("class") or "").split()
+        self.stack.append(v)
+        if v:
+            self.depth += 1
+            if self.depth == 1:
+                self.spans.append("")
+
+    def handle_endtag(self, tag):
+        if tag in ("br", "img", "hr", "meta", "input") or not self.stack:
+            return
+        if self.stack.pop():
+            self.depth -= 1
+
+    def handle_data(self, d):
+        if self.depth:
+            self.spans[-1] += d
+        else:
+            self.own.append(d)
+
+
+def _split(page):
+    p = _Verbatim()
+    p.feed(page)
+    return " ".join(p.own), [x.strip() for x in p.spans]
+
+
+def _strings(node, out):
+    if isinstance(node, str):
+        out.append(node)
+    elif isinstance(node, dict):
+        for v in node.values():
+            _strings(v, out)
+    elif isinstance(node, list):
+        for v in node:
+            _strings(v, out)
+    return out
+
+
 def _run(c, tmp_path):
     view = _view(c["component"])
     from model import Refused
     b, raw = _bundle(c, tmp_path)
     src = _patched(raw, c["statement_patch"], tmp_path / "inputs.json")[0] if c["statement_patch"] else b
+    c["_raw"] = raw
     ctx = dict(c["context"], bundle_object=b)
     if isinstance(ctx.get("bundle"), dict) and ctx["bundle"].get("sha256") == "from bundle.load":
         ctx["bundle"] = dict(ctx["bundle"], sha256=b.sha256)
@@ -185,8 +245,36 @@ def test_a_rendered_view_meets_its_requirements(c, i, tmp_path, request):
     if out != "RENDERED":
         return
     q = c["requires"][i]
-    target = page if q["on"] == "html" else re.sub(r"<[^>]+>", " ", page)
-    if "must" in q:
+    own, _ = _split(page)
+    if "must" in q:          # what must be shown may be shown in the record's words
+        target = page if q["on"] == "html" else re.sub(r"<[^>]+>", " ", html.unescape(page))
         assert re.search(q["must"], target, re.I), f"{q['why']} ({q['grade']} if missing)"
-    else:
+    else:                    # a ban reads the view's own words; verbatim record text is exempt
+        target = page if q["on"] == "html" else own
         assert not re.search(q["must_not"], target, re.I), f"{q['why']} ({q['grade']} if present)"
+
+
+@pytest.mark.parametrize("c", CASES, ids=[c["id"] for c in CASES])
+def test_verbatim_spans_are_record_text(c, tmp_path, request):
+    """The exemption cannot hide the view's own words: every verbatim span is
+    text the record carries."""
+    _xfail(request, c)
+    out, page = _run(c, tmp_path)
+    if out != "RENDERED":
+        return
+    record = _strings(c["_raw"], []) + _strings(c["statement_patch"], [])
+    for span in _split(page)[1]:
+        assert any(span in r for r in record), f"verbatim span not found in the record: {span!r}"
+
+
+def test_bans_catch_word_families():
+    """A ban is a rule too: its word families on one side, near-misses on the other."""
+    import make_evidence_card_set as g
+    over, esp = g.NO_OVERREACH["must_not"], g.NO_ESP["must_not"]
+    for w in ("inhibit", "inhibited", "inhibitor", "Inhibition", "repel", "repellent", "antagonist",
+              "antagonism", "inactive", "inactivity", "not produced"):
+        assert re.search(over, w, re.I), w
+    for w in ("resolved", "Resolves", "resolvable", "resolution", "ESP", "electrostatic", "because"):
+        assert re.search(esp, w, re.I), w
+    for w in ("unresolved", "Unresolved in the record", "uninhabited", "rebel"):
+        assert not re.search(over, w, re.I) and not re.search(esp, w, re.I), w
