@@ -1,0 +1,168 @@
+"""The evidence views' hostile set (tests/pedagogy/evidence_card_set.json),
+written before the views exist.
+
+Now: the set is what its generator writes; every case's `allowed` is exactly
+its safe outputs; all seven classes have two or more variants; and the
+fixture facts each case's reason cites are true of the committed bundle (a
+case that misdescribes its record would test the wrong thing).
+When views.evidence_card_html, contrast_card_html and evidence_class_panel_html
+exist: every output is safe and preferred, and every requirement holds.
+Until then those tests skip. The views' PR may add strict-xfail lists here,
+never edit an expectation. These cases supersede hostile_set.json's B1-B5,
+which stay there (skipped) until the views PR retires them.
+"""
+import copy
+import json
+import re
+import sys
+from collections import Counter
+from pathlib import Path
+
+import pytest
+
+HERE = Path(__file__).resolve().parents[1]
+PED = Path(__file__).with_name("pedagogy")
+sys.path.insert(0, str(HERE))
+sys.path.insert(0, str(PED))
+from bundle import load  # noqa: E402
+
+SET = json.loads((PED / "evidence_card_set.json").read_text(encoding="utf-8"))
+CASES = SET["cases"]
+BUNDLE = HERE / SET["bundle"]
+RAW = json.loads(BUNDLE.read_text(encoding="utf-8"))
+VIEWS = {"evidence_card": "evidence_card_html", "contrast_card": "contrast_card_html",
+         "class_panel": "evidence_class_panel_html"}
+
+
+def test_the_committed_set_is_what_the_generator_writes():
+    import make_evidence_card_set
+    assert make_evidence_card_set.document() == (PED / "evidence_card_set.json").read_text(encoding="utf-8")
+
+
+@pytest.mark.parametrize("c", CASES, ids=[c["id"] for c in CASES])
+def test_allowed_is_exactly_the_safe_outputs(c):
+    assert c["allowed"] == sorted(k for k, g in c["outcomes"].items() if g in ("SAFE", "SAFE_REFUSAL"))
+    assert c["prefer"] is None or c["prefer"] in c["allowed"]
+    assert c["why"] and c["outcomes"]["ERROR"] == "CRASH" and c["component"] in VIEWS
+
+
+def test_every_class_has_two_or_more_variants():
+    per = Counter(c["cls"].split()[0] for c in CASES)
+    assert sorted(per) == [f"E{i}" for i in range(1, 8)] and min(per.values()) >= 2, per
+
+
+# --- the facts the cases rest on, checked against the committed bundle --------------------
+def _obs(oid):
+    return next(o for o in RAW["observations"] if o["observation_id"] == "spa.obs." + oid)
+
+
+def _classes(comp, tax):
+    c = next(c for c in RAW["compounds"] if c["atlas_id"] == comp)
+    return {e["evidence_class"]: e for e in c["evidence_classes"] if e["taxon_id"] == tax}
+
+
+def test_the_fixture_says_what_the_cases_say():
+    oac, oh, e3 = "spa.cmpd.z3_z13_18_oac", "spa.cmpd.z3_z13_18_oh", "spa.cmpd.e3_z13_18_oac"
+    tenuis, tipu = "spa.tax.synanthedon_tenuis", "spa.tax.synanthedon_tipuliformis"
+    y = next(x for x in _obs("synanthedon_tenuis.yang_2012.gland")["components"] if x["atlas_id"] == oac)
+    assert y["detected"] is False and y["detection_limit"] == {"unit": "picogram", "value": 100}
+    n = next(x for x in _obs("synanthedon_tenuis.naka_2013.gland")["components"] if x["atlas_id"] == oh)
+    assert n["detected"] is False and n["detection_limit"] is None
+    t87 = _obs("synanthedon_tipuliformis.szocs_1990.trap_e3.tasmania_1987")
+    assert t87["outcome"]["effect"] == "no_effect" and t87["outcome"]["significance"] == "not_significant"
+    assert "Slateford" in t87["context"]["locality"]
+    assert oh not in {b["atlas_id"] for b in t87["treatment"] + t87["comparator"]["blend"]}
+    nz = _obs("synanthedon_tipuliformis.suckling_2005.trap_e3.new_zealand")["outcome"]
+    assert (nz["effect"], nz["significance"]) == ("no_effect", "not_reported")
+    r = _obs("synanthedon_tenuis.naka_2013.trap_z3z13oh_added.test4_1")["outcome"]
+    assert (r["effect"], r["significance"]) == ("decreased", "significant")
+    assert (r["response"]["treatment_value"], r["response"]["comparator_value"]) == (4.6, 17.0)
+    assert "detection limit for the negatives" in _obs("synanthedon_tenuis.naka_2013.gland")["evidence"]["unresolved"]
+    k = _classes(oac, tenuis)
+    assert {"female_pheromone_component", "female_not_detected", "addition_decreased"} <= set(k)
+    assert k["female_pheromone_component"]["population_match"] == "yes"
+    assert k["female_not_detected"]["populations"] == ["Korean population"]
+    obs = {o["observation_id"] for o in RAW["observations"]}
+    fpc = k["female_pheromone_component"]
+    assert fpc["n_observations"] == 8 and len(set(fpc["observation_ids"]) - obs) == 7
+    k3 = _classes(e3, tipu)
+    assert {"addition_increased", "addition_decreased"} <= set(k3)
+    assert any("Tasmania" in p for p in k3["addition_decreased"]["populations"])
+    assert any("Hungary" in p for p in k3["addition_increased"]["populations"])
+    assert _classes(oh, tipu) == {}
+
+
+# --- the views (to come) ---------------------------------------------------------------
+def _view(component):
+    import views
+    name = VIEWS[component]
+    if not hasattr(views, name):
+        pytest.skip(f"views.{name} is not built yet; its expectations are fixed in evidence_card_set.json")
+    return getattr(views, name)
+
+
+def _bundle(c, tmp_path):
+    if not c["bundle_patch"]:
+        return load(BUNDLE)
+    raw = copy.deepcopy(RAW)
+    for path, value in c["bundle_patch"]:
+        node = raw
+        for key in path[:-1]:
+            node = node[key]
+        node[path[-1]] = value
+    p = tmp_path / "patched.json"
+    p.write_text(json.dumps(raw), encoding="utf-8")
+    return load(p)
+
+
+def _run(c, tmp_path):
+    view = _view(c["component"])
+    from model import Refused
+    b = _bundle(c, tmp_path)
+    ctx = dict(c["context"], bundle_object=b)
+    i = c["inputs"]
+    try:
+        if c["component"] == "evidence_card":
+            st = b.observations.get(i["observation_id"])
+            if st is None:
+                raise Refused(f"{i['observation_id']} is not in the bundle")
+            page = view(st, i["compound"], ctx)
+        elif c["component"] == "contrast_card":
+            k = next((k for k in b.contrasts if k.label == i["contrast_label"]), None)
+            if k is None:
+                raise Refused(f"{i['contrast_label']!r} is not in the bundle")
+            page = view(k, [b.observations[o] for o in k.observation_ids], ctx)
+        else:
+            page = view(i["compound"], i["taxon_id"], ctx)
+    except Refused:
+        return "REFUSED", None
+    except Exception:  # noqa: BLE001 - any other error is a crash, graded as such
+        return "ERROR", None
+    return "RENDERED", page
+
+
+@pytest.mark.parametrize("c", CASES, ids=[c["id"] for c in CASES])
+def test_view_output_is_safe(c, tmp_path):
+    out, _ = _run(c, tmp_path)
+    assert out in c["allowed"], f"{out}: {c['outcomes'][out]}"
+
+
+@pytest.mark.parametrize("c", [c for c in CASES if c["prefer"]], ids=lambda c: c["id"])
+def test_view_output_is_preferred(c, tmp_path):
+    assert _run(c, tmp_path)[0] == c["prefer"]
+
+
+REQ = [(c, i) for c in CASES for i in range(len(c["requires"]))]
+
+
+@pytest.mark.parametrize("c,i", REQ, ids=[f"{c['id']}-{i}" for c, i in REQ])
+def test_a_rendered_view_meets_its_requirements(c, i, tmp_path):
+    out, page = _run(c, tmp_path)
+    if out != "RENDERED":
+        return
+    q = c["requires"][i]
+    target = page if q["on"] == "html" else re.sub(r"<[^>]+>", " ", page)
+    if "must" in q:
+        assert re.search(q["must"], target, re.I), f"{q['why']} ({q['grade']} if missing)"
+    else:
+        assert not re.search(q["must_not"], target, re.I), f"{q['why']} ({q['grade']} if present)"
