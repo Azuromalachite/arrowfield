@@ -30,3 +30,11 @@ the NPZs are the same run's surfaces, which the Atlas will publish as
 release assets. `members.json` gives each file's sha256 and the folded flag
 from the Atlas's `ensemble.json`; `tests/test_pair_view.py` checks both.
 CC BY 4.0, as above.
+
+`card_label_sites.json` holds per-conformer site values for the difference
+card's label set (`tests/pedagogy/card_label_set.json`). For each conformer
+of the four Atlas ensembles (Atlas 35112e1) and the aldehyde control
+(`controls/`) it gives a few sites' means under both partition rules, the
+record's partition sensitivity and the index's folded flag, each member with
+its record's sha256. The values are copied from the records' sites blocks,
+not recomputed. CC BY 4.0 for the Atlas's part, as above.
