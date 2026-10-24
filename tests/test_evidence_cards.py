@@ -129,14 +129,7 @@ def _bundle(c, tmp_path):
     return _patched(RAW, c["bundle_patch"], tmp_path / "patched.json")
 
 
-# probe round 2 (on 48b27f5): record fields interpolated into the views' sentences are not spanned
-XFAIL = {
-    "test_a_rendered_view_meets_its_requirements[population_in_negative_sentence-1]",
-    "test_a_rendered_view_meets_its_requirements[population_resolved_in_negative_sentence-1]",
-    "test_a_rendered_view_meets_its_requirements[method_in_negative_sentence-0]",
-    "test_a_rendered_view_meets_its_requirements[method_in_negative_sentence-1]",
-    "test_a_rendered_view_meets_its_requirements[response_unit_in_effect_sentence-1]",
-}
+XFAIL = set()
 
 
 def _xfail(request, c):

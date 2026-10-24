@@ -504,7 +504,7 @@ def _bound(context):
     if not isinstance(bundle, TeachingBundle):
         raise Refused("no teaching bundle: Atlas evidence is shown only from the bundle it came from")
     v, sha = prov.get("atlas_version"), prov.get("sha256")
-    same = v is None or v == bundle.atlas_version or (
+    same = v in (None, "") or v == bundle.atlas_version or (       # "" reads as not given, as None
         _is_commit(v) and _is_commit(bundle.atlas_version)
         and (v.startswith(bundle.atlas_version) or bundle.atlas_version.startswith(v)))
     if not same:
@@ -584,33 +584,39 @@ def _statement_block(st):
 
 
 def _compound_line(st, compound):
-    """What the record says about this compound, in the record's own terms."""
+    """What the record says about this compound, in the record's own terms,
+    as HTML: every free-text record field it repeats (place, method, unit,
+    assay, measure, qualifier, abundance, identification) is its own verbatim
+    span (probe round 2); the controlled words (effect, significance, roles)
+    are the view's phrasing and fall under its word bans."""
+    def rec(x):
+        return "not recorded" if x is None else _v(x)
     det = next((d for d in st.detections if d.compound == compound), None)
     if st.observation_type == "chemical_measurement":
         if det is None:
             return "not tested in this observation (not looked for in this measurement)"
         if det.detected:
-            extra = [x for x in (det.abundance_class, det.identification) if x]
+            extra = [_v(x) for x in (det.abundance_class, det.identification) if x]
             return "detected" + (f" ({', '.join(extra)})" if extra else "")
         lim = det.detection_limit
-        lim_txt = (f"detection limit {lim['value']} {lim['unit']}" if isinstance(lim, dict) and "value" in lim
-                   else "detection limit not stated")
-        method = f"method {det.method.replace('_', ' ')}" if det.method else "method not stated"
+        lim_txt = (f"detection limit {_t(lim['value'])} {rec(lim.get('unit'))}"
+                   if isinstance(lim, dict) and "value" in lim else "detection limit not stated")
+        method = f"method {_v(det.method)}" if det.method else "method not stated"
         return (f"not detected, {lim_txt}: a negative for this method ({method}), sample and population "
-                f"({_where(st)}) only")
+                f"({_where_html(st)}) only")
     roles = st.roles.get(compound, ())
     if not roles:
         return "not tested in this observation (not part of this experiment)"
     if st.effect is None:
-        return f"{', '.join(roles)}; effect not recorded"
-    words = f"{st.effect.replace('_', ' ')}, {_SIG_WORDS.get(st.significance, str(st.significance))}"
-    out = f"{', '.join(roles)} in {st.assay or 'this assay'}: {words}"
+        return f"{_t(', '.join(roles))}; effect not recorded"
+    words = f"{_t(st.effect.replace('_', ' '))}, {_t(_SIG_WORDS.get(st.significance, str(st.significance)))}"
+    out = f"{_t(', '.join(roles))} in {_v(st.assay) if st.assay else 'this assay'}: {words}"
     r = st.response
     if r is not None and roles:
-        def val(v):
+        def num(v):
             return "not recorded" if v is None else _t(v)
-        out += (f"; {val(r.treatment_value)} vs {val(r.comparator_value)} {val(r.unit)} "
-                f"({val(r.measure)}, {_t(r.qualifier or 'as recorded')})")
+        out += (f"; {num(r.treatment_value)} vs {num(r.comparator_value)} {rec(r.unit)} "
+                f"({rec(r.measure)}, {_v(r.qualifier) if r.qualifier else 'as recorded'})")
     return out
 
 
@@ -629,7 +635,7 @@ def evidence_card_html(statement, compound, context):
     parts = [f'<div class="card evidence-card"><div class="card-title">{_v(name)} · {_v(statement.taxon)}'
              f'<span class="unit">{_t(statement.observation_type.replace("_", " "))}</span></div>',
              f'<div class="where">{_where_html(statement)}</div>',
-             f'<div class="verdict">{_t(line)}</div>']
+             f'<div class="verdict">{line}</div>']     # HTML: record fields spanned, the rest escaped
     parts += _statement_block(statement)
     parts += [provenance, "</div>"]
     return "\n".join(parts)
@@ -651,7 +657,7 @@ def contrast_card_html(contrast, statements, context):
              "assay. The Atlas states each; it gives no verdict about the pair.</p>", '<div class="row">']
     for st in statements:
         parts.append(f'<div class="panel"><div class="where">{_v(st.taxon)} · {_where_html(st)} · '
-                     f'{_t((st.assay or st.observation_type).replace("_", " "))}</div>')
+                     f'{_v(st.assay) if st.assay else _t(st.observation_type.replace("_", " "))}</div>')
         parts += _statement_block(st)
         parts.append("</div>")
     parts += ["</div>", provenance, "</div>"]
