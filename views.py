@@ -461,6 +461,183 @@ def study_card_html(row, context):
     return "\n".join(parts)
 
 
+# ------------------------------------------------------------ evidence views
+# Specified by tests/pedagogy/evidence_card_set.json (#12). They show what the
+# Atlas records say, in the Atlas's words, and never add a role, a net
+# verdict or a mechanism. context: {"bundle": {"atlas_version", "sha256"},
+# "roles": {compound id: atlas_observed | teaching_control |
+# computational_counterfactual}, "bundle_object": the TeachingBundle,
+# optional "study_rows"} (study rows are deliberately never shown here).
+_ROLE_WORDS = {"teaching_control": "Teaching control: a constructed molecule, not an Atlas compound",
+               "computational_counterfactual": "Computational counterfactual: a computational model, "
+                                               "not an Atlas compound"}
+_SIG_WORDS = {"significant": "significant", "not_significant": "not significant",
+              "not_tested": "significance not tested", "not_reported": "significance not reported"}
+
+
+def _t(x):
+    return html.escape(str(x), quote=False)
+
+
+def _ctx(context):
+    """(provenance dict, roles dict, TeachingBundle or None): a non-mapping
+    entry reads as missing, as in the study card."""
+    context = context if isinstance(context, dict) else {}
+    prov = context.get("bundle") if isinstance(context.get("bundle"), dict) else {}
+    roles = context.get("roles") if isinstance(context.get("roles"), dict) else {}
+    return prov, roles, context.get("bundle_object")
+
+
+def _atlas_provenance(prov):
+    import re
+    v = prov.get("atlas_version")
+    if isinstance(v, str) and re.fullmatch(r"[0-9a-f]{7,40}", v):
+        return f'<div class="provenance">Atlas commit {_t(v[:7])}</div>'
+    return ('<div class="provenance warn">Provenance incomplete: the Atlas commit is not recorded, so this '
+            "evidence cannot be traced to an Atlas release.</div>")
+
+
+def _where(st):
+    c = st.context or {}
+    parts = [c.get(k) for k in ("population", "locality") if c.get(k)]
+    return "; ".join(parts) or "place not given"
+
+
+def _citation(st):
+    ref = st.reference or {}
+    doi = f" doi:{ref['doi']}" if ref.get("doi") else ""
+    return f"{ref.get('citation', 'citation not given')}{doi}"
+
+
+def _statement_block(st):
+    parts = [f'<p class="statement">{_t(st.statement)}</p>',
+             f'<div class="source">{_t(_citation(st))}'
+             + (f" · {_t(st.source_location)}" if st.source_location else "") + "</div>"]
+    if st.author_statement:
+        parts.append(f'<blockquote>“{_t(st.author_statement)}” <span class="unit">(the authors\' words)'
+                     "</span></blockquote>")
+    if st.unresolved:
+        parts.append("<div class='limits'>Unresolved in the record: "
+                     + "; ".join(_t(u) for u in st.unresolved) + "</div>")
+    return parts
+
+
+def _compound_line(st, compound):
+    """What the record says about this compound, in the record's own terms."""
+    det = next((d for d in st.detections if d.compound == compound), None)
+    if st.observation_type == "chemical_measurement":
+        if det is None:
+            return "not tested in this observation (not looked for in this measurement)"
+        if det.detected:
+            extra = [x for x in (det.abundance_class, det.identification) if x]
+            return "detected" + (f" ({', '.join(extra)})" if extra else "")
+        lim = det.detection_limit
+        lim_txt = (f"detection limit {lim['value']} {lim['unit']}" if isinstance(lim, dict) and "value" in lim
+                   else "detection limit not stated")
+        return (f"not detected, {lim_txt}: a negative for this method, sample and population "
+                f"({_where(st)}) only")
+    roles = st.roles.get(compound, ())
+    if not roles:
+        return "not tested in this observation (not part of this experiment)"
+    if st.effect is None:
+        return f"{', '.join(roles)}; no effect recorded"
+    words = f"{st.effect.replace('_', ' ')}, {_SIG_WORDS.get(st.significance, str(st.significance))}"
+    out = f"{', '.join(roles)} in {st.assay or 'this assay'}: {words}"
+    r = st.response
+    if r is not None and roles:
+        out += (f"; {_t(r.treatment_value)} vs {_t(r.comparator_value)} {_t(r.unit)} "
+                f"({_t(r.measure)}, {_t(r.qualifier or 'as recorded')})")
+    return out
+
+
+def evidence_card_html(statement, compound, context):
+    """One Atlas observation as it bears on one compound. Refused
+    (model.Refused) for a compound the bundle does not carry: the record
+    cannot speak about it."""
+    from model import Refused
+    prov, roles, bundle = _ctx(context)
+    known = set(bundle.compounds) if bundle is not None else set()
+    if compound not in known:
+        raise Refused(f"{compound!r} is not a compound of this teaching bundle: an Atlas observation "
+                      "cannot be read for it")
+    name = bundle.compounds[compound].shorthand or compound
+    line = _compound_line(statement, compound)
+    parts = [f'<div class="card evidence-card"><div class="card-title">{_t(name)} · {_t(statement.taxon)}'
+             f'<span class="unit">{_t(statement.observation_type.replace("_", " "))}</span></div>',
+             f'<div class="where">{_t(_where(statement))}</div>',
+             f'<div class="verdict">{_t(line)}</div>']
+    parts += _statement_block(statement)
+    parts += [_atlas_provenance(prov), "</div>"]
+    return "\n".join(parts)
+
+
+def contrast_card_html(contrast, statements, context):
+    """One ObservedContrast: its two observations side by side, each in its
+    own context, with no verdict about the pair."""
+    from model import Refused
+    prov, _, _ = _ctx(context)
+    ids = [s.observation_id for s in statements]
+    if list(ids) != list(contrast.observation_ids):
+        raise Refused(f"the statements given ({ids}) are not this contrast's ({list(contrast.observation_ids)})")
+    parts = [f'<div class="card contrast-card"><div class="card-title">{_t(contrast.label)}</div>',
+             "<p class='limits'>Two observations side by side, each in its own population, place, year and "
+             "assay. The Atlas states each; it gives no verdict about the pair.</p>", '<div class="row">']
+    for st in statements:
+        parts.append(f'<div class="panel"><div class="where">{_t(st.taxon)} · {_t(_where(st))} · '
+                     f'{_t((st.assay or st.observation_type).replace("_", " "))}</div>')
+        parts += _statement_block(st)
+        parts.append("</div>")
+    parts += ["</div>", _atlas_provenance(prov), "</div>"]
+    return "\n".join(parts)
+
+
+def evidence_class_panel_html(compound, taxon_id, context):
+    """The Atlas's own evidence classes for one compound in one taxon, every
+    row kept with its populations and never netted (the Atlas's
+    docs/evidence-classes.md). A teaching control or counterfactual is named
+    as such and claims no evidence; an unknown compound is refused."""
+    from model import Refused
+    prov, roles, bundle = _ctx(context)
+    role = roles.get(compound)
+    if role in _ROLE_WORDS:
+        return (f'<div class="card class-panel"><div class="card-title">{_t(compound)}</div>'
+                f"<p>{_t(_ROLE_WORDS[role])}; it has no Atlas evidence classes.</p>"
+                f"{_atlas_provenance(prov)}</div>")
+    if bundle is None or compound not in bundle.compounds:
+        raise Refused(f"{compound!r} is neither a compound of this bundle nor given a role")
+    bc = bundle.compounds[compound]
+    in_case = set(bundle.observations)
+    rows = [e for e in bc.evidence_classes if e.taxon_id == taxon_id]
+    title = f'<div class="card-title">{_t(bc.shorthand or compound)} · {_t(taxon_id.split(".")[-1])}</div>'
+    parts = [f'<div class="card class-panel">{title}',
+             "<p class='limits'>The Atlas's evidence classes, derived from its records. Every row is kept; "
+             "none is weighed against another.</p>"]
+    if not rows:
+        parts.append("<p>No Atlas evidence class for this compound in this taxon. That is not evidence of "
+                     "absence: only female_not_detected rows and dated search records assert anything about "
+                     "absence.</p>")
+    else:
+        parts.append("<table><tr><th>class</th><th>observations</th><th>populations or places</th>"
+                     "<th>outside this case</th></tr>")
+        for e in rows:
+            outside = len(set(e.observation_ids) - in_case)
+            sig = f"; {e.n_significant} reported significant" if e.n_significant is not None else ""
+            parts.append(f"<tr><td>{_t(e.evidence_class)}</td><td>{e.n_observations}{_t(sig)}</td>"
+                         f"<td>{_t(', '.join(e.populations))}</td>"
+                         f"<td>{outside} of {e.n_observations} outside this case</td></tr>")
+        parts.append("</table>")
+        for e in rows:
+            if e.evidence_class == "female_pheromone_component":
+                pm = e.population_match if e.population_match in ("yes", "no", "unknown") else "unknown"
+                note = ("" if pm == "yes" else " The join may cross populations or name one place two ways: "
+                        "read the records.")
+                parts.append("<p>female_pheromone_component is derived: the Atlas's join of a female detection "
+                             "and an attraction in the same taxon. It is not an identification. "
+                             f"Population match: {_t(pm)}.{_t(note)}</p>")
+    parts += [_atlas_provenance(prov), "</div>"]
+    return "\n".join(parts)
+
+
 # ----------------------------------------------------------------------- page
 CSS = """
 :root { --ink:#111; --muted:#666; --line:#ddd; --card:#fafafa; }
