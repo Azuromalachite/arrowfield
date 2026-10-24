@@ -54,7 +54,7 @@
      "why": "the verdict is the card's rule's, not the study's"
     },
     {
-     "must_not": "\\bresolved\\b|\\bunresolved\\b|different on average",
+     "must_not": "\\bresol(v|ut)\\w*|\\bunresol(v|ut)\\w*|different on average",
      "grade": "FALSE",
      "why": "the study's outcome words belong to the study's rule and the study card"
     },
@@ -124,7 +124,7 @@
      "why": "the verdict is the card's rule's, not the study's"
     },
     {
-     "must_not": "\\bresolved\\b|\\bunresolved\\b|different on average",
+     "must_not": "\\bresol(v|ut)\\w*|\\bunresol(v|ut)\\w*|different on average",
      "grade": "FALSE",
      "why": "the study's outcome words belong to the study's rule and the study card"
     },
@@ -194,7 +194,7 @@
      "why": "the verdict is the card's rule's, not the study's"
     },
     {
-     "must_not": "\\bresolved\\b|\\bunresolved\\b|different on average",
+     "must_not": "\\bresol(v|ut)\\w*|\\bunresol(v|ut)\\w*|different on average",
      "grade": "FALSE",
      "why": "the study's outcome words belong to the study's rule and the study card"
     },
@@ -259,7 +259,7 @@
      "why": "the verdict is the card's rule's, not the study's"
     },
     {
-     "must_not": "\\bresolved\\b|\\bunresolved\\b|different on average",
+     "must_not": "\\bresol(v|ut)\\w*|\\bunresol(v|ut)\\w*|different on average",
      "grade": "FALSE",
      "why": "the study's outcome words belong to the study's rule and the study card"
     },
@@ -329,7 +329,7 @@
      "why": "the verdict is the card's rule's, not the study's"
     },
     {
-     "must_not": "\\bresolved\\b|\\bunresolved\\b|different on average",
+     "must_not": "\\bresol(v|ut)\\w*|\\bunresol(v|ut)\\w*|different on average",
      "grade": "FALSE",
      "why": "the study's outcome words belong to the study's rule and the study card"
     },
@@ -394,7 +394,7 @@
      "why": "the verdict is the card's rule's, not the study's"
     },
     {
-     "must_not": "\\bresolved\\b|\\bunresolved\\b|different on average",
+     "must_not": "\\bresol(v|ut)\\w*|\\bunresol(v|ut)\\w*|different on average",
      "grade": "FALSE",
      "why": "the study's outcome words belong to the study's rule and the study card"
     },
@@ -454,7 +454,7 @@
      "why": "the verdict is the card's rule's, not the study's"
     },
     {
-     "must_not": "\\bresolved\\b|\\bunresolved\\b|different on average",
+     "must_not": "\\bresol(v|ut)\\w*|\\bunresol(v|ut)\\w*|different on average",
      "grade": "FALSE",
      "why": "the study's outcome words belong to the study's rule and the study card"
     },
@@ -648,7 +648,7 @@
      "why": "the verdict is the card's rule's, not the study's"
     },
     {
-     "must_not": "\\bresolved\\b|\\bunresolved\\b|different on average",
+     "must_not": "\\bresol(v|ut)\\w*|\\bunresol(v|ut)\\w*|different on average",
      "grade": "FALSE",
      "why": "the study's outcome words belong to the study's rule and the study card"
     },
@@ -697,7 +697,7 @@
      "why": "the verdict is the card's rule's, not the study's"
     },
     {
-     "must_not": "\\bresolved\\b|\\bunresolved\\b|different on average",
+     "must_not": "\\bresol(v|ut)\\w*|\\bunresol(v|ut)\\w*|different on average",
      "grade": "FALSE",
      "why": "the study's outcome words belong to the study's rule and the study card"
     },
@@ -851,6 +851,129 @@
      "someone-else/v9"
     ]
    ]
+  },
+  {
+   "id": "outcome_word_in_site_label",
+   "cls": "L6 verbatim labels",
+   "why": "A site label (synthetic) reading 'resolved site': the record's label, shown verbatim; the card's own words still never use an outcome word.",
+   "x": "z3_z13_18_oac",
+   "y": "e3_z13_18_oac",
+   "site": "C3-H",
+   "context": null,
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "teaching comparison",
+     "grade": "MISLEADING",
+     "why": "the card says what it is"
+    },
+    {
+     "must": "not a (prespecified )?test|a look,? not a test",
+     "grade": "MISLEADING",
+     "why": "a look, not a test"
+    },
+    {
+     "must": "(the |this )?card'?s (own )?rule",
+     "grade": "MISLEADING",
+     "why": "the verdict is the card's rule's, not the study's"
+    },
+    {
+     "must_not": "\\bresol(v|ut)\\w*|\\bunresol(v|ut)\\w*|different on average",
+     "grade": "FALSE",
+     "why": "the study's outcome words belong to the study's rule and the study card"
+    },
+    {
+     "must": "resolved site",
+     "grade": "MISLEADING",
+     "why": "the record's label, unaltered"
+    }
+   ],
+   "measured": "OVERLAPPING",
+   "card_patch": [
+    [
+     "site",
+     "resolved site"
+    ]
+   ],
+   "study_patch": []
+  },
+  {
+   "id": "outcome_word_in_site_label_with_study",
+   "cls": "L6 verbatim labels",
+   "why": "The same label with the study on the page: the site is not one of the study's, so the card says the study gives no verdict here, in its own words.",
+   "x": "z3_z13_18_oac",
+   "y": "e3_z13_18_oac",
+   "site": "C3-H",
+   "context": {
+    "study": "results",
+    "contrast": "B_stereo",
+    "x": "z3_z13_18_oac",
+    "y": "e3_z13_18_oac",
+    "roles": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "teaching comparison",
+     "grade": "MISLEADING",
+     "why": "the card says what it is"
+    },
+    {
+     "must": "not a (prespecified )?test|a look,? not a test",
+     "grade": "MISLEADING",
+     "why": "a look, not a test"
+    },
+    {
+     "must": "(the |this )?card'?s (own )?rule",
+     "grade": "MISLEADING",
+     "why": "the verdict is the card's rule's, not the study's"
+    },
+    {
+     "must_not": "\\bresol(v|ut)\\w*|\\bunresol(v|ut)\\w*|different on average",
+     "grade": "FALSE",
+     "why": "the study's outcome words belong to the study's rule and the study card"
+    },
+    {
+     "must": "resolved site",
+     "grade": "MISLEADING",
+     "why": "the record's label"
+    },
+    {
+     "must": "(gives|has|makes) no (verdict|test|comparison)|no (study )?verdict (here|at this site)|does not test this site",
+     "grade": "MISLEADING",
+     "why": "the study is silent here, and the card says so"
+    }
+   ],
+   "measured": "OVERLAPPING",
+   "card_patch": [
+    [
+     "site",
+     "resolved site"
+    ]
+   ],
+   "study_patch": []
   },
   {
    "id": "nan_difference",

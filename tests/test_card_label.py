@@ -8,11 +8,13 @@ say. The card is measured as it is: until card_html takes a context it is
 called without one, and what it gets wrong is listed below as strict
 xfails, which only shrink.
 """
+import html
 import inspect
 import json
 import re
 import sys
 from collections import Counter
+from html.parser import HTMLParser
 from pathlib import Path
 
 import numpy as np
@@ -34,7 +36,11 @@ RESULTS = HERE / "tests" / "data" / "espmap-sesiidae-001.results.json"
 # --- what the card gets wrong today (measured on the committed card) --------------------
 # Empty since the label fix (the 53 pairs #15 measured on the card before it). A case added
 # later that the card fails goes here, as "test[case]" or "test[case-i]", with why.
-XFAIL = set()
+# verbatim exemption (a762d41): the site label is not marked as record text
+XFAIL = {
+    "test_a_rendered_card_meets_its_requirements[outcome_word_in_site_label-3]",
+    "test_a_rendered_card_meets_its_requirements[outcome_word_in_site_label_with_study-3]",
+}
 
 
 def _xfail(request, key):
@@ -56,7 +62,7 @@ def test_allowed_is_exactly_the_safe_outputs(c):
 
 def test_every_class_has_two_or_more_variants():
     per = Counter(c["cls"].split()[0] for c in CASES)
-    assert sorted(per) == ["L1", "L2", "L3", "L4", "L5"] and min(per.values()) >= 2, per
+    assert sorted(per) == ["L1", "L2", "L3", "L4", "L5", "L6"] and min(per.values()) >= 2, per
 
 
 # --- inputs ------------------------------------------------------------------------------
@@ -160,8 +166,67 @@ def test_a_rendered_card_meets_its_requirements(c, i, request):
     if out != "RENDERED":
         return
     q = c["requires"][i]
-    text = re.sub(r"<[^>]+>", " ", page)
-    if "must" in q:
+    own, _ = _split(page)
+    if "must" in q:          # inline spans add no space; tags go before entities are unescaped
+        text = html.unescape(re.sub(r"<[^>]+>", " ", re.sub(r"</?span[^>]*>", "", page)))
         assert re.search(q["must"], text, re.I), f"{q['why']} ({q['grade']} if missing)"
-    else:
-        assert not re.search(q["must_not"], text, re.I), f"{q['why']} ({q['grade']} if present)"
+    else:                    # a ban reads the card's own words; verbatim record text is exempt
+        assert not re.search(q["must_not"], own, re.I), f"{q['why']} ({q['grade']} if present)"
+
+
+@pytest.mark.parametrize("c", CASES, ids=[c["id"] for c in CASES])
+def test_verbatim_spans_are_record_text(c, request):
+    """Only record text may sit in a verbatim span: the site label, and the
+    study's plan reference."""
+    _xfail(request, f"test_verbatim_spans_are_record_text[{c['id']}]")
+    out, page = _run(c)
+    if out != "RENDERED":
+        return
+    from study import load_results
+    record = [dict(c.get("card_patch") or []).get("site", c["site"]), load_results(RESULTS).plan]
+    for span in _split(page)[1]:
+        assert span in record, f"verbatim span is not record text: {span!r}"
+
+
+def test_bans_catch_word_families():
+    import make_card_label_set as g
+    ban = g.NO_STUDY_WORDS["must_not"]
+    for w in ("resolved", "Resolves", "resolvable", "resolution", "unresolved", "Unresolvable",
+              "different on average"):
+        assert re.search(ban, w, re.I), w
+    for w in ("dissolved", "solved", "different, on the whole"):
+        assert not re.search(ban, w, re.I), w
+
+
+class _Verbatim(HTMLParser):
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.depth, self.stack, self.own, self.spans = 0, [], [], []
+
+    def handle_starttag(self, tag, attrs):
+        if tag in ("br", "img", "hr", "meta", "input"):
+            return
+        v = "verbatim" in (dict(attrs).get("class") or "").split()
+        self.stack.append(v)
+        if v:
+            self.depth += 1
+            if self.depth == 1:
+                self.spans.append("")
+
+    def handle_endtag(self, tag):
+        if tag in ("br", "img", "hr", "meta", "input") or not self.stack:
+            return
+        if self.stack.pop():
+            self.depth -= 1
+
+    def handle_data(self, d):
+        if self.depth:
+            self.spans[-1] += d
+        else:
+            self.own.append(d)
+
+
+def _split(page):
+    p = _Verbatim()
+    p.feed(page)
+    return " ".join(p.own), [x.strip() for x in p.spans]

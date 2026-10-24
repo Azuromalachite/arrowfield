@@ -101,7 +101,10 @@ REFUSE = {"RENDERED": "MISLEADING", "REFUSED": "SAFE_REFUSAL"}
 LABEL = must(r"teaching comparison", "MISLEADING", "the card says what it is")
 NOT_A_TEST = must(r"not a (prespecified )?test|a look,? not a test", "MISLEADING", "a look, not a test")
 CARD_RULE = must(r"(the |this )?card'?s (own )?rule", "MISLEADING", "the verdict is the card's rule's, not the study's")
-NO_STUDY_WORDS = must_not(r"\bresolved\b|\bunresolved\b|different on average", "FALSE",
+# Bans read the card's own words (the user, 2026-10-24): record text (the site label, the
+# study's plan reference) is shown verbatim inside class="verbatim" and is exempt; the harness
+# checks each verbatim span is record text. Word families: resol(v|ut)*, unresol(v|ut)*.
+NO_STUDY_WORDS = must_not(r"\bresol(v|ut)\w*|\bunresol(v|ut)\w*|different on average", "FALSE",
                           "the study's outcome words belong to the study's rule and the study card")
 ALWAYS = [LABEL, NOT_A_TEST, CARD_RULE, NO_STUDY_WORDS]
 TO_STUDY_CARD = must(r"study card", "MISLEADING", "where the study's verdict is")
@@ -201,6 +204,20 @@ case("study_unknown_rule", "L3 study mismatch",
      "describe a study's tiers under a rule it did not use. Refuse, as the study card does.",
      OAC, E3, "C3-H", ctx("B_stereo", OAC, E3), REFUSE, "REFUSED", measured="OVERLAPPING",
      study_patch=[("verdict_rule", "someone-else/v9")])
+
+# --- L6 a record label that carries an outcome word (probe round 1, item 4) ---------------------
+case("outcome_word_in_site_label", "L6 verbatim labels",
+     "A site label (synthetic) reading 'resolved site': the record's label, shown verbatim; the card's "
+     "own words still never use an outcome word.",
+     OAC, E3, "C3-H", None, RENDER, "RENDERED",
+     ALWAYS + [must(r"resolved site", "MISLEADING", "the record's label, unaltered")], measured="OVERLAPPING",
+     card_patch=[("site", "resolved site")])
+case("outcome_word_in_site_label_with_study", "L6 verbatim labels",
+     "The same label with the study on the page: the site is not one of the study's, so the card says the "
+     "study gives no verdict here, in its own words.",
+     OAC, E3, "C3-H", ctx("B_stereo", OAC, E3), RENDER, "RENDERED",
+     ALWAYS + [must(r"resolved site", "MISLEADING", "the record's label"), NO_ROW], measured="OVERLAPPING",
+     card_patch=[("site", "resolved site")])
 
 # --- L5 numbers the card cannot print ----------------------------------------------------
 case("nan_difference", "L5 values",
