@@ -79,32 +79,7 @@ def _variant(path, value, tmp_path):
     return p
 
 
-# measured on 1099b7d: bundle.load indexes before checking shapes and keys
-XFAIL = {
-    "observations_as_mapping",
-    "observation_as_string",
-    "compounds_as_mapping",
-    "compound_as_list",
-    "comparison_as_string",
-    "comparisons_as_mapping",
-    "comparisons_as_empty_mapping",
-    "taxon_as_string",
-    "taxon_as_list",
-    "observed_contrast_as_list",
-    "taxon_without_accepted_name",
-    "response_without_measure",
-    "component_without_atlas_id",
-    "component_without_detected",
-    "observation_without_statement",
-    "observation_without_type",
-    "occurrence_without_roles",
-    "class_without_observation_ids",
-    "compound_without_atlas_id",
-    "comparison_without_case_label",
-    "evidence_as_list",
-    "component_as_list_with_bool",
-    "espmap_as_string",
-}
+XFAIL = set()
 
 
 @pytest.mark.parametrize("case_id,path,value", SHAPES, ids=[s[0] for s in SHAPES])
@@ -117,3 +92,18 @@ def test_a_malformed_shape_is_refused_not_crashed(case_id, path, value, tmp_path
 
 def test_the_real_bundle_still_loads():
     load(HERE / "tests" / "data" / "sesiidae-homework-1.bundle.json")
+
+
+MESSAGES = [
+    (["observations", 0, "taxon"], "Synanthedon tenuis", "observations[0].taxon: expected mapping, got str"),
+    (["observations", 0, "statement"], DROP, "observations[0].statement: required field missing"),
+    (["compounds", CMP_O, "occurrences"], {"x": 1}, f"compounds[{CMP_O}].occurrences: expected list, got dict"),
+    (["espmap"], "none", "espmap: expected list, got str"),
+]
+
+
+@pytest.mark.parametrize("path,value,message", MESSAGES, ids=[m[2].split(":")[0] for m in MESSAGES])
+def test_the_refusal_names_the_json_path(path, value, message, tmp_path):
+    with pytest.raises(InvalidBundle) as e:
+        load(_variant(path, value, tmp_path))
+    assert message in str(e.value)
