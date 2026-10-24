@@ -74,7 +74,9 @@
      "why": "a control's comparison is descriptive chemistry only"
     }
    ],
-   "measured": "SEPARATED"
+   "measured": "SEPARATED",
+   "card_patch": [],
+   "study_patch": []
   },
   {
    "id": "control_c2_separated",
@@ -142,7 +144,9 @@
      "why": "a control's comparison is descriptive chemistry only"
     }
    ],
-   "measured": "SEPARATED"
+   "measured": "SEPARATED",
+   "card_patch": [],
+   "study_patch": []
   },
   {
    "id": "chain_no_row",
@@ -205,7 +209,9 @@
      "why": "no control on this card"
     }
    ],
-   "measured": "OVERLAPPING"
+   "measured": "OVERLAPPING",
+   "card_patch": [],
+   "study_patch": []
   },
   {
    "id": "b_c3_primary_vocabulary",
@@ -273,7 +279,9 @@
      "why": "a primary site is a test"
     }
    ],
-   "measured": "OVERLAPPING"
+   "measured": "OVERLAPPING",
+   "card_patch": [],
+   "study_patch": []
   },
   {
    "id": "c_c4_primary_agrees",
@@ -336,7 +344,9 @@
      "why": "the study decides under a different rule"
     }
    ],
-   "measured": "SEPARATED"
+   "measured": "SEPARATED",
+   "card_patch": [],
+   "study_patch": []
   },
   {
    "id": "b_c5_exploratory",
@@ -394,7 +404,9 @@
      "why": "the row's tier"
     }
    ],
-   "measured": "OVERLAPPING"
+   "measured": "OVERLAPPING",
+   "card_patch": [],
+   "study_patch": []
   },
   {
    "id": "head_o_control_secondary",
@@ -462,7 +474,9 @@
      "why": "a control's comparison is descriptive chemistry only"
     }
    ],
-   "measured": "RULE_DEPENDENT"
+   "measured": "RULE_DEPENDENT",
+   "card_patch": [],
+   "study_patch": []
   },
   {
    "id": "reversed_order",
@@ -494,7 +508,9 @@
    ],
    "prefer": "REFUSED",
    "requires": [],
-   "measured": "OVERLAPPING"
+   "measured": "OVERLAPPING",
+   "card_patch": [],
+   "study_patch": []
   },
   {
    "id": "wrong_contrast",
@@ -526,7 +542,9 @@
    ],
    "prefer": "REFUSED",
    "requires": [],
-   "measured": "SEPARATED"
+   "measured": "SEPARATED",
+   "card_patch": [],
+   "study_patch": []
   },
   {
    "id": "unknown_contrast",
@@ -558,7 +576,9 @@
    ],
    "prefer": "REFUSED",
    "requires": [],
-   "measured": "OVERLAPPING"
+   "measured": "OVERLAPPING",
+   "card_patch": [],
+   "study_patch": []
   },
   {
    "id": "study_not_results",
@@ -590,7 +610,9 @@
    ],
    "prefer": "REFUSED",
    "requires": [],
-   "measured": "OVERLAPPING"
+   "measured": "OVERLAPPING",
+   "card_patch": [],
+   "study_patch": []
   },
   {
    "id": "butene_no_study",
@@ -636,7 +658,9 @@
      "why": "no study here"
     }
    ],
-   "measured": "SEPARATED"
+   "measured": "SEPARATED",
+   "card_patch": [],
+   "study_patch": []
   },
   {
    "id": "context_not_mapping",
@@ -683,7 +707,9 @@
      "why": "no study read"
     }
    ],
-   "measured": "SEPARATED"
+   "measured": "SEPARATED",
+   "card_patch": [],
+   "study_patch": []
   },
   {
    "id": "role_outside_vocabulary",
@@ -715,7 +741,184 @@
    ],
    "prefer": "REFUSED",
    "requires": [],
-   "measured": "SEPARATED"
+   "measured": "SEPARATED",
+   "card_patch": [],
+   "study_patch": []
+  },
+  {
+   "id": "card_pair_not_context_pair",
+   "cls": "L3 study mismatch",
+   "why": "The card compares Z3 → E2 at C4-H; the context names B_stereo's own pair (Z3 → E3). The study's primary-test status would be attached to a pair it never tested. Refuse unless the card's molecules are the context's.",
+   "x": "z3_z13_18_oac",
+   "y": "e2_z13_18_oac",
+   "site": "C4-H",
+   "context": {
+    "study": "results",
+    "contrast": "B_stereo",
+    "x": "z3_z13_18_oac",
+    "y": "e3_z13_18_oac",
+    "roles": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": [],
+   "measured": "SEPARATED",
+   "card_patch": [],
+   "study_patch": []
+  },
+  {
+   "id": "card_pair_swapped_against_context",
+   "cls": "L3 study mismatch",
+   "why": "The card compares E3 → Z3; the context declares Z3 → E3, the study's order. The card's sign is the reverse of the study's direction. Refuse.",
+   "x": "e3_z13_18_oac",
+   "y": "z3_z13_18_oac",
+   "site": "C3-H",
+   "context": {
+    "study": "results",
+    "contrast": "B_stereo",
+    "x": "z3_z13_18_oac",
+    "y": "e3_z13_18_oac",
+    "roles": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": [],
+   "measured": "OVERLAPPING",
+   "card_patch": [],
+   "study_patch": []
+  },
+  {
+   "id": "study_unknown_rule",
+   "cls": "L3 study mismatch",
+   "why": "A StudyResults whose verdict rule is not one Arrowfield knows (model.KNOWN_VERDICT_RULES): never describe a study's tiers under a rule it did not use. Refuse, as the study card does.",
+   "x": "z3_z13_18_oac",
+   "y": "e3_z13_18_oac",
+   "site": "C3-H",
+   "context": {
+    "study": "results",
+    "contrast": "B_stereo",
+    "x": "z3_z13_18_oac",
+    "y": "e3_z13_18_oac",
+    "roles": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": [],
+   "measured": "OVERLAPPING",
+   "card_patch": [],
+   "study_patch": [
+    [
+     "verdict_rule",
+     "someone-else/v9"
+    ]
+   ]
+  },
+  {
+   "id": "nan_difference",
+   "cls": "L5 values",
+   "why": "A Comparison whose difference is NaN (compare() refuses these; a hand-built one need not): never print 'nan' as a difference.",
+   "x": "z3_z13_18_oac",
+   "y": "e3_z13_18_oac",
+   "site": "C3-H",
+   "context": null,
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "REFUSED",
+   "requires": [
+    {
+     "must_not": "\\bnan\\b",
+     "grade": "MISLEADING",
+     "why": "no raw NaN"
+    }
+   ],
+   "measured": "OVERLAPPING",
+   "card_patch": [
+    [
+     "diff",
+     NaN
+    ]
+   ],
+   "study_patch": []
+  },
+  {
+   "id": "infinite_partition",
+   "cls": "L5 values",
+   "why": "A partition sensitivity of +inf: not a number a reader can weigh a difference against.",
+   "x": "z3_z13_18_oac",
+   "y": "e3_z13_18_oac",
+   "site": "C3-H",
+   "context": null,
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "REFUSED",
+   "requires": [
+    {
+     "must_not": "\\binf\\b",
+     "grade": "MISLEADING",
+     "why": "no raw inf"
+    }
+   ],
+   "measured": "OVERLAPPING",
+   "card_patch": [
+    [
+     "partition",
+     Infinity
+    ]
+   ],
+   "study_patch": []
   }
  ]
 }

@@ -34,7 +34,20 @@ RESULTS = HERE / "tests" / "data" / "espmap-sesiidae-001.results.json"
 # --- what the card gets wrong today (measured on the committed card) --------------------
 # Empty since the label fix (the 53 pairs #15 measured on the card before it). A case added
 # later that the card fails goes here, as "test[case]" or "test[case-i]", with why.
-XFAIL = set()
+# probe round 1 (on ab58c1a): the card is not checked against the context pair or the
+# study rule, and prints non-finite numbers
+XFAIL = {
+    "test_card_output_is_safe[card_pair_not_context_pair]",
+    "test_card_output_is_safe[card_pair_swapped_against_context]",
+    "test_card_output_is_safe[study_unknown_rule]",
+    "test_card_output_is_preferred[card_pair_not_context_pair]",
+    "test_card_output_is_preferred[card_pair_swapped_against_context]",
+    "test_card_output_is_preferred[study_unknown_rule]",
+    "test_card_output_is_preferred[nan_difference]",
+    "test_card_output_is_preferred[infinite_partition]",
+    "test_a_rendered_card_meets_its_requirements[nan_difference-0]",
+    "test_a_rendered_card_meets_its_requirements[infinite_partition-0]",
+}
 
 
 def _xfail(request, key):
@@ -56,7 +69,7 @@ def test_allowed_is_exactly_the_safe_outputs(c):
 
 def test_every_class_has_two_or_more_variants():
     per = Counter(c["cls"].split()[0] for c in CASES)
-    assert sorted(per) == ["L1", "L2", "L3", "L4"] and min(per.values()) >= 2, per
+    assert sorted(per) == ["L1", "L2", "L3", "L4", "L5"] and min(per.values()) >= 2, per
 
 
 # --- inputs ------------------------------------------------------------------------------
@@ -82,8 +95,9 @@ def _context(c):
         return spec
     ctx = dict(spec)
     if spec["study"] == "results":
+        from dataclasses import replace
         from study import load_results
-        ctx["study"] = load_results(RESULTS)
+        ctx["study"] = replace(load_results(RESULTS), **dict(c.get("study_patch") or []))
     elif spec["study"] == "raw":
         ctx["study"] = json.loads(RESULTS.read_text(encoding="utf-8"))
     return ctx
@@ -126,7 +140,8 @@ def _run(c):
     from views import card_html
     takes_context = "context" in inspect.signature(card_html).parameters
     try:
-        cmp = _cmp(c)
+        from dataclasses import replace
+        cmp = replace(_cmp(c), **dict(c.get("card_patch") or []))
         page = card_html(cmp, context=_context(c)) if takes_context else card_html(cmp)
     except Refused:
         return "REFUSED", None

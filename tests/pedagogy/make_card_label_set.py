@@ -75,13 +75,15 @@ def ctx(contrast, x, y, study="results", **kw):
     return c
 
 
-def case(id, cls, why, x, y, site, context, outcomes, prefer, requires=(), measured=None):
+def case(id, cls, why, x, y, site, context, outcomes, prefer, requires=(), measured=None, card_patch=(),
+         study_patch=()):
     outcomes = dict(outcomes)
     outcomes.setdefault("ERROR", "CRASH")
     allowed = sorted(k for k, g in outcomes.items() if g in ("SAFE", "SAFE_REFUSAL"))
     assert prefer is None or prefer in allowed, id
     CASES.append(dict(id=id, cls=cls, why=why, x=x, y=y, site=site, context=context, outcomes=outcomes,
-                      allowed=allowed, prefer=prefer, requires=list(requires), measured=measured))
+                      allowed=allowed, prefer=prefer, requires=list(requires), measured=measured,
+                      card_patch=[list(p) for p in card_patch], study_patch=[list(p) for p in study_patch]))
 
 
 def must(pat, grade, why):
@@ -181,6 +183,35 @@ case("role_outside_vocabulary", "L4 no study",
      "control label.",
      OAC, AL, "C1-H", ctx(A_AL_OAC, OAC, AL, roles=dict(ROLES, **{AL: "control-ish"})), REFUSE, "REFUSED",
      measured="SEPARATED")
+
+# --- held-out probe round 1 (Publishing, on ab58c1a): its findings, as cases ---------------
+# card_patch / study_patch: (field, value) applied with dataclasses.replace to the Comparison or
+# the StudyResults, for inputs compare() and load_results() never produce themselves.
+case("card_pair_not_context_pair", "L3 study mismatch",
+     "The card compares Z3 → E2 at C4-H; the context names B_stereo's own pair (Z3 → E3). The study's "
+     "primary-test status would be attached to a pair it never tested. Refuse unless the card's molecules "
+     "are the context's.",
+     OAC, E2, "C4-H", ctx("B_stereo", OAC, E3), REFUSE, "REFUSED", measured="SEPARATED")
+case("card_pair_swapped_against_context", "L3 study mismatch",
+     "The card compares E3 → Z3; the context declares Z3 → E3, the study's order. The card's sign is the "
+     "reverse of the study's direction. Refuse.",
+     E3, OAC, "C3-H", ctx("B_stereo", OAC, E3), REFUSE, "REFUSED", measured="OVERLAPPING")
+case("study_unknown_rule", "L3 study mismatch",
+     "A StudyResults whose verdict rule is not one Arrowfield knows (model.KNOWN_VERDICT_RULES): never "
+     "describe a study's tiers under a rule it did not use. Refuse, as the study card does.",
+     OAC, E3, "C3-H", ctx("B_stereo", OAC, E3), REFUSE, "REFUSED", measured="OVERLAPPING",
+     study_patch=[("verdict_rule", "someone-else/v9")])
+
+# --- L5 numbers the card cannot print ----------------------------------------------------
+case("nan_difference", "L5 values",
+     "A Comparison whose difference is NaN (compare() refuses these; a hand-built one need not): never "
+     "print 'nan' as a difference.",
+     OAC, E3, "C3-H", None, SHOW, "REFUSED", [must_not(r"\bnan\b", "MISLEADING", "no raw NaN")],
+     measured="OVERLAPPING", card_patch=[("diff", float("nan"))])
+case("infinite_partition", "L5 values",
+     "A partition sensitivity of +inf: not a number a reader can weigh a difference against.",
+     OAC, E3, "C3-H", None, SHOW, "REFUSED", [must_not(r"\binf\b", "MISLEADING", "no raw inf")],
+     measured="OVERLAPPING", card_patch=[("partition", float("inf"))])
 
 
 def document():
