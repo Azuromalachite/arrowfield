@@ -294,16 +294,102 @@ def _extended_verdict(card):
             f"{html.escape(v)}</div>")
 
 
-def card_html(card):
+# The card's verdict is a teaching look under its own rule, never the frozen
+# study's test (tests/pedagogy/card_label_set.json, #15): it labels itself,
+# never borrows the study's outcome words, and sends the reader to the study
+# card for the study's verdict.
+_CARD_LABEL = ("Teaching comparison: a look, not a test. The verdict below is the card's own rule "
+               "(every conformer of one molecule beyond every conformer of the other, beyond the partition "
+               "sensitivity, with one sign under both partition rules).")
+_CARD_ROLES = ("atlas_observed", "teaching_control", "computational_counterfactual")
+_TIER_WORDS = {"primary": "a prespecified primary test", "secondary": "a prespecified secondary test"}
+
+
+def _esc(x):
+    # text content: quotes need no escaping, and an escaped apostrophe reads as &#x27; in plain text
+    return html.escape(str(x), quote=False)
+
+
+def _verbatim(x):
+    """Record text (a site label, a study's plan reference), verbatim and
+    marked: the card's word bans read only the text outside these spans."""
+    return f'<span class="verbatim">{_esc(x)}</span>'
+
+
+def _card_notes(card, context):
+    """Notes from an optional context: the study's stance on this site, read
+    from the study itself, and any teaching control. Refused when the context
+    cannot be this card's."""
+    from model import Refused, StudyResults
+    if not isinstance(context, dict):
+        return []                          # not a mapping: read as no context
+    roles = context.get("roles") if isinstance(context.get("roles"), dict) else {}
+    bad = {k: v for k, v in roles.items() if v not in _CARD_ROLES}
+    if bad:
+        raise Refused(f"role(s) {bad} are not one of {_CARD_ROLES}: the card cannot say what those molecules are")
+    x, y = context.get("x", card.name_a), context.get("y", card.name_b)
+    notes = []
+    study = context.get("study")
+    if study is not None:
+        from model import KNOWN_VERDICT_RULES
+        if not isinstance(study, StudyResults):
+            raise Refused("the study must be a StudyResults read by study.load_results, which checks the file")
+        if study.verdict_rule not in KNOWN_VERDICT_RULES:
+            raise Refused(f"the study's verdict rule {study.verdict_rule!r} is not one Arrowfield knows "
+                          f"({KNOWN_VERDICT_RULES}): its tiers cannot be described")
+        if (card.name_a, card.name_b) != (x, y):
+            raise Refused(f"this card compares {card.name_a} → {card.name_b}, but the study context names "
+                          f"{x} → {y}: the study's statement would be attached to another pair or direction")
+        contrast = context.get("contrast")
+        rows = [s for s in study.sites if s.contrast == contrast and s.population == "all"]
+        if not rows:
+            raise Refused(f"the study has no contrast {contrast!r}")
+        if (rows[0].x, rows[0].y) != (x, y):
+            raise Refused(f"the study's {contrast} compares {rows[0].x} → {rows[0].y}, this card {x} → {y}: "
+                          "its difference would carry another sign or describe another pair")
+        row = next((s for s in rows if s.site == card.site), None)
+        plan = _verbatim(study.plan)
+        if row is None:
+            notes.append(f"The study ({plan}) gives no verdict at this site: it does not test it.")
+        elif row.tier in _TIER_WORDS:
+            notes.append(f"The study ({plan}) decides this site as {_TIER_WORDS[row.tier]}, under a "
+                         "different rule: its verdict is on the study card, not here.")
+        else:
+            notes.append(f"The study ({plan}) reports this site as exploratory, under a different rule: "
+                         "its row is on the study card.")
+    for slug, name in ((x, card.name_a), (y, card.name_b)):
+        if roles.get(slug) == "teaching_control":
+            notes.append(f"{_esc(name)} is a teaching control: a constructed molecule, not an Atlas compound. "
+                         "This comparison is descriptive only.")
+        elif roles.get(slug) == "computational_counterfactual":
+            notes.append(f"{_esc(name)} is a computational counterfactual, not an observed molecule. "
+                         "This comparison is descriptive only.")
+    return notes
+
+
+def card_html(card, context=None):
+    """The difference card. context (optional): {"study": StudyResults,
+    "contrast", "x", "y": the card's molecules' slugs, "roles": {slug: role}};
+    model.Refused when it cannot be this card's study or a role is unknown,
+    and when a number it would print is not finite."""
+    import math
+    from model import Refused
+    shown = (card.diff, card.partition, card.diff_other_rule, card.range_a, card.range_b)
+    if card.status is not ComparisonStatus.NOT_COMPARABLE and any(
+            v is not None and not (isinstance(v, (int, float)) and math.isfinite(v)) for v in shown):
+        raise Refused("a difference, range or partition sensitivity on this card is not a finite number: "
+                      "recompute the comparison")
+    notes = "".join(f'<div class="limits">{n}</div>' for n in _card_notes(card, context))     # HTML, escaped
+    label = f'<div class="label">{_esc(_CARD_LABEL)}</div>'
     title = (f'<div class="card-title">{html.escape(card.name_a)} → {html.escape(card.name_b)} '
-             f'· site {html.escape(card.site)}<span class="unit">site mean, kcal/mol</span></div>')
+             f'· site {_verbatim(card.site)}<span class="unit">site mean, kcal/mol</span></div>')
     banner = (f'<div class="status status-{card.status.name.lower()}">'
               f'{card.status.value.upper()}</div>')
     if card.status is ComparisonStatus.NOT_COMPARABLE:
-        return (f'<div class="card">{banner}{title}'
-                f'<div class="verdict">{html.escape(card.verdict.value)}</div></div>')
+        return (f'<div class="card">{banner}{title}{label}'
+                f'<div class="verdict">{html.escape(card.verdict.value)}</div>{notes}</div>')
     return f"""
-<div class="card">{banner}{title}
+<div class="card">{banner}{title}{label}
 <table>
 <tr><td>difference of conformer means</td><td>{card.diff:+.2f}</td></tr>
 <tr><td>conformer range ({html.escape(card.name_a)} / {html.escape(card.name_b)}, n = {card.n[0]} / {card.n[1]})</td>
@@ -312,7 +398,7 @@ def card_html(card):
 <tr><td>difference of means under the other partition rule (a sign within ±{SIGN_TOL} is not counted)</td>
 <td>{card.diff_other_rule:+.2f}</td></tr>
 </table>
-<div class="verdict">{html.escape(card.verdict.value)}</div>{_extended_verdict(card)}
+<div class="verdict">{html.escape(card.verdict.value)}</div>{_extended_verdict(card)}{notes}
 <div class="scope">{_scope(card)}</div></div>"""
 
 

@@ -75,13 +75,15 @@ def ctx(contrast, x, y, study="results", **kw):
     return c
 
 
-def case(id, cls, why, x, y, site, context, outcomes, prefer, requires=(), measured=None):
+def case(id, cls, why, x, y, site, context, outcomes, prefer, requires=(), measured=None, card_patch=(),
+         study_patch=()):
     outcomes = dict(outcomes)
     outcomes.setdefault("ERROR", "CRASH")
     allowed = sorted(k for k, g in outcomes.items() if g in ("SAFE", "SAFE_REFUSAL"))
     assert prefer is None or prefer in allowed, id
     CASES.append(dict(id=id, cls=cls, why=why, x=x, y=y, site=site, context=context, outcomes=outcomes,
-                      allowed=allowed, prefer=prefer, requires=list(requires), measured=measured))
+                      allowed=allowed, prefer=prefer, requires=list(requires), measured=measured,
+                      card_patch=[list(p) for p in card_patch], study_patch=[list(p) for p in study_patch]))
 
 
 def must(pat, grade, why):
@@ -99,7 +101,10 @@ REFUSE = {"RENDERED": "MISLEADING", "REFUSED": "SAFE_REFUSAL"}
 LABEL = must(r"teaching comparison", "MISLEADING", "the card says what it is")
 NOT_A_TEST = must(r"not a (prespecified )?test|a look,? not a test", "MISLEADING", "a look, not a test")
 CARD_RULE = must(r"(the |this )?card'?s (own )?rule", "MISLEADING", "the verdict is the card's rule's, not the study's")
-NO_STUDY_WORDS = must_not(r"\bresolved\b|\bunresolved\b|different on average", "FALSE",
+# Bans read the card's own words (the user, 2026-10-24): record text (the site label, the
+# study's plan reference) is shown verbatim inside class="verbatim" and is exempt; the harness
+# checks each verbatim span is record text. Word families: resol(v|ut)*, unresol(v|ut)*.
+NO_STUDY_WORDS = must_not(r"\bresol(v|ut)\w*|\bunresol(v|ut)\w*|different on average", "FALSE",
                           "the study's outcome words belong to the study's rule and the study card")
 ALWAYS = [LABEL, NOT_A_TEST, CARD_RULE, NO_STUDY_WORDS]
 TO_STUDY_CARD = must(r"study card", "MISLEADING", "where the study's verdict is")
@@ -181,6 +186,49 @@ case("role_outside_vocabulary", "L4 no study",
      "control label.",
      OAC, AL, "C1-H", ctx(A_AL_OAC, OAC, AL, roles=dict(ROLES, **{AL: "control-ish"})), REFUSE, "REFUSED",
      measured="SEPARATED")
+
+# --- held-out probe round 1 (Publishing, on ab58c1a): its findings, as cases ---------------
+# card_patch / study_patch: (field, value) applied with dataclasses.replace to the Comparison or
+# the StudyResults, for inputs compare() and load_results() never produce themselves.
+case("card_pair_not_context_pair", "L3 study mismatch",
+     "The card compares Z3 → E2 at C4-H; the context names B_stereo's own pair (Z3 → E3). The study's "
+     "primary-test status would be attached to a pair it never tested. Refuse unless the card's molecules "
+     "are the context's.",
+     OAC, E2, "C4-H", ctx("B_stereo", OAC, E3), REFUSE, "REFUSED", measured="SEPARATED")
+case("card_pair_swapped_against_context", "L3 study mismatch",
+     "The card compares E3 → Z3; the context declares Z3 → E3, the study's order. The card's sign is the "
+     "reverse of the study's direction. Refuse.",
+     E3, OAC, "C3-H", ctx("B_stereo", OAC, E3), REFUSE, "REFUSED", measured="OVERLAPPING")
+case("study_unknown_rule", "L3 study mismatch",
+     "A StudyResults whose verdict rule is not one Arrowfield knows (model.KNOWN_VERDICT_RULES): never "
+     "describe a study's tiers under a rule it did not use. Refuse, as the study card does.",
+     OAC, E3, "C3-H", ctx("B_stereo", OAC, E3), REFUSE, "REFUSED", measured="OVERLAPPING",
+     study_patch=[("verdict_rule", "someone-else/v9")])
+
+# --- L6 a record label that carries an outcome word (probe round 1, item 4) ---------------------
+case("outcome_word_in_site_label", "L6 verbatim labels",
+     "A site label (synthetic) reading 'resolved site': the record's label, shown verbatim; the card's "
+     "own words still never use an outcome word.",
+     OAC, E3, "C3-H", None, RENDER, "RENDERED",
+     ALWAYS + [must(r"resolved site", "MISLEADING", "the record's label, unaltered")], measured="OVERLAPPING",
+     card_patch=[("site", "resolved site")])
+case("outcome_word_in_site_label_with_study", "L6 verbatim labels",
+     "The same label with the study on the page: the site is not one of the study's, so the card says the "
+     "study gives no verdict here, in its own words.",
+     OAC, E3, "C3-H", ctx("B_stereo", OAC, E3), RENDER, "RENDERED",
+     ALWAYS + [must(r"resolved site", "MISLEADING", "the record's label"), NO_ROW], measured="OVERLAPPING",
+     card_patch=[("site", "resolved site")])
+
+# --- L5 numbers the card cannot print ----------------------------------------------------
+case("nan_difference", "L5 values",
+     "A Comparison whose difference is NaN (compare() refuses these; a hand-built one need not): never "
+     "print 'nan' as a difference.",
+     OAC, E3, "C3-H", None, SHOW, "REFUSED", [must_not(r"\bnan\b", "MISLEADING", "no raw NaN")],
+     measured="OVERLAPPING", card_patch=[("diff", float("nan"))])
+case("infinite_partition", "L5 values",
+     "A partition sensitivity of +inf: not a number a reader can weigh a difference against.",
+     OAC, E3, "C3-H", None, SHOW, "REFUSED", [must_not(r"\binf\b", "MISLEADING", "no raw inf")],
+     measured="OVERLAPPING", card_patch=[("partition", float("inf"))])
 
 
 def document():

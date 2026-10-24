@@ -54,7 +54,7 @@
      "why": "the verdict is the card's rule's, not the study's"
     },
     {
-     "must_not": "\\bresolved\\b|\\bunresolved\\b|different on average",
+     "must_not": "\\bresol(v|ut)\\w*|\\bunresol(v|ut)\\w*|different on average",
      "grade": "FALSE",
      "why": "the study's outcome words belong to the study's rule and the study card"
     },
@@ -74,7 +74,9 @@
      "why": "a control's comparison is descriptive chemistry only"
     }
    ],
-   "measured": "SEPARATED"
+   "measured": "SEPARATED",
+   "card_patch": [],
+   "study_patch": []
   },
   {
    "id": "control_c2_separated",
@@ -122,7 +124,7 @@
      "why": "the verdict is the card's rule's, not the study's"
     },
     {
-     "must_not": "\\bresolved\\b|\\bunresolved\\b|different on average",
+     "must_not": "\\bresol(v|ut)\\w*|\\bunresol(v|ut)\\w*|different on average",
      "grade": "FALSE",
      "why": "the study's outcome words belong to the study's rule and the study card"
     },
@@ -142,7 +144,9 @@
      "why": "a control's comparison is descriptive chemistry only"
     }
    ],
-   "measured": "SEPARATED"
+   "measured": "SEPARATED",
+   "card_patch": [],
+   "study_patch": []
   },
   {
    "id": "chain_no_row",
@@ -190,7 +194,7 @@
      "why": "the verdict is the card's rule's, not the study's"
     },
     {
-     "must_not": "\\bresolved\\b|\\bunresolved\\b|different on average",
+     "must_not": "\\bresol(v|ut)\\w*|\\bunresol(v|ut)\\w*|different on average",
      "grade": "FALSE",
      "why": "the study's outcome words belong to the study's rule and the study card"
     },
@@ -205,7 +209,9 @@
      "why": "no control on this card"
     }
    ],
-   "measured": "OVERLAPPING"
+   "measured": "OVERLAPPING",
+   "card_patch": [],
+   "study_patch": []
   },
   {
    "id": "b_c3_primary_vocabulary",
@@ -253,7 +259,7 @@
      "why": "the verdict is the card's rule's, not the study's"
     },
     {
-     "must_not": "\\bresolved\\b|\\bunresolved\\b|different on average",
+     "must_not": "\\bresol(v|ut)\\w*|\\bunresol(v|ut)\\w*|different on average",
      "grade": "FALSE",
      "why": "the study's outcome words belong to the study's rule and the study card"
     },
@@ -273,7 +279,9 @@
      "why": "a primary site is a test"
     }
    ],
-   "measured": "OVERLAPPING"
+   "measured": "OVERLAPPING",
+   "card_patch": [],
+   "study_patch": []
   },
   {
    "id": "c_c4_primary_agrees",
@@ -321,7 +329,7 @@
      "why": "the verdict is the card's rule's, not the study's"
     },
     {
-     "must_not": "\\bresolved\\b|\\bunresolved\\b|different on average",
+     "must_not": "\\bresol(v|ut)\\w*|\\bunresol(v|ut)\\w*|different on average",
      "grade": "FALSE",
      "why": "the study's outcome words belong to the study's rule and the study card"
     },
@@ -336,7 +344,9 @@
      "why": "the study decides under a different rule"
     }
    ],
-   "measured": "SEPARATED"
+   "measured": "SEPARATED",
+   "card_patch": [],
+   "study_patch": []
   },
   {
    "id": "b_c5_exploratory",
@@ -384,7 +394,7 @@
      "why": "the verdict is the card's rule's, not the study's"
     },
     {
-     "must_not": "\\bresolved\\b|\\bunresolved\\b|different on average",
+     "must_not": "\\bresol(v|ut)\\w*|\\bunresol(v|ut)\\w*|different on average",
      "grade": "FALSE",
      "why": "the study's outcome words belong to the study's rule and the study card"
     },
@@ -394,7 +404,9 @@
      "why": "the row's tier"
     }
    ],
-   "measured": "OVERLAPPING"
+   "measured": "OVERLAPPING",
+   "card_patch": [],
+   "study_patch": []
   },
   {
    "id": "head_o_control_secondary",
@@ -442,7 +454,7 @@
      "why": "the verdict is the card's rule's, not the study's"
     },
     {
-     "must_not": "\\bresolved\\b|\\bunresolved\\b|different on average",
+     "must_not": "\\bresol(v|ut)\\w*|\\bunresol(v|ut)\\w*|different on average",
      "grade": "FALSE",
      "why": "the study's outcome words belong to the study's rule and the study card"
     },
@@ -462,7 +474,9 @@
      "why": "a control's comparison is descriptive chemistry only"
     }
    ],
-   "measured": "RULE_DEPENDENT"
+   "measured": "RULE_DEPENDENT",
+   "card_patch": [],
+   "study_patch": []
   },
   {
    "id": "reversed_order",
@@ -494,7 +508,9 @@
    ],
    "prefer": "REFUSED",
    "requires": [],
-   "measured": "OVERLAPPING"
+   "measured": "OVERLAPPING",
+   "card_patch": [],
+   "study_patch": []
   },
   {
    "id": "wrong_contrast",
@@ -526,7 +542,9 @@
    ],
    "prefer": "REFUSED",
    "requires": [],
-   "measured": "SEPARATED"
+   "measured": "SEPARATED",
+   "card_patch": [],
+   "study_patch": []
   },
   {
    "id": "unknown_contrast",
@@ -558,7 +576,9 @@
    ],
    "prefer": "REFUSED",
    "requires": [],
-   "measured": "OVERLAPPING"
+   "measured": "OVERLAPPING",
+   "card_patch": [],
+   "study_patch": []
   },
   {
    "id": "study_not_results",
@@ -590,7 +610,9 @@
    ],
    "prefer": "REFUSED",
    "requires": [],
-   "measured": "OVERLAPPING"
+   "measured": "OVERLAPPING",
+   "card_patch": [],
+   "study_patch": []
   },
   {
    "id": "butene_no_study",
@@ -626,7 +648,7 @@
      "why": "the verdict is the card's rule's, not the study's"
     },
     {
-     "must_not": "\\bresolved\\b|\\bunresolved\\b|different on average",
+     "must_not": "\\bresol(v|ut)\\w*|\\bunresol(v|ut)\\w*|different on average",
      "grade": "FALSE",
      "why": "the study's outcome words belong to the study's rule and the study card"
     },
@@ -636,7 +658,9 @@
      "why": "no study here"
     }
    ],
-   "measured": "SEPARATED"
+   "measured": "SEPARATED",
+   "card_patch": [],
+   "study_patch": []
   },
   {
    "id": "context_not_mapping",
@@ -673,7 +697,7 @@
      "why": "the verdict is the card's rule's, not the study's"
     },
     {
-     "must_not": "\\bresolved\\b|\\bunresolved\\b|different on average",
+     "must_not": "\\bresol(v|ut)\\w*|\\bunresol(v|ut)\\w*|different on average",
      "grade": "FALSE",
      "why": "the study's outcome words belong to the study's rule and the study card"
     },
@@ -683,7 +707,9 @@
      "why": "no study read"
     }
    ],
-   "measured": "SEPARATED"
+   "measured": "SEPARATED",
+   "card_patch": [],
+   "study_patch": []
   },
   {
    "id": "role_outside_vocabulary",
@@ -715,7 +741,307 @@
    ],
    "prefer": "REFUSED",
    "requires": [],
-   "measured": "SEPARATED"
+   "measured": "SEPARATED",
+   "card_patch": [],
+   "study_patch": []
+  },
+  {
+   "id": "card_pair_not_context_pair",
+   "cls": "L3 study mismatch",
+   "why": "The card compares Z3 → E2 at C4-H; the context names B_stereo's own pair (Z3 → E3). The study's primary-test status would be attached to a pair it never tested. Refuse unless the card's molecules are the context's.",
+   "x": "z3_z13_18_oac",
+   "y": "e2_z13_18_oac",
+   "site": "C4-H",
+   "context": {
+    "study": "results",
+    "contrast": "B_stereo",
+    "x": "z3_z13_18_oac",
+    "y": "e3_z13_18_oac",
+    "roles": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": [],
+   "measured": "SEPARATED",
+   "card_patch": [],
+   "study_patch": []
+  },
+  {
+   "id": "card_pair_swapped_against_context",
+   "cls": "L3 study mismatch",
+   "why": "The card compares E3 → Z3; the context declares Z3 → E3, the study's order. The card's sign is the reverse of the study's direction. Refuse.",
+   "x": "e3_z13_18_oac",
+   "y": "z3_z13_18_oac",
+   "site": "C3-H",
+   "context": {
+    "study": "results",
+    "contrast": "B_stereo",
+    "x": "z3_z13_18_oac",
+    "y": "e3_z13_18_oac",
+    "roles": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": [],
+   "measured": "OVERLAPPING",
+   "card_patch": [],
+   "study_patch": []
+  },
+  {
+   "id": "study_unknown_rule",
+   "cls": "L3 study mismatch",
+   "why": "A StudyResults whose verdict rule is not one Arrowfield knows (model.KNOWN_VERDICT_RULES): never describe a study's tiers under a rule it did not use. Refuse, as the study card does.",
+   "x": "z3_z13_18_oac",
+   "y": "e3_z13_18_oac",
+   "site": "C3-H",
+   "context": {
+    "study": "results",
+    "contrast": "B_stereo",
+    "x": "z3_z13_18_oac",
+    "y": "e3_z13_18_oac",
+    "roles": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": [],
+   "measured": "OVERLAPPING",
+   "card_patch": [],
+   "study_patch": [
+    [
+     "verdict_rule",
+     "someone-else/v9"
+    ]
+   ]
+  },
+  {
+   "id": "outcome_word_in_site_label",
+   "cls": "L6 verbatim labels",
+   "why": "A site label (synthetic) reading 'resolved site': the record's label, shown verbatim; the card's own words still never use an outcome word.",
+   "x": "z3_z13_18_oac",
+   "y": "e3_z13_18_oac",
+   "site": "C3-H",
+   "context": null,
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "teaching comparison",
+     "grade": "MISLEADING",
+     "why": "the card says what it is"
+    },
+    {
+     "must": "not a (prespecified )?test|a look,? not a test",
+     "grade": "MISLEADING",
+     "why": "a look, not a test"
+    },
+    {
+     "must": "(the |this )?card'?s (own )?rule",
+     "grade": "MISLEADING",
+     "why": "the verdict is the card's rule's, not the study's"
+    },
+    {
+     "must_not": "\\bresol(v|ut)\\w*|\\bunresol(v|ut)\\w*|different on average",
+     "grade": "FALSE",
+     "why": "the study's outcome words belong to the study's rule and the study card"
+    },
+    {
+     "must": "resolved site",
+     "grade": "MISLEADING",
+     "why": "the record's label, unaltered"
+    }
+   ],
+   "measured": "OVERLAPPING",
+   "card_patch": [
+    [
+     "site",
+     "resolved site"
+    ]
+   ],
+   "study_patch": []
+  },
+  {
+   "id": "outcome_word_in_site_label_with_study",
+   "cls": "L6 verbatim labels",
+   "why": "The same label with the study on the page: the site is not one of the study's, so the card says the study gives no verdict here, in its own words.",
+   "x": "z3_z13_18_oac",
+   "y": "e3_z13_18_oac",
+   "site": "C3-H",
+   "context": {
+    "study": "results",
+    "contrast": "B_stereo",
+    "x": "z3_z13_18_oac",
+    "y": "e3_z13_18_oac",
+    "roles": {
+     "z3_z13_18_oac": "atlas_observed",
+     "e3_z13_18_oac": "atlas_observed",
+     "e2_z13_18_oac": "atlas_observed",
+     "z3_z13_18_oh": "atlas_observed",
+     "z3_z13_18_al": "teaching_control"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "teaching comparison",
+     "grade": "MISLEADING",
+     "why": "the card says what it is"
+    },
+    {
+     "must": "not a (prespecified )?test|a look,? not a test",
+     "grade": "MISLEADING",
+     "why": "a look, not a test"
+    },
+    {
+     "must": "(the |this )?card'?s (own )?rule",
+     "grade": "MISLEADING",
+     "why": "the verdict is the card's rule's, not the study's"
+    },
+    {
+     "must_not": "\\bresol(v|ut)\\w*|\\bunresol(v|ut)\\w*|different on average",
+     "grade": "FALSE",
+     "why": "the study's outcome words belong to the study's rule and the study card"
+    },
+    {
+     "must": "resolved site",
+     "grade": "MISLEADING",
+     "why": "the record's label"
+    },
+    {
+     "must": "(gives|has|makes) no (verdict|test|comparison)|no (study )?verdict (here|at this site)|does not test this site",
+     "grade": "MISLEADING",
+     "why": "the study is silent here, and the card says so"
+    }
+   ],
+   "measured": "OVERLAPPING",
+   "card_patch": [
+    [
+     "site",
+     "resolved site"
+    ]
+   ],
+   "study_patch": []
+  },
+  {
+   "id": "nan_difference",
+   "cls": "L5 values",
+   "why": "A Comparison whose difference is NaN (compare() refuses these; a hand-built one need not): never print 'nan' as a difference.",
+   "x": "z3_z13_18_oac",
+   "y": "e3_z13_18_oac",
+   "site": "C3-H",
+   "context": null,
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "REFUSED",
+   "requires": [
+    {
+     "must_not": "\\bnan\\b",
+     "grade": "MISLEADING",
+     "why": "no raw NaN"
+    }
+   ],
+   "measured": "OVERLAPPING",
+   "card_patch": [
+    [
+     "diff",
+     NaN
+    ]
+   ],
+   "study_patch": []
+  },
+  {
+   "id": "infinite_partition",
+   "cls": "L5 values",
+   "why": "A partition sensitivity of +inf: not a number a reader can weigh a difference against.",
+   "x": "z3_z13_18_oac",
+   "y": "e3_z13_18_oac",
+   "site": "C3-H",
+   "context": null,
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "REFUSED",
+   "requires": [
+    {
+     "must_not": "\\binf\\b",
+     "grade": "MISLEADING",
+     "why": "no raw inf"
+    }
+   ],
+   "measured": "OVERLAPPING",
+   "card_patch": [
+    [
+     "partition",
+     Infinity
+    ]
+   ],
+   "study_patch": []
   }
  ]
 }
