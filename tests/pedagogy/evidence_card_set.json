@@ -69,7 +69,7 @@
      "on": "text"
     },
     {
-     "must_not": "\\bESP\\b|electrostatic|kcal|resolved|because|explain|due to|caus",
+     "must_not": "\\bESP\\b|electrostatic|kcal|\\bresolved\\b|because|explain|due to|caus",
      "grade": "FALSE",
      "why": "an evidence view never links a computed difference to a biological response",
      "on": "text"
@@ -363,7 +363,7 @@
      "on": "text"
     },
     {
-     "must_not": "\\bESP\\b|electrostatic|kcal|resolved|because|explain|due to|caus",
+     "must_not": "\\bESP\\b|electrostatic|kcal|\\bresolved\\b|because|explain|due to|caus",
      "grade": "FALSE",
      "why": "an evidence view never links a computed difference to a biological response",
      "on": "text"
@@ -703,7 +703,7 @@
      "on": "text"
     },
     {
-     "must_not": "\\bESP\\b|electrostatic|kcal|resolved|because|explain|due to|caus",
+     "must_not": "\\bESP\\b|electrostatic|kcal|\\bresolved\\b|because|explain|due to|caus",
      "grade": "FALSE",
      "why": "an evidence view never links a computed difference to a biological response",
      "on": "text"
@@ -780,7 +780,7 @@
      "on": "text"
     },
     {
-     "must_not": "\\bESP\\b|electrostatic|kcal|resolved|because|explain|due to|caus",
+     "must_not": "\\bESP\\b|electrostatic|kcal|\\bresolved\\b|because|explain|due to|caus",
      "grade": "FALSE",
      "why": "an evidence view never links a computed difference to a biological response",
      "on": "text"
@@ -851,7 +851,7 @@
      "on": "text"
     },
     {
-     "must_not": "\\bESP\\b|electrostatic|kcal|resolved|because|explain|due to|caus",
+     "must_not": "\\bESP\\b|electrostatic|kcal|\\bresolved\\b|because|explain|due to|caus",
      "grade": "FALSE",
      "why": "an evidence view never links a computed difference to a biological response",
      "on": "text"
@@ -910,7 +910,7 @@
      "on": "text"
     },
     {
-     "must_not": "\\bESP\\b|electrostatic|kcal|resolved|because|explain|due to|caus",
+     "must_not": "\\bESP\\b|electrostatic|kcal|\\bresolved\\b|because|explain|due to|caus",
      "grade": "FALSE",
      "why": "an evidence view never links a computed difference to a biological response",
      "on": "text"
@@ -960,7 +960,7 @@
    "prefer": "RENDERED",
    "requires": [
     {
-     "must_not": "\\bESP\\b|electrostatic|kcal|resolved|because|explain|due to|caus",
+     "must_not": "\\bESP\\b|electrostatic|kcal|\\bresolved\\b|because|explain|due to|caus",
      "grade": "FALSE",
      "why": "an evidence view never links a computed difference to a biological response",
      "on": "text"
@@ -1016,7 +1016,7 @@
    "prefer": "RENDERED",
    "requires": [
     {
-     "must_not": "\\bESP\\b|electrostatic|kcal|resolved|because|explain|due to|caus",
+     "must_not": "\\bESP\\b|electrostatic|kcal|\\bresolved\\b|because|explain|due to|caus",
      "grade": "FALSE",
      "why": "an evidence view never links a computed difference to a biological response",
      "on": "text"

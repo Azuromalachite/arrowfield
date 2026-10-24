@@ -83,7 +83,9 @@ NO_OVERREACH = must_not(r"inactive|does not (make|produce|attract)|not (made|pro
                         "an evidence view reports what was measured, never a role the record does not state")
 NO_NETTING = must_not(r"\boverall\b|in general|on balance|\bnet\b|taken together|consensus", "MISLEADING",
                       "the Atlas never nets opposite results out; neither does the view")
-NO_ESP = must_not(r"\bESP\b|electrostatic|kcal|resolved|because|explain|due to|caus", "FALSE",
+# \bresolved\b: the study's verdict word, not the Atlas's own 'unresolved' items,
+# which E2 requires the card to show
+NO_ESP = must_not(r"\bESP\b|electrostatic|kcal|\bresolved\b|because|explain|due to|caus", "FALSE",
                   "an evidence view never links a computed difference to a biological response")
 
 
