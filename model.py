@@ -449,6 +449,109 @@ class TeachingBundle:
     espmap: tuple = ()                  # computed ensembles the bundle carries, as given
 
 
+# --------------------------------------------------------------- pair view
+# The pair view's three judgements, each its own function so a failure is
+# attributable to one layer (tests/pedagogy/pair_view_set.json, #14 + #17).
+class Relation(Enum):
+    SAME_GEOMETRY = "same_geometry"
+    CONFORMERS_OF_ONE_COMPOUND = "conformers_of_one_compound"
+    TWO_COMPOUNDS = "two_compounds"
+
+
+# All-atom RMSD after optimal superposition, minimised over symmetry-equivalent
+# atoms, at or below which two geometries of one compound are one geometry.
+# Measured before freezing (#14): the pilot's equivalent seed pairs are at
+# most 3.4e-6 A apart; the Atlas ensembles' distinct conformers at least
+# 0.98 A (heavy atoms) and 1.40 A (all atoms, closest five).
+SAME_GEOMETRY_RMSD = 0.01
+_MIN_ATOM_SEPARATION = 0.5      # A: closer than any bond; a geometry with such a pair is no geometry
+_RMSD_MATCHES = 10000           # symmetry matches tried; the minimum over them bounds the RMSD from above
+
+
+def _identity(v):
+    """(canonical isomeric SMILES with charges, formal charge, RDKit mol with
+    Hs) for one MoleculeView, or Refused when its constitution or 3D stereo
+    cannot be established."""
+    from rdkit import Chem
+    import views
+    xyz = np.asarray(v.xyz, dtype=float) if isinstance(v.xyz, np.ndarray) else None
+    if xyz is None or xyz.ndim != 2 or xyz.shape[1] != 3 or not np.isfinite(xyz).all():
+        raise Refused(f"{v.name}: its coordinates are not a finite (n, 3) array")
+    if len(xyz) > 1:
+        d = np.linalg.norm(xyz[:, None] - xyz[None], axis=-1)
+        if d[np.triu_indices(len(xyz), 1)].min() < _MIN_ATOM_SEPARATION:
+            raise Refused(f"{v.name}: two atoms closer than {_MIN_ATOM_SEPARATION} A: no geometry to assign "
+                          "stereo from")
+    try:
+        m = Chem.Mol(views.mol_from_view(v, v.mapped_smiles))
+    except Exception as e:  # noqa: BLE001 - any failure to build the graph is 'not established'
+        raise Refused(f"{v.name}: its constitution cannot be established ({e})") from None
+    Chem.AssignStereochemistryFrom3D(m)
+    unset = [s for s in Chem.FindPotentialStereo(m) if s.specified != Chem.StereoSpecified.Specified]
+    if unset:
+        raise Refused(f"{v.name}: {len(unset)} stereo element(s) cannot be assigned from its 3D coordinates")
+    heavy = Chem.RemoveHs(m)
+    for a in heavy.GetAtoms():
+        a.SetAtomMapNum(0)
+    return Chem.MolToSmiles(heavy, isomericSmiles=True), v.charge, m
+
+
+def relation(a, b):
+    """What a pair of MoleculeViews is, from their structures, never their
+    names: one compound (same constitution, formal charge and 3D-assigned
+    stereo) at one geometry (RMSD <= SAME_GEOMETRY_RMSD) or at two, or two
+    compounds. Refused when either identity cannot be established."""
+    for v in (a, b):
+        if not isinstance(v, MoleculeView):
+            raise Refused(f"relation compares MoleculeViews, not an object of type {type(v).__name__}")
+    sa, ca, ma = _identity(a)
+    sb, cb, mb = _identity(b)
+    if (sa, ca) != (sb, cb):
+        return Relation.TWO_COMPOUNDS
+    from rdkit import Chem
+    from rdkit.Chem import rdMolAlign
+    rmsd = rdMolAlign.GetBestRMS(Chem.Mol(ma), Chem.Mol(mb), maxMatches=_RMSD_MATCHES)
+    return Relation.SAME_GEOMETRY if rmsd <= SAME_GEOMETRY_RMSD else Relation.CONFORMERS_OF_ONE_COMPOUND
+
+
+# espmap's DEFAULT_CMAP, frozen with its tables in vendor/ (palette.py)
+PAIR_CMAP = {"diverging": "vik", "sequential": "lajolla"}
+
+
+def shared_scale(a, b):
+    """The one colour scale for a pair, from the two records' own scales:
+    diverging (symmetric) if either is diverging or the pair crosses zero,
+    else sequential over both. Refused for a scale that is not finite or not
+    of a known kind, or a pair with no range to colour on."""
+    import math
+    for v in (a, b):
+        s = v.scale
+        if not (isinstance(s, Scale) and s.kind in PAIR_CMAP and all(
+                isinstance(x, (int, float)) and not isinstance(x, bool) and math.isfinite(x)
+                for x in (s.vmin, s.vmax)) and s.vmin <= s.vmax):
+            raise Refused(f"{v.name}: its scale {getattr(v, 'scale', None)!r} is not a finite scale of a known kind")
+    lo, hi = min(a.scale.vmin, b.scale.vmin), max(a.scale.vmax, b.scale.vmax)
+    if "diverging" in (a.scale.kind, b.scale.kind) or lo < 0 < hi:
+        m = max(abs(lo), abs(hi))
+        kind, vmin, vmax = "diverging", -m, m
+    else:
+        kind, vmin, vmax = "sequential", lo, hi
+    if not vmin < vmax:
+        raise Refused(f"the pair's scales give no range to colour on ({vmin} to {vmax})")
+    return Scale(kind, float(vmin), float(vmax), PAIR_CMAP[kind])
+
+
+def fold_state(v):
+    """The producer's folded flag as the page states it: "true", "false" or
+    "unstated", never inferred from genus. Refused for a flag that is not a
+    bool."""
+    if v.folded is None:
+        return "unstated"
+    if not isinstance(v.folded, bool):
+        raise Refused(f"{v.name}: folded {v.folded!r} is not true, false or unstated")
+    return "true" if v.folded else "false"
+
+
 # ------------------------------------------------------- bundle validation
 # The Atlas's controlled words (its observation.schema.json and
 # teaching-bundle.schema.json). One validator, bundle_problems, serves

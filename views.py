@@ -191,10 +191,12 @@ def _draw_2d(m, hl, size):
 
 # ------------------------------------------------------------------- 3D view
 def viewer_js(div_id, rec, mapped_smiles, site_atoms=(), show_surface=True, surface_opacity=0.85,
-              rule="nearest_nucleus", labels=()):
+              rule="nearest_nucleus", labels=(), colour=None):
     """3Dmol.js calls for one viewer. Site atoms (atom indices) and their own
     hydrogens are drawn lilac; with the surface on, the site's patch stays
-    opaque and the rest fades, so the table row and the picture are one thing."""
+    opaque and the rest fades, so the table row and the picture are one thing.
+    colour: V -> hex colours; default espmap's map on the record's own scale
+    (the pair view passes its shared scale through palette's frozen tables)."""
     from rdkit import Chem
     m = mol_from_view(rec, mapped_smiles)
     c, R = principal_frame(rec.xyz)
@@ -225,7 +227,7 @@ def viewer_js(div_id, rec, mapped_smiles, site_atoms=(), show_surface=True, surf
     if show_surface:
         s = rec.surface(rule)
         verts = (s.verts - c) @ R.T
-        cols = colours(s.V, rec.scale)
+        cols = colour(s.V) if colour is not None else colours(s.V, rec.scale)
         norms = vertex_normals(verts, s.faces)
         inside = site_faces(s, site) if site else np.ones(len(s.faces), bool)
         for mask, op in ((inside, surface_opacity), (~inside, 0.22 if site else surface_opacity)):
@@ -375,7 +377,7 @@ def card_html(card, context=None):
     import math
     from model import Comparison, Refused
     if not isinstance(card, Comparison):
-        raise Refused(f"the difference card shows a model.Comparison, not a {type(card).__name__}")
+        raise Refused(f"the difference card shows a model.Comparison, not an object of type {type(card).__name__}")
     shown = (card.diff, card.partition, card.diff_other_rule, card.range_a, card.range_b)
     if card.status is not ComparisonStatus.NOT_COMPARABLE and any(
             v is not None and not (isinstance(v, (int, float)) and math.isfinite(v)) for v in shown):
@@ -547,6 +549,124 @@ def study_card_html(row, context):
                      "card cannot be fully traced to the frozen study.</div>")
     parts.append("</div>")
     return "\n".join(parts)
+
+
+# ----------------------------------------------------------------- pair view
+# Specified by tests/pedagogy/pair_view_set.json (#14, amended by #17). The
+# judgements are model's (relation, shared_scale, fold_state); this function
+# checks what a pair needs before any picture (context, one method, one
+# charge, drawable surfaces), then renders. Text it did not write (names,
+# labels) sits in verbatim spans; its own words carry no causal or biological
+# claim.
+def _pair_context(context):
+    """(labels, study_rows): a whole non-mapping context reads as none; roles
+    are refused in v1; an entry present but malformed is refused."""
+    from model import Refused
+    context = context if isinstance(context, dict) else {}
+    if "roles" in context:
+        raise Refused("pair view v1 takes no roles: whether a pair holds a teaching control is the page "
+                      "builder's to reconcile across views")
+    labels = context.get("labels")
+    if labels is None:
+        labels = {}
+    if not (isinstance(labels, dict) and all(k in ("left", "right") and isinstance(v, str)
+                                             for k, v in labels.items())):
+        raise Refused(f"labels must map left/right to text, not {labels!r}")
+    rows = context.get("study_rows")
+    if rows is not None and not isinstance(rows, list):
+        raise Refused(f"study_rows must be a list, not a {type(rows).__name__}")
+    return labels, rows or []
+
+
+def _gas(solvent):
+    return solvent in (None, "vacuum", "gas")
+
+
+def _pair_surface(v):
+    from model import Refused
+    if v.surface_loader is None:
+        raise Refused(f"{v.name}: no surface (its NPZ is not beside the record); load it to draw the picture")
+    s = v.surface("nearest_nucleus")
+    V, faces, verts = np.asarray(s.V, float), np.asarray(s.faces), np.asarray(s.verts, float)
+    if not len(faces):
+        raise Refused(f"{v.name}: an empty surface (no triangles)")
+    if not (np.isfinite(V).all() and np.isfinite(verts).all()):
+        raise Refused(f"{v.name}: its surface potential or vertices are not all finite numbers")
+    return s
+
+
+_RELATION_WORDS = {"same_geometry": "The same geometry twice: one geometry, so this pair shows nothing "
+                                    "about conformation.",
+                   "conformers_of_one_compound": "Two conformers of one compound.",
+                   "two_compounds": "Two compounds."}
+_FOLD_WORDS = {"true": "folded, as the producer states", "false": "extended, as the producer states",
+               "unstated": "folded state not stated"}
+
+
+def pair_view_html(left, right, context=None):
+    """Two MoleculeViews' ESP pictures on one shared scale, as one HTML
+    block; model.Refused when the pair cannot be shown faithfully."""
+    import hashlib
+    import palette
+    from model import MoleculeView, Refused, fold_state, relation, shared_scale
+    labels, _ = _pair_context(context)      # study rows may be on the page; never read into the pair
+    if left is right:
+        raise Refused("the same MoleculeView twice: there is no pair to show")
+    for v in (left, right):
+        if not isinstance(v, MoleculeView):
+            raise Refused(f"the pair view shows MoleculeViews, not an object of type {type(v).__name__}")
+    if left.analysis_key != right.analysis_key:
+        raise Refused("different analysis keys: one colour would mean two methods' kcal/mol; compute both "
+                      "under one protocol")
+    pa, pb = left.provenance, right.provenance
+    if (pa.xc, pa.basis, _gas(pa.solvent) or pa.solvent) != (pb.xc, pb.basis, _gas(pb.solvent) or pb.solvent):
+        raise Refused("the analysis keys match but the provenance behind them does not (functional, basis or "
+                      "solvent): a key that disagrees with its own record")
+    if left.charge != right.charge:
+        raise Refused("two formal charges: pair view v1 compares one charge only")
+    surfaces = [_pair_surface(v) for v in (left, right)]
+    scale = shared_scale(left, right)
+    folds = [fold_state(v) for v in (left, right)]
+    rel = relation(left, right).value
+    if rel == "two_compounds" and "unstated" not in folds and folds[0] != folds[1]:
+        raise Refused("two compounds, one folded and one extended: the shape difference from folding would "
+                      "read as the difference between the compounds; pick conformers with one folded state")
+    e = lambda x: html.escape(str(x), quote=False)          # noqa: E731
+    span = lambda x: f'<span class="verbatim">{e(x)}</span>'  # noqa: E731
+    if scale.kind == "diverging":
+        direction = "red/warm = negative (electron-rich), blue = positive"
+    elif scale.vmax <= 0:
+        direction = "darker = lower (more negative)"
+    else:
+        direction = "darker = lower (less positive)"
+    method = f"{pa.xc}/{pa.basis}, {'gas phase' if _gas(pa.solvent) else 'PCM ' + str(pa.solvent)}"
+    notes = [_RELATION_WORDS[rel]]
+    if rel == "two_compounds" and "unstated" in folds:
+        notes.append("Folded state not stated for at least one of them: shape comparability between the two "
+                     "is not established.")
+    uid = hashlib.sha1(f"{left.provenance.source}|{right.provenance.source}|{id(left)}|{id(right)}"
+                       .encode()).hexdigest()[:10]
+
+    def colour(V):
+        return palette.hex_colours(V, scale.vmin, scale.vmax, scale.cmap)
+
+    panels, scripts = [], []
+    for side, v, fold in (("left", left, folds[0]), ("right", right, folds[1])):
+        div = f"pair-{uid}-{side}"
+        head = span(v.name) + (f" · {span(labels[side])}" if side in labels else "")
+        panels.append(f'<div class="pair-panel" data-vmin="{scale.vmin!r}" data-vmax="{scale.vmax!r}" '
+                      f'data-cmap="{scale.cmap}" data-scale="shared" data-folded="{fold}">'
+                      f'<div class="card-title">{head}</div><div class="unit">{e(_FOLD_WORDS[fold])}</div>'
+                      f'<div id="{div}" class="viewer"></div></div>')
+        scripts.append(f"(function(){{\n{viewer_js(div, v, v.mapped_smiles, colour=colour)}\n}})();")
+    scale_html = (f'<div class="pair-scale" data-kind="{scale.kind}" data-vmin="{scale.vmin!r}" '
+                  f'data-vmax="{scale.vmax!r}" data-cmap="{scale.cmap}" data-unit="kcal/mol">'
+                  f"One colour scale for both pictures: {scale.vmin:+.2f} to {scale.vmax:+.2f} kcal/mol "
+                  f"({scale.cmap}, {scale.kind}): {direction}. Both computed with {e(method)}.</div>")
+    return (f'<div class="card pair-view" data-relation="{rel}">'
+            + "".join(f'<p class="limits">{e(n)}</p>' for n in notes) + scale_html
+            + '<div class="row">' + "".join(panels) + "</div>"
+            + f"<script>{''.join(scripts)}</script></div>")
 
 
 # ------------------------------------------------------------ evidence views
