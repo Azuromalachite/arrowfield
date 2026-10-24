@@ -1,0 +1,1444 @@
+{
+ "generator": "tests/pedagogy/make_pair_view_set.py",
+ "grades": [
+  "SAFE",
+  "SAFE_REFUSAL",
+  "CRASH",
+  "MISLEADING",
+  "FALSE"
+ ],
+ "retires": {
+  "pair_different_render_keys": [
+   "butene_e_vs_z",
+   "ethanol_vs_acetaldehyde",
+   "near_equal_scales",
+   "forged_render_key"
+  ],
+  "pair_one_folded": [
+   "two_compounds_folding_differs",
+   "two_compounds_folding_differs_reversed",
+   "one_compound_folded_vs_extended"
+  ]
+ },
+ "cases": [
+  {
+   "id": "butene_e_vs_z",
+   "cls": "P1 one scale",
+   "why": "E- and Z-2-butene, same method, auto-scaled to ±17.3 and ±18.1 kcal/mol (different render keys). Each on its own scale, the same colour means different kcal/mol and the eye compares the wrong things: both go on one scale.",
+   "left": {
+    "record": "records/e2_butene__s1",
+    "patch": [],
+    "surface": null
+   },
+   "right": {
+    "record": "records/z2_butene__s1",
+    "patch": [],
+    "surface": null
+   },
+   "same_object": false,
+   "context": {},
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "shared_scale",
+     "grade": "MISLEADING",
+     "why": "one scale, containing both records' own, for both pictures"
+    },
+    {
+     "must": "kcal/mol",
+     "grade": "MISLEADING",
+     "why": "the scale's unit",
+     "on": "text"
+    },
+    {
+     "must": "[−-]\\s?\\d+(\\.\\d+)?\\s*(to|…|–|\\.\\.)\\s*\\+?\\d+(\\.\\d+)?",
+     "grade": "MISLEADING",
+     "why": "the shared range, in numbers",
+     "on": "text"
+    },
+    {
+     "must": "(red|warm)[^.]{0,60}negative|negative[^.]{0,60}(red|warm)",
+     "grade": "MISLEADING",
+     "why": "which colour is negative: the chemistry convention, said (CLAUDE.md conventions)",
+     "on": "text"
+    },
+    {
+     "must": "b3lyp",
+     "grade": "MISLEADING",
+     "why": "the method both pictures were computed with",
+     "on": "text"
+    },
+    {
+     "must_not": "because|explain|due to|caus|more reactive|reactivity|attract|binds?\\b|binding|pheromone|receptor|\\bresolved\\b|specific",
+     "grade": "FALSE",
+     "why": "two pictures show where the potential differs; they test no mechanism",
+     "on": "text"
+    },
+    {
+     "check": "relation=two_compounds",
+     "grade": "FALSE",
+     "why": "two compounds"
+    }
+   ]
+  },
+  {
+   "id": "ethanol_vs_acetaldehyde",
+   "cls": "P1 one scale",
+   "why": "Ethanol (±50.0) and acetaldehyde (±39.3), same method: very different own scales; one shared scale.",
+   "left": {
+    "record": "records/ethanol__s1",
+    "patch": [],
+    "surface": null
+   },
+   "right": {
+    "record": "records/acetaldehyde__s1",
+    "patch": [],
+    "surface": null
+   },
+   "same_object": false,
+   "context": {},
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "shared_scale",
+     "grade": "MISLEADING",
+     "why": "one scale, containing both records' own, for both pictures"
+    },
+    {
+     "must": "kcal/mol",
+     "grade": "MISLEADING",
+     "why": "the scale's unit",
+     "on": "text"
+    },
+    {
+     "must": "[−-]\\s?\\d+(\\.\\d+)?\\s*(to|…|–|\\.\\.)\\s*\\+?\\d+(\\.\\d+)?",
+     "grade": "MISLEADING",
+     "why": "the shared range, in numbers",
+     "on": "text"
+    },
+    {
+     "must": "(red|warm)[^.]{0,60}negative|negative[^.]{0,60}(red|warm)",
+     "grade": "MISLEADING",
+     "why": "which colour is negative: the chemistry convention, said (CLAUDE.md conventions)",
+     "on": "text"
+    },
+    {
+     "must": "b3lyp",
+     "grade": "MISLEADING",
+     "why": "the method both pictures were computed with",
+     "on": "text"
+    },
+    {
+     "must_not": "because|explain|due to|caus|more reactive|reactivity|attract|binds?\\b|binding|pheromone|receptor|\\bresolved\\b|specific",
+     "grade": "FALSE",
+     "why": "two pictures show where the potential differs; they test no mechanism",
+     "on": "text"
+    }
+   ]
+  },
+  {
+   "id": "near_equal_scales",
+   "cls": "P1 one scale",
+   "why": "Two conformers of the E3 acetate at ±40.33 and ±40.77 kcal/mol: close enough to tempt 'the same scale', different enough that one colour is two values. Still one shared scale.",
+   "left": {
+    "record": "tests/data/pair/e3_z13_18_oac/conf_00",
+    "patch": [
+     [
+      "folded",
+      true
+     ]
+    ],
+    "surface": null
+   },
+   "right": {
+    "record": "tests/data/pair/e3_z13_18_oac/conf_02",
+    "patch": [
+     [
+      "folded",
+      false
+     ]
+    ],
+    "surface": null
+   },
+   "same_object": false,
+   "context": {},
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "shared_scale",
+     "grade": "MISLEADING",
+     "why": "one scale, containing both records' own, for both pictures"
+    },
+    {
+     "must": "kcal/mol",
+     "grade": "MISLEADING",
+     "why": "the scale's unit",
+     "on": "text"
+    },
+    {
+     "must": "[−-]\\s?\\d+(\\.\\d+)?\\s*(to|…|–|\\.\\.)\\s*\\+?\\d+(\\.\\d+)?",
+     "grade": "MISLEADING",
+     "why": "the shared range, in numbers",
+     "on": "text"
+    },
+    {
+     "must": "(red|warm)[^.]{0,60}negative|negative[^.]{0,60}(red|warm)",
+     "grade": "MISLEADING",
+     "why": "which colour is negative: the chemistry convention, said (CLAUDE.md conventions)",
+     "on": "text"
+    },
+    {
+     "must": "b3lyp",
+     "grade": "MISLEADING",
+     "why": "the method both pictures were computed with",
+     "on": "text"
+    },
+    {
+     "must_not": "because|explain|due to|caus|more reactive|reactivity|attract|binds?\\b|binding|pheromone|receptor|\\bresolved\\b|specific",
+     "grade": "FALSE",
+     "why": "two pictures show where the potential differs; they test no mechanism",
+     "on": "text"
+    }
+   ]
+  },
+  {
+   "id": "identical_render_keys",
+   "cls": "P1 one scale",
+   "why": "Two records with one render key (the same scale): the shared scale is that scale.",
+   "left": {
+    "record": "records/e2_butene__s1",
+    "patch": [],
+    "surface": null
+   },
+   "right": {
+    "record": "records/e2_butene__s2",
+    "patch": [],
+    "surface": null
+   },
+   "same_object": false,
+   "context": {},
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "shared_scale",
+     "grade": "MISLEADING",
+     "why": "one scale, containing both records' own, for both pictures"
+    },
+    {
+     "must": "kcal/mol",
+     "grade": "MISLEADING",
+     "why": "the scale's unit",
+     "on": "text"
+    },
+    {
+     "must": "(red|warm)[^.]{0,60}negative|negative[^.]{0,60}(red|warm)",
+     "grade": "MISLEADING",
+     "why": "which colour is negative: the chemistry convention, said (CLAUDE.md conventions)",
+     "on": "text"
+    }
+   ]
+  },
+  {
+   "id": "forged_render_key",
+   "cls": "P1 one scale",
+   "why": "Ethanol relabelled with acetaldehyde's render key: the key claims one scale, the scales are ±50.0 and ±39.3. A view that trusts the key draws each on its own scale. The scales decide, not the label.",
+   "left": {
+    "record": "records/ethanol__s1",
+    "patch": [
+     [
+      "provenance.render_key",
+      "40d811b45e47e9d90ef581c276fb0bf9001e0268"
+     ]
+    ],
+    "surface": null
+   },
+   "right": {
+    "record": "records/acetaldehyde__s1",
+    "patch": [],
+    "surface": null
+   },
+   "same_object": false,
+   "context": {},
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "shared_scale",
+     "grade": "MISLEADING",
+     "why": "one scale, containing both records' own, for both pictures"
+    }
+   ]
+  },
+  {
+   "id": "sequential_scales",
+   "cls": "P1 one scale",
+   "why": "Two anion pictures never change sign, so their scales are sequential (acetate, −183.4 to −70.4; the other side synthetic, −150 to −60): one sequential scale over both, never centred on zero, and the caption says darker is more negative.",
+   "left": {
+    "record": "records/acetate__s12648430",
+    "patch": [],
+    "surface": null
+   },
+   "right": {
+    "record": "records/acetate__s12648430",
+    "patch": [
+     [
+      "scale.vmin",
+      -150.0
+     ],
+     [
+      "scale.vmax",
+      -60.0
+     ]
+    ],
+    "surface": null
+   },
+   "same_object": false,
+   "context": {},
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "shared_scale",
+     "grade": "MISLEADING",
+     "why": "one scale, containing both records' own, for both pictures"
+    },
+    {
+     "must": "kcal/mol",
+     "grade": "MISLEADING",
+     "why": "the scale's unit",
+     "on": "text"
+    },
+    {
+     "must": "darker[^.]{0,60}negative|negative[^.]{0,60}darker",
+     "grade": "MISLEADING",
+     "why": "which end is negative, on a sequential scale",
+     "on": "text"
+    }
+   ]
+  },
+  {
+   "id": "pcm_anion_vs_gas_neutral",
+   "cls": "P2 one method",
+   "why": "Acetate in PCM water beside ethanol in the gas phase: different analysis keys. One colour would mean two methods' kcal/mol; refuse, and say to compute both under one protocol.",
+   "left": {
+    "record": "records/acetate__s12648430",
+    "patch": [],
+    "surface": null
+   },
+   "right": {
+    "record": "records/ethanol__s1",
+    "patch": [],
+    "surface": null
+   },
+   "same_object": false,
+   "context": {},
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "basis_differs",
+   "cls": "P2 one method",
+   "why": "Ethanol beside acetaldehyde stated as recomputed at def2-TZVP (its key and its basis both say so): not one method.",
+   "left": {
+    "record": "records/ethanol__s1",
+    "patch": [],
+    "surface": null
+   },
+   "right": {
+    "record": "records/acetaldehyde__s1",
+    "patch": [
+     [
+      "provenance.analysis_key",
+      "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+     ],
+     [
+      "provenance.basis",
+      "def2-tzvp"
+     ]
+    ],
+    "surface": null
+   },
+   "same_object": false,
+   "context": {},
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "stale_key_solvent",
+   "cls": "P2 one method",
+   "why": "The keys match, but one side's provenance says PCM water: the key does not describe that record. Captioned as one gas-phase method, the page would be false.",
+   "left": {
+    "record": "records/ethanol__s1",
+    "patch": [],
+    "surface": null
+   },
+   "right": {
+    "record": "records/acetaldehyde__s1",
+    "patch": [
+     [
+      "provenance.solvent",
+      "water"
+     ]
+    ],
+    "surface": null
+   },
+   "same_object": false,
+   "context": {},
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "stale_key_functional",
+   "cls": "P2 one method",
+   "why": "The keys match, but one side's provenance names PBE0: a key that disagrees with its own record.",
+   "left": {
+    "record": "records/e2_butene__s1",
+    "patch": [],
+    "surface": null
+   },
+   "right": {
+    "record": "records/z2_butene__s1",
+    "patch": [
+     [
+      "provenance.xc",
+      "pbe0"
+     ]
+    ],
+    "surface": null
+   },
+   "same_object": false,
+   "context": {},
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "ensemble_vs_pilot_versions",
+   "cls": "P2 one method",
+   "why": "A v0.2.1 Atlas conformer beside a v0.1.0 pilot record, both B3LYP/def2-SVP in the gas phase: the captions would read alike, but the analysis keys differ. The key decides; refuse.",
+   "left": {
+    "record": "tests/data/pair/e3_z13_18_oac/conf_02",
+    "patch": [
+     [
+      "folded",
+      false
+     ]
+    ],
+    "surface": null
+   },
+   "right": {
+    "record": "records/ethanol__s1",
+    "patch": [],
+    "surface": null
+   },
+   "same_object": false,
+   "context": {},
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "e3_vs_z3_named_alike",
+   "cls": "P3 relation from structure",
+   "why": "E3 and Z3 acetate, both extended, both named 'conf_0x' by the loader. They differ at one double bond: two compounds, whatever the names say.",
+   "left": {
+    "record": "tests/data/pair/e3_z13_18_oac/conf_02",
+    "patch": [
+     [
+      "folded",
+      false
+     ]
+    ],
+    "surface": null
+   },
+   "right": {
+    "record": "tests/data/pair/z3_z13_18_oac/conf_00",
+    "patch": [
+     [
+      "folded",
+      false
+     ]
+    ],
+    "surface": null
+   },
+   "same_object": false,
+   "context": {},
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "shared_scale",
+     "grade": "MISLEADING",
+     "why": "one scale, containing both records' own, for both pictures"
+    },
+    {
+     "must": "kcal/mol",
+     "grade": "MISLEADING",
+     "why": "the scale's unit",
+     "on": "text"
+    },
+    {
+     "must": "[−-]\\s?\\d+(\\.\\d+)?\\s*(to|…|–|\\.\\.)\\s*\\+?\\d+(\\.\\d+)?",
+     "grade": "MISLEADING",
+     "why": "the shared range, in numbers",
+     "on": "text"
+    },
+    {
+     "must": "(red|warm)[^.]{0,60}negative|negative[^.]{0,60}(red|warm)",
+     "grade": "MISLEADING",
+     "why": "which colour is negative: the chemistry convention, said (CLAUDE.md conventions)",
+     "on": "text"
+    },
+    {
+     "must": "b3lyp",
+     "grade": "MISLEADING",
+     "why": "the method both pictures were computed with",
+     "on": "text"
+    },
+    {
+     "must_not": "because|explain|due to|caus|more reactive|reactivity|attract|binds?\\b|binding|pheromone|receptor|\\bresolved\\b|specific",
+     "grade": "FALSE",
+     "why": "two pictures show where the potential differs; they test no mechanism",
+     "on": "text"
+    },
+    {
+     "check": "relation=two_compounds",
+     "grade": "FALSE",
+     "why": "two compounds"
+    },
+    {
+     "must_not": "conformers of (one|the same) compound|same compound",
+     "grade": "FALSE",
+     "why": "not one compound",
+     "on": "text"
+    }
+   ]
+  },
+  {
+   "id": "e3_vs_z3_labelled_one_compound",
+   "cls": "P3 relation from structure",
+   "why": "The same pair with display labels 'E3 acetate, conformer 1' and 'E3 acetate, conformer 2': labels are display text; the structures still say two compounds.",
+   "left": {
+    "record": "tests/data/pair/e3_z13_18_oac/conf_02",
+    "patch": [
+     [
+      "folded",
+      false
+     ]
+    ],
+    "surface": null
+   },
+   "right": {
+    "record": "tests/data/pair/z3_z13_18_oac/conf_00",
+    "patch": [
+     [
+      "folded",
+      false
+     ]
+    ],
+    "surface": null
+   },
+   "same_object": false,
+   "context": {
+    "labels": {
+     "left": "E3 acetate, conformer 1",
+     "right": "E3 acetate, conformer 2"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "relation=two_compounds",
+     "grade": "FALSE",
+     "why": "two compounds, from the structures"
+    }
+   ]
+  },
+  {
+   "id": "true_conformers",
+   "cls": "P3 relation from structure",
+   "why": "Two genuinely different geometries of the E3 acetate: two conformers of one compound.",
+   "left": {
+    "record": "tests/data/pair/e3_z13_18_oac/conf_00",
+    "patch": [
+     [
+      "folded",
+      true
+     ]
+    ],
+    "surface": null
+   },
+   "right": {
+    "record": "tests/data/pair/e3_z13_18_oac/conf_02",
+    "patch": [
+     [
+      "folded",
+      false
+     ]
+    ],
+    "surface": null
+   },
+   "same_object": false,
+   "context": {},
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "relation=conformers_of_one_compound",
+     "grade": "MISLEADING",
+     "why": "one compound, two geometries"
+    },
+    {
+     "must": "conformers? of (one|the same) compound|same compound",
+     "grade": "MISLEADING",
+     "why": "said in words",
+     "on": "text"
+    }
+   ]
+  },
+  {
+   "id": "identical_coordinates",
+   "cls": "P3 relation from structure",
+   "why": "Two seed records of E-2-butene with identical coordinates: one geometry twice. Shown as 'two conformers' it would look like evidence that the picture is robust to conformation.",
+   "left": {
+    "record": "records/e2_butene__s1",
+    "patch": [],
+    "surface": null
+   },
+   "right": {
+    "record": "records/e2_butene__s2",
+    "patch": [],
+    "surface": null
+   },
+   "same_object": false,
+   "context": {},
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "relation=same_geometry",
+     "grade": "MISLEADING",
+     "why": "the same geometry"
+    },
+    {
+     "must": "same geometry|one geometry|identical geometr",
+     "grade": "MISLEADING",
+     "why": "said in words",
+     "on": "text"
+    }
+   ]
+  },
+  {
+   "id": "same_geometry_rotated",
+   "cls": "P3 relation from structure",
+   "why": "Two acetaldehyde seed records: the same geometry (distances agree to 1.5e-6 Å), rotated by up to 2.2 Å in place. An exact-coordinate test calls them different.",
+   "left": {
+    "record": "records/acetaldehyde__s1",
+    "patch": [],
+    "surface": null
+   },
+   "right": {
+    "record": "records/acetaldehyde__s2",
+    "patch": [],
+    "surface": null
+   },
+   "same_object": false,
+   "context": {},
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "relation=same_geometry",
+     "grade": "MISLEADING",
+     "why": "the same geometry"
+    }
+   ]
+  },
+  {
+   "id": "same_geometry_relabelled_h",
+   "cls": "P3 relation from structure",
+   "why": "Two ethanol seed records: the same geometry with the methyl hydrogens' labels permuted (interatomic distances differ by 0.70 Å in atom order, 0 after symmetry). An atom-order test calls them conformers.",
+   "left": {
+    "record": "records/ethanol__s1",
+    "patch": [],
+    "surface": null
+   },
+   "right": {
+    "record": "records/ethanol__s2",
+    "patch": [],
+    "surface": null
+   },
+   "same_object": false,
+   "context": {},
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "relation=same_geometry",
+     "grade": "MISLEADING",
+     "why": "the same geometry"
+    }
+   ]
+  },
+  {
+   "id": "same_object_twice",
+   "cls": "P3 relation from structure",
+   "why": "The same MoleculeView passed as both sides: nothing to compare. Refuse, or say it is one geometry.",
+   "left": {
+    "record": "records/ethanol__s1",
+    "patch": [],
+    "surface": null
+   },
+   "right": {
+    "record": "records/ethanol__s1",
+    "patch": [],
+    "surface": null
+   },
+   "same_object": true,
+   "context": {},
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "REFUSED",
+   "requires": [
+    {
+     "check": "relation=same_geometry",
+     "grade": "MISLEADING",
+     "why": "the same geometry"
+    }
+   ]
+  },
+  {
+   "id": "one_compound_folded_vs_extended",
+   "cls": "P4 folded",
+   "why": "Act B, item 2: the E3 acetate folded (conf_00) beside extended (conf_02), on one scale, each labelled as the producer states it. conf_00 has genus 0: a view inferring 'folded' from genus calls it extended.",
+   "left": {
+    "record": "tests/data/pair/e3_z13_18_oac/conf_00",
+    "patch": [
+     [
+      "folded",
+      true
+     ]
+    ],
+    "surface": null
+   },
+   "right": {
+    "record": "tests/data/pair/e3_z13_18_oac/conf_02",
+    "patch": [
+     [
+      "folded",
+      false
+     ]
+    ],
+    "surface": null
+   },
+   "same_object": false,
+   "context": {},
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "shared_scale",
+     "grade": "MISLEADING",
+     "why": "one scale, containing both records' own, for both pictures"
+    },
+    {
+     "must": "kcal/mol",
+     "grade": "MISLEADING",
+     "why": "the scale's unit",
+     "on": "text"
+    },
+    {
+     "must": "[−-]\\s?\\d+(\\.\\d+)?\\s*(to|…|–|\\.\\.)\\s*\\+?\\d+(\\.\\d+)?",
+     "grade": "MISLEADING",
+     "why": "the shared range, in numbers",
+     "on": "text"
+    },
+    {
+     "must": "(red|warm)[^.]{0,60}negative|negative[^.]{0,60}(red|warm)",
+     "grade": "MISLEADING",
+     "why": "which colour is negative: the chemistry convention, said (CLAUDE.md conventions)",
+     "on": "text"
+    },
+    {
+     "must": "b3lyp",
+     "grade": "MISLEADING",
+     "why": "the method both pictures were computed with",
+     "on": "text"
+    },
+    {
+     "must_not": "because|explain|due to|caus|more reactive|reactivity|attract|binds?\\b|binding|pheromone|receptor|\\bresolved\\b|specific",
+     "grade": "FALSE",
+     "why": "two pictures show where the potential differs; they test no mechanism",
+     "on": "text"
+    },
+    {
+     "check": "folded=true,false",
+     "grade": "FALSE",
+     "why": "the producer's flags, as given"
+    },
+    {
+     "must": "\\bfolded\\b",
+     "grade": "MISLEADING",
+     "why": "the folded side named",
+     "on": "text"
+    },
+    {
+     "must": "\\bextended\\b",
+     "grade": "MISLEADING",
+     "why": "the extended side named",
+     "on": "text"
+    }
+   ]
+  },
+  {
+   "id": "one_compound_folded_genus_3",
+   "cls": "P4 folded",
+   "why": "The Z3 acetate extended (conf_00) beside folded (conf_01, genus 3): the same view, the other compound.",
+   "left": {
+    "record": "tests/data/pair/z3_z13_18_oac/conf_00",
+    "patch": [
+     [
+      "folded",
+      false
+     ]
+    ],
+    "surface": null
+   },
+   "right": {
+    "record": "tests/data/pair/z3_z13_18_oac/conf_01",
+    "patch": [
+     [
+      "folded",
+      true
+     ]
+    ],
+    "surface": null
+   },
+   "same_object": false,
+   "context": {},
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "shared_scale",
+     "grade": "MISLEADING",
+     "why": "one scale, containing both records' own, for both pictures"
+    },
+    {
+     "check": "folded=false,true",
+     "grade": "FALSE",
+     "why": "the producer's flags, as given"
+    }
+   ]
+  },
+  {
+   "id": "two_compounds_folding_differs",
+   "cls": "P4 folded",
+   "why": "E3 extended beside Z3 folded: the shape difference from folding would read as the E/Z difference. Refuse, and say to pick conformers with the same folded state (or read the difference card's ranges).",
+   "left": {
+    "record": "tests/data/pair/e3_z13_18_oac/conf_02",
+    "patch": [
+     [
+      "folded",
+      false
+     ]
+    ],
+    "surface": null
+   },
+   "right": {
+    "record": "tests/data/pair/z3_z13_18_oac/conf_01",
+    "patch": [
+     [
+      "folded",
+      true
+     ]
+    ],
+    "surface": null
+   },
+   "same_object": false,
+   "context": {},
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "two_compounds_folding_differs_reversed",
+   "cls": "P4 folded",
+   "why": "The same with the sides swapped and the other conformers: E3 folded beside Z3 extended.",
+   "left": {
+    "record": "tests/data/pair/e3_z13_18_oac/conf_00",
+    "patch": [
+     [
+      "folded",
+      true
+     ]
+    ],
+    "surface": null
+   },
+   "right": {
+    "record": "tests/data/pair/z3_z13_18_oac/conf_00",
+    "patch": [
+     [
+      "folded",
+      false
+     ]
+    ],
+    "surface": null
+   },
+   "same_object": false,
+   "context": {},
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "folded_not_stated",
+   "cls": "P4 folded",
+   "why": "Pilot records state no folded flag (None): each panel says the state is not stated, never 'extended'.",
+   "left": {
+    "record": "records/e2_butene__s1",
+    "patch": [],
+    "surface": null
+   },
+   "right": {
+    "record": "records/z2_butene__s1",
+    "patch": [],
+    "surface": null
+   },
+   "same_object": false,
+   "context": {},
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "folded=unstated,unstated",
+     "grade": "FALSE",
+     "why": "unstated stays unstated"
+    },
+    {
+     "must": "not stated",
+     "grade": "MISLEADING",
+     "why": "said in words",
+     "on": "text"
+    },
+    {
+     "must_not": "\\bextended\\b",
+     "grade": "FALSE",
+     "why": "not invented",
+     "on": "text"
+    }
+   ]
+  },
+  {
+   "id": "folded_flag_not_boolean",
+   "cls": "P4 folded",
+   "why": "A folded flag of 'yes' (a string): outside the vocabulary. Refuse rather than guess.",
+   "left": {
+    "record": "tests/data/pair/e3_z13_18_oac/conf_02",
+    "patch": [
+     [
+      "folded",
+      "yes"
+     ]
+    ],
+    "surface": null
+   },
+   "right": {
+    "record": "tests/data/pair/e3_z13_18_oac/conf_00",
+    "patch": [
+     [
+      "folded",
+      true
+     ]
+    ],
+    "surface": null
+   },
+   "same_object": false,
+   "context": {},
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "no_surface",
+   "cls": "P5 values",
+   "why": "A record without its NPZ: no surface to draw. Refuse, naming the missing file.",
+   "left": {
+    "record": "records/ethanol__s1",
+    "patch": [],
+    "surface": "none"
+   },
+   "right": {
+    "record": "records/acetaldehyde__s1",
+    "patch": [],
+    "surface": null
+   },
+   "same_object": false,
+   "context": {},
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "nan_in_potential",
+   "cls": "P5 values",
+   "why": "One vertex's potential is NaN: its colour is undefined, and min/max would skip it. Refuse.",
+   "left": {
+    "record": "records/ethanol__s1",
+    "patch": [],
+    "surface": null
+   },
+   "right": {
+    "record": "records/acetaldehyde__s1",
+    "patch": [],
+    "surface": "nan"
+   },
+   "same_object": false,
+   "context": {},
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "inf_in_potential",
+   "cls": "P5 values",
+   "why": "One vertex's potential is +inf: a shared scale computed from it is infinite. Refuse.",
+   "left": {
+    "record": "records/ethanol__s1",
+    "patch": [],
+    "surface": "inf"
+   },
+   "right": {
+    "record": "records/acetaldehyde__s1",
+    "patch": [],
+    "surface": null
+   },
+   "same_object": false,
+   "context": {},
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "empty_surface",
+   "cls": "P5 values",
+   "why": "A surface with no triangles: nothing to draw. Refuse.",
+   "left": {
+    "record": "records/ethanol__s1",
+    "patch": [],
+    "surface": null
+   },
+   "right": {
+    "record": "records/acetaldehyde__s1",
+    "patch": [],
+    "surface": "empty"
+   },
+   "same_object": false,
+   "context": {},
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "scale_not_finite",
+   "cls": "P5 values",
+   "why": "A record whose scale vmin is NaN: the shared scale cannot contain it. Refuse.",
+   "left": {
+    "record": "records/ethanol__s1",
+    "patch": [
+     [
+      "scale.vmin",
+      NaN
+     ]
+    ],
+    "surface": null
+   },
+   "right": {
+    "record": "records/acetaldehyde__s1",
+    "patch": [],
+    "surface": null
+   },
+   "same_object": false,
+   "context": {},
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "degenerate_scale",
+   "cls": "P5 values",
+   "why": "Both records' scales are 0 to 0: no range to colour on. Refuse; never divide by zero.",
+   "left": {
+    "record": "records/e2_butene__s1",
+    "patch": [
+     [
+      "scale.vmin",
+      0.0
+     ],
+     [
+      "scale.vmax",
+      0.0
+     ]
+    ],
+    "surface": null
+   },
+   "right": {
+    "record": "records/z2_butene__s1",
+    "patch": [
+     [
+      "scale.vmin",
+      0.0
+     ],
+     [
+      "scale.vmax",
+      0.0
+     ]
+    ],
+    "surface": null
+   },
+   "same_object": false,
+   "context": {},
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "study_verdict_on_the_page",
+   "cls": "P6 caption",
+   "why": "The page also shows the study's verdict for E3 vs Z3. The picture pair must not borrow it: no 'resolved', no 'because', nothing about attraction.",
+   "left": {
+    "record": "tests/data/pair/e3_z13_18_oac/conf_02",
+    "patch": [
+     [
+      "folded",
+      false
+     ]
+    ],
+    "surface": null
+   },
+   "right": {
+    "record": "tests/data/pair/z3_z13_18_oac/conf_00",
+    "patch": [
+     [
+      "folded",
+      false
+     ]
+    ],
+    "surface": null
+   },
+   "same_object": false,
+   "context": {
+    "study_rows": [
+     {
+      "verdict_rule": "espmap-sesiidae-001/range_partition_sign_v1",
+      "contrast": "B_ez",
+      "site": "C3-H",
+      "outcome": "different_on_average"
+     }
+    ]
+   },
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must_not": "because|explain|due to|caus|more reactive|reactivity|attract|binds?\\b|binding|pheromone|receptor|\\bresolved\\b|specific",
+     "grade": "FALSE",
+     "why": "two pictures show where the potential differs; they test no mechanism",
+     "on": "text"
+    },
+    {
+     "check": "shared_scale",
+     "grade": "MISLEADING",
+     "why": "one scale, containing both records' own, for both pictures"
+    }
+   ]
+  },
+  {
+   "id": "label_is_markup",
+   "cls": "P6 caption",
+   "why": "A display label containing markup is text, escaped, never executed.",
+   "left": {
+    "record": "records/e2_butene__s1",
+    "patch": [],
+    "surface": null
+   },
+   "right": {
+    "record": "records/z2_butene__s1",
+    "patch": [],
+    "surface": null
+   },
+   "same_object": false,
+   "context": {
+    "labels": {
+     "left": "<script>alert(1)</script>",
+     "right": "Z-2-butene"
+    }
+   },
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must_not": "<script>alert",
+     "grade": "FALSE",
+     "why": "escaped",
+     "on": "html"
+    },
+    {
+     "must": "&lt;script&gt;",
+     "grade": "MISLEADING",
+     "why": "shown as text",
+     "on": "html"
+    }
+   ]
+  }
+ ]
+}
