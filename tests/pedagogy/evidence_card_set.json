@@ -70,7 +70,7 @@
      "on": "text"
     },
     {
-     "must_not": "\\bESP\\b|electrostatic|kcal|\\bresolved\\b|because|explain|due to|caus",
+     "must_not": "\\bESP\\b|electrostatic|kcal|\\bresolv\\w*|because|explain|due to|caus",
      "grade": "FALSE",
      "why": "an evidence view never links a computed difference to a biological response",
      "on": "text"
@@ -369,7 +369,7 @@
      "on": "text"
     },
     {
-     "must_not": "\\bESP\\b|electrostatic|kcal|\\bresolved\\b|because|explain|due to|caus",
+     "must_not": "\\bESP\\b|electrostatic|kcal|\\bresolv\\w*|because|explain|due to|caus",
      "grade": "FALSE",
      "why": "an evidence view never links a computed difference to a biological response",
      "on": "text"
@@ -723,7 +723,7 @@
      "on": "text"
     },
     {
-     "must_not": "\\bESP\\b|electrostatic|kcal|\\bresolved\\b|because|explain|due to|caus",
+     "must_not": "\\bESP\\b|electrostatic|kcal|\\bresolv\\w*|because|explain|due to|caus",
      "grade": "FALSE",
      "why": "an evidence view never links a computed difference to a biological response",
      "on": "text"
@@ -801,7 +801,7 @@
      "on": "text"
     },
     {
-     "must_not": "\\bESP\\b|electrostatic|kcal|\\bresolved\\b|because|explain|due to|caus",
+     "must_not": "\\bESP\\b|electrostatic|kcal|\\bresolv\\w*|because|explain|due to|caus",
      "grade": "FALSE",
      "why": "an evidence view never links a computed difference to a biological response",
      "on": "text"
@@ -873,7 +873,7 @@
      "on": "text"
     },
     {
-     "must_not": "\\bESP\\b|electrostatic|kcal|\\bresolved\\b|because|explain|due to|caus",
+     "must_not": "\\bESP\\b|electrostatic|kcal|\\bresolv\\w*|because|explain|due to|caus",
      "grade": "FALSE",
      "why": "an evidence view never links a computed difference to a biological response",
      "on": "text"
@@ -933,7 +933,7 @@
      "on": "text"
     },
     {
-     "must_not": "\\bESP\\b|electrostatic|kcal|\\bresolved\\b|because|explain|due to|caus",
+     "must_not": "\\bESP\\b|electrostatic|kcal|\\bresolv\\w*|because|explain|due to|caus",
      "grade": "FALSE",
      "why": "an evidence view never links a computed difference to a biological response",
      "on": "text"
@@ -984,7 +984,7 @@
    "prefer": "RENDERED",
    "requires": [
     {
-     "must_not": "\\bESP\\b|electrostatic|kcal|\\bresolved\\b|because|explain|due to|caus",
+     "must_not": "\\bESP\\b|electrostatic|kcal|\\bresolv\\w*|because|explain|due to|caus",
      "grade": "FALSE",
      "why": "an evidence view never links a computed difference to a biological response",
      "on": "text"
@@ -1041,7 +1041,7 @@
    "prefer": "RENDERED",
    "requires": [
     {
-     "must_not": "\\bESP\\b|electrostatic|kcal|\\bresolved\\b|because|explain|due to|caus",
+     "must_not": "\\bESP\\b|electrostatic|kcal|\\bresolv\\w*|because|explain|due to|caus",
      "grade": "FALSE",
      "why": "an evidence view never links a computed difference to a biological response",
      "on": "text"
@@ -2335,6 +2335,354 @@
      "must": "atlas commit 35112e1",
      "grade": "MISLEADING",
      "why": "the bundle's commit",
+     "on": "text"
+    }
+   ]
+  },
+  {
+   "id": "altered_effect_same_id",
+   "cls": "E8 bound to the bundle",
+   "component": "evidence_card",
+   "why": "Tasmania 1986 with its effect and statement turned from decreased to increased, same id: the card would show the opposite of the record.",
+   "inputs": {
+    "observation_id": "spa.obs.synanthedon_tipuliformis.szocs_1990.trap_e3.tasmania_1986",
+    "compound": "spa.cmpd.e3_z13_18_oac"
+   },
+   "context": {
+    "bundle": {
+     "atlas_version": "35112e1",
+     "sha256": "from bundle.load"
+    },
+    "roles": {
+     "spa.cmpd.z3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.z3_z13_18_oh": "atlas_observed",
+     "spa.cmpd.e3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.e2_z13_18_oac": "atlas_observed",
+     "arrowfield.control.z3_z13_18_al": "teaching_control"
+    }
+   },
+   "bundle_patch": [],
+   "statement_patch": [
+    [
+     [
+      "observations",
+      5,
+      "outcome",
+      "effect"
+     ],
+     "increased"
+    ],
+    [
+     [
+      "observations",
+      5,
+      "statement"
+     ],
+     "Adding E3,Z13-18:OAc increased catches at Huonville."
+    ]
+   ],
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "contrast_invented_label",
+   "cls": "E8 bound to the bundle",
+   "component": "contrast_card",
+   "why": "An invented contrast carrying the real Hungary and Tasmania 1986 ids and texts: not one of the bundle's.",
+   "inputs": {
+    "contrast_label": "S. tipuliformis, probe-invented pair"
+   },
+   "context": {
+    "bundle": {
+     "atlas_version": "35112e1",
+     "sha256": "from bundle.load"
+    },
+    "roles": {
+     "spa.cmpd.z3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.z3_z13_18_oh": "atlas_observed",
+     "spa.cmpd.e3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.e2_z13_18_oac": "atlas_observed",
+     "arrowfield.control.z3_z13_18_al": "teaching_control"
+    }
+   },
+   "bundle_patch": [],
+   "statement_patch": [
+    [
+     [
+      "comparisons",
+      "+"
+     ],
+     {
+      "case_label": "S. tipuliformis, probe-invented pair",
+      "observation_ids": [
+       "spa.obs.synanthedon_tipuliformis.szocs_1990.trap_e3.hungary",
+       "spa.obs.synanthedon_tipuliformis.szocs_1990.trap_e3.tasmania_1986"
+      ],
+      "observed_contrast": {
+       "a": "Synanthedon tipuliformis (Kemence, Pest County, Hungary), field_trapping: E2,Z13-18:OAc 100 ug + E3,Z13-18:OAc 3 ug vs E2,Z13-18:OAc 100 ug (E2,Z13-18:OAc alone, 100 micrograms): increased, significant; 40.81 vs 15.38 mean_catch_per_trap (trap_catch, as_reported)",
+       "b": "Synanthedon tipuliformis (Huonville, Tasmania, Australia), field_trapping: E2,Z13-18:OAc 100 ug + E3,Z13-18:OAc 3 ug vs E2,Z13-18:OAc 100 ug (E2,Z13-18:OAc alone, 100 micrograms): decreased, significant; 3.24 vs 6.73 mean_catch_per_trap (trap_catch, as_reported)"
+      }
+     }
+    ]
+   ],
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "card_role_outside_vocabulary",
+   "cls": "E3 roles",
+   "component": "evidence_card",
+   "why": "The page's roles call E3 'confirmed_pheromone': not one of the three roles. Refuse rather than ignore it.",
+   "inputs": {
+    "observation_id": "spa.obs.synanthedon_tipuliformis.szocs_1990.trap_e3.hungary",
+    "compound": "spa.cmpd.e3_z13_18_oac"
+   },
+   "context": {
+    "bundle": {
+     "atlas_version": "35112e1",
+     "sha256": "from bundle.load"
+    },
+    "roles": {
+     "spa.cmpd.z3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.z3_z13_18_oh": "atlas_observed",
+     "spa.cmpd.e3_z13_18_oac": "confirmed_pheromone",
+     "spa.cmpd.e2_z13_18_oac": "atlas_observed",
+     "arrowfield.control.z3_z13_18_al": "teaching_control"
+    }
+   },
+   "bundle_patch": [],
+   "statement_patch": [],
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "card_atlas_compound_as_counterfactual",
+   "cls": "E3 roles",
+   "component": "evidence_card",
+   "why": "The page calls an Atlas compound a computational counterfactual: the evidence card refuses the inconsistent roles, as the class panel does.",
+   "inputs": {
+    "observation_id": "spa.obs.synanthedon_tipuliformis.szocs_1990.trap_e3.hungary",
+    "compound": "spa.cmpd.e3_z13_18_oac"
+   },
+   "context": {
+    "bundle": {
+     "atlas_version": "35112e1",
+     "sha256": "from bundle.load"
+    },
+    "roles": {
+     "spa.cmpd.z3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.z3_z13_18_oh": "atlas_observed",
+     "spa.cmpd.e3_z13_18_oac": "computational_counterfactual",
+     "spa.cmpd.e2_z13_18_oac": "atlas_observed",
+     "arrowfield.control.z3_z13_18_al": "teaching_control"
+    }
+   },
+   "bundle_patch": [],
+   "statement_patch": [],
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "doi_not_recorded",
+   "cls": "E2 provenance",
+   "component": "evidence_card",
+   "why": "The reference without its DOI (synthetic): the authors' words still shown, and the missing DOI said, so a reader does not think it was left off by the card.",
+   "inputs": {
+    "observation_id": "spa.obs.synanthedon_tenuis.yang_2012.gland",
+    "compound": "spa.cmpd.z3_z13_18_oac"
+   },
+   "context": {
+    "bundle": {
+     "atlas_version": "35112e1",
+     "sha256": "from bundle.load"
+    },
+    "roles": {
+     "spa.cmpd.z3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.z3_z13_18_oh": "atlas_observed",
+     "spa.cmpd.e3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.e2_z13_18_oac": "atlas_observed",
+     "arrowfield.control.z3_z13_18_al": "teaching_control"
+    }
+   },
+   "bundle_patch": [
+    [
+     [
+      "observations",
+      1,
+      "reference",
+      "doi"
+     ],
+     null
+    ]
+   ],
+   "statement_patch": [],
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "doi not (recorded|given|stated)",
+     "grade": "MISLEADING",
+     "why": "the gap, said",
+     "on": "text"
+    }
+   ]
+  },
+  {
+   "id": "comparator_value_not_recorded",
+   "cls": "E1 absence and negatives",
+   "component": "evidence_card",
+   "why": "A response with no comparator value (synthetic): 'not recorded', never 'None'.",
+   "inputs": {
+    "observation_id": "spa.obs.synanthedon_tenuis.naka_2013.trap_z3z13oh_added.test4_1",
+    "compound": "spa.cmpd.z3_z13_18_oh"
+   },
+   "context": {
+    "bundle": {
+     "atlas_version": "35112e1",
+     "sha256": "from bundle.load"
+    },
+    "roles": {
+     "spa.cmpd.z3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.z3_z13_18_oh": "atlas_observed",
+     "spa.cmpd.e3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.e2_z13_18_oac": "atlas_observed",
+     "arrowfield.control.z3_z13_18_al": "teaching_control"
+    }
+   },
+   "bundle_patch": [
+    [
+     [
+      "observations",
+      2,
+      "outcome",
+      "response",
+      "comparator_value"
+     ],
+     null
+    ]
+   ],
+   "statement_patch": [],
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "not recorded",
+     "grade": "MISLEADING",
+     "why": "the gap, said",
+     "on": "text"
+    },
+    {
+     "must_not": "\\bNone\\b",
+     "grade": "MISLEADING",
+     "why": "no raw null",
+     "on": "text"
+    }
+   ]
+  },
+  {
+   "id": "tentative_counts_shown",
+   "cls": "E6 evidence classes",
+   "component": "class_panel",
+   "why": "A class row with tentative observations (synthetic: n_tentative 2): the panel shows them, as it shows the significant ones.",
+   "inputs": {
+    "compound": "spa.cmpd.z3_z13_18_oac",
+    "taxon_id": "spa.tax.synanthedon_tenuis"
+   },
+   "context": {
+    "bundle": {
+     "atlas_version": "35112e1",
+     "sha256": "from bundle.load"
+    },
+    "roles": {
+     "spa.cmpd.z3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.z3_z13_18_oh": "atlas_observed",
+     "spa.cmpd.e3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.e2_z13_18_oac": "atlas_observed",
+     "arrowfield.control.z3_z13_18_al": "teaching_control"
+    }
+   },
+   "bundle_patch": [
+    [
+     [
+      "compounds",
+      1,
+      "evidence_classes",
+      6,
+      "n_tentative"
+     ],
+     2
+    ]
+   ],
+   "statement_patch": [],
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "\\b2 tentative|tentative:? 2",
+     "grade": "MISLEADING",
+     "why": "the count",
+     "on": "text"
+    },
+    {
+     "must_not": "\\boverall\\b|in general|on balance|\\bnet\\b|taken together|consensus",
+     "grade": "MISLEADING",
+     "why": "the Atlas never nets opposite results out; neither does the view",
      "on": "text"
     }
    ]

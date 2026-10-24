@@ -127,7 +127,18 @@ def _bundle(c, tmp_path):
     return _patched(RAW, c["bundle_patch"], tmp_path / "patched.json")
 
 
-XFAIL = set()
+# probe round 1 (on 64082a4), measured on 1a413d5: the card ignores roles; no DOI note,
+# a raw None, no tentative count
+XFAIL = {
+    "test_view_output_is_safe[card_role_outside_vocabulary]",
+    "test_view_output_is_safe[card_atlas_compound_as_counterfactual]",
+    "test_view_output_is_preferred[card_role_outside_vocabulary]",
+    "test_view_output_is_preferred[card_atlas_compound_as_counterfactual]",
+    "test_a_rendered_view_meets_its_requirements[doi_not_recorded-0]",
+    "test_a_rendered_view_meets_its_requirements[comparator_value_not_recorded-0]",
+    "test_a_rendered_view_meets_its_requirements[comparator_value_not_recorded-1]",
+    "test_a_rendered_view_meets_its_requirements[tentative_counts_shown-0]",
+}
 
 
 def _xfail(request, c):

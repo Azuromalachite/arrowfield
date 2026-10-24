@@ -94,9 +94,10 @@ NO_OVERREACH = must_not(r"inactive|does not (make|produce|attract)|not (made|pro
                         "an evidence view reports what was measured, never a role the record does not state")
 NO_NETTING = must_not(r"\boverall\b|in general|on balance|\bnet\b|taken together|consensus", "MISLEADING",
                       "the Atlas never nets opposite results out; neither does the view")
-# \bresolved\b: the study's verdict word, not the Atlas's own 'unresolved' items,
-# which E2 requires the card to show
-NO_ESP = must_not(r"\bESP\b|electrostatic|kcal|\bresolved\b|because|explain|due to|caus", "FALSE",
+# \bresolv\w*: the study's verdict word and its family (resolved, resolves,
+# resolvable, resolution; probe round 1), never the Atlas's own 'unresolved'
+# items, which E2 requires the card to show (no word boundary inside them)
+NO_ESP = must_not(r"\bESP\b|electrostatic|kcal|\bresolv\w*|because|explain|due to|caus", "FALSE",
                   "an evidence view never links a computed difference to a biological response")
 
 
@@ -366,6 +367,42 @@ case("full_commit_in_context_agrees", "E9 provenance from the bundle", "class_pa
      [must(r"atlas commit " + re.escape(RAW["atlas_version"]), "MISLEADING", "the bundle's commit")],
      context=ctx(bundle={"atlas_version": FULL, "sha256": "from bundle.load"}))
 
+# --- held-out probe round 1 (Publishing, on 64082a4): its findings, as cases ----------------
+# (the author-quote findings wait on the user's decision between verbatim quotes and the word ban)
+T86 = "synanthedon_tipuliformis.szocs_1990.trap_e3.tasmania_1986"
+ev("altered_effect_same_id", "E8 bound to the bundle", T86, E3,
+   "Tasmania 1986 with its effect and statement turned from decreased to increased, same id: the card "
+   "would show the opposite of the record.", [], outcomes=REFUSE, prefer="REFUSED",
+   spatch=[(["observations", oi(T86), "outcome", "effect"], "increased"),
+           (["observations", oi(T86), "statement"], "Adding E3,Z13-18:OAc increased catches at Huonville.")])
+case("contrast_invented_label", "E8 bound to the bundle", "contrast_card",
+     "An invented contrast carrying the real Hungary and Tasmania 1986 ids and texts: not one of the bundle's.",
+     {"contrast_label": "S. tipuliformis, probe-invented pair"}, REFUSE, "REFUSED",
+     spatch=[(["comparisons", "+"], dict(copy.deepcopy(RAW["comparisons"][2]),
+                                         case_label="S. tipuliformis, probe-invented pair"))])
+ev("card_role_outside_vocabulary", "E3 roles", "synanthedon_tipuliformis.szocs_1990.trap_e3.hungary", E3,
+   "The page's roles call E3 'confirmed_pheromone': not one of the three roles. Refuse rather than ignore it.",
+   [], outcomes=REFUSE, prefer="REFUSED", context=ctx(roles=dict(ROLES, **{E3: "confirmed_pheromone"})))
+ev("card_atlas_compound_as_counterfactual", "E3 roles", "synanthedon_tipuliformis.szocs_1990.trap_e3.hungary",
+   E3, "The page calls an Atlas compound a computational counterfactual: the evidence card refuses the "
+   "inconsistent roles, as the class panel does.", [], outcomes=REFUSE, prefer="REFUSED",
+   context=ctx(roles=dict(ROLES, **{E3: "computational_counterfactual"})))
+ev("doi_not_recorded", "E2 provenance", "synanthedon_tenuis.yang_2012.gland", OAC,
+   "The reference without its DOI (synthetic): the authors' words still shown, and the missing DOI said, "
+   "so a reader does not think it was left off by the card.",
+   [must(r"doi not (recorded|given|stated)", "MISLEADING", "the gap, said")],
+   patch=[(["observations", oi("synanthedon_tenuis.yang_2012.gland"), "reference", "doi"], None)])
+ev("comparator_value_not_recorded", "E1 absence and negatives",
+   "synanthedon_tenuis.naka_2013.trap_z3z13oh_added.test4_1", OH,
+   "A response with no comparator value (synthetic): 'not recorded', never 'None'.",
+   [must(r"not recorded", "MISLEADING", "the gap, said"), must_not(r"\bNone\b", "MISLEADING", "no raw null")],
+   patch=[(["observations", oi("synanthedon_tenuis.naka_2013.trap_z3z13oh_added.test4_1"), "outcome", "response",
+            "comparator_value"], None)])
+cp("tentative_counts_shown", OAC, TENUIS,
+   "A class row with tentative observations (synthetic: n_tentative 2): the panel shows them, as it shows "
+   "the significant ones.", [must(r"\b2 tentative|tentative:? 2", "MISLEADING", "the count")],
+   patch=[(["compounds", idx, "evidence_classes", jdx, "n_tentative"], 2)])
+
 
 def document():
     obs = {o["observation_id"] for o in RAW["observations"]}
@@ -379,7 +416,7 @@ def document():
             continue
         if "observation_id" in i and c["prefer"] == "RENDERED":
             assert i["observation_id"] in obs, c["id"]
-        if "contrast_label" in i:
+        if "contrast_label" in i and not c["statement_patch"]:      # an appended fabrication is not
             assert i["contrast_label"] in labels, c["id"]
     return json.dumps({"generator": "tests/pedagogy/make_evidence_card_set.py",
                        "bundle": "tests/data/sesiidae-homework-1.bundle.json", "atlas_version": RAW["atlas_version"],
