@@ -470,6 +470,7 @@ def study_card_html(row, context):
 # optional "study_rows"} (study rows are deliberately never shown here).
 # The TeachingBundle is the authority: a statement, contrast or provenance
 # claim that is not the bundle's own is refused, never shown as Atlas evidence.
+_ROLES = ("atlas_observed", "teaching_control", "computational_counterfactual")
 _ROLE_WORDS = {"teaching_control": "Teaching control: a constructed molecule, not an Atlas compound",
                "computational_counterfactual": "Computational counterfactual: a computational model, "
                                                "not an Atlas compound"}
@@ -515,6 +516,14 @@ def _bound(context):
     else:
         prov_html = ('<div class="provenance warn">Provenance incomplete: the Atlas commit is not recorded, '
                      "so this evidence cannot be traced to an Atlas release.</div>")
+    # roles: one of three words, and never one that relabels a compound the bundle carries
+    bad = {k: v for k, v in roles.items() if v not in _ROLES}
+    if bad:
+        raise Refused(f"role(s) {bad} are not one of {_ROLES}: the page cannot say what those molecules are")
+    clash = sorted(k for k, v in roles.items() if v in _ROLE_WORDS and k in bundle.compounds)
+    if clash:
+        raise Refused(f"{clash} are Atlas compounds of this bundle, but the page calls them a teaching control "
+                      "or counterfactual: the roles are inconsistent with the bundle")
     return bundle, roles, prov_html
 
 
@@ -544,7 +553,7 @@ def _where(st):
 
 def _citation(st):
     ref = st.reference or {}
-    doi = f" doi:{ref['doi']}" if ref.get("doi") else ""
+    doi = f" doi:{ref['doi']}" if ref.get("doi") else " (DOI not recorded)"
     return f"{ref.get('citation', 'citation not given')}{doi}"
 
 
@@ -585,8 +594,10 @@ def _compound_line(st, compound):
     out = f"{', '.join(roles)} in {st.assay or 'this assay'}: {words}"
     r = st.response
     if r is not None and roles:
-        out += (f"; {_t(r.treatment_value)} vs {_t(r.comparator_value)} {_t(r.unit)} "
-                f"({_t(r.measure)}, {_t(r.qualifier or 'as recorded')})")
+        def val(v):
+            return "not recorded" if v is None else _t(v)
+        out += (f"; {val(r.treatment_value)} vs {val(r.comparator_value)} {val(r.unit)} "
+                f"({val(r.measure)}, {_t(r.qualifier or 'as recorded')})")
     return out
 
 
@@ -668,6 +679,7 @@ def evidence_class_panel_html(compound, taxon_id, context):
         for e in rows:
             outside = len(set(e.observation_ids) - in_case)
             sig = f"; {e.n_significant} reported significant" if e.n_significant is not None else ""
+            sig += f"; {e.n_tentative} tentative" if e.n_tentative else ""
             parts.append(f"<tr><td>{_t(e.evidence_class)}</td><td>{e.n_observations}{_t(sig)}</td>"
                          f"<td>{_t(', '.join(e.populations))}</td>"
                          f"<td>{outside} of {e.n_observations} outside this case</td></tr>")
