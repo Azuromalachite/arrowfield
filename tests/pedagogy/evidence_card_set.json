@@ -3033,6 +3033,244 @@
    ]
   },
   {
+   "id": "population_in_negative_sentence",
+   "cls": "E10 verbatim and own words",
+   "component": "evidence_card",
+   "why": "A population (synthetic) named 'inactive-strain population', repeated in the not-detected sentence: it stays the record's words, in a span.",
+   "inputs": {
+    "observation_id": "spa.obs.synanthedon_tenuis.yang_2012.gland",
+    "compound": "spa.cmpd.z3_z13_18_oac"
+   },
+   "context": {
+    "bundle": {
+     "atlas_version": "35112e1",
+     "sha256": "from bundle.load"
+    },
+    "roles": {
+     "spa.cmpd.z3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.z3_z13_18_oh": "atlas_observed",
+     "spa.cmpd.e3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.e2_z13_18_oac": "atlas_observed",
+     "arrowfield.control.z3_z13_18_al": "teaching_control"
+    }
+   },
+   "bundle_patch": [
+    [
+     [
+      "observations",
+      1,
+      "context",
+      "population"
+     ],
+     "inactive-strain population"
+    ]
+   ],
+   "statement_patch": [],
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "inactive-strain population",
+     "grade": "MISLEADING",
+     "why": "the record's population",
+     "on": "text"
+    },
+    {
+     "must_not": "inactiv\\w*|does not (make|produce|attract)|not (made|produced)|absent from|repel\\w*|inhibit\\w*|antagonis\\w*",
+     "grade": "FALSE",
+     "why": "an evidence view reports what was measured, never a role the record does not state",
+     "on": "text"
+    }
+   ]
+  },
+  {
+   "id": "population_resolved_in_negative_sentence",
+   "cls": "E10 verbatim and own words",
+   "component": "evidence_card",
+   "why": "A population (synthetic) named 'resolved-lineage population', in the same sentence.",
+   "inputs": {
+    "observation_id": "spa.obs.synanthedon_tenuis.naka_2013.gland",
+    "compound": "spa.cmpd.e3_z13_18_oac"
+   },
+   "context": {
+    "bundle": {
+     "atlas_version": "35112e1",
+     "sha256": "from bundle.load"
+    },
+    "roles": {
+     "spa.cmpd.z3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.z3_z13_18_oh": "atlas_observed",
+     "spa.cmpd.e3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.e2_z13_18_oac": "atlas_observed",
+     "arrowfield.control.z3_z13_18_al": "teaching_control"
+    }
+   },
+   "bundle_patch": [
+    [
+     [
+      "observations",
+      0,
+      "context",
+      "population"
+     ],
+     "resolved-lineage population"
+    ]
+   ],
+   "statement_patch": [],
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "resolved-lineage population",
+     "grade": "MISLEADING",
+     "why": "the record's population",
+     "on": "text"
+    },
+    {
+     "must_not": "\\bESP\\b|electrostatic|kcal|\\bresol(v|ut)\\w*|because|explain|due to|caus",
+     "grade": "FALSE",
+     "why": "an evidence view never links a computed difference to a biological response",
+     "on": "text"
+    }
+   ]
+  },
+  {
+   "id": "method_in_negative_sentence",
+   "cls": "E10 verbatim and own words",
+   "component": "evidence_card",
+   "why": "A detection method (synthetic) reading 'gland_extract_inhibition_assay': the record's method string, verbatim in a span, never the view's words.",
+   "inputs": {
+    "observation_id": "spa.obs.synanthedon_tenuis.yang_2012.gland",
+    "compound": "spa.cmpd.z3_z13_18_oac"
+   },
+   "context": {
+    "bundle": {
+     "atlas_version": "35112e1",
+     "sha256": "from bundle.load"
+    },
+    "roles": {
+     "spa.cmpd.z3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.z3_z13_18_oh": "atlas_observed",
+     "spa.cmpd.e3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.e2_z13_18_oac": "atlas_observed",
+     "arrowfield.control.z3_z13_18_al": "teaching_control"
+    }
+   },
+   "bundle_patch": [
+    [
+     [
+      "observations",
+      1,
+      "components",
+      1,
+      "method"
+     ],
+     "gland_extract_inhibition_assay"
+    ]
+   ],
+   "statement_patch": [],
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "gland_extract_inhibition_assay",
+     "grade": "MISLEADING",
+     "why": "the record's method, verbatim",
+     "on": "text"
+    },
+    {
+     "must_not": "inactiv\\w*|does not (make|produce|attract)|not (made|produced)|absent from|repel\\w*|inhibit\\w*|antagonis\\w*",
+     "grade": "FALSE",
+     "why": "an evidence view reports what was measured, never a role the record does not state",
+     "on": "text"
+    }
+   ]
+  },
+  {
+   "id": "response_unit_in_effect_sentence",
+   "cls": "E10 verbatim and own words",
+   "component": "evidence_card",
+   "why": "A response unit (synthetic) reading 'catches_explained_per_trap', interpolated into the effect sentence.",
+   "inputs": {
+    "observation_id": "spa.obs.synanthedon_tenuis.naka_2013.trap_z3z13oh_added.test4_1",
+    "compound": "spa.cmpd.z3_z13_18_oh"
+   },
+   "context": {
+    "bundle": {
+     "atlas_version": "35112e1",
+     "sha256": "from bundle.load"
+    },
+    "roles": {
+     "spa.cmpd.z3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.z3_z13_18_oh": "atlas_observed",
+     "spa.cmpd.e3_z13_18_oac": "atlas_observed",
+     "spa.cmpd.e2_z13_18_oac": "atlas_observed",
+     "arrowfield.control.z3_z13_18_al": "teaching_control"
+    }
+   },
+   "bundle_patch": [
+    [
+     [
+      "observations",
+      2,
+      "outcome",
+      "response",
+      "unit"
+     ],
+     "catches_explained_per_trap"
+    ]
+   ],
+   "statement_patch": [],
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "catches_explained_per_trap",
+     "grade": "MISLEADING",
+     "why": "the record's unit",
+     "on": "text"
+    },
+    {
+     "must_not": "\\bESP\\b|electrostatic|kcal|\\bresol(v|ut)\\w*|because|explain|due to|caus",
+     "grade": "FALSE",
+     "why": "an evidence view never links a computed difference to a biological response",
+     "on": "text"
+    }
+   ]
+  },
+  {
    "id": "atlas_statement_says_repel",
    "cls": "E10 verbatim and own words",
    "component": "evidence_card",

@@ -427,6 +427,28 @@ for vid, oid, comp, quote in (
        [must(re.escape(quote), "MISLEADING", "the quotation, unaltered"),
         must(r"the authors'? words", "MISLEADING", "attributed"), NO_OVERREACH, NO_ESP],
        patch=[(["observations", oi(oid), "evidence", "author_statement"], quote)])
+# probe round 2 (on 48b27f5): record fields interpolated into the view's own sentence must be
+# spanned too, one field each, or a banned word in the record lands in the view's words
+GY, GN, T41 = ("synanthedon_tenuis.yang_2012.gland", "synanthedon_tenuis.naka_2013.gland",
+               "synanthedon_tenuis.naka_2013.trap_z3z13oh_added.test4_1")
+ev("population_in_negative_sentence", "E10 verbatim and own words", GY, OAC,
+   "A population (synthetic) named 'inactive-strain population', repeated in the not-detected sentence: it "
+   "stays the record's words, in a span.",
+   [must(r"inactive-strain population", "MISLEADING", "the record's population"), NO_OVERREACH],
+   patch=[(["observations", oi(GY), "context", "population"], "inactive-strain population")])
+ev("population_resolved_in_negative_sentence", "E10 verbatim and own words", GN, E3,
+   "A population (synthetic) named 'resolved-lineage population', in the same sentence.",
+   [must(r"resolved-lineage population", "MISLEADING", "the record's population"), NO_ESP],
+   patch=[(["observations", oi(GN), "context", "population"], "resolved-lineage population")])
+ev("method_in_negative_sentence", "E10 verbatim and own words", GY, OAC,
+   "A detection method (synthetic) reading 'gland_extract_inhibition_assay': the record's method string, "
+   "verbatim in a span, never the view's words.",
+   [must(r"gland_extract_inhibition_assay", "MISLEADING", "the record's method, verbatim"), NO_OVERREACH],
+   patch=[(["observations", oi(GY), "components", ci(GY, OAC), "method"], "gland_extract_inhibition_assay")])
+ev("response_unit_in_effect_sentence", "E10 verbatim and own words", T41, OH,
+   "A response unit (synthetic) reading 'catches_explained_per_trap', interpolated into the effect sentence.",
+   [must(r"catches_explained_per_trap", "MISLEADING", "the record's unit"), NO_ESP],
+   patch=[(["observations", oi(T41), "outcome", "response", "unit"], "catches_explained_per_trap")])
 ev("atlas_statement_says_repel", "E10 verbatim and own words", HU, E3,
    "The Atlas statement itself (synthetic) containing 'repellent': shown verbatim as the Atlas's sentence.",
    [must(r"no repellent effect at Budapest", "MISLEADING", "the Atlas's sentence"), NO_OVERREACH],
