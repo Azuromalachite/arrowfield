@@ -491,9 +491,9 @@ for vid, value in (("Gas", "Gas"), ("GAS", "GAS"), ("gas_space", "gas "), ("empt
          "read as 'PCM ...', condensed phase. Refuse, never interpret.", REFUSE_F, "REFUSED",
          source_ops=[["settings", "solvent", value]])
 case("record_solvent_water", "H9 display",
-     "Every record's solvent is 'water': a PCM run, shown as one.", RENDER, "RENDERED",
+     "Every record computed in PCM water (canonical protocol and settings alike): shown as one.", RENDER, "RENDERED",
      [must(r"PCM water", "MISLEADING", "the solvent, named"), ACT_ORDER],
-     source_ops=[["settings", "solvent", "water"]])
+     source_ops=[["canonical_rekey", "solvent", "water"], ["settings", "solvent", "water"]])
 
 # --- round 10 on #21 (64b5fa2) -------------------------------------------------------------------
 # L: a solvent is one espmap can write (esp_map.SOLVENTS, v0.2.1 and v0.3.0 alike, None for gas)
@@ -503,27 +503,69 @@ for value in ("vacuo", "in_vacuo", "gas_phase", "gas-phase", "vac", "no_solvent"
     case(f"record_solvent_{value.replace('-', '_hyphen_')}", "H9 display",
          f"Every record's solvent is {value!r}: not a solvent espmap writes; shown, it reads as PCM {value}, "
          "condensed phase. Refuse.", REFUSE, "REFUSED", source_ops=[["settings", "solvent", value]])
-for value, said in (("dmso", r"PCM dmso"), ("gas", r"gas phase")):
-    case(f"record_solvent_{value}_renders", "H9 display",
-         f"Every record's solvent is {value!r}, a value espmap's readers know: shown as it is.", RENDER, "RENDERED",
-         [must(said, "MISLEADING", "the phase, as recorded"), ACT_ORDER], source_ops=[["settings", "solvent", value]])
-# M: one page, one method. Every record that states a method states the same one (gas tokens
-# alike); the scope line and the pair caption can then never disagree. The ensembles first state
-# the conformers' method, then one thing is changed.
+case("record_solvent_dmso_renders", "H9 display",
+     "Every record computed in PCM dmso (its canonical protocol says dmso, and so do its settings): shown as it is.",
+     RENDER, "RENDERED", [must(r"PCM dmso", "MISLEADING", "the phase, as recorded"), ACT_ORDER],
+     source_ops=[["canonical_rekey", "solvent", "dmso"], ["settings", "solvent", "dmso"]])
+case("record_solvent_gas_renders", "H9 display",
+     "Every record's settings say solvent 'gas', which the views read as the gas phase, as the protocol says.",
+     RENDER, "RENDERED", [must(r"gas phase", "MISLEADING", "the phase, as recorded"), ACT_ORDER],
+     source_ops=[["settings", "solvent", "gas"]])
+
+# --- the user's decision after round 11 on #21 (7fb0bed): method identity is espmap's -------------
+# A record's protocol is its canonical key_fields.analysis, and its analysis_key the sha1 of those
+# fields' sorted JSON (espmap's record_key, v0.2.1 and v0.3.0 alike). Arrowfield verifies the
+# digest, compares keys, and names the method from the canonical fields; it never normalises xc or
+# basis names itself. Raw settings are provenance text: spelled differently under one canonical
+# protocol, they render; a raw solvent that contradicts the canonical one, a solvent with no method,
+# a digest that does not match, or no canonical fields at all are refused.
 SAME = [["settings_ensembles", "xc", "b3lyp"], ["settings_ensembles", "basis", "def2-svp"],
         ["settings_ensembles", "solvent", "vacuum"]]
-case("one_method_baseline", "H9 display",
-     "Every record states b3lyp/def2-svp in the gas phase: one method, named once.", RENDER, "RENDERED",
-     [must(r"b3lyp/def2-svp", "MISLEADING", "the method, named"), ACT_ORDER], source_ops=SAME)
-for vid, ops in (("one_ensemble_pbe0", [["settings_ensemble", OAC, "xc", "pbe0"]]),
-                 ("one_ensemble_tzvp", [["settings_ensemble", OAC, "basis", "def2-tzvp"]]),
-                 ("one_ensemble_water", [["settings_ensemble", OAC, "solvent", "water"]]),
-                 ("conformers_pbe0", [["settings_conformers", "xc", "pbe0"]]),
-                 ("conformers_water", [["settings_conformers", "solvent", "water"]]),
-                 ("ensembles_water", [["settings_ensembles", "solvent", "water"]])):
-    case(f"one_method_{vid}", "H9 display",
-         f"One page, records under one analysis key stating different methods ({ops}): whichever the page "
-         "names is wrong for some. Refuse.", REFUSE_F, "REFUSED", source_ops=SAME + ops)
+CANON = must(r"b3lyp/def2svp", "MISLEADING", "the method, named from the canonical protocol")
+case("one_method_baseline", "H10 canonical protocol",
+     "Every record states b3lyp/def2-svp in the gas phase: one protocol, named once, canonically.",
+     RENDER, "RENDERED", [CANON, ACT_ORDER], source_ops=SAME)
+# N (round 11): one canonical protocol, spelled as each run's command line had it
+for vid, ops in (("ensembles_upper", [["settings_ensembles", "xc", "B3LYP"], ["settings_ensembles", "basis", "def2-SVP"],
+                                      ["settings_ensembles", "solvent", "vacuum"]]),
+                 ("conformers_def2svp", SAME + [["settings_conformers", "basis", "def2svp"]]),
+                 ("conformers_def2_svp_upper", SAME + [["settings_conformers", "basis", "DEF2_SVP"]]),
+                 ("conformers_libxc_name", SAME + [["settings_conformers", "xc", "HYB_GGA_XC_B3LYP"]]),
+                 ("one_ensemble_upper", SAME + [["settings_ensemble", OAC, "xc", "B3LYP"],
+                                                ["settings_ensemble", OAC, "basis", "def2-SVP"]]),
+                 # O (round 11): a PySCF custom functional is the record's own text, spaces and all
+                 ("custom_functional", [["settings", "xc", "0.2*HF + 0.08*LDA + 0.72*B88, 0.81*LYP + 0.19*VWN"],
+                                        ["settings", "basis", "def2-svp"], ["settings", "solvent", "vacuum"]])):
+    case(f"one_protocol_{vid}", "H10 canonical protocol",
+         f"Records under one analysis key, its digest verified, spelling the method differently ({ops[-1]}): one "
+         "protocol. Render, naming it from the canonical fields.", RENDER, "RENDERED", [CANON, ACT_ORDER],
+         source_ops=ops)
+# round 10's M cases: a raw xc or basis changed under one verified canonical protocol is a
+# corrupted provenance label, which Arrowfield cannot check without PySCF; the protocol decides.
+# The page renders and names the canonical method, never the label (the user's decision)
+for vid, ops, label in (("one_ensemble_pbe0", [["settings_ensemble", OAC, "xc", "pbe0"]], r"pbe0"),
+                        ("one_ensemble_tzvp", [["settings_ensemble", OAC, "basis", "def2-tzvp"]], r"tzvp"),
+                        ("conformers_pbe0", [["settings_conformers", "xc", "pbe0"]], r"pbe0")):
+    case(f"one_method_{vid}", "H10 canonical protocol",
+         f"One verified canonical protocol, one raw label changed ({ops}): render, naming the protocol's method, "
+         "never the label.", RENDER, "RENDERED",
+         [CANON, must_not(label, "MISLEADING", "a raw label is not the protocol"), ACT_ORDER], source_ops=SAME + ops)
+# a raw solvent that contradicts the canonical one, and P (round 11): a solvent with no method
+for vid, ops in (("one_ensemble_water", SAME + [["settings_ensemble", OAC, "solvent", "water"]]),
+                 ("conformers_water", SAME + [["settings_conformers", "solvent", "water"]]),
+                 ("ensembles_water", SAME + [["settings_ensembles", "solvent", "water"]]),
+                 ("solvent_without_method", [["settings_ensembles", "solvent", "water"]]),
+                 ("canonical_water_raw_vacuum", [["canonical_rekey", "solvent", "water"]])):
+    case(f"one_method_{vid}", "H10 canonical protocol",
+         f"A record's raw solvent contradicts its canonical protocol, or stands with no method ({ops[-1]}): the "
+         "phase the page names would be wrong for some record. Refuse.", REFUSE_F, "REFUSED", source_ops=ops)
+# the digest and the fields themselves
+for vid, ops in (("digest_mismatch", [["canonical", "solvent", "water"]]),
+                 ("digest_mismatch_xc", [["canonical", "xc", "pbe0"]]),
+                 ("no_canonical_fields", [["drop_canonical"]])):
+    case(f"canonical_{vid}", "H10 canonical protocol",
+         f"Every record's canonical fields {ops[0]}: the key no longer digests what the record says its protocol "
+         "is, or there is none to name. Refuse.", REFUSE_F, "REFUSED", source_ops=ops)
 
 # H4: a plan reference naming two commits is ambiguous: never resolved by position
 case("plan_reference_two_commits", "H4 provenance",

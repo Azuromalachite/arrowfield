@@ -664,7 +664,7 @@
    "id": "stale_key_functional",
    "cls": "P2 one method",
    "component": "pair_view",
-   "why": "The keys match, but one side's provenance names PBE0: a key that disagrees with its own record.",
+   "why": "The keys match and digest one canonical protocol (B3LYP), but one side's raw settings name PBE0: a corrupted provenance label. The protocol decides; the caption names it, never the label.",
    "left": {
     "record": "records/e2_butene__s1",
     "patch": [],
@@ -685,15 +685,29 @@
    "same_object": false,
    "context": {},
    "outcomes": {
-    "RENDERED": "FALSE",
+    "RENDERED": "SAFE",
     "REFUSED": "SAFE_REFUSAL",
     "ERROR": "CRASH"
    },
    "allowed": [
-    "REFUSED"
+    "REFUSED",
+    "RENDERED"
    ],
-   "prefer": "REFUSED",
-   "requires": []
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "b3lyp",
+     "grade": "MISLEADING",
+     "why": "the method both pictures were computed with",
+     "on": "text"
+    },
+    {
+     "must_not": "pbe0",
+     "grade": "MISLEADING",
+     "why": "a raw label is not the protocol",
+     "on": "text"
+    }
+   ]
   },
   {
    "id": "ensemble_vs_pilot_versions",

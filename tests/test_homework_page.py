@@ -8,6 +8,7 @@ homework.page_html exists: every output is safe and preferred, and every
 requirement holds. Until then those tests skip.
 """
 import copy
+import hashlib
 import html
 import json
 import re
@@ -51,7 +52,7 @@ def test_allowed_is_exactly_the_safe_outputs(c):
 def test_every_class_has_two_or_more_variants():
     from collections import Counter
     per = Counter(c["cls"].split()[0] for c in CASES)
-    assert sorted(per) == [f"H{i}" for i in range(1, 10)] and min(per.values()) >= 2, per
+    assert set(per) == {f"H{i}" for i in range(1, 11)} and min(per.values()) >= 2, per
 
 
 # --- the facts the cases rest on --------------------------------------------------------
@@ -168,6 +169,11 @@ def _sources(c):
     for stem, m in MEMBERS.items():
         slug, conf = stem.split("/")
         conformers[f"{slug}/{conf}"] = replace(record.load(DATA / "pair" / slug / conf), folded=m["folded"])
+    # the synthetic ensemble records carry the canonical analysis fields their key digests, as
+    # every record of the study does (the conformers' own: one key, d0f5ed13...)
+    if _HAS_CANONICAL:
+        fields = next(iter(conformers.values())).provenance.analysis_fields
+        ensembles = {k: (src, [_with_prov(v, analysis_fields=fields) for v in vs]) for k, (src, vs) in ensembles.items()}
     for op in c["source_ops"]:
         if isinstance(op, list) and op[0] == "bundle_shorthand":
             b = replace(b, compounds={**b.compounds, op[1]: replace(b.compounds[op[1]], shorthand=op[2])})
@@ -227,9 +233,40 @@ def _list_op(op, r, ensembles, conformers):
                          for k, (src, vs) in ensembles.items()}
         if kind in ("settings", "settings_conformers"):
             conformers = {k: reset(v) for k, v in conformers.items()}
+    elif kind in ("canonical", "canonical_rekey", "drop_canonical"):
+        # every record's canonical analysis fields (key_fields.analysis): one field changed with
+        # the key left as it was (the digest no longer matches), changed and re-digested (a
+        # consistent protocol the raw settings may contradict), or absent
+        if not _HAS_CANONICAL:
+            return r, ensembles, conformers         # a builder without them: the case shows that
+
+        def recanon(v):
+            if kind == "drop_canonical":
+                return _with_prov(v, analysis_fields=None)
+            f = json.loads(v.provenance.analysis_fields)
+            f[op[1]] = op[2]
+            s = json.dumps(f, sort_keys=True)
+            key = hashlib.sha1(s.encode()).hexdigest() if kind == "canonical_rekey" else v.provenance.analysis_key
+            return _with_prov(v, analysis_fields=s, analysis_key=key)
+        ensembles = {k: (replace(src, analysis_key=recanon(vs[0]).provenance.analysis_key), [recanon(v) for v in vs])
+                     for k, (src, vs) in ensembles.items()}
+        conformers = {k: recanon(v) for k, v in conformers.items()}
     else:
         raise ValueError(op)
     return r, ensembles, conformers
+
+
+def _with_prov(v, **kw):
+    return replace(v, provenance=replace(v.provenance, **kw))
+
+
+def _has_canonical():
+    from dataclasses import fields
+    from model import Provenance
+    return "analysis_fields" in {f.name for f in fields(Provenance)}
+
+
+_HAS_CANONICAL = _has_canonical()
 
 
 def _run(c):
@@ -245,13 +282,44 @@ def _run(c):
 
 
 # the probe on #21 (fe2fe08) and its reruns (318da98, 2a67bdd, 9eae791, 2b87a0a, 23d5ba2,
-# 8fe0749, 64b5fa2): all met; only shrinks.
-XFAIL = set()
+# 8fe0749, 64b5fa2) are met. Round 11 on 7fb0bed and the user's decision: method identity is the
+# verified canonical protocol, not raw strings. Only shrinks.
+XFAIL = {
+    "test_page_output_is_safe[one_protocol_ensembles_upper]",
+    "test_page_output_is_safe[one_protocol_conformers_def2svp]",
+    "test_page_output_is_safe[one_protocol_conformers_def2_svp_upper]",
+    "test_page_output_is_safe[one_protocol_conformers_libxc_name]",
+    "test_page_output_is_safe[one_protocol_one_ensemble_upper]",
+    "test_page_output_is_safe[one_protocol_custom_functional]",
+    "test_page_output_is_safe[one_method_one_ensemble_pbe0]",
+    "test_page_output_is_safe[one_method_one_ensemble_tzvp]",
+    "test_page_output_is_safe[one_method_conformers_pbe0]",
+    "test_page_output_is_safe[one_method_solvent_without_method]",
+    "test_page_output_is_safe[one_method_canonical_water_raw_vacuum]",
+    "test_page_output_is_safe[canonical_digest_mismatch]",
+    "test_page_output_is_safe[canonical_digest_mismatch_xc]",
+    "test_page_output_is_safe[canonical_no_canonical_fields]",
+    "test_page_output_is_preferred[one_protocol_ensembles_upper]",
+    "test_page_output_is_preferred[one_protocol_conformers_def2svp]",
+    "test_page_output_is_preferred[one_protocol_conformers_def2_svp_upper]",
+    "test_page_output_is_preferred[one_protocol_conformers_libxc_name]",
+    "test_page_output_is_preferred[one_protocol_one_ensemble_upper]",
+    "test_page_output_is_preferred[one_protocol_custom_functional]",
+    "test_page_output_is_preferred[one_method_one_ensemble_pbe0]",
+    "test_page_output_is_preferred[one_method_one_ensemble_tzvp]",
+    "test_page_output_is_preferred[one_method_conformers_pbe0]",
+    "test_page_output_is_preferred[one_method_solvent_without_method]",
+    "test_page_output_is_preferred[one_method_canonical_water_raw_vacuum]",
+    "test_page_output_is_preferred[canonical_digest_mismatch]",
+    "test_page_output_is_preferred[canonical_digest_mismatch_xc]",
+    "test_page_output_is_preferred[canonical_no_canonical_fields]",
+    "test_a_rendered_page_meets_its_requirements[one_method_baseline-0]",
+}
 
 
 def _xfail(request, key):
     if key in XFAIL:
-        request.applymarker(pytest.mark.xfail(strict=True, reason="homework page on 64b5fa2"))
+        request.applymarker(pytest.mark.xfail(strict=True, reason="homework page on 7fb0bed"))
 
 
 @pytest.mark.parametrize("c", CASES, ids=[c["id"] for c in CASES])

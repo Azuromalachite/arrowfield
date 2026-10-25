@@ -223,24 +223,27 @@ def _run(c):
 
 # the probe on #18 (fa0e676): the relation depends on bond-list order and misses a methyl-H
 # relabelling. Measured on fa0e676; only shrinks.
-XFAIL = set()                # the 3 measured on fa0e676 are met; only shrinks
+# The 3 measured on fa0e676 are met. #21 at 7fb0bed: the pair view compares raw settings, so a
+# corrupted raw xc label under one verified canonical protocol is refused, not rendered (the user's
+# decision after #21's round 11). Each entry is "test[case]"; only shrinks.
+XFAIL = {"test_view_output_is_preferred[stale_key_functional]"}
 
 
-def _xfail(request, c):
-    if c["id"] in XFAIL:
-        request.applymarker(pytest.mark.xfail(strict=True, reason="relation on fa0e676"))
+def _xfail(request, test, c):
+    if f"{test}[{c['id']}]" in XFAIL:
+        request.applymarker(pytest.mark.xfail(strict=True, reason="pair view on 7fb0bed"))
 
 
 @pytest.mark.parametrize("c", CASES, ids=[c["id"] for c in CASES])
 def test_view_output_is_safe(c, request):
-    _xfail(request, c)
+    _xfail(request, "test_view_output_is_safe", c)
     out = _run(c)[0]
     assert out in c["allowed"], f"{out}: {c['outcomes'][out]}"
 
 
 @pytest.mark.parametrize("c", [c for c in CASES if c["prefer"]], ids=lambda c: c["id"])
 def test_view_output_is_preferred(c, request):
-    _xfail(request, c)
+    _xfail(request, "test_view_output_is_preferred", c)
     assert _run(c)[0] == c["prefer"]
 
 

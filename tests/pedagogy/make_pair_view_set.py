@@ -233,9 +233,16 @@ case("stale_key_solvent", "P2 one method",
      "The keys match, but one side's provenance says PCM water: the key does not describe that record. "
      "Captioned as one gas-phase method, the page would be false.",
      side(ETOH), side(ACAL, patch=[("provenance.solvent", "water")]), REFUSE_F, "REFUSED")
+# The user's decision after #21's round 11: a record's protocol is its canonical key_fields.analysis,
+# digested by its key; raw settings.xc is provenance text, which Arrowfield cannot check against
+# the canonical functional without PySCF. One verified protocol with a raw label changed renders,
+# captioned from the protocol, never from the label. (A raw solvent contradicting the protocol is
+# checkable, and stays refused: stale_key_solvent.)
 case("stale_key_functional", "P2 one method",
-     "The keys match, but one side's provenance names PBE0: a key that disagrees with its own record.",
-     side(E2B), side(Z2B, patch=[("provenance.xc", "pbe0")]), REFUSE_F, "REFUSED")
+     "The keys match and digest one canonical protocol (B3LYP), but one side's raw settings name PBE0: a "
+     "corrupted provenance label. The protocol decides; the caption names it, never the label.",
+     side(E2B), side(Z2B, patch=[("provenance.xc", "pbe0")]), SHOW, "RENDERED",
+     [METHOD, must_not(r"pbe0", "MISLEADING", "a raw label is not the protocol")])
 case("ensemble_vs_pilot_versions", "P2 one method",
      "A v0.2.1 Atlas conformer beside a v0.1.0 pilot record, both B3LYP/def2-SVP in the gas phase: the "
      "captions would read alike, but the analysis keys differ. The key decides; refuse.",
