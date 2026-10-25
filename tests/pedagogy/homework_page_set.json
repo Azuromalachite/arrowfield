@@ -311,6 +311,16 @@
      "why": "nothing the page writes joins an ESP difference to a biological result"
     },
     {
+     "must_not": "solvent: not stated",
+     "grade": "MISLEADING",
+     "why": "the study's protocol states its phase"
+    },
+    {
+     "must": "solvent: [^.]*gas phase",
+     "grade": "MISLEADING",
+     "why": "the study's solvent: none, the gas phase"
+    },
+    {
      "must": "teaching control",
      "grade": "FALSE",
      "why": "the aldehyde named as a teaching control"
@@ -363,6 +373,16 @@
      "check": "no_bridge",
      "grade": "FALSE",
      "why": "nothing the page writes joins an ESP difference to a biological result"
+    },
+    {
+     "must_not": "solvent: not stated",
+     "grade": "MISLEADING",
+     "why": "the study's protocol states its phase"
+    },
+    {
+     "must": "solvent: [^.]*gas phase",
+     "grade": "MISLEADING",
+     "why": "the study's solvent: none, the gas phase"
     },
     {
      "must": "for the instructor",
@@ -5599,8 +5619,8 @@
   },
   {
    "id": "record_solvent_water",
-   "cls": "H9 display",
-   "why": "Every record computed in PCM water (canonical protocol and settings alike): shown as one.",
+   "cls": "H11 the study's protocol",
+   "why": "Every record computed in PCM water (canonical protocol and settings alike, re-keyed): not the study's protocol, so its study cards would scope the frozen verdict under water (the fresh probe on 565e303). Refuse.",
    "plan_patch": [],
    "source_ops": [
     [
@@ -5626,26 +5646,15 @@
    ],
    "audience": "student",
    "outcomes": {
-    "RENDERED": "SAFE",
-    "REFUSED": "MISLEADING",
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
     "ERROR": "CRASH"
    },
    "allowed": [
-    "RENDERED"
+    "REFUSED"
    ],
-   "prefer": "RENDERED",
-   "requires": [
-    {
-     "must": "PCM water",
-     "grade": "MISLEADING",
-     "why": "the solvent, named"
-    },
-    {
-     "check": "act_order",
-     "grade": "MISLEADING",
-     "why": "acts A-D in order; each act's prediction before its views"
-    }
-   ]
+   "prefer": "REFUSED",
+   "requires": []
   },
   {
    "id": "record_solvent_vacuo",
@@ -5954,9 +5963,9 @@
    "requires": []
   },
   {
-   "id": "record_solvent_dmso_renders",
-   "cls": "H9 display",
-   "why": "Every record computed in PCM dmso (its canonical protocol says dmso, and so do its settings): shown as it is.",
+   "id": "record_solvent_dmso",
+   "cls": "H11 the study's protocol",
+   "why": "Every record computed in PCM dmso (canonical protocol and settings alike, re-keyed): not the study's protocol. Refuse.",
    "plan_patch": [],
    "source_ops": [
     [
@@ -5982,26 +5991,15 @@
    ],
    "audience": "student",
    "outcomes": {
-    "RENDERED": "SAFE",
-    "REFUSED": "MISLEADING",
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
     "ERROR": "CRASH"
    },
    "allowed": [
-    "RENDERED"
+    "REFUSED"
    ],
-   "prefer": "RENDERED",
-   "requires": [
-    {
-     "must": "PCM dmso",
-     "grade": "MISLEADING",
-     "why": "the phase, as recorded"
-    },
-    {
-     "check": "act_order",
-     "grade": "MISLEADING",
-     "why": "acts A-D in order; each act's prediction before its views"
-    }
-   ]
+   "prefer": "REFUSED",
+   "requires": []
   },
   {
    "id": "record_solvent_gas_renders",
@@ -7068,8 +7066,8 @@
   },
   {
    "id": "canonical_libxc_form",
-   "cls": "H10 canonical protocol",
-   "why": "Every record's canonical xc is espmap's key for a functional without a display name (libxc:hyb(0.2,0.08,0)+...): espmap writes it, so the page names it.",
+   "cls": "H11 the study's protocol",
+   "why": "Every record's canonical xc is espmap's key for a functional without a display name (libxc:hyb(0.2,0.08,0)+..., re-keyed): a protocol espmap writes, but not the study's. Refuse. (The name rule itself is unit-tested in tests/test_protocol.py.)",
    "plan_patch": [],
    "source_ops": [
     [
@@ -7095,26 +7093,15 @@
    ],
    "audience": "student",
    "outcomes": {
-    "RENDERED": "SAFE",
-    "REFUSED": "MISLEADING",
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
     "ERROR": "CRASH"
    },
    "allowed": [
-    "RENDERED"
+    "REFUSED"
    ],
-   "prefer": "RENDERED",
-   "requires": [
-    {
-     "must": "libxc:hyb\\(0\\.2,0\\.08,0\\)\\+1\\*0\\.08/def2svp",
-     "grade": "MISLEADING",
-     "why": "the protocol's own name"
-    },
-    {
-     "check": "act_order",
-     "grade": "MISLEADING",
-     "why": "acts A-D in order; each act's prediction before its views"
-    }
-   ]
+   "prefer": "REFUSED",
+   "requires": []
   },
   {
    "id": "canonical_xc_two_names",
@@ -7372,8 +7359,8 @@
   },
   {
    "id": "canonical_basis_with_parenthesised_comma",
-   "cls": "H10 canonical protocol",
-   "why": "Every record's canonical basis is espmap's key for 6-311++G(2d,2p): a comma inside parentheses is the basis's own name, so the page names it.",
+   "cls": "H11 the study's protocol",
+   "why": "Every record's canonical basis is espmap's key for 6-311++G(2d,2p) (re-keyed): not the study's protocol. Refuse. (The name rule is unit-tested in tests/test_protocol.py.)",
    "plan_patch": [],
    "source_ops": [
     [
@@ -7399,26 +7386,147 @@
    ],
    "audience": "student",
    "outcomes": {
-    "RENDERED": "SAFE",
-    "REFUSED": "MISLEADING",
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
     "ERROR": "CRASH"
    },
    "allowed": [
-    "RENDERED"
+    "REFUSED"
    ],
-   "prefer": "RENDERED",
-   "requires": [
-    {
-     "must": "b3lyp/6311\\+\\+g\\(2d,2p\\)",
-     "grade": "MISLEADING",
-     "why": "the protocol's own name"
-    },
-    {
-     "check": "act_order",
-     "grade": "MISLEADING",
-     "why": "acts A-D in order; each act's prediction before its views"
-    }
-   ]
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "study_protocol_water",
+   "cls": "H11 the study's protocol",
+   "why": "Every record is a water run, written as espmap writes one (canonical and settings, one new key): the page's study cards would say the frozen study decided under it. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings_ensembles",
+     "solvent",
+     "vacuum"
+    ],
+    [
+     "canonical_rekey",
+     "solvent",
+     "water"
+    ],
+    [
+     "settings",
+     "solvent",
+     "water"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "study_protocol_pbe0",
+   "cls": "H11 the study's protocol",
+   "why": "Every record is a pbe0 run, written as espmap writes one (canonical and settings, one new key): the page's study cards would say the frozen study decided under it. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings_ensembles",
+     "solvent",
+     "vacuum"
+    ],
+    [
+     "canonical_rekey",
+     "xc",
+     "pbe0"
+    ],
+    [
+     "settings",
+     "xc",
+     "pbe0"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "study_protocol_def2tzvp",
+   "cls": "H11 the study's protocol",
+   "why": "Every record is a def2tzvp run, written as espmap writes one (canonical and settings, one new key): the page's study cards would say the frozen study decided under it. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings_ensembles",
+     "solvent",
+     "vacuum"
+    ],
+    [
+     "canonical_rekey",
+     "basis",
+     "def2tzvp"
+    ],
+    [
+     "settings",
+     "basis",
+     "def2-tzvp"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
   },
   {
    "id": "plan_reference_two_commits",

@@ -184,6 +184,10 @@ FOOTER = check("footer", "MISLEADING", "one provenance footer naming the commit,
 STUDY_SPLIT = check("study_words_in_study_cards", "FALSE", "the study's outcome words only inside study cards")
 NO_BRIDGE = check("no_bridge", "FALSE", "nothing the page writes joins an ESP difference to a biological result")
 SOUND = [ROLES_SHOWN, ACT_ORDER, FOOTER, STUDY_SPLIT, NO_BRIDGE]
+# the fresh probe on #21 (565e303): every study card printed "solvent: not stated" beside "gas
+# phase", though the study's protocol is the gas phase and every record says so
+STUDY_SCOPE = [must_not(r"solvent: not stated", "MISLEADING", "the study's protocol states its phase"),
+               must(r"solvent: [^.]*gas phase", "MISLEADING", "the study's solvent: none, the gas phase")]
 
 
 def blk(act, k):
@@ -202,14 +206,14 @@ def blk_of(act, view):
 case("real_plan_student", "H1 the real plan",
      "The homework as written, for a student: renders, with every rule below holding at once, and no "
      "expected answer on the page.",
-     RENDER, "RENDERED", SOUND + [
+     RENDER, "RENDERED", SOUND + STUDY_SCOPE + [
          must(r"teaching control", "FALSE", "the aldehyde named as a teaching control"),
          must_not(r"ESP works|honest answer stays no|for the instructor", "MISLEADING",
                   "no expected answers on a student's page")])
 case("real_plan_instructor", "H1 the real plan",
      "The same plan for the instructor: the expected answers appear, labelled for the instructor.",
-     RENDER, "RENDERED", SOUND + [must(r"for the instructor", "MISLEADING", "labelled"),
-                                  must(r"ESP works", "MISLEADING", "the expected answer, verbatim")],
+     RENDER, "RENDERED", SOUND + STUDY_SCOPE + [must(r"for the instructor", "MISLEADING", "labelled"),
+                                                must(r"ESP works", "MISLEADING", "the expected answer, verbatim")],
      audience="instructor")
 
 # --- H2 roles: one per molecule, from the plan, checked against the data ------------------------
@@ -508,9 +512,10 @@ for vid, value in (("Gas", "Gas"), ("GAS", "GAS"), ("gas_space", "gas "), ("empt
          f"Every record's solvent is {value!r}: plainly gas phase, but not a token the page knows, so it would "
          "read as 'PCM ...', condensed phase. Refuse, never interpret.", REFUSE_F, "REFUSED",
          source_ops=[["settings_ensembles", "xc", "b3lyp"], ["settings_ensembles", "basis", "def2-svp"]] + [["settings", "solvent", value]])
-case("record_solvent_water", "H9 display",
-     "Every record computed in PCM water (canonical protocol and settings alike): shown as one.", RENDER, "RENDERED",
-     [must(r"PCM water", "MISLEADING", "the solvent, named"), ACT_ORDER],
+case("record_solvent_water", "H11 the study's protocol",
+     "Every record computed in PCM water (canonical protocol and settings alike, re-keyed): not the study's "
+     "protocol, so its study cards would scope the frozen verdict under water (the fresh probe on 565e303). Refuse.",
+     REFUSE_F, "REFUSED",
      source_ops=[["settings_ensembles", "xc", "b3lyp"], ["settings_ensembles", "basis", "def2-svp"]] + [["canonical_rekey", "solvent", "water"], ["settings", "solvent", "water"]])
 
 # --- round 10 on #21 (64b5fa2) -------------------------------------------------------------------
@@ -521,9 +526,9 @@ for value in ("vacuo", "in_vacuo", "gas_phase", "gas-phase", "vac", "no_solvent"
     case(f"record_solvent_{value.replace('-', '_hyphen_')}", "H9 display",
          f"Every record's solvent is {value!r}: not a solvent espmap writes; shown, it reads as PCM {value}, "
          "condensed phase. Refuse.", REFUSE, "REFUSED", source_ops=[["settings_ensembles", "xc", "b3lyp"], ["settings_ensembles", "basis", "def2-svp"]] + [["settings", "solvent", value]])
-case("record_solvent_dmso_renders", "H9 display",
-     "Every record computed in PCM dmso (its canonical protocol says dmso, and so do its settings): shown as it is.",
-     RENDER, "RENDERED", [must(r"PCM dmso", "MISLEADING", "the phase, as recorded"), ACT_ORDER],
+case("record_solvent_dmso", "H11 the study's protocol",
+     "Every record computed in PCM dmso (canonical protocol and settings alike, re-keyed): not the study's "
+     "protocol. Refuse.", REFUSE_F, "REFUSED",
      source_ops=[["settings_ensembles", "xc", "b3lyp"], ["settings_ensembles", "basis", "def2-svp"]] + [["canonical_rekey", "solvent", "dmso"], ["settings", "solvent", "dmso"]])
 case("record_solvent_gas_renders", "H9 display",
      "Every record's settings say solvent 'gas', which the views read as the gas phase, as the protocol says.",
@@ -595,10 +600,10 @@ for vid, field, value in (("basis_with_phase", "basis", "def2svp, PCM water"), (
          f"Every record's canonical {field} is {value!r} (the key re-digested): the caption would read another "
          "method or phase, or nothing. Refuse.", REFUSE_F, "REFUSED",
          source_ops=SAME + [["canonical_rekey", field, value]])
-case("canonical_libxc_form", "H10 canonical protocol",
+case("canonical_libxc_form", "H11 the study's protocol",
      "Every record's canonical xc is espmap's key for a functional without a display name "
-     "(libxc:hyb(0.2,0.08,0)+...): espmap writes it, so the page names it.", RENDER, "RENDERED",
-     [must(r"libxc:hyb\(0\.2,0\.08,0\)\+1\*0\.08/def2svp", "MISLEADING", "the protocol's own name"), ACT_ORDER],
+     "(libxc:hyb(0.2,0.08,0)+..., re-keyed): a protocol espmap writes, but not the study's. Refuse. (The name "
+     "rule itself is unit-tested in tests/test_protocol.py.)", REFUSE_F, "REFUSED",
      source_ops=SAME + [["canonical_rekey", "xc", "libxc:hyb(0.2,0.08,0)+1*0.08"]])
 # round 13 on #21 (f082152): commas and phase words inside the old name grammar made the caption
 # name another method or phase. espmap's keys (xc_key, basis_key; 50 common inputs checked against
@@ -614,11 +619,22 @@ for vid, field, value, solvent in (("xc_two_names", "xc", "b3lyp,def2tzvp", None
          f"Every record's canonical {field} is {value!r} (re-digested{', in ' + solvent if solvent else ''}): the "
          "caption would name a second method or another phase. Refuse.", REFUSE_F, "REFUSED",
          source_ops=SAME + phase + [["canonical_rekey", field, value]])
-case("canonical_basis_with_parenthesised_comma", "H10 canonical protocol",
-     "Every record's canonical basis is espmap's key for 6-311++G(2d,2p): a comma inside parentheses is the "
-     "basis's own name, so the page names it.", RENDER, "RENDERED",
-     [must(r"b3lyp/6311\+\+g\(2d,2p\)", "MISLEADING", "the protocol's own name"), ACT_ORDER],
+case("canonical_basis_with_parenthesised_comma", "H11 the study's protocol",
+     "Every record's canonical basis is espmap's key for 6-311++G(2d,2p) (re-keyed): not the study's protocol. "
+     "Refuse. (The name rule is unit-tested in tests/test_protocol.py.)", REFUSE_F, "REFUSED",
      source_ops=SAME + [["canonical_rekey", "basis", "6311++g(2d,2p)"]])
+# the fresh probe on #21 (565e303): records rewritten as espmap writes a --solvent water, --xc pbe0
+# or --basis def2-tzvp run, all under one (new) key. The page rendered, and its study cards scoped
+# the frozen study's verdicts under that protocol; the study was decided under one key, d0f5ed13
+# (B3LYP/def2-SVP + RI, gas phase; its plan's section 3 at 7e34658). Records under another key are
+# not the study's: refuse
+for vid, field, value, raw in (("water", "solvent", "water", ["settings", "solvent", "water"]),
+                               ("pbe0", "xc", "pbe0", ["settings", "xc", "pbe0"]),
+                               ("def2tzvp", "basis", "def2tzvp", ["settings", "basis", "def2-tzvp"])):
+    case(f"study_protocol_{vid}", "H11 the study's protocol",
+         f"Every record is a {value} run, written as espmap writes one (canonical and settings, one new key): the "
+         "page's study cards would say the frozen study decided under it. Refuse.", REFUSE_F, "REFUSED",
+         source_ops=SAME + [["canonical_rekey", field, value], raw])
 
 # H4: a plan reference naming two commits is ambiguous: never resolved by position
 case("plan_reference_two_commits", "H4 provenance",

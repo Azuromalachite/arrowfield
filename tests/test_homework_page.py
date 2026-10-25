@@ -52,7 +52,7 @@ def test_allowed_is_exactly_the_safe_outputs(c):
 def test_every_class_has_two_or_more_variants():
     from collections import Counter
     per = Counter(c["cls"].split()[0] for c in CASES)
-    assert set(per) == {f"H{i}" for i in range(1, 11)} and min(per.values()) >= 2, per
+    assert set(per) == {f"H{i}" for i in range(1, 12)} and min(per.values()) >= 2, per
 
 
 # --- the facts the cases rest on --------------------------------------------------------
@@ -317,13 +317,33 @@ def _run(c):
 
 
 # the probe on #21 (fe2fe08) and its reruns (318da98, 2a67bdd, 9eae791, 2b87a0a, 23d5ba2,
-# 8fe0749, 64b5fa2, 7fb0bed, b6f7f66, f082152): all met; only shrinks.
-XFAIL = set()
+# 8fe0749, 64b5fa2, 7fb0bed, b6f7f66, f082152) are met. The fresh probe on 565e303: records under
+# another protocol scope the study's verdicts; study cards say 'solvent: not stated'. Only shrinks.
+XFAIL = {
+    "test_page_output_is_safe[record_solvent_water]",
+    "test_page_output_is_safe[record_solvent_dmso]",
+    "test_page_output_is_safe[canonical_libxc_form]",
+    "test_page_output_is_safe[canonical_basis_with_parenthesised_comma]",
+    "test_page_output_is_safe[study_protocol_water]",
+    "test_page_output_is_safe[study_protocol_pbe0]",
+    "test_page_output_is_safe[study_protocol_def2tzvp]",
+    "test_page_output_is_preferred[record_solvent_water]",
+    "test_page_output_is_preferred[record_solvent_dmso]",
+    "test_page_output_is_preferred[canonical_libxc_form]",
+    "test_page_output_is_preferred[canonical_basis_with_parenthesised_comma]",
+    "test_page_output_is_preferred[study_protocol_water]",
+    "test_page_output_is_preferred[study_protocol_pbe0]",
+    "test_page_output_is_preferred[study_protocol_def2tzvp]",
+    "test_a_rendered_page_meets_its_requirements[real_plan_student-5]",
+    "test_a_rendered_page_meets_its_requirements[real_plan_student-6]",
+    "test_a_rendered_page_meets_its_requirements[real_plan_instructor-5]",
+    "test_a_rendered_page_meets_its_requirements[real_plan_instructor-6]",
+}
 
 
 def _xfail(request, key):
     if key in XFAIL:
-        request.applymarker(pytest.mark.xfail(strict=True, reason="homework page on 565e303"))
+        request.applymarker(pytest.mark.xfail(strict=True, reason="homework page on 99901b8"))
 
 
 @pytest.mark.parametrize("c", CASES, ids=[c["id"] for c in CASES])
