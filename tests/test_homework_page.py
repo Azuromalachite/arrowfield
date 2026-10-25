@@ -237,36 +237,9 @@ def _run(c):
     return "RENDERED", page
 
 
-# the probe on #21 (fe2fe08) and its reruns (318da98, 2a67bdd, 9eae791, 2b87a0a, 23d5ba2) are met.
-# Round 9 on 8fe0749: record settings (xc, basis, solvent) are shown unchecked. Only shrinks.
-XFAIL = {
-    "test_page_output_is_safe[record_settings_basis_none]",
-    "test_page_output_is_safe[record_settings_xc_none]",
-    "test_page_output_is_safe[record_settings_both_none]",
-    "test_page_output_is_safe[record_settings_basis_literal_none]",
-    "test_page_output_is_safe[record_settings_xc_literal_none]",
-    "test_page_output_is_safe[record_settings_xc_filler]",
-    "test_page_output_is_safe[record_settings_xc_empty]",
-    "test_page_output_is_safe[record_solvent_Gas]",
-    "test_page_output_is_safe[record_solvent_GAS]",
-    "test_page_output_is_safe[record_solvent_gas_space]",
-    "test_page_output_is_safe[record_solvent_empty]",
-    "test_page_output_is_safe[record_solvent_literal_none]",
-    "test_page_output_is_safe[record_solvent_Vacuum]",
-    "test_page_output_is_preferred[record_settings_basis_none]",
-    "test_page_output_is_preferred[record_settings_xc_none]",
-    "test_page_output_is_preferred[record_settings_both_none]",
-    "test_page_output_is_preferred[record_settings_basis_literal_none]",
-    "test_page_output_is_preferred[record_settings_xc_literal_none]",
-    "test_page_output_is_preferred[record_settings_xc_filler]",
-    "test_page_output_is_preferred[record_settings_xc_empty]",
-    "test_page_output_is_preferred[record_solvent_Gas]",
-    "test_page_output_is_preferred[record_solvent_GAS]",
-    "test_page_output_is_preferred[record_solvent_gas_space]",
-    "test_page_output_is_preferred[record_solvent_empty]",
-    "test_page_output_is_preferred[record_solvent_literal_none]",
-    "test_page_output_is_preferred[record_solvent_Vacuum]",
-}
+# the probe on #21 (fe2fe08) and its reruns (318da98, 2a67bdd, 9eae791, 2b87a0a, 23d5ba2,
+# 8fe0749): all met; only shrinks.
+XFAIL = set()
 
 
 def _xfail(request, key):

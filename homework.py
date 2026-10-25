@@ -27,6 +27,10 @@ AUDIENCES = ("student", "instructor")
 SLUG = re.compile(r"[a-z][a-z0-9_]*")
 VERSION = re.compile(r"[0-9][0-9A-Za-z.+_-]*")
 ANALYSIS_KEY = re.compile(r"[0-9a-f]{8,64}")
+# a record's settings as espmap writes them (round 9 on #21): xc and basis always, solvent None or
+# a lowercase name; anything else is refused, never interpreted
+METHOD = re.compile(r"[A-Za-z0-9][A-Za-z0-9()*+,._-]*")
+SOLVENT = re.compile(r"[a-z][a-z0-9_-]*")
 
 
 def _e(x):
@@ -160,6 +164,16 @@ def _check_plan(plan, sources, audience):
               f"{v.provenance.source}: espmap version {ver!r} is not a version ({VERSION.pattern})")
         _need(isinstance(v.analysis_key, str) and ANALYSIS_KEY.fullmatch(v.analysis_key) is not None,
               f"{v.provenance.source}: analysis key {v.analysis_key!r} is not one ({ANALYSIS_KEY.pattern})")
+        pv = v.provenance
+        _need(all(isinstance(m, str) and METHOD.fullmatch(m) and m.casefold() != "none" for m in (pv.xc, pv.basis))
+              or (pv.xc, pv.basis) == (None, None),
+              f"{pv.source}: method {pv.xc!r}/{pv.basis!r} is not one the page can name (both, as {METHOD.pattern}, or neither)")
+        _need(pv.solvent is None or (isinstance(pv.solvent, str) and SOLVENT.fullmatch(pv.solvent) is not None
+                                     and pv.solvent != "none"),
+              f"{pv.source}: solvent {pv.solvent!r} is not None or a solvent name ({SOLVENT.pattern})")
+    for key, v in (sources.get("conformers") or {}).items():
+        # the pair view names its records' method: a record it shows must state one
+        _need(v.provenance.xc is not None, f"{key}: the record states no method, and the pair view names it")
     keys = {v.analysis_key for v in views}
     _need(len(keys) == 1, f"the page's molecules carry {len(keys)} analysis keys; the homework uses one throughout")
     return bundle, study, ens, keys, views
