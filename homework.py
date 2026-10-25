@@ -77,7 +77,7 @@ def _check_plan(plan, sources, audience):
     _need(all(isinstance(a, dict) for a in acts) and [a.get("id") for a in acts] == list(ACTS),
           f"the acts must be {', '.join(ACTS)}, in that order and once each")
     # plan text is authored text: a field that is not text is refused, never shown as str(value)
-    _need(isinstance(plan.get("title", ""), str), "plan.title is not text")
+    _need(plan.get("title") is None or isinstance(plan["title"], str), "plan.title is not text")
     for a in acts:
         for field in ("title", "expected"):
             _need(a.get(field) is None or isinstance(a[field], str), f"act {a['id']}.{field} is not text")
@@ -173,9 +173,10 @@ def page_html(plan, sources, audience="student"):
     import views as V
     bundle, study, ens, keys, views = _check_plan(plan, sources, audience)
     mols = plan["molecules"]
-    body = [f'<h1>{_v(plan.get("title", ""))}</h1>']
+    # an optional text field of None reads as absent and prints nothing, never "None"
+    body = [f'<h1>{_v(plan["title"])}</h1>'] if plan.get("title") else []
     for act in plan["acts"]:
-        parts = [f'<section class="act" data-act="{act["id"]}"><h2>Act {act["id"]}: {_v(act.get("title", ""))}</h2>',
+        parts = [f'<section class="act" data-act="{act["id"]}"><h2>Act {act["id"]}{": " + _v(act["title"]) if act.get("title") else ""}</h2>',
                  f'<div class="predict"><b>Predict first:</b> {_v(act["predict"])}</div>']
         if act.get("tasks"):
             parts.append("<ol class='tasks'>" + "".join(f"<li>{_v(t)}</li>" for t in act["tasks"]) + "</ol>")
