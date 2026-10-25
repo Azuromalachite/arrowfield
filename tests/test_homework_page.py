@@ -12,6 +12,7 @@ import html
 import json
 import re
 import sys
+import unicodedata
 from dataclasses import replace
 from html.parser import HTMLParser
 from pathlib import Path
@@ -186,13 +187,39 @@ def _run(c):
     return "RENDERED", page
 
 
-# the probe on #21 (fe2fe08): its 10 pairs are met; only shrinks.
-XFAIL = set()
+# the probe on #21 (fe2fe08): its 10 pairs are met. The rerun on 318da98: text with no visible
+# character is shown as content (an empty heading, an empty bullet). Only shrinks.
+XFAIL = {
+    "test_a_rendered_page_meets_its_requirements[plan_page_title_blank_spaces-0]",
+    "test_a_rendered_page_meets_its_requirements[plan_act_title_blank_spaces-0]",
+    "test_a_rendered_page_meets_its_requirements[plan_expected_blank_spaces-0]",
+    "test_a_rendered_page_meets_its_requirements[plan_page_title_blank_tab_newline-0]",
+    "test_a_rendered_page_meets_its_requirements[plan_act_title_blank_tab_newline-0]",
+    "test_a_rendered_page_meets_its_requirements[plan_expected_blank_tab_newline-0]",
+    "test_a_rendered_page_meets_its_requirements[plan_page_title_blank_nbsp-0]",
+    "test_a_rendered_page_meets_its_requirements[plan_act_title_blank_nbsp-0]",
+    "test_a_rendered_page_meets_its_requirements[plan_expected_blank_nbsp-0]",
+    "test_a_rendered_page_meets_its_requirements[plan_page_title_blank_zwsp-0]",
+    "test_a_rendered_page_meets_its_requirements[plan_act_title_blank_zwsp-0]",
+    "test_a_rendered_page_meets_its_requirements[plan_expected_blank_zwsp-0]",
+    "test_page_output_is_safe[plan_task_blank_empty]",
+    "test_page_output_is_preferred[plan_task_blank_empty]",
+    "test_page_output_is_safe[plan_task_blank_spaces]",
+    "test_page_output_is_preferred[plan_task_blank_spaces]",
+    "test_page_output_is_safe[plan_task_blank_tab_newline]",
+    "test_page_output_is_preferred[plan_task_blank_tab_newline]",
+    "test_page_output_is_safe[plan_task_blank_nbsp]",
+    "test_page_output_is_preferred[plan_task_blank_nbsp]",
+    "test_page_output_is_safe[plan_task_blank_zwsp]",
+    "test_page_output_is_preferred[plan_task_blank_zwsp]",
+    "test_page_output_is_safe[plan_predict_blank_zwsp]",
+    "test_page_output_is_preferred[plan_predict_blank_zwsp]",
+}
 
 
 def _xfail(request, key):
     if key in XFAIL:
-        request.applymarker(pytest.mark.xfail(strict=True, reason="homework page on fe2fe08"))
+        request.applymarker(pytest.mark.xfail(strict=True, reason="homework page on 318da98"))
 
 
 @pytest.mark.parametrize("c", CASES, ids=[c["id"] for c in CASES])
@@ -279,6 +306,13 @@ def _check(what, page, c):
     elif what == "no_bridge":
         text = p.own({"verbatim", "block"})
         assert not re.search(BRIDGE, text, re.I), re.search(BRIDGE, text, re.I)
+    elif what == "no_blank_text":
+        # every verbatim span holds a visible character; whitespace, NBSP and zero-width are not
+        for span in re.findall(r'<span class="verbatim">(.*?)</span>', page, re.S):
+            s = html.unescape(span)
+            assert any(not ch.isspace() and unicodedata.category(ch) not in ("Cc", "Cf", "Zs", "Zl", "Zp")
+                       for ch in s), f"blank plan text shown: {s!r}"
+        assert not re.search(r"<h2>Act [A-D]: </h2>", page), "an act heading with nothing after the colon"
     else:
         raise ValueError(what)
 

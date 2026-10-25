@@ -300,6 +300,26 @@ for vid, path, aud in ((("act_title_none", ["acts", 0, "title"], "student")),
          # case-sensitive: the class panel's own "none is weighed against another" is not this
          [must_not(r"(?-i:\bNone\b)", "MISLEADING", "a missing field is not the text 'None'"), ACT_ORDER],
          plan_patch=[(path, None)], audience=aud)
+# the rerun on #21 (318da98): text with no visible character (spaces, tabs, newlines, NBSP,
+# zero-width) reads like "": an optional field is absent; a task or a prediction with nothing to
+# read is refused. Never an empty heading, an "Act A:" with nothing after it, or an empty bullet.
+BLANKS = (("spaces", "   "), ("tab_newline", "\n\t "), ("nbsp", " "), ("zwsp", "​"))
+for bid, blank in BLANKS:
+    for vid, path, aud in (("page_title", ["title"], "student"),
+                           ("act_title", ["acts", 0, "title"], "student"),
+                           ("expected", ["acts", 2, "expected"], "instructor")):
+        case(f"plan_{vid}_blank_{bid}", "H7 plan text",
+             f"The plan's {'/'.join(map(str, path))} is {blank!r}, no visible character: read as absent, like \"\". "
+             "No empty heading, no 'Act A:' with nothing after it, no empty instructor box.", RENDER, "RENDERED",
+             [check("no_blank_text", "MISLEADING", "every shown piece of plan text has something to read"),
+              ACT_ORDER], plan_patch=[(path, blank)], audience=aud)
+for bid, blank in (("empty", ""),) + BLANKS:
+    case(f"plan_task_blank_{bid}", "H7 plan text",
+         f"A task {blank!r}: nothing to do, and an empty bullet reads as a task left out. Refuse, naming where.",
+         REFUSE, "REFUSED", plan_patch=[(["acts", 0, "tasks", "+"], blank)])
+case("plan_predict_blank_zwsp", "H7 plan text",
+     "A prediction that is only a zero-width space: no prediction, so the reveal would come first. Refuse.",
+     REFUSE_F, "REFUSED", plan_patch=[(["acts", 1, "predict"], "​")])
 
 # H4: a plan reference naming two commits is ambiguous: never resolved by position
 case("plan_reference_two_commits", "H4 provenance",
@@ -314,7 +334,7 @@ case("plan_reference_no_commit", "H4 provenance",
      [must_not(r"Plan frozen at", "MISLEADING", "no commit invented"),
       must(r"provenance incomplete", "MISLEADING", "the gap, said")], source_ops=["plan_no_commit"])
 
-CHECKS =("block_roles", "act_order", "footer", "study_words_in_study_cards", "no_bridge")
+CHECKS = ("block_roles", "act_order", "footer", "study_words_in_study_cards", "no_bridge", "no_blank_text")
 
 
 def document():

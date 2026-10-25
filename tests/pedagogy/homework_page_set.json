@@ -1218,6 +1218,621 @@
    ]
   },
   {
+   "id": "plan_page_title_blank_spaces",
+   "cls": "H7 plan text",
+   "why": "The plan's title is '   ', no visible character: read as absent, like \"\". No empty heading, no 'Act A:' with nothing after it, no empty instructor box.",
+   "plan_patch": [
+    [
+     [
+      "title"
+     ],
+     "   "
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_act_title_blank_spaces",
+   "cls": "H7 plan text",
+   "why": "The plan's acts/0/title is '   ', no visible character: read as absent, like \"\". No empty heading, no 'Act A:' with nothing after it, no empty instructor box.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "title"
+     ],
+     "   "
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_expected_blank_spaces",
+   "cls": "H7 plan text",
+   "why": "The plan's acts/2/expected is '   ', no visible character: read as absent, like \"\". No empty heading, no 'Act A:' with nothing after it, no empty instructor box.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      2,
+      "expected"
+     ],
+     "   "
+    ]
+   ],
+   "source_ops": [],
+   "audience": "instructor",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_page_title_blank_tab_newline",
+   "cls": "H7 plan text",
+   "why": "The plan's title is '\\n\\t ', no visible character: read as absent, like \"\". No empty heading, no 'Act A:' with nothing after it, no empty instructor box.",
+   "plan_patch": [
+    [
+     [
+      "title"
+     ],
+     "\n\t "
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_act_title_blank_tab_newline",
+   "cls": "H7 plan text",
+   "why": "The plan's acts/0/title is '\\n\\t ', no visible character: read as absent, like \"\". No empty heading, no 'Act A:' with nothing after it, no empty instructor box.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "title"
+     ],
+     "\n\t "
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_expected_blank_tab_newline",
+   "cls": "H7 plan text",
+   "why": "The plan's acts/2/expected is '\\n\\t ', no visible character: read as absent, like \"\". No empty heading, no 'Act A:' with nothing after it, no empty instructor box.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      2,
+      "expected"
+     ],
+     "\n\t "
+    ]
+   ],
+   "source_ops": [],
+   "audience": "instructor",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_page_title_blank_nbsp",
+   "cls": "H7 plan text",
+   "why": "The plan's title is '\\xa0', no visible character: read as absent, like \"\". No empty heading, no 'Act A:' with nothing after it, no empty instructor box.",
+   "plan_patch": [
+    [
+     [
+      "title"
+     ],
+     " "
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_act_title_blank_nbsp",
+   "cls": "H7 plan text",
+   "why": "The plan's acts/0/title is '\\xa0', no visible character: read as absent, like \"\". No empty heading, no 'Act A:' with nothing after it, no empty instructor box.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "title"
+     ],
+     " "
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_expected_blank_nbsp",
+   "cls": "H7 plan text",
+   "why": "The plan's acts/2/expected is '\\xa0', no visible character: read as absent, like \"\". No empty heading, no 'Act A:' with nothing after it, no empty instructor box.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      2,
+      "expected"
+     ],
+     " "
+    ]
+   ],
+   "source_ops": [],
+   "audience": "instructor",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_page_title_blank_zwsp",
+   "cls": "H7 plan text",
+   "why": "The plan's title is '\\u200b', no visible character: read as absent, like \"\". No empty heading, no 'Act A:' with nothing after it, no empty instructor box.",
+   "plan_patch": [
+    [
+     [
+      "title"
+     ],
+     "​"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_act_title_blank_zwsp",
+   "cls": "H7 plan text",
+   "why": "The plan's acts/0/title is '\\u200b', no visible character: read as absent, like \"\". No empty heading, no 'Act A:' with nothing after it, no empty instructor box.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "title"
+     ],
+     "​"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_expected_blank_zwsp",
+   "cls": "H7 plan text",
+   "why": "The plan's acts/2/expected is '\\u200b', no visible character: read as absent, like \"\". No empty heading, no 'Act A:' with nothing after it, no empty instructor box.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      2,
+      "expected"
+     ],
+     "​"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "instructor",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_task_blank_empty",
+   "cls": "H7 plan text",
+   "why": "A task '': nothing to do, and an empty bullet reads as a task left out. Refuse, naming where.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "tasks",
+      "+"
+     ],
+     ""
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_task_blank_spaces",
+   "cls": "H7 plan text",
+   "why": "A task '   ': nothing to do, and an empty bullet reads as a task left out. Refuse, naming where.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "tasks",
+      "+"
+     ],
+     "   "
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_task_blank_tab_newline",
+   "cls": "H7 plan text",
+   "why": "A task '\\n\\t ': nothing to do, and an empty bullet reads as a task left out. Refuse, naming where.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "tasks",
+      "+"
+     ],
+     "\n\t "
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_task_blank_nbsp",
+   "cls": "H7 plan text",
+   "why": "A task '\\xa0': nothing to do, and an empty bullet reads as a task left out. Refuse, naming where.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "tasks",
+      "+"
+     ],
+     " "
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_task_blank_zwsp",
+   "cls": "H7 plan text",
+   "why": "A task '\\u200b': nothing to do, and an empty bullet reads as a task left out. Refuse, naming where.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "tasks",
+      "+"
+     ],
+     "​"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_predict_blank_zwsp",
+   "cls": "H7 plan text",
+   "why": "A prediction that is only a zero-width space: no prediction, so the reveal would come first. Refuse.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      1,
+      "predict"
+     ],
+     "​"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
    "id": "plan_reference_two_commits",
    "cls": "H4 provenance",
    "why": "The study's plan reference names two commits ('@ 7e34658 @ deadbee'): the page cannot tell which froze the plan. It renders with the plan commit marked not recorded, never 'Plan frozen at' either one.",
