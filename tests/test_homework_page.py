@@ -317,22 +317,8 @@ def _run(c):
 
 
 # the probe on #21 (fe2fe08) and its reruns (318da98, 2a67bdd, 9eae791, 2b87a0a, 23d5ba2,
-# 8fe0749, 64b5fa2, 7fb0bed, b6f7f66) are met. Round 13 on f082152: commas and phase words inside
-# canonical names. Only shrinks.
-XFAIL = {
-    "test_page_output_is_safe[canonical_xc_two_names]",
-    "test_page_output_is_safe[canonical_xc_two_functionals]",
-    "test_page_output_is_safe[canonical_basis_comma_pcm]",
-    "test_page_output_is_safe[canonical_basis_comma_pcm_water]",
-    "test_page_output_is_safe[canonical_basis_comma_gas_on_water]",
-    "test_page_output_is_safe[canonical_basis_paren_gas_on_water]",
-    "test_page_output_is_preferred[canonical_xc_two_names]",
-    "test_page_output_is_preferred[canonical_xc_two_functionals]",
-    "test_page_output_is_preferred[canonical_basis_comma_pcm]",
-    "test_page_output_is_preferred[canonical_basis_comma_pcm_water]",
-    "test_page_output_is_preferred[canonical_basis_comma_gas_on_water]",
-    "test_page_output_is_preferred[canonical_basis_paren_gas_on_water]",
-}
+# 8fe0749, 64b5fa2, 7fb0bed, b6f7f66, f082152): all met; only shrinks.
+XFAIL = set()
 
 
 def _xfail(request, key):

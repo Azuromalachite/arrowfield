@@ -47,8 +47,12 @@ class Provenance:
         return f"{self.xc}/{self.basis}, {'gas' if gas else 'PCM ' + self.solvent}"
 
 
-# a canonical functional or basis name: printable ASCII with no whitespace and no "/"
-CANONICAL_NAME = re.compile(r"[!-.0-~]+")
+# a canonical functional or basis name in the shapes espmap's xc_key and basis_key give (b3lyp,
+# def2svp, 631g**, 6311++g(2d,2p), libxc:hyb(0,0,0)+263*1+267*1): ASCII, no whitespace or "/", a
+# comma only inside parentheses (#21's round 13), and no phase or solvent word anywhere
+_NAME_CHARS = r"[A-Za-z0-9+*.:_-]"
+CANONICAL_NAME = re.compile(rf"(?:{_NAME_CHARS}|\((?:{_NAME_CHARS}|,)*\))+")
+PHASE_WORD = re.compile(r"gas|vacuum|pcm|solv|phase|water|dmso|methanol|acetonitrile|chloroform|toluene|hexane", re.I)
 
 
 def analysis_digest(fields):
@@ -77,10 +81,10 @@ def protocol_problems(prov):
     if analysis_digest(f) != prov.analysis_key:
         return [f"{prov.source}: analysis_key {prov.analysis_key} is not the digest of its canonical fields"]
     out = []
-    # a caption prints "xc/basis, phase": a canonical name is readable text with no whitespace or
-    # "/" (espmap's xc_key and basis_key, its libxc form included, have neither), never "None"
+    # a caption prints "xc/basis, phase": each name in espmap's key shapes, never "None", never
+    # naming a phase
     if not all(isinstance(f.get(k), str) and CANONICAL_NAME.fullmatch(f[k]) and f[k].casefold() != "none"
-               for k in ("xc", "basis")):
+               and not PHASE_WORD.search(f[k]) for k in ("xc", "basis")):
         out.append(f"{prov.source}: its canonical fields name no functional and basis a caption can show "
                    f"({f.get('xc')!r}/{f.get('basis')!r})")
     if "solvent" not in f:
