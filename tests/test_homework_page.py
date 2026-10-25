@@ -51,7 +51,7 @@ def test_allowed_is_exactly_the_safe_outputs(c):
 def test_every_class_has_two_or_more_variants():
     from collections import Counter
     per = Counter(c["cls"].split()[0] for c in CASES)
-    assert sorted(per) == [f"H{i}" for i in range(1, 8)] and min(per.values()) >= 2, per
+    assert sorted(per) == [f"H{i}" for i in range(1, 9)] and min(per.values()) >= 2, per
 
 
 # --- the facts the cases rest on --------------------------------------------------------
@@ -112,8 +112,20 @@ def _builder():
     return homework.page_html
 
 
+def _renamed(x, old, new):
+    """x with every key or text value exactly `old` renamed `new`."""
+    if isinstance(x, dict):
+        return {(new if k == old else k): _renamed(v, old, new) for k, v in x.items()}
+    if isinstance(x, list):
+        return [_renamed(v, old, new) for v in x]
+    return new if x == old else x
+
+
 def _patched_plan(c):
     plan = copy.deepcopy(PLAN)
+    for op in c["source_ops"]:
+        if isinstance(op, list) and op[0] in ("rename_molecule", "rename_contrast"):
+            plan = _renamed(plan, op[1], op[2])
     for path, value in c["plan_patch"]:
         node = plan
         for key in path[:-1]:
@@ -157,7 +169,9 @@ def _sources(c):
         slug, conf = stem.split("/")
         conformers[f"{slug}/{conf}"] = replace(record.load(DATA / "pair" / slug / conf), folded=m["folded"])
     for op in c["source_ops"]:
-        if op == "e2_other_key":
+        if isinstance(op, list):
+            r, ensembles, conformers = _list_op(op, r, ensembles, conformers)
+        elif op == "e2_other_key":
             src, views = ensembles["e2_z13_18_oac"]
             other = "f" * 64
             views = [replace(v, provenance=replace(v.provenance, analysis_key=other)) for v in views]
@@ -175,6 +189,35 @@ def _sources(c):
     return {"bundle": b, "study": r, "ensembles": ensembles, "conformers": conformers}
 
 
+def _list_op(op, r, ensembles, conformers):
+    """The round-7 probe's source edits: a slug or contrast renamed everywhere it is
+    named, or one source field replaced, as a results file or a record could carry it."""
+    kind = op[0]
+    if kind == "rename_molecule":
+        old, new = op[1], op[2]
+        ensembles = {(new if k == old else k): v for k, v in ensembles.items()}
+        conformers = {(f"{new}/{k.split('/', 1)[1]}" if k.split("/", 1)[0] == old else k): v
+                      for k, v in conformers.items()}
+        sites = tuple(replace(t, x=new if t.x == old else t.x, y=new if t.y == old else t.y) for t in r.sites)
+        r = replace(r, sites=sites, molecules={(new if k == old else k): v for k, v in r.molecules.items()})
+    elif kind == "rename_contrast":
+        r = replace(r, sites=tuple(replace(t, contrast=op[2]) if t.contrast == op[1] else t for t in r.sites))
+    elif kind == "study_plan":
+        r = replace(r, plan=op[1])
+    elif kind == "espmap_version":  # one record of one ensemble
+        src, views = ensembles[op[1]]
+        views = [replace(views[0], provenance=replace(views[0].provenance, espmap_version=op[2]))] + list(views[1:])
+        ensembles = {**ensembles, op[1]: (src, views)}
+    elif kind == "analysis_key":  # every record, so the page still sees one key
+        def rekey(v):
+            return replace(v, provenance=replace(v.provenance, analysis_key=op[1]))
+        ensembles = {k: (replace(src, analysis_key=op[1]), [rekey(v) for v in vs]) for k, (src, vs) in ensembles.items()}
+        conformers = {k: rekey(v) for k, v in conformers.items()}
+    else:
+        raise ValueError(op)
+    return r, ensembles, conformers
+
+
 def _run(c):
     build = _builder()
     from model import Refused
@@ -187,13 +230,68 @@ def _run(c):
     return "RENDERED", page
 
 
-# the probe on #21 (fe2fe08) and its reruns (318da98, 2a67bdd, 9eae791): all met; only shrinks.
-XFAIL = set()
+# the probe on #21 (fe2fe08) and its reruns (318da98, 2a67bdd, 9eae791) are met. The rerun on
+# 2b87a0a: slugs, the study's plan reference, espmap versions, analysis keys and contrast ids
+# reach the page unchecked; an unknown difference-card site crashes. Only shrinks.
+XFAIL = {
+    "test_page_output_is_safe[slug_lone_surrogate]",
+    "test_page_output_is_safe[slug_nul]",
+    "test_page_output_is_safe[slug_nel]",
+    "test_page_output_is_safe[slug_nonchar]",
+    "test_page_output_is_safe[slug_filler]",
+    "test_page_output_is_safe[slug_empty]",
+    "test_page_output_is_safe[slug_comma]",
+    "test_page_output_is_safe[difference_card_site_unknown]",
+    "test_page_output_is_safe[difference_card_site_none]",
+    "test_page_output_is_safe[difference_card_site_not_text]",
+    "test_page_output_is_safe[study_plan_none]",
+    "test_page_output_is_safe[study_plan_not_text]",
+    "test_page_output_is_safe[study_plan_nul]",
+    "test_page_output_is_safe[study_plan_nonchar]",
+    "test_page_output_is_safe[study_plan_lone_surrogate]",
+    "test_page_output_is_safe[study_plan_filler]",
+    "test_page_output_is_safe[espmap_version_not_text]",
+    "test_page_output_is_safe[espmap_version_nul]",
+    "test_page_output_is_safe[espmap_version_c1]",
+    "test_page_output_is_safe[espmap_version_lone_surrogate]",
+    "test_page_output_is_safe[analysis_key_not_text]",
+    "test_page_output_is_safe[analysis_key_nul_late]",
+    "test_page_output_is_safe[analysis_key_nul_early]",
+    "test_page_output_is_safe[analysis_key_lone_surrogate]",
+    "test_page_output_is_safe[contrast_id_nul]",
+    "test_page_output_is_safe[contrast_id_lone_surrogate]",
+    "test_page_output_is_preferred[slug_lone_surrogate]",
+    "test_page_output_is_preferred[slug_nul]",
+    "test_page_output_is_preferred[slug_nel]",
+    "test_page_output_is_preferred[slug_nonchar]",
+    "test_page_output_is_preferred[slug_filler]",
+    "test_page_output_is_preferred[slug_empty]",
+    "test_page_output_is_preferred[slug_comma]",
+    "test_page_output_is_preferred[difference_card_site_unknown]",
+    "test_page_output_is_preferred[difference_card_site_none]",
+    "test_page_output_is_preferred[difference_card_site_not_text]",
+    "test_page_output_is_preferred[study_plan_none]",
+    "test_page_output_is_preferred[study_plan_not_text]",
+    "test_page_output_is_preferred[study_plan_nul]",
+    "test_page_output_is_preferred[study_plan_nonchar]",
+    "test_page_output_is_preferred[study_plan_lone_surrogate]",
+    "test_page_output_is_preferred[study_plan_filler]",
+    "test_page_output_is_preferred[espmap_version_not_text]",
+    "test_page_output_is_preferred[espmap_version_nul]",
+    "test_page_output_is_preferred[espmap_version_c1]",
+    "test_page_output_is_preferred[espmap_version_lone_surrogate]",
+    "test_page_output_is_preferred[analysis_key_not_text]",
+    "test_page_output_is_preferred[analysis_key_nul_late]",
+    "test_page_output_is_preferred[analysis_key_nul_early]",
+    "test_page_output_is_preferred[analysis_key_lone_surrogate]",
+    "test_page_output_is_preferred[contrast_id_nul]",
+    "test_page_output_is_preferred[contrast_id_lone_surrogate]",
+}
 
 
 def _xfail(request, key):
     if key in XFAIL:
-        request.applymarker(pytest.mark.xfail(strict=True, reason="homework page on 9eae791"))
+        request.applymarker(pytest.mark.xfail(strict=True, reason="homework page on 2b87a0a"))
 
 
 @pytest.mark.parametrize("c", CASES, ids=[c["id"] for c in CASES])

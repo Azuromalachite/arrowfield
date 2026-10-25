@@ -387,6 +387,46 @@ for vid, value in (("not_text", 3), ("lone_surrogate", "\ud800"), ("nul", "Case\
          f"The plan's case_id is {value!r}: not text a page can carry. Refuse, naming where.",
          REFUSE, "REFUSED", plan_patch=[(["case_id"], value)])
 
+# --- the round-7 probe on #21 (2b87a0a): every path from plan or source text to the page --------
+# H8 source text. A molecule's slug names it in the role legend, in data-molecules (split on ",")
+# and in the views: text with something to read, carriable, and no comma. Renamed everywhere it
+# is named (plan, ensembles, conformers, the study), so only the slug itself is under test.
+case("slug_renamed_plainly", "H8 source text",
+     "The acetate's slug renamed 'oac_renamed' everywhere: the harness is consistent, so the page renders.",
+     RENDER, "RENDERED", [ROLES_SHOWN, ACT_ORDER], source_ops=[["rename_molecule", OAC, "oac_renamed"]])
+for vid, value in (("lone_surrogate", "x\ud800"), ("nul", "x\x00y"), ("nel", "x\x85y"), ("nonchar", "x￾y"),
+                   ("filler", "ㅤ"), ("empty", ""), ("comma", "a,b")):
+    case(f"slug_{vid}", "H8 source text",
+         f"The acetate's slug is {value!r} everywhere: no name a reader can read, not carriable, or two names in "
+         "data-molecules for one molecule. Refuse, naming the slug.", REFUSE, "REFUSED",
+         source_ops=[["rename_molecule", OAC, value]])
+# a difference card at a site the molecules do not have is refused, not a crash
+for vid, value in (("unknown", "zz_no_such_site"), ("none", None), ("not_text", 31337)):
+    case(f"difference_card_site_{vid}", "H8 source text",
+         f"A difference card at site {value!r}, which the acetate and alcohol records do not carry. Refuse.",
+         REFUSE, "REFUSED", plan_patch=[(["acts", 0, "blocks", 2, "site"], value)])
+# the study's plan reference, a record's espmap version and the analysis key are shown on the page
+for vid, value in (("none", None), ("not_text", 31337), ("nul", "analysis-plan.md @ 7e34658\x00"),
+                   ("nonchar", "analysis-plan.md￾ @ 7e34658"), ("lone_surrogate", "analysis-plan.md\ud800 @ 7e34658"),
+                   ("filler", "ㅤ")):
+    case(f"study_plan_{vid}", "H8 source text",
+         f"The study's plan reference is {value!r}: no plan a reader can read, or not carriable. Refuse.",
+         REFUSE, "REFUSED", source_ops=[["study_plan", value]])
+for vid, value in (("not_text", 31337), ("nul", "0.3.0\x00"), ("c1", "0.3.0\x9b"), ("lone_surrogate", "0.3.0\ud800")):
+    case(f"espmap_version_{vid}", "H8 source text",
+         f"One acetate record's espmap version is {value!r}: not text a page can carry. Refuse.",
+         REFUSE, "REFUSED", source_ops=[["espmap_version", OAC, value]])
+for vid, value in (("not_text", 31337), ("nul_late", "d0f5ed13" + "\x00" + "6cda12ada8c6324a79ec9f7e79134d2f"),
+                   ("nul_early", "d0f5\x00d136cda12ada8c6324a79ec9f7e79134d2f"),
+                   ("lone_surrogate", "d0f5\ud800d136cda12ada8c6324a79ec9f7e79134d2f")):
+    case(f"analysis_key_{vid}", "H8 source text",
+         f"Every record's analysis key is {value!r}: not a key a page can carry. Refuse.",
+         REFUSE, "REFUSED", source_ops=[["analysis_key", value]])
+for vid, value in (("nul", "B\x00stereo"), ("lone_surrogate", "B\ud800")):
+    case(f"contrast_id_{vid}", "H8 source text",
+         f"Act B's contrast renamed {value!r} in plan and study: not text a page can carry. Refuse.",
+         REFUSE, "REFUSED", source_ops=[["rename_contrast", "B_stereo", value]])
+
 # H4: a plan reference naming two commits is ambiguous: never resolved by position
 case("plan_reference_two_commits", "H4 provenance",
      "The study's plan reference names two commits ('@ 7e34658 @ deadbee'): the page cannot tell which froze "

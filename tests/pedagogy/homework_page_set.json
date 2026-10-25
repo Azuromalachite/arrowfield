@@ -3951,6 +3951,670 @@
    "requires": []
   },
   {
+   "id": "slug_renamed_plainly",
+   "cls": "H8 source text",
+   "why": "The acetate's slug renamed 'oac_renamed' everywhere: the harness is consistent, so the page renders.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "rename_molecule",
+     "z3_z13_18_oac",
+     "oac_renamed"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "block_roles",
+     "grade": "FALSE",
+     "why": "every block names each molecule's one role, the plan's"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "slug_lone_surrogate",
+   "cls": "H8 source text",
+   "why": "The acetate's slug is 'x\\ud800' everywhere: no name a reader can read, not carriable, or two names in data-molecules for one molecule. Refuse, naming the slug.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "rename_molecule",
+     "z3_z13_18_oac",
+     "x\ud800"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "slug_nul",
+   "cls": "H8 source text",
+   "why": "The acetate's slug is 'x\\x00y' everywhere: no name a reader can read, not carriable, or two names in data-molecules for one molecule. Refuse, naming the slug.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "rename_molecule",
+     "z3_z13_18_oac",
+     "x\u0000y"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "slug_nel",
+   "cls": "H8 source text",
+   "why": "The acetate's slug is 'x\\x85y' everywhere: no name a reader can read, not carriable, or two names in data-molecules for one molecule. Refuse, naming the slug.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "rename_molecule",
+     "z3_z13_18_oac",
+     "xy"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "slug_nonchar",
+   "cls": "H8 source text",
+   "why": "The acetate's slug is 'x\\ufffey' everywhere: no name a reader can read, not carriable, or two names in data-molecules for one molecule. Refuse, naming the slug.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "rename_molecule",
+     "z3_z13_18_oac",
+     "x￾y"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "slug_filler",
+   "cls": "H8 source text",
+   "why": "The acetate's slug is 'ㅤ' everywhere: no name a reader can read, not carriable, or two names in data-molecules for one molecule. Refuse, naming the slug.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "rename_molecule",
+     "z3_z13_18_oac",
+     "ㅤ"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "slug_empty",
+   "cls": "H8 source text",
+   "why": "The acetate's slug is '' everywhere: no name a reader can read, not carriable, or two names in data-molecules for one molecule. Refuse, naming the slug.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "rename_molecule",
+     "z3_z13_18_oac",
+     ""
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "slug_comma",
+   "cls": "H8 source text",
+   "why": "The acetate's slug is 'a,b' everywhere: no name a reader can read, not carriable, or two names in data-molecules for one molecule. Refuse, naming the slug.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "rename_molecule",
+     "z3_z13_18_oac",
+     "a,b"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "difference_card_site_unknown",
+   "cls": "H8 source text",
+   "why": "A difference card at site 'zz_no_such_site', which the acetate and alcohol records do not carry. Refuse.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "blocks",
+      2,
+      "site"
+     ],
+     "zz_no_such_site"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "difference_card_site_none",
+   "cls": "H8 source text",
+   "why": "A difference card at site None, which the acetate and alcohol records do not carry. Refuse.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "blocks",
+      2,
+      "site"
+     ],
+     null
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "difference_card_site_not_text",
+   "cls": "H8 source text",
+   "why": "A difference card at site 31337, which the acetate and alcohol records do not carry. Refuse.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "blocks",
+      2,
+      "site"
+     ],
+     31337
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "study_plan_none",
+   "cls": "H8 source text",
+   "why": "The study's plan reference is None: no plan a reader can read, or not carriable. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "study_plan",
+     null
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "study_plan_not_text",
+   "cls": "H8 source text",
+   "why": "The study's plan reference is 31337: no plan a reader can read, or not carriable. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "study_plan",
+     31337
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "study_plan_nul",
+   "cls": "H8 source text",
+   "why": "The study's plan reference is 'analysis-plan.md @ 7e34658\\x00': no plan a reader can read, or not carriable. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "study_plan",
+     "analysis-plan.md @ 7e34658\u0000"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "study_plan_nonchar",
+   "cls": "H8 source text",
+   "why": "The study's plan reference is 'analysis-plan.md\\ufffe @ 7e34658': no plan a reader can read, or not carriable. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "study_plan",
+     "analysis-plan.md￾ @ 7e34658"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "study_plan_lone_surrogate",
+   "cls": "H8 source text",
+   "why": "The study's plan reference is 'analysis-plan.md\\ud800 @ 7e34658': no plan a reader can read, or not carriable. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "study_plan",
+     "analysis-plan.md\ud800 @ 7e34658"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "study_plan_filler",
+   "cls": "H8 source text",
+   "why": "The study's plan reference is 'ㅤ': no plan a reader can read, or not carriable. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "study_plan",
+     "ㅤ"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "espmap_version_not_text",
+   "cls": "H8 source text",
+   "why": "One acetate record's espmap version is 31337: not text a page can carry. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "espmap_version",
+     "z3_z13_18_oac",
+     31337
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "espmap_version_nul",
+   "cls": "H8 source text",
+   "why": "One acetate record's espmap version is '0.3.0\\x00': not text a page can carry. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "espmap_version",
+     "z3_z13_18_oac",
+     "0.3.0\u0000"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "espmap_version_c1",
+   "cls": "H8 source text",
+   "why": "One acetate record's espmap version is '0.3.0\\x9b': not text a page can carry. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "espmap_version",
+     "z3_z13_18_oac",
+     "0.3.0"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "espmap_version_lone_surrogate",
+   "cls": "H8 source text",
+   "why": "One acetate record's espmap version is '0.3.0\\ud800': not text a page can carry. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "espmap_version",
+     "z3_z13_18_oac",
+     "0.3.0\ud800"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "analysis_key_not_text",
+   "cls": "H8 source text",
+   "why": "Every record's analysis key is 31337: not a key a page can carry. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "analysis_key",
+     31337
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "analysis_key_nul_late",
+   "cls": "H8 source text",
+   "why": "Every record's analysis key is 'd0f5ed13\\x006cda12ada8c6324a79ec9f7e79134d2f': not a key a page can carry. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "analysis_key",
+     "d0f5ed13\u00006cda12ada8c6324a79ec9f7e79134d2f"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "analysis_key_nul_early",
+   "cls": "H8 source text",
+   "why": "Every record's analysis key is 'd0f5\\x00d136cda12ada8c6324a79ec9f7e79134d2f': not a key a page can carry. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "analysis_key",
+     "d0f5\u0000d136cda12ada8c6324a79ec9f7e79134d2f"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "analysis_key_lone_surrogate",
+   "cls": "H8 source text",
+   "why": "Every record's analysis key is 'd0f5\\ud800d136cda12ada8c6324a79ec9f7e79134d2f': not a key a page can carry. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "analysis_key",
+     "d0f5\ud800d136cda12ada8c6324a79ec9f7e79134d2f"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "contrast_id_nul",
+   "cls": "H8 source text",
+   "why": "Act B's contrast renamed 'B\\x00stereo' in plan and study: not text a page can carry. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "rename_contrast",
+     "B_stereo",
+     "B\u0000stereo"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "contrast_id_lone_surrogate",
+   "cls": "H8 source text",
+   "why": "Act B's contrast renamed 'B\\ud800' in plan and study: not text a page can carry. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "rename_contrast",
+     "B_stereo",
+     "B\ud800"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
    "id": "plan_reference_two_commits",
    "cls": "H4 provenance",
    "why": "The study's plan reference names two commits ('@ 7e34658 @ deadbee'): the page cannot tell which froze the plan. It renders with the plan commit marked not recorded, never 'Plan frozen at' either one.",
