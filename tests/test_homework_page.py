@@ -215,11 +215,18 @@ def _list_op(op, r, ensembles, conformers):
             return replace(v, provenance=replace(v.provenance, analysis_key=op[1]))
         ensembles = {k: (replace(src, analysis_key=op[1]), [rekey(v) for v in vs]) for k, (src, vs) in ensembles.items()}
         conformers = {k: rekey(v) for k, v in conformers.items()}
-    elif kind == "settings":  # one record setting (xc, basis, solvent) on every record
+    elif kind in ("settings", "settings_ensembles", "settings_conformers", "settings_ensemble"):
+        # one record setting (xc, basis, solvent): on every record, every ensemble record, every
+        # conformer record, or one molecule's ensemble
+        field, value = op[-2], op[-1]
+
         def reset(v):
-            return replace(v, provenance=replace(v.provenance, **{op[1]: op[2]}))
-        ensembles = {k: (src, [reset(v) for v in vs]) for k, (src, vs) in ensembles.items()}
-        conformers = {k: reset(v) for k, v in conformers.items()}
+            return replace(v, provenance=replace(v.provenance, **{field: value}))
+        if kind in ("settings", "settings_ensembles", "settings_ensemble"):
+            ensembles = {k: (src, [reset(v) for v in vs]) if kind != "settings_ensemble" or k == op[1] else (src, vs)
+                         for k, (src, vs) in ensembles.items()}
+        if kind in ("settings", "settings_conformers"):
+            conformers = {k: reset(v) for k, v in conformers.items()}
     else:
         raise ValueError(op)
     return r, ensembles, conformers
@@ -238,13 +245,45 @@ def _run(c):
 
 
 # the probe on #21 (fe2fe08) and its reruns (318da98, 2a67bdd, 9eae791, 2b87a0a, 23d5ba2,
-# 8fe0749): all met; only shrinks.
-XFAIL = set()
+# 8fe0749) are met. Round 10 on 64b5fa2: a solvent espmap does not write; records stating
+# different methods on one page. Only shrinks.
+XFAIL = {
+    "test_page_output_is_safe[record_solvent_vacuo]",
+    "test_page_output_is_safe[record_solvent_in_vacuo]",
+    "test_page_output_is_safe[record_solvent_gas_phase]",
+    "test_page_output_is_safe[record_solvent_gas_hyphen_phase]",
+    "test_page_output_is_safe[record_solvent_vac]",
+    "test_page_output_is_safe[record_solvent_no_solvent]",
+    "test_page_output_is_safe[record_solvent_isolated]",
+    "test_page_output_is_safe[record_solvent_null]",
+    "test_page_output_is_safe[record_solvent_unknown]",
+    "test_page_output_is_safe[one_method_one_ensemble_pbe0]",
+    "test_page_output_is_safe[one_method_one_ensemble_tzvp]",
+    "test_page_output_is_safe[one_method_one_ensemble_water]",
+    "test_page_output_is_safe[one_method_conformers_pbe0]",
+    "test_page_output_is_safe[one_method_conformers_water]",
+    "test_page_output_is_safe[one_method_ensembles_water]",
+    "test_page_output_is_preferred[record_solvent_vacuo]",
+    "test_page_output_is_preferred[record_solvent_in_vacuo]",
+    "test_page_output_is_preferred[record_solvent_gas_phase]",
+    "test_page_output_is_preferred[record_solvent_gas_hyphen_phase]",
+    "test_page_output_is_preferred[record_solvent_vac]",
+    "test_page_output_is_preferred[record_solvent_no_solvent]",
+    "test_page_output_is_preferred[record_solvent_isolated]",
+    "test_page_output_is_preferred[record_solvent_null]",
+    "test_page_output_is_preferred[record_solvent_unknown]",
+    "test_page_output_is_preferred[one_method_one_ensemble_pbe0]",
+    "test_page_output_is_preferred[one_method_one_ensemble_tzvp]",
+    "test_page_output_is_preferred[one_method_one_ensemble_water]",
+    "test_page_output_is_preferred[one_method_conformers_pbe0]",
+    "test_page_output_is_preferred[one_method_conformers_water]",
+    "test_page_output_is_preferred[one_method_ensembles_water]",
+}
 
 
 def _xfail(request, key):
     if key in XFAIL:
-        request.applymarker(pytest.mark.xfail(strict=True, reason="homework page on 8fe0749"))
+        request.applymarker(pytest.mark.xfail(strict=True, reason="homework page on 64b5fa2"))
 
 
 @pytest.mark.parametrize("c", CASES, ids=[c["id"] for c in CASES])

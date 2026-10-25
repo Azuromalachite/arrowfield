@@ -5476,6 +5476,574 @@
    ]
   },
   {
+   "id": "record_solvent_vacuo",
+   "cls": "H9 display",
+   "why": "Every record's solvent is 'vacuo': not a solvent espmap writes; shown, it reads as PCM vacuo, condensed phase. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings",
+     "solvent",
+     "vacuo"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "record_solvent_in_vacuo",
+   "cls": "H9 display",
+   "why": "Every record's solvent is 'in_vacuo': not a solvent espmap writes; shown, it reads as PCM in_vacuo, condensed phase. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings",
+     "solvent",
+     "in_vacuo"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "record_solvent_gas_phase",
+   "cls": "H9 display",
+   "why": "Every record's solvent is 'gas_phase': not a solvent espmap writes; shown, it reads as PCM gas_phase, condensed phase. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings",
+     "solvent",
+     "gas_phase"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "record_solvent_gas_hyphen_phase",
+   "cls": "H9 display",
+   "why": "Every record's solvent is 'gas-phase': not a solvent espmap writes; shown, it reads as PCM gas-phase, condensed phase. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings",
+     "solvent",
+     "gas-phase"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "record_solvent_vac",
+   "cls": "H9 display",
+   "why": "Every record's solvent is 'vac': not a solvent espmap writes; shown, it reads as PCM vac, condensed phase. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings",
+     "solvent",
+     "vac"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "record_solvent_no_solvent",
+   "cls": "H9 display",
+   "why": "Every record's solvent is 'no_solvent': not a solvent espmap writes; shown, it reads as PCM no_solvent, condensed phase. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings",
+     "solvent",
+     "no_solvent"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "record_solvent_isolated",
+   "cls": "H9 display",
+   "why": "Every record's solvent is 'isolated': not a solvent espmap writes; shown, it reads as PCM isolated, condensed phase. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings",
+     "solvent",
+     "isolated"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "record_solvent_null",
+   "cls": "H9 display",
+   "why": "Every record's solvent is 'null': not a solvent espmap writes; shown, it reads as PCM null, condensed phase. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings",
+     "solvent",
+     "null"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "record_solvent_unknown",
+   "cls": "H9 display",
+   "why": "Every record's solvent is 'unknown': not a solvent espmap writes; shown, it reads as PCM unknown, condensed phase. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings",
+     "solvent",
+     "unknown"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "record_solvent_dmso_renders",
+   "cls": "H9 display",
+   "why": "Every record's solvent is 'dmso', a value espmap's readers know: shown as it is.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings",
+     "solvent",
+     "dmso"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "PCM dmso",
+     "grade": "MISLEADING",
+     "why": "the phase, as recorded"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "record_solvent_gas_renders",
+   "cls": "H9 display",
+   "why": "Every record's solvent is 'gas', a value espmap's readers know: shown as it is.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings",
+     "solvent",
+     "gas"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "gas phase",
+     "grade": "MISLEADING",
+     "why": "the phase, as recorded"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "one_method_baseline",
+   "cls": "H9 display",
+   "why": "Every record states b3lyp/def2-svp in the gas phase: one method, named once.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings_ensembles",
+     "solvent",
+     "vacuum"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "b3lyp/def2-svp",
+     "grade": "MISLEADING",
+     "why": "the method, named"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "one_method_one_ensemble_pbe0",
+   "cls": "H9 display",
+   "why": "One page, records under one analysis key stating different methods ([['settings_ensemble', 'z3_z13_18_oac', 'xc', 'pbe0']]): whichever the page names is wrong for some. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings_ensembles",
+     "solvent",
+     "vacuum"
+    ],
+    [
+     "settings_ensemble",
+     "z3_z13_18_oac",
+     "xc",
+     "pbe0"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "one_method_one_ensemble_tzvp",
+   "cls": "H9 display",
+   "why": "One page, records under one analysis key stating different methods ([['settings_ensemble', 'z3_z13_18_oac', 'basis', 'def2-tzvp']]): whichever the page names is wrong for some. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings_ensembles",
+     "solvent",
+     "vacuum"
+    ],
+    [
+     "settings_ensemble",
+     "z3_z13_18_oac",
+     "basis",
+     "def2-tzvp"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "one_method_one_ensemble_water",
+   "cls": "H9 display",
+   "why": "One page, records under one analysis key stating different methods ([['settings_ensemble', 'z3_z13_18_oac', 'solvent', 'water']]): whichever the page names is wrong for some. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings_ensembles",
+     "solvent",
+     "vacuum"
+    ],
+    [
+     "settings_ensemble",
+     "z3_z13_18_oac",
+     "solvent",
+     "water"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "one_method_conformers_pbe0",
+   "cls": "H9 display",
+   "why": "One page, records under one analysis key stating different methods ([['settings_conformers', 'xc', 'pbe0']]): whichever the page names is wrong for some. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings_ensembles",
+     "solvent",
+     "vacuum"
+    ],
+    [
+     "settings_conformers",
+     "xc",
+     "pbe0"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "one_method_conformers_water",
+   "cls": "H9 display",
+   "why": "One page, records under one analysis key stating different methods ([['settings_conformers', 'solvent', 'water']]): whichever the page names is wrong for some. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings_ensembles",
+     "solvent",
+     "vacuum"
+    ],
+    [
+     "settings_conformers",
+     "solvent",
+     "water"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "one_method_ensembles_water",
+   "cls": "H9 display",
+   "why": "One page, records under one analysis key stating different methods ([['settings_ensembles', 'solvent', 'water']]): whichever the page names is wrong for some. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings_ensembles",
+     "solvent",
+     "vacuum"
+    ],
+    [
+     "settings_ensembles",
+     "solvent",
+     "water"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
    "id": "plan_reference_two_commits",
    "cls": "H4 provenance",
    "why": "The study's plan reference names two commits ('@ 7e34658 @ deadbee'): the page cannot tell which froze the plan. It renders with the plan commit marked not recorded, never 'Plan frozen at' either one.",

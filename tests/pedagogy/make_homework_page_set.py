@@ -495,6 +495,36 @@ case("record_solvent_water", "H9 display",
      [must(r"PCM water", "MISLEADING", "the solvent, named"), ACT_ORDER],
      source_ops=[["settings", "solvent", "water"]])
 
+# --- round 10 on #21 (64b5fa2) -------------------------------------------------------------------
+# L: a solvent is one espmap can write (esp_map.SOLVENTS, v0.2.1 and v0.3.0 alike, None for gas)
+# or "gas"; a gas-phase synonym or a placeholder inside the grammar is not, and would be called
+# "PCM <word>", condensed phase
+for value in ("vacuo", "in_vacuo", "gas_phase", "gas-phase", "vac", "no_solvent", "isolated", "null", "unknown"):
+    case(f"record_solvent_{value.replace('-', '_hyphen_')}", "H9 display",
+         f"Every record's solvent is {value!r}: not a solvent espmap writes; shown, it reads as PCM {value}, "
+         "condensed phase. Refuse.", REFUSE, "REFUSED", source_ops=[["settings", "solvent", value]])
+for value, said in (("dmso", r"PCM dmso"), ("gas", r"gas phase")):
+    case(f"record_solvent_{value}_renders", "H9 display",
+         f"Every record's solvent is {value!r}, a value espmap's readers know: shown as it is.", RENDER, "RENDERED",
+         [must(said, "MISLEADING", "the phase, as recorded"), ACT_ORDER], source_ops=[["settings", "solvent", value]])
+# M: one page, one method. Every record that states a method states the same one (gas tokens
+# alike); the scope line and the pair caption can then never disagree. The ensembles first state
+# the conformers' method, then one thing is changed.
+SAME = [["settings_ensembles", "xc", "b3lyp"], ["settings_ensembles", "basis", "def2-svp"],
+        ["settings_ensembles", "solvent", "vacuum"]]
+case("one_method_baseline", "H9 display",
+     "Every record states b3lyp/def2-svp in the gas phase: one method, named once.", RENDER, "RENDERED",
+     [must(r"b3lyp/def2-svp", "MISLEADING", "the method, named"), ACT_ORDER], source_ops=SAME)
+for vid, ops in (("one_ensemble_pbe0", [["settings_ensemble", OAC, "xc", "pbe0"]]),
+                 ("one_ensemble_tzvp", [["settings_ensemble", OAC, "basis", "def2-tzvp"]]),
+                 ("one_ensemble_water", [["settings_ensemble", OAC, "solvent", "water"]]),
+                 ("conformers_pbe0", [["settings_conformers", "xc", "pbe0"]]),
+                 ("conformers_water", [["settings_conformers", "solvent", "water"]]),
+                 ("ensembles_water", [["settings_ensembles", "solvent", "water"]])):
+    case(f"one_method_{vid}", "H9 display",
+         f"One page, records under one analysis key stating different methods ({ops}): whichever the page "
+         "names is wrong for some. Refuse.", REFUSE_F, "REFUSED", source_ops=SAME + ops)
+
 # H4: a plan reference naming two commits is ambiguous: never resolved by position
 case("plan_reference_two_commits", "H4 provenance",
      "The study's plan reference names two commits ('@ 7e34658 @ deadbee'): the page cannot tell which froze "
