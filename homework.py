@@ -16,7 +16,7 @@ import html
 import re
 import unicodedata
 
-from model import KNOWN_VERDICT_RULES, Refused, compare
+from model import KNOWN_VERDICT_RULES, Refused, compare, protocol, protocol_problems, protocol_words
 
 ACTS = ("A", "B", "C", "D")
 ROLE_WORDS = {"atlas_observed": "Atlas compound",
@@ -27,10 +27,6 @@ AUDIENCES = ("student", "instructor")
 SLUG = re.compile(r"[a-z][a-z0-9_]*")
 VERSION = re.compile(r"[0-9][0-9A-Za-z.+_-]*")
 ANALYSIS_KEY = re.compile(r"[0-9a-f]{8,64}")
-# a record's settings as espmap writes them (round 9 on #21): xc and basis always, solvent None or
-# a lowercase name; anything else is refused, never interpreted
-METHOD = re.compile(r"[A-Za-z0-9][A-Za-z0-9()*+,._-]*")
-SOLVENT = re.compile(r"[a-z][a-z0-9_-]*")
 # the solvents espmap writes (esp_map.SOLVENTS, v0.2.1 and v0.3.0 alike; None is the gas phase),
 # and "gas", which the views also read as gas: a closed vocabulary, so no synonym is guessed at
 GAS_SOLVENTS = ("vacuum", "gas")
@@ -169,21 +165,18 @@ def _check_plan(plan, sources, audience):
         _need(isinstance(v.analysis_key, str) and ANALYSIS_KEY.fullmatch(v.analysis_key) is not None,
               f"{v.provenance.source}: analysis key {v.analysis_key!r} is not one ({ANALYSIS_KEY.pattern})")
         pv = v.provenance
-        _need(all(isinstance(m, str) and METHOD.fullmatch(m) and m.casefold() != "none" for m in (pv.xc, pv.basis))
+        # raw settings are provenance text (the user's decision after round 11): both stated, as
+        # text with something to read, or neither; never checked as method names
+        _need(all(isinstance(m, str) and _writable(m) and _visible(m) and m.strip() != "None" for m in (pv.xc, pv.basis))
               or (pv.xc, pv.basis) == (None, None),
-              f"{pv.source}: method {pv.xc!r}/{pv.basis!r} is not one the page can name (both, as {METHOD.pattern}, or neither)")
-        _need(pv.solvent is None or (isinstance(pv.solvent, str) and SOLVENT.fullmatch(pv.solvent) is not None
-                                     and pv.solvent != "none"),
-              f"{pv.source}: solvent {pv.solvent!r} is not None or a solvent name ({SOLVENT.pattern})")
+              f"{pv.source}: settings {pv.xc!r}/{pv.basis!r} are not provenance a page can show (both, or neither)")
         _need(pv.solvent is None or pv.solvent in SOLVENTS,
               f"{pv.source}: solvent {pv.solvent!r} is not one espmap writes ({', '.join(SOLVENTS)}, or None for gas)")
-    # one page, one method: every record that states a method states the same one, so the scope
-    # line and the pair caption name it alike (round 10 on #21)
-    stated = {(v.provenance.xc, v.provenance.basis,
-               None if v.provenance.solvent in (None,) + GAS_SOLVENTS else v.provenance.solvent)
-              for v in views if v.provenance.xc is not None}
-    _need(len(stated) <= 1, f"the page's records state {len(stated)} methods ("
-          + "; ".join(f"{x}/{b}, {s or 'gas'}" for x, b, s in sorted(stated, key=str)) + "): it names one")
+        # the protocol is the canonical one its key digests, and the raw phase agrees with it
+        problems = protocol_problems(pv)
+        _need(not problems, problems[0] if problems else "")
+        _need(protocol(pv).get("solvent") is None or protocol(pv)["solvent"] in SOLVENTS[len(GAS_SOLVENTS):],
+              f"{pv.source}: its protocol's solvent {protocol(pv).get('solvent')!r} is not one espmap writes")
     for key, v in (sources.get("conformers") or {}).items():
         # the pair view names its records' method: a record it shows must state one
         _need(v.provenance.xc is not None, f"{key}: the record states no method, and the pair view names it")
@@ -196,9 +189,9 @@ def _study_context(study, plan, x, y, views):
     # the plan commit only when the reference names exactly one: two are ambiguous, and
     # are never resolved by position (the probe on #21); the card then says it is not recorded
     commits = re.findall(r"@ ([0-9a-f]{7,40})\b", study.plan or "")
-    xc = next((v.provenance for v in views if v.provenance.xc), None)
-    lim = {"method": f"{xc.xc}/{xc.basis}" if xc else "method not stated",
-           "phase": ("gas" if xc and xc.solvent in (None, "vacuum", "gas") else "condensed") if xc else "not stated"}
+    # every record's protocol is verified and they share one key, so any record names it
+    method, solvent = protocol_words(views[0].provenance)
+    lim = {"method": method, "phase": "gas" if solvent is None else "condensed"}
     return {"provenance": {"results_sha256": study.sha256, "plan_commit": commits[0] if len(commits) == 1 else None},
             "molecules": {s: plan["molecules"][s]["role"] for s in (x, y)}, "limitations": lim}
 

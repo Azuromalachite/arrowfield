@@ -5303,6 +5303,16 @@
    "plan_patch": [],
    "source_ops": [
     [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
      "settings",
      "solvent",
      "Gas"
@@ -5326,6 +5336,16 @@
    "why": "Every record's solvent is 'GAS': plainly gas phase, but not a token the page knows, so it would read as 'PCM ...', condensed phase. Refuse, never interpret.",
    "plan_patch": [],
    "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
     [
      "settings",
      "solvent",
@@ -5351,6 +5371,16 @@
    "plan_patch": [],
    "source_ops": [
     [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
      "settings",
      "solvent",
      "gas "
@@ -5374,6 +5404,16 @@
    "why": "Every record's solvent is '': plainly gas phase, but not a token the page knows, so it would read as 'PCM ...', condensed phase. Refuse, never interpret.",
    "plan_patch": [],
    "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
     [
      "settings",
      "solvent",
@@ -5399,6 +5439,16 @@
    "plan_patch": [],
    "source_ops": [
     [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
      "settings",
      "solvent",
      "None"
@@ -5423,6 +5473,16 @@
    "plan_patch": [],
    "source_ops": [
     [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
      "settings",
      "solvent",
      "Vacuum"
@@ -5446,6 +5506,16 @@
    "why": "Every record computed in PCM water (canonical protocol and settings alike): shown as one.",
    "plan_patch": [],
    "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
     [
      "canonical_rekey",
      "solvent",
@@ -5487,6 +5557,16 @@
    "plan_patch": [],
    "source_ops": [
     [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
      "settings",
      "solvent",
      "vacuo"
@@ -5510,6 +5590,16 @@
    "why": "Every record's solvent is 'in_vacuo': not a solvent espmap writes; shown, it reads as PCM in_vacuo, condensed phase. Refuse.",
    "plan_patch": [],
    "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
     [
      "settings",
      "solvent",
@@ -5535,6 +5625,16 @@
    "plan_patch": [],
    "source_ops": [
     [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
      "settings",
      "solvent",
      "gas_phase"
@@ -5558,6 +5658,16 @@
    "why": "Every record's solvent is 'gas-phase': not a solvent espmap writes; shown, it reads as PCM gas-phase, condensed phase. Refuse.",
    "plan_patch": [],
    "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
     [
      "settings",
      "solvent",
@@ -5583,6 +5693,16 @@
    "plan_patch": [],
    "source_ops": [
     [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
      "settings",
      "solvent",
      "vac"
@@ -5606,6 +5726,16 @@
    "why": "Every record's solvent is 'no_solvent': not a solvent espmap writes; shown, it reads as PCM no_solvent, condensed phase. Refuse.",
    "plan_patch": [],
    "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
     [
      "settings",
      "solvent",
@@ -5631,6 +5761,16 @@
    "plan_patch": [],
    "source_ops": [
     [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
      "settings",
      "solvent",
      "isolated"
@@ -5654,6 +5794,16 @@
    "why": "Every record's solvent is 'null': not a solvent espmap writes; shown, it reads as PCM null, condensed phase. Refuse.",
    "plan_patch": [],
    "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
     [
      "settings",
      "solvent",
@@ -5679,6 +5829,16 @@
    "plan_patch": [],
    "source_ops": [
     [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
      "settings",
      "solvent",
      "unknown"
@@ -5702,6 +5862,16 @@
    "why": "Every record computed in PCM dmso (its canonical protocol says dmso, and so do its settings): shown as it is.",
    "plan_patch": [],
    "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
     [
      "canonical_rekey",
      "solvent",
@@ -5742,6 +5912,16 @@
    "why": "Every record's settings say solvent 'gas', which the views read as the gas phase, as the protocol says.",
    "plan_patch": [],
    "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
     [
      "settings",
      "solvent",

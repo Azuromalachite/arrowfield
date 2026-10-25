@@ -489,11 +489,11 @@ for vid, value in (("Gas", "Gas"), ("GAS", "GAS"), ("gas_space", "gas "), ("empt
     case(f"record_solvent_{vid}", "H9 display",
          f"Every record's solvent is {value!r}: plainly gas phase, but not a token the page knows, so it would "
          "read as 'PCM ...', condensed phase. Refuse, never interpret.", REFUSE_F, "REFUSED",
-         source_ops=[["settings", "solvent", value]])
+         source_ops=[["settings_ensembles", "xc", "b3lyp"], ["settings_ensembles", "basis", "def2-svp"]] + [["settings", "solvent", value]])
 case("record_solvent_water", "H9 display",
      "Every record computed in PCM water (canonical protocol and settings alike): shown as one.", RENDER, "RENDERED",
      [must(r"PCM water", "MISLEADING", "the solvent, named"), ACT_ORDER],
-     source_ops=[["canonical_rekey", "solvent", "water"], ["settings", "solvent", "water"]])
+     source_ops=[["settings_ensembles", "xc", "b3lyp"], ["settings_ensembles", "basis", "def2-svp"]] + [["canonical_rekey", "solvent", "water"], ["settings", "solvent", "water"]])
 
 # --- round 10 on #21 (64b5fa2) -------------------------------------------------------------------
 # L: a solvent is one espmap can write (esp_map.SOLVENTS, v0.2.1 and v0.3.0 alike, None for gas)
@@ -502,15 +502,15 @@ case("record_solvent_water", "H9 display",
 for value in ("vacuo", "in_vacuo", "gas_phase", "gas-phase", "vac", "no_solvent", "isolated", "null", "unknown"):
     case(f"record_solvent_{value.replace('-', '_hyphen_')}", "H9 display",
          f"Every record's solvent is {value!r}: not a solvent espmap writes; shown, it reads as PCM {value}, "
-         "condensed phase. Refuse.", REFUSE, "REFUSED", source_ops=[["settings", "solvent", value]])
+         "condensed phase. Refuse.", REFUSE, "REFUSED", source_ops=[["settings_ensembles", "xc", "b3lyp"], ["settings_ensembles", "basis", "def2-svp"]] + [["settings", "solvent", value]])
 case("record_solvent_dmso_renders", "H9 display",
      "Every record computed in PCM dmso (its canonical protocol says dmso, and so do its settings): shown as it is.",
      RENDER, "RENDERED", [must(r"PCM dmso", "MISLEADING", "the phase, as recorded"), ACT_ORDER],
-     source_ops=[["canonical_rekey", "solvent", "dmso"], ["settings", "solvent", "dmso"]])
+     source_ops=[["settings_ensembles", "xc", "b3lyp"], ["settings_ensembles", "basis", "def2-svp"]] + [["canonical_rekey", "solvent", "dmso"], ["settings", "solvent", "dmso"]])
 case("record_solvent_gas_renders", "H9 display",
      "Every record's settings say solvent 'gas', which the views read as the gas phase, as the protocol says.",
      RENDER, "RENDERED", [must(r"gas phase", "MISLEADING", "the phase, as recorded"), ACT_ORDER],
-     source_ops=[["settings", "solvent", "gas"]])
+     source_ops=[["settings_ensembles", "xc", "b3lyp"], ["settings_ensembles", "basis", "def2-svp"]] + [["settings", "solvent", "gas"]])
 
 # --- the user's decision after round 11 on #21 (7fb0bed): method identity is espmap's -------------
 # A record's protocol is its canonical key_fields.analysis, and its analysis_key the sha1 of those

@@ -35,6 +35,29 @@ def test_a_record_that_says_it_is_invalid_is_refused(tmp_path):
         Record(tmp_path / "bad")
 
 
+def test_a_record_whose_key_does_not_digest_its_protocol_is_refused(tmp_path):
+    """analysis_key is espmap's sha1 of key_fields.analysis (record_key): a
+    record whose fields changed under its key, or that has none, does not say
+    what protocol its numbers are under (the user's decision on #21)."""
+    j = json.loads((REC / "ethanol__s1.json").read_text())
+    assert Record(REC / "ethanol__s1").view().provenance.analysis_fields is not None
+    for case in ("changed", "missing", "not_a_mapping"):
+        k = json.loads(json.dumps(j))
+        if case == "changed":
+            k["key_fields"]["analysis"]["solvent"] = "water"
+        elif case == "missing":
+            del k["key_fields"]
+        else:
+            k["key_fields"]["analysis"] = "b3lyp/def2svp"
+        (tmp_path / f"{case}.json").write_text(json.dumps(k))
+        with pytest.raises(InvalidRecord):
+            Record(tmp_path / case)
+    k = json.loads(json.dumps(j))
+    k["settings"]["xc"] = "B3LYP"                     # raw spelling is provenance text, not the protocol
+    (tmp_path / "spelled.json").write_text(json.dumps(k))
+    assert Record(tmp_path / "spelled").view().provenance.xc == "B3LYP"
+
+
 def test_a_record_of_another_schema_version_is_refused(tmp_path):
     j = json.loads((REC / "ethanol__s1.json").read_text())
     assert j["schema"] == "espmap.record/1"
@@ -206,13 +229,21 @@ def test_records_that_are_not_comparable_are_shown_as_not_comparable():
 
 
 def test_the_card_names_the_method_of_its_own_measurements():
-    """The scope line takes the method from the measurements' provenance: a
-    hard-coded 'gas phase' would be false on a card comparing PCM records."""
+    """The scope line takes the method from the measurements' canonical
+    protocol (key_fields.analysis, which the key digests), never from the raw
+    settings' spelling: a hard-coded 'gas phase' would be false on a card
+    comparing PCM records."""
+    from model import analysis_digest
     e, z = load_all(REC, "e2_butene"), load_all(REC, "z2_butene")
     h = card_html(difference_card(e, z, "C2"))
-    assert "free molecule (" + e[0].provenance.method + ")" in h
-    pcm = [replace(v, provenance=replace(v.provenance, solvent="water")) for v in e + z]
-    h = card_html(difference_card(pcm[:3], pcm[3:], "C2"))
+    assert e[0].provenance.xc == "b3lyp" and "free molecule (b3lyp/def2svp, gas)" in h
+
+    def pcm(v):
+        f = json.loads(v.provenance.analysis_fields) | {"solvent": "water"}
+        return replace(v, provenance=replace(v.provenance, solvent="water", analysis_key=analysis_digest(f),
+                                             analysis_fields=json.dumps(f, sort_keys=True)))
+    w = [pcm(v) for v in e + z]
+    h = card_html(difference_card(w[:3], w[3:], "C2"))
     assert "PCM water" in h and "gas" not in h.split('class="scope"')[1]
 
 

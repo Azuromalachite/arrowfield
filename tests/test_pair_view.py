@@ -223,10 +223,9 @@ def _run(c):
 
 # the probe on #18 (fa0e676): the relation depends on bond-list order and misses a methyl-H
 # relabelling. Measured on fa0e676; only shrinks.
-# The 3 measured on fa0e676 are met. #21 at 7fb0bed: the pair view compares raw settings, so a
-# corrupted raw xc label under one verified canonical protocol is refused, not rendered (the user's
-# decision after #21's round 11). Each entry is "test[case]"; only shrinks.
-XFAIL = {"test_view_output_is_preferred[stale_key_functional]"}
+# The 3 measured on fa0e676 and the 1 on #21's 7fb0bed are met. Each entry is "test[case]";
+# only shrinks.
+XFAIL = set()
 
 
 def _xfail(request, test, c):

@@ -282,39 +282,8 @@ def _run(c):
 
 
 # the probe on #21 (fe2fe08) and its reruns (318da98, 2a67bdd, 9eae791, 2b87a0a, 23d5ba2,
-# 8fe0749, 64b5fa2) are met. Round 11 on 7fb0bed and the user's decision: method identity is the
-# verified canonical protocol, not raw strings. Only shrinks.
-XFAIL = {
-    "test_page_output_is_safe[one_protocol_ensembles_upper]",
-    "test_page_output_is_safe[one_protocol_conformers_def2svp]",
-    "test_page_output_is_safe[one_protocol_conformers_def2_svp_upper]",
-    "test_page_output_is_safe[one_protocol_conformers_libxc_name]",
-    "test_page_output_is_safe[one_protocol_one_ensemble_upper]",
-    "test_page_output_is_safe[one_protocol_custom_functional]",
-    "test_page_output_is_safe[one_method_one_ensemble_pbe0]",
-    "test_page_output_is_safe[one_method_one_ensemble_tzvp]",
-    "test_page_output_is_safe[one_method_conformers_pbe0]",
-    "test_page_output_is_safe[one_method_solvent_without_method]",
-    "test_page_output_is_safe[one_method_canonical_water_raw_vacuum]",
-    "test_page_output_is_safe[canonical_digest_mismatch]",
-    "test_page_output_is_safe[canonical_digest_mismatch_xc]",
-    "test_page_output_is_safe[canonical_no_canonical_fields]",
-    "test_page_output_is_preferred[one_protocol_ensembles_upper]",
-    "test_page_output_is_preferred[one_protocol_conformers_def2svp]",
-    "test_page_output_is_preferred[one_protocol_conformers_def2_svp_upper]",
-    "test_page_output_is_preferred[one_protocol_conformers_libxc_name]",
-    "test_page_output_is_preferred[one_protocol_one_ensemble_upper]",
-    "test_page_output_is_preferred[one_protocol_custom_functional]",
-    "test_page_output_is_preferred[one_method_one_ensemble_pbe0]",
-    "test_page_output_is_preferred[one_method_one_ensemble_tzvp]",
-    "test_page_output_is_preferred[one_method_conformers_pbe0]",
-    "test_page_output_is_preferred[one_method_solvent_without_method]",
-    "test_page_output_is_preferred[one_method_canonical_water_raw_vacuum]",
-    "test_page_output_is_preferred[canonical_digest_mismatch]",
-    "test_page_output_is_preferred[canonical_digest_mismatch_xc]",
-    "test_page_output_is_preferred[canonical_no_canonical_fields]",
-    "test_a_rendered_page_meets_its_requirements[one_method_baseline-0]",
-}
+# 8fe0749, 64b5fa2, 7fb0bed): all met; only shrinks.
+XFAIL = set()
 
 
 def _xfail(request, key):

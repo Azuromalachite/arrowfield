@@ -16,7 +16,7 @@ from pathlib import Path
 import numpy as np
 
 from model import (RULES, Atom, MoleculeView, Provenance, Scale, SiteMeasurement, Surface,
-                   comparable, same_scale)  # noqa: F401  (re-exported for callers)
+                   analysis_digest, comparable, same_scale)  # noqa: F401  (re-exported for callers)
 
 BOHR = 0.529177210903          # NPZ verts/coords are bohr; geometry.xyz_angstrom is A
 RECORD_SCHEMA = "espmap.record/1"
@@ -46,6 +46,13 @@ class Record:
             # the record says whether it can be used; never infer it
             raise InvalidRecord(f"{stem.name}: validity {v}, sites_reason "
                                 f"{self.j.get('sites_reason')!r}")
+        # the canonical protocol, verified: analysis_key is espmap's digest of key_fields.analysis
+        fields = (self.j.get("key_fields") or {}).get("analysis")
+        if not isinstance(fields, dict):
+            raise InvalidRecord(f"{stem.name}: no canonical analysis fields (key_fields.analysis)")
+        if analysis_digest(fields) != self.j.get("analysis_key"):
+            raise InvalidRecord(f"{stem.name}: analysis_key {self.j.get('analysis_key')} is not the digest of "
+                                "its key_fields.analysis: the key does not describe this record")
 
     def view(self, name=None):
         """The record as Arrowfield's MoleculeView."""
@@ -88,7 +95,8 @@ class Record:
                 source=self.stem.name, analysis_key=j["analysis_key"], render_key=j["render_key"],
                 record_schema=j.get("schema"), espmap_version=pv.get("espmap_version"),
                 code=pv.get("code"), sha256=self.sha256, xc=st.get("xc"),
-                basis=st.get("basis"), solvent=st.get("solvent")),
+                basis=st.get("basis"), solvent=st.get("solvent"),
+                analysis_fields=json.dumps(j["key_fields"]["analysis"], sort_keys=True)),
             mapped_smiles=s["identity"]["mapped_smiles"],
             surface_loader=None if self.z is None else self._surface)
 
