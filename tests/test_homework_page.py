@@ -73,6 +73,38 @@ def test_the_plan_is_the_homework():
     assert {m["role"] for m in PLAN["molecules"].values()} == {"atlas_observed", "teaching_control"}
 
 
+SITE_NAME = r"\b(?:C\d{1,2}-H|head O|global V_(?:max|min))\b"
+
+
+def test_the_plan_shows_what_its_tasks_ask_about():
+    """The page answers its own questions: a site a task names has a
+    difference card in that act, a tested one its study card beside it, and
+    act A's "how far the perturbation extends" a near-to-far series. The
+    plan once asked about C4-H and head O in act B, and C2-H and C3-H in act
+    C, with no card at any of them (the review of #21 at 7fb0bed)."""
+    from study import load_results
+    r = load_results(DATA / "espmap-sesiidae-001.results.json")
+    for act in PLAN["acts"]:
+        cards = {k["site"] for k in act["blocks"] if k["view"] == "difference_card"}
+        studied = {(k["contrast"], k["site"]) for k in act["blocks"] if k["view"] == "study_card"}
+        for t in act["tasks"]:
+            named = set(re.findall(SITE_NAME, t))
+            assert named <= cards, (act["id"], sorted(named - cards))
+        for k in act["blocks"]:
+            if k["view"] == "difference_card":
+                row = next((s for s in r.sites if s.contrast == k["contrast"] and s.site == k["site"]
+                            and s.population == "all"), None)
+                if row is not None and row.tier in ("primary", "secondary"):
+                    assert (k["contrast"], k["site"]) in studied, (act["id"], k)
+                for slug in (k["x"], k["y"]):                       # each card's site is in both records
+                    assert k["site"] in SITES["molecules"][slug]["members"][0]["sites"], (slug, k["site"])
+    a = PLAN["acts"][0]
+    assert any("how far" in t for t in a["tasks"])
+    series = [int(re.match(r"C(\d+)-H", k["site"]).group(1)) for k in a["blocks"]
+              if k["view"] == "difference_card" and k["contrast"] == "A_headgroup" and re.match(r"C\d+-H", k["site"])]
+    assert series and min(series) == 1 and max(series) >= 12 and len(series) >= 5, series
+
+
 def test_the_data_says_what_the_cases_say():
     from study import load_results
     b = load(DATA / "sesiidae-homework-1.bundle.json")
