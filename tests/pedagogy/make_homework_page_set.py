@@ -79,6 +79,9 @@ GRADES = ("SAFE", "SAFE_REFUSAL", "CRASH", "MISLEADING", "FALSE")
 DROP = "<drop>"
 OAC, OH, AL, E3, E2 = "z3_z13_18_oac", "z3_z13_18_oh", "z3_z13_18_al", "e3_z13_18_oac", "e2_z13_18_oac"
 P = "spa.obs."
+# act A task 2, "how far the head-group perturbation appears to extend": a near-to-far series of
+# chain sites, OAc -> OH (both carry these sites; the fixture copies them from the records)
+A_SERIES = ("C1-H", "C2-H", "C3-H", "C4-H", "C6-H", "C10-H", "C16-H")
 CASES = []
 
 PLAN = {
@@ -109,6 +112,10 @@ PLAN = {
                     {"view": "difference_card", "contrast": "A_headgroup", "x": OAC, "y": OH, "site": "head O"},
                     {"view": "difference_card", "contrast": "A_headgroup (control: Al vs OAc)", "x": OAC, "y": AL,
                      "site": "C1-H"},
+                    # task 2's near-to-far series (amendment): chain sites the study does not test, so
+                    # each card is exploratory and needs no study card
+                    *({"view": "difference_card", "contrast": "A_headgroup", "x": OAC, "y": OH, "site": s}
+                      for s in A_SERIES),
                     {"view": "contrast_card", "label": "S. tenuis gland, Japan and Korea"},
                     {"view": "class_panel", "molecule": OAC, "taxon_id": "spa.tax.synanthedon_tenuis"}]},
         {"id": "B", "contrasts": ["B_stereo"], "title": "What E/Z does (E3 vs Z3 acetate)",
@@ -117,8 +124,10 @@ PLAN = {
                    "conformer range? Than its partition sensitivity?",
                    "Look at the extended and folded conformers of one compound side by side, on the same scale."],
          "expected": "E/Z is not resolved at any site. C3-H: different on average.",
-         "blocks": [{"view": "study_card", "contrast": "B_stereo", "site": "C3-H"},
-                    {"view": "difference_card", "contrast": "B_stereo", "x": OAC, "y": E3, "site": "C3-H"},
+         # every site task 1 names (amendment): each is tested, so its study card comes with it
+         "blocks": [*(b for s in ("C3-H", "C4-H", "head O")
+                      for b in ({"view": "study_card", "contrast": "B_stereo", "site": s},
+                                {"view": "difference_card", "contrast": "B_stereo", "x": OAC, "y": E3, "site": s})),
                     {"view": "pair_view", "left": {"slug": E3, "conformer": "conf_00"},
                      "right": {"slug": E3, "conformer": "conf_02"}}]},
         {"id": "C", "contrasts": ["C_position"], "title": "Where the double bond is (E2 vs E3 acetate)",
@@ -128,8 +137,10 @@ PLAN = {
                    "Does free-molecule ESP give a convincing reason an organism or enzyme would treat these two "
                    "compounds differently?"],
          "expected": "Resolved at C4 only. Question 2's honest answer stays no.",
-         "blocks": [{"view": "study_card", "contrast": "C_position", "site": "C4-H"},
-                    {"view": "difference_card", "contrast": "C_position", "x": E3, "y": E2, "site": "C4-H"},
+         # every site task 1 names (amendment), each tested, with its study card
+         "blocks": [*(b for s in ("C2-H", "C3-H", "C4-H")
+                      for b in ({"view": "study_card", "contrast": "C_position", "site": s},
+                                {"view": "difference_card", "contrast": "C_position", "x": E3, "y": E2, "site": s})),
                     {"view": "evidence_card", "observation_id": P + "synanthedon_tipuliformis.szocs_1990.trap_e3.hungary",
                      "molecule": E3}]},
         {"id": "D", "contrasts": [], "title": "What is missing",
