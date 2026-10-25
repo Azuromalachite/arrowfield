@@ -79,6 +79,55 @@
       "site": "C1-H"
      },
      {
+      "view": "difference_card",
+      "contrast": "A_headgroup",
+      "x": "z3_z13_18_oac",
+      "y": "z3_z13_18_oh",
+      "site": "C1-H"
+     },
+     {
+      "view": "difference_card",
+      "contrast": "A_headgroup",
+      "x": "z3_z13_18_oac",
+      "y": "z3_z13_18_oh",
+      "site": "C2-H"
+     },
+     {
+      "view": "difference_card",
+      "contrast": "A_headgroup",
+      "x": "z3_z13_18_oac",
+      "y": "z3_z13_18_oh",
+      "site": "C3-H"
+     },
+     {
+      "view": "difference_card",
+      "contrast": "A_headgroup",
+      "x": "z3_z13_18_oac",
+      "y": "z3_z13_18_oh",
+      "site": "C4-H"
+     },
+     {
+      "view": "difference_card",
+      "contrast": "A_headgroup",
+      "x": "z3_z13_18_oac",
+      "y": "z3_z13_18_oh",
+      "site": "C6-H"
+     },
+     {
+      "view": "difference_card",
+      "contrast": "A_headgroup",
+      "x": "z3_z13_18_oac",
+      "y": "z3_z13_18_oh",
+      "site": "C10-H"
+     },
+     {
+      "view": "difference_card",
+      "contrast": "A_headgroup",
+      "x": "z3_z13_18_oac",
+      "y": "z3_z13_18_oh",
+      "site": "C16-H"
+     },
+     {
       "view": "contrast_card",
       "label": "S. tenuis gland, Japan and Korea"
      },
@@ -115,6 +164,30 @@
       "site": "C3-H"
      },
      {
+      "view": "study_card",
+      "contrast": "B_stereo",
+      "site": "C4-H"
+     },
+     {
+      "view": "difference_card",
+      "contrast": "B_stereo",
+      "x": "z3_z13_18_oac",
+      "y": "e3_z13_18_oac",
+      "site": "C4-H"
+     },
+     {
+      "view": "study_card",
+      "contrast": "B_stereo",
+      "site": "head O"
+     },
+     {
+      "view": "difference_card",
+      "contrast": "B_stereo",
+      "x": "z3_z13_18_oac",
+      "y": "e3_z13_18_oac",
+      "site": "head O"
+     },
+     {
       "view": "pair_view",
       "left": {
        "slug": "e3_z13_18_oac",
@@ -140,6 +213,30 @@
     ],
     "expected": "Resolved at C4 only. Question 2's honest answer stays no.",
     "blocks": [
+     {
+      "view": "study_card",
+      "contrast": "C_position",
+      "site": "C2-H"
+     },
+     {
+      "view": "difference_card",
+      "contrast": "C_position",
+      "x": "e3_z13_18_oac",
+      "y": "e2_z13_18_oac",
+      "site": "C2-H"
+     },
+     {
+      "view": "study_card",
+      "contrast": "C_position",
+      "site": "C3-H"
+     },
+     {
+      "view": "difference_card",
+      "contrast": "C_position",
+      "x": "e3_z13_18_oac",
+      "y": "e2_z13_18_oac",
+      "site": "C3-H"
+     },
      {
       "view": "study_card",
       "contrast": "C_position",
@@ -746,7 +843,7 @@
       "acts",
       1,
       "blocks",
-      2,
+      6,
       "right",
       "conformer"
      ],
