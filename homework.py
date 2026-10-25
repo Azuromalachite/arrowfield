@@ -39,11 +39,28 @@ def _attr(x):
     return html.escape(str(x), quote=True)
 
 
+# Default_Ignorable_Code_Point (Unicode DerivedCoreProperties), and U+2800 BRAILLE PATTERN BLANK,
+# which is blank by design: characters a reader cannot see
+_BLANK = ((0x00AD, 0x00AD), (0x034F, 0x034F), (0x061C, 0x061C), (0x115F, 0x1160), (0x17B4, 0x17B5),
+          (0x180B, 0x180F), (0x200B, 0x200F), (0x202A, 0x202E), (0x2060, 0x206F), (0x2800, 0x2800),
+          (0x3164, 0x3164), (0xFE00, 0xFE0F), (0xFEFF, 0xFEFF), (0xFFA0, 0xFFA0), (0xFFF0, 0xFFF8),
+          (0x1BCA0, 0x1BCA3), (0x1D173, 0x1D17A), (0xE0000, 0xE0FFF))
+
+
 def _visible(x):
-    """Text with something to read: whitespace, NBSP and zero-width or control
-    characters alone read like "" (the rerun on #21, 318da98)."""
+    """Text with something to read: a letter, number, punctuation mark or symbol
+    a reader can see. Whitespace, fillers, variation selectors, a lone combining
+    mark or private-use character read like "" (the reruns on #21, 318da98 and
+    2a67bdd)."""
     return isinstance(x, str) and any(
-        not ch.isspace() and unicodedata.category(ch) not in ("Cc", "Cf", "Zs", "Zl", "Zp") for ch in x)
+        unicodedata.category(ch)[0] in "LNPS" and not any(lo <= ord(ch) <= hi for lo, hi in _BLANK) for ch in x)
+
+
+def _writable(x):
+    """Text a page can carry: no lone surrogate (the page could not be written
+    as UTF-8) and no control character but tab, newline and carriage return."""
+    return not any(unicodedata.category(ch) == "Cs" or (unicodedata.category(ch) == "Cc" and ch not in "\t\n\r")
+                   for ch in x)
 
 
 def _need(cond, why):
@@ -86,13 +103,18 @@ def _check_plan(plan, sources, audience):
           f"the acts must be {', '.join(ACTS)}, in that order and once each")
     # plan text is authored text: a field that is not text is refused, never shown as str(value)
     _need(plan.get("title") is None or isinstance(plan["title"], str), "plan.title is not text")
+    _need(plan.get("title") is None or _writable(plan["title"]), "plan.title holds a character no page can carry")
     for a in acts:
         for field in ("title", "expected"):
             _need(a.get(field) is None or isinstance(a[field], str), f"act {a['id']}.{field} is not text")
+            _need(a.get(field) is None or _writable(a[field]), f"act {a['id']}.{field} holds a character no page can carry")
         _need(isinstance(a.get("tasks", []), list) and all(isinstance(t, str) for t in a.get("tasks", [])),
               f"act {a['id']}.tasks must be a list of text")
         for i, t in enumerate(a.get("tasks", [])):
+            _need(_writable(t), f"act {a['id']}.tasks[{i}] holds a character no page can carry")
             _need(_visible(t), f"act {a['id']}.tasks[{i}] has nothing to read")
+        _need(not isinstance(a.get("predict"), str) or _writable(a["predict"]),
+              f"act {a['id']}.predict holds a character no page can carry")
         _need(_visible(a.get("predict")),
               f"act {a['id']} has no prediction: the reveal would come first")
         _need(isinstance(a.get("blocks"), list) and isinstance(a.get("contrasts"), list), f"act {a['id']} is malformed")
