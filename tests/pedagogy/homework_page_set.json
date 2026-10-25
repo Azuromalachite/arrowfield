@@ -1106,6 +1106,118 @@
    "requires": []
   },
   {
+   "id": "plan_act_title_none",
+   "cls": "H7 plan text",
+   "why": "The plan's acts/0/title given as None (synthetic): read as absent. The page renders without it and never prints 'None'.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "title"
+     ],
+     null
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must_not": "(?-i:\\bNone\\b)",
+     "grade": "MISLEADING",
+     "why": "a missing field is not the text 'None'"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_page_title_none",
+   "cls": "H7 plan text",
+   "why": "The plan's title given as None (synthetic): read as absent. The page renders without it and never prints 'None'.",
+   "plan_patch": [
+    [
+     [
+      "title"
+     ],
+     null
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must_not": "(?-i:\\bNone\\b)",
+     "grade": "MISLEADING",
+     "why": "a missing field is not the text 'None'"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_expected_none",
+   "cls": "H7 plan text",
+   "why": "The plan's acts/1/expected given as None (synthetic): read as absent. The page renders without it and never prints 'None'.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      1,
+      "expected"
+     ],
+     null
+    ]
+   ],
+   "source_ops": [],
+   "audience": "instructor",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must_not": "(?-i:\\bNone\\b)",
+     "grade": "MISLEADING",
+     "why": "a missing field is not the text 'None'"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
    "id": "plan_reference_two_commits",
    "cls": "H4 provenance",
    "why": "The study's plan reference names two commits ('@ 7e34658 @ deadbee'): the page cannot tell which froze the plan. It renders with the plan commit marked not recorded, never 'Plan frozen at' either one.",

@@ -289,6 +289,17 @@ for vid, path, value in (("task_not_text", ["acts", 0, "tasks", "+"], 7),
 case("plan_expected_not_text", "H7 plan text",
      "An expected answer given as a mapping, on the instructor's page: not text. Refuse.", REFUSE, "REFUSED",
      plan_patch=[(["acts", 0, "expected"], {"answer": "resolved"})], audience="instructor")
+# the rerun on #21 (09097e4): an optional text field of None reads as absent (as #13's context
+# entries do) and prints nothing; it is never the text "None"
+for vid, path, aud in ((("act_title_none", ["acts", 0, "title"], "student")),
+                       (("page_title_none", ["title"], "student")),
+                       (("expected_none", ["acts", 1, "expected"], "instructor"))):
+    case(f"plan_{vid}", "H7 plan text",
+         f"The plan's {'/'.join(map(str, path))} given as None (synthetic): read as absent. The page renders "
+         "without it and never prints 'None'.", RENDER, "RENDERED",
+         # case-sensitive: the class panel's own "none is weighed against another" is not this
+         [must_not(r"(?-i:\bNone\b)", "MISLEADING", "a missing field is not the text 'None'"), ACT_ORDER],
+         plan_patch=[(path, None)], audience=aud)
 
 # H4: a plan reference naming two commits is ambiguous: never resolved by position
 case("plan_reference_two_commits", "H4 provenance",
