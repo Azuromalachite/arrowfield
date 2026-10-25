@@ -27,3 +27,30 @@ jobs:
       - run: python build_manifest.py molecules.yaml
       - run: git diff --exit-code molecules.yaml
       - run: python -m pytest -q tests
+  # Non-blocking canary: the next espmap release, beside the pinned v0.2.1.
+  # It computes three small records with that release, then runs the whole
+  # suite plus tests/canary against them. Never a required check (branch
+  # protection requires "manifest and tests (3.12)" only), and allowed to
+  # fail: a red canary is drift to look at, not a broken build.
+  canary:
+    name: "canary: espmap v0.3.0 (non-blocking)"
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements-ci.txt
+      - run: pip install -r requirements-ci.txt
+      - run: git clone --depth 1 --branch v0.3.0 https://github.com/Azuromalachite/espmap "$RUNNER_TEMP/espmap"
+      - run: pip install "$RUNNER_TEMP/espmap"
+      - run: python tests/canary/compute_canary_records.py "$RUNNER_TEMP/espmap" "$RUNNER_TEMP/canary-records"
+        env:
+          OMP_NUM_THREADS: "2"
+      - run: python -m pytest -q tests
+        env:
+          CANARY_RECORDS: ${{ runner.temp }}/canary-records
+          CANARY_ESPMAP_VERSION: "0.3.0"
+          ESPMAP_PATH: ${{ runner.temp }}/espmap
