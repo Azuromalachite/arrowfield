@@ -469,6 +469,32 @@ for vid, op in (("study_plan_literal_none", ["study_plan", "None"]),
     case(vid, "H9 display", f"{op[0]} {op[-1]!r}: shown, but nothing a reader can tell from a missing value. Refuse.",
          REFUSE, "REFUSED", source_ops=[op])
 
+# --- round 9 on #21 (8fe0749): the record settings, shown outside verbatim spans ------------------
+# A record's xc and basis appear in the pair view's caption and the study card's scope line; its
+# solvent decides "gas phase" or "PCM <solvent>". espmap always writes xc and basis, and solvent as
+# None or a lowercase name; anything else came from another producer or a hand edit. Refuse it
+# rather than read it: never "b3lyp/None", never a gas-phase run called condensed.
+for vid, ops in (("basis_none", [["settings", "basis", None]]),
+                 ("xc_none", [["settings", "xc", None]]),
+                 ("both_none", [["settings", "xc", None], ["settings", "basis", None]]),
+                 ("basis_literal_none", [["settings", "basis", "None"]]),
+                 ("xc_literal_none", [["settings", "xc", "None"]]),
+                 ("xc_filler", [["settings", "xc", "ㅤ"]]),
+                 ("xc_empty", [["settings", "xc", ""]])):
+    case(f"record_settings_{vid}", "H9 display",
+         f"Every record's settings: {ops}. The method would read with 'None' or nothing in it. Refuse.",
+         REFUSE_F, "REFUSED", source_ops=ops)
+for vid, value in (("Gas", "Gas"), ("GAS", "GAS"), ("gas_space", "gas "), ("empty", ""), ("literal_none", "None"),
+                   ("Vacuum", "Vacuum")):
+    case(f"record_solvent_{vid}", "H9 display",
+         f"Every record's solvent is {value!r}: plainly gas phase, but not a token the page knows, so it would "
+         "read as 'PCM ...', condensed phase. Refuse, never interpret.", REFUSE_F, "REFUSED",
+         source_ops=[["settings", "solvent", value]])
+case("record_solvent_water", "H9 display",
+     "Every record's solvent is 'water': a PCM run, shown as one.", RENDER, "RENDERED",
+     [must(r"PCM water", "MISLEADING", "the solvent, named"), ACT_ORDER],
+     source_ops=[["settings", "solvent", "water"]])
+
 # H4: a plan reference naming two commits is ambiguous: never resolved by position
 case("plan_reference_two_commits", "H4 provenance",
      "The study's plan reference names two commits ('@ 7e34658 @ deadbee'): the page cannot tell which froze "

@@ -5124,6 +5124,358 @@
    "requires": []
   },
   {
+   "id": "record_settings_basis_none",
+   "cls": "H9 display",
+   "why": "Every record's settings: [['settings', 'basis', None]]. The method would read with 'None' or nothing in it. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings",
+     "basis",
+     null
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "record_settings_xc_none",
+   "cls": "H9 display",
+   "why": "Every record's settings: [['settings', 'xc', None]]. The method would read with 'None' or nothing in it. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings",
+     "xc",
+     null
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "record_settings_both_none",
+   "cls": "H9 display",
+   "why": "Every record's settings: [['settings', 'xc', None], ['settings', 'basis', None]]. The method would read with 'None' or nothing in it. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings",
+     "xc",
+     null
+    ],
+    [
+     "settings",
+     "basis",
+     null
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "record_settings_basis_literal_none",
+   "cls": "H9 display",
+   "why": "Every record's settings: [['settings', 'basis', 'None']]. The method would read with 'None' or nothing in it. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings",
+     "basis",
+     "None"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "record_settings_xc_literal_none",
+   "cls": "H9 display",
+   "why": "Every record's settings: [['settings', 'xc', 'None']]. The method would read with 'None' or nothing in it. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings",
+     "xc",
+     "None"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "record_settings_xc_filler",
+   "cls": "H9 display",
+   "why": "Every record's settings: [['settings', 'xc', 'ㅤ']]. The method would read with 'None' or nothing in it. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings",
+     "xc",
+     "ㅤ"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "record_settings_xc_empty",
+   "cls": "H9 display",
+   "why": "Every record's settings: [['settings', 'xc', '']]. The method would read with 'None' or nothing in it. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings",
+     "xc",
+     ""
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "record_solvent_Gas",
+   "cls": "H9 display",
+   "why": "Every record's solvent is 'Gas': plainly gas phase, but not a token the page knows, so it would read as 'PCM ...', condensed phase. Refuse, never interpret.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings",
+     "solvent",
+     "Gas"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "record_solvent_GAS",
+   "cls": "H9 display",
+   "why": "Every record's solvent is 'GAS': plainly gas phase, but not a token the page knows, so it would read as 'PCM ...', condensed phase. Refuse, never interpret.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings",
+     "solvent",
+     "GAS"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "record_solvent_gas_space",
+   "cls": "H9 display",
+   "why": "Every record's solvent is 'gas ': plainly gas phase, but not a token the page knows, so it would read as 'PCM ...', condensed phase. Refuse, never interpret.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings",
+     "solvent",
+     "gas "
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "record_solvent_empty",
+   "cls": "H9 display",
+   "why": "Every record's solvent is '': plainly gas phase, but not a token the page knows, so it would read as 'PCM ...', condensed phase. Refuse, never interpret.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings",
+     "solvent",
+     ""
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "record_solvent_literal_none",
+   "cls": "H9 display",
+   "why": "Every record's solvent is 'None': plainly gas phase, but not a token the page knows, so it would read as 'PCM ...', condensed phase. Refuse, never interpret.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings",
+     "solvent",
+     "None"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "record_solvent_Vacuum",
+   "cls": "H9 display",
+   "why": "Every record's solvent is 'Vacuum': plainly gas phase, but not a token the page knows, so it would read as 'PCM ...', condensed phase. Refuse, never interpret.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings",
+     "solvent",
+     "Vacuum"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "record_solvent_water",
+   "cls": "H9 display",
+   "why": "Every record's solvent is 'water': a PCM run, shown as one.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings",
+     "solvent",
+     "water"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "PCM water",
+     "grade": "MISLEADING",
+     "why": "the solvent, named"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
    "id": "plan_reference_two_commits",
    "cls": "H4 provenance",
    "why": "The study's plan reference names two commits ('@ 7e34658 @ deadbee'): the page cannot tell which froze the plan. It renders with the plan commit marked not recorded, never 'Plan frozen at' either one.",

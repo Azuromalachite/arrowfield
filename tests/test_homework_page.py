@@ -215,6 +215,11 @@ def _list_op(op, r, ensembles, conformers):
             return replace(v, provenance=replace(v.provenance, analysis_key=op[1]))
         ensembles = {k: (replace(src, analysis_key=op[1]), [rekey(v) for v in vs]) for k, (src, vs) in ensembles.items()}
         conformers = {k: rekey(v) for k, v in conformers.items()}
+    elif kind == "settings":  # one record setting (xc, basis, solvent) on every record
+        def reset(v):
+            return replace(v, provenance=replace(v.provenance, **{op[1]: op[2]}))
+        ensembles = {k: (src, [reset(v) for v in vs]) for k, (src, vs) in ensembles.items()}
+        conformers = {k: reset(v) for k, v in conformers.items()}
     else:
         raise ValueError(op)
     return r, ensembles, conformers
@@ -232,14 +237,41 @@ def _run(c):
     return "RENDERED", page
 
 
-# the probe on #21 (fe2fe08) and its reruns (318da98, 2a67bdd, 9eae791, 2b87a0a, 23d5ba2): all
-# met; only shrinks.
-XFAIL = set()
+# the probe on #21 (fe2fe08) and its reruns (318da98, 2a67bdd, 9eae791, 2b87a0a, 23d5ba2) are met.
+# Round 9 on 8fe0749: record settings (xc, basis, solvent) are shown unchecked. Only shrinks.
+XFAIL = {
+    "test_page_output_is_safe[record_settings_basis_none]",
+    "test_page_output_is_safe[record_settings_xc_none]",
+    "test_page_output_is_safe[record_settings_both_none]",
+    "test_page_output_is_safe[record_settings_basis_literal_none]",
+    "test_page_output_is_safe[record_settings_xc_literal_none]",
+    "test_page_output_is_safe[record_settings_xc_filler]",
+    "test_page_output_is_safe[record_settings_xc_empty]",
+    "test_page_output_is_safe[record_solvent_Gas]",
+    "test_page_output_is_safe[record_solvent_GAS]",
+    "test_page_output_is_safe[record_solvent_gas_space]",
+    "test_page_output_is_safe[record_solvent_empty]",
+    "test_page_output_is_safe[record_solvent_literal_none]",
+    "test_page_output_is_safe[record_solvent_Vacuum]",
+    "test_page_output_is_preferred[record_settings_basis_none]",
+    "test_page_output_is_preferred[record_settings_xc_none]",
+    "test_page_output_is_preferred[record_settings_both_none]",
+    "test_page_output_is_preferred[record_settings_basis_literal_none]",
+    "test_page_output_is_preferred[record_settings_xc_literal_none]",
+    "test_page_output_is_preferred[record_settings_xc_filler]",
+    "test_page_output_is_preferred[record_settings_xc_empty]",
+    "test_page_output_is_preferred[record_solvent_Gas]",
+    "test_page_output_is_preferred[record_solvent_GAS]",
+    "test_page_output_is_preferred[record_solvent_gas_space]",
+    "test_page_output_is_preferred[record_solvent_empty]",
+    "test_page_output_is_preferred[record_solvent_literal_none]",
+    "test_page_output_is_preferred[record_solvent_Vacuum]",
+}
 
 
 def _xfail(request, key):
     if key in XFAIL:
-        request.applymarker(pytest.mark.xfail(strict=True, reason="homework page on 23d5ba2"))
+        request.applymarker(pytest.mark.xfail(strict=True, reason="homework page on 8fe0749"))
 
 
 @pytest.mark.parametrize("c", CASES, ids=[c["id"] for c in CASES])
