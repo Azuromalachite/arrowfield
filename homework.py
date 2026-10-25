@@ -14,6 +14,7 @@ ESP difference to a biological result.
 """
 import html
 import re
+import unicodedata
 
 from model import KNOWN_VERDICT_RULES, Refused, compare
 
@@ -36,6 +37,13 @@ def _v(x):
 
 def _attr(x):
     return html.escape(str(x), quote=True)
+
+
+def _visible(x):
+    """Text with something to read: whitespace, NBSP and zero-width or control
+    characters alone read like "" (the rerun on #21, 318da98)."""
+    return isinstance(x, str) and any(
+        not ch.isspace() and unicodedata.category(ch) not in ("Cc", "Cf", "Zs", "Zl", "Zp") for ch in x)
 
 
 def _need(cond, why):
@@ -83,7 +91,9 @@ def _check_plan(plan, sources, audience):
             _need(a.get(field) is None or isinstance(a[field], str), f"act {a['id']}.{field} is not text")
         _need(isinstance(a.get("tasks", []), list) and all(isinstance(t, str) for t in a.get("tasks", [])),
               f"act {a['id']}.tasks must be a list of text")
-        _need(isinstance(a.get("predict"), str) and a["predict"].strip(),
+        for i, t in enumerate(a.get("tasks", [])):
+            _need(_visible(t), f"act {a['id']}.tasks[{i}] has nothing to read")
+        _need(_visible(a.get("predict")),
               f"act {a['id']} has no prediction: the reveal would come first")
         _need(isinstance(a.get("blocks"), list) and isinstance(a.get("contrasts"), list), f"act {a['id']} is malformed")
         _need(a["id"] != "D" or not a["blocks"], "act D is about what free-molecule ESP cannot show: it holds no view")
@@ -173,10 +183,11 @@ def page_html(plan, sources, audience="student"):
     import views as V
     bundle, study, ens, keys, views = _check_plan(plan, sources, audience)
     mols = plan["molecules"]
-    # an optional text field of None reads as absent and prints nothing, never "None"
-    body = [f'<h1>{_v(plan["title"])}</h1>'] if plan.get("title") else []
+    # an optional text field that is None or has nothing to read is absent: never "None", never
+    # an empty heading
+    body = [f'<h1>{_v(plan["title"])}</h1>'] if _visible(plan.get("title")) else []
     for act in plan["acts"]:
-        parts = [f'<section class="act" data-act="{act["id"]}"><h2>Act {act["id"]}{": " + _v(act["title"]) if act.get("title") else ""}</h2>',
+        parts = [f'<section class="act" data-act="{act["id"]}"><h2>Act {act["id"]}{": " + _v(act["title"]) if _visible(act.get("title")) else ""}</h2>',
                  f'<div class="predict"><b>Predict first:</b> {_v(act["predict"])}</div>']
         if act.get("tasks"):
             parts.append("<ol class='tasks'>" + "".join(f"<li>{_v(t)}</li>" for t in act["tasks"]) + "</ol>")
@@ -187,7 +198,7 @@ def page_html(plan, sources, audience="student"):
             parts.append(f'<section class="block" data-view="{_attr(k["view"])}" '
                          f'data-molecules="{_attr(",".join(slugs))}" data-roles="{_attr(",".join(roles))}">'
                          f"{legend}{inner}</section>")
-        if audience == "instructor" and act.get("expected"):
+        if audience == "instructor" and _visible(act.get("expected")):
             parts.append(f'<div class="expected"><b>For the instructor:</b> {_v(act["expected"])}</div>')
         parts.append("</section>")
         body.append("".join(parts))

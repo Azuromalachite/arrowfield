@@ -187,34 +187,8 @@ def _run(c):
     return "RENDERED", page
 
 
-# the probe on #21 (fe2fe08): its 10 pairs are met. The rerun on 318da98: text with no visible
-# character is shown as content (an empty heading, an empty bullet). Only shrinks.
-XFAIL = {
-    "test_a_rendered_page_meets_its_requirements[plan_page_title_blank_spaces-0]",
-    "test_a_rendered_page_meets_its_requirements[plan_act_title_blank_spaces-0]",
-    "test_a_rendered_page_meets_its_requirements[plan_expected_blank_spaces-0]",
-    "test_a_rendered_page_meets_its_requirements[plan_page_title_blank_tab_newline-0]",
-    "test_a_rendered_page_meets_its_requirements[plan_act_title_blank_tab_newline-0]",
-    "test_a_rendered_page_meets_its_requirements[plan_expected_blank_tab_newline-0]",
-    "test_a_rendered_page_meets_its_requirements[plan_page_title_blank_nbsp-0]",
-    "test_a_rendered_page_meets_its_requirements[plan_act_title_blank_nbsp-0]",
-    "test_a_rendered_page_meets_its_requirements[plan_expected_blank_nbsp-0]",
-    "test_a_rendered_page_meets_its_requirements[plan_page_title_blank_zwsp-0]",
-    "test_a_rendered_page_meets_its_requirements[plan_act_title_blank_zwsp-0]",
-    "test_a_rendered_page_meets_its_requirements[plan_expected_blank_zwsp-0]",
-    "test_page_output_is_safe[plan_task_blank_empty]",
-    "test_page_output_is_preferred[plan_task_blank_empty]",
-    "test_page_output_is_safe[plan_task_blank_spaces]",
-    "test_page_output_is_preferred[plan_task_blank_spaces]",
-    "test_page_output_is_safe[plan_task_blank_tab_newline]",
-    "test_page_output_is_preferred[plan_task_blank_tab_newline]",
-    "test_page_output_is_safe[plan_task_blank_nbsp]",
-    "test_page_output_is_preferred[plan_task_blank_nbsp]",
-    "test_page_output_is_safe[plan_task_blank_zwsp]",
-    "test_page_output_is_preferred[plan_task_blank_zwsp]",
-    "test_page_output_is_safe[plan_predict_blank_zwsp]",
-    "test_page_output_is_preferred[plan_predict_blank_zwsp]",
-}
+# the probe on #21 (fe2fe08) and its reruns (318da98): all met; only shrinks.
+XFAIL = set()
 
 
 def _xfail(request, key):
