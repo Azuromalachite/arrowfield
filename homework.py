@@ -23,6 +23,10 @@ ROLE_WORDS = {"atlas_observed": "Atlas compound",
               "teaching_control": "teaching control: a constructed molecule, not an Atlas compound"}
 VIEWS = ("study_card", "difference_card", "pair_view", "evidence_card", "contrast_card", "class_panel")
 AUDIENCES = ("student", "instructor")
+# identifier grammars (the round-8 probe on #21): ASCII, so nothing looks like something else
+SLUG = re.compile(r"[a-z][a-z0-9_]*")
+VERSION = re.compile(r"[0-9][0-9A-Za-z.+_-]*")
+ANALYSIS_KEY = re.compile(r"[0-9a-f]{8,64}")
 
 
 def _e(x):
@@ -60,12 +64,15 @@ def _visible(x):
 def _writable(x):
     """Text a page can carry: no lone surrogate (the page could not be written
     as UTF-8), no control character but tab, newline and carriage return, and no
-    noncharacter (U+FDD0-FDEF, U+xFFFE/xFFFF: an HTML parse error)."""
+    noncharacter (U+FDD0-FDEF, U+xFFFE/xFFFF: an HTML parse error), and no bidi
+    embedding, override or isolate (U+202A-202E, U+2066-2069), which reorders the
+    page's own words after it (the round-8 probe on #21)."""
     return not _UNCARRIABLE.search(x)
 
 
-# the controls (Cc) but tab, newline and CR; the surrogates (Cs); the noncharacters
-_UNCARRIABLE = re.compile("[\x00-\x08\x0b\x0c\x0e-\x1f\x7f-\x9f\ud800-\udfff﷐-﷯"
+# the controls (Cc) but tab, newline and CR; the surrogates (Cs); the bidi embeddings, overrides
+# and isolates; the noncharacters
+_UNCARRIABLE = re.compile("[\x00-\x08\x0b\x0c\x0e-\x1f\x7f-\x9f\ud800-\udfff‪-‮⁦-⁩﷐-﷯"
                           + "".join(f"{chr(p * 0x10000 + 0xFFFE)}{chr(p * 0x10000 + 0xFFFF)}" for p in range(17))
                           + "]")
 
@@ -93,7 +100,10 @@ def _check_plan(plan, sources, audience):
         _need(isinstance(slug, str) and _writable(slug), f"molecule key {slug!r} is not text a page can carry")
         _need(_visible(slug) and "," not in slug,
               f"molecule key {slug!r} names no molecule a reader can read, or names two in data-molecules")
-    _need(isinstance(study.plan, str) and _writable(study.plan) and _visible(study.plan),
+        # a slug is an identifier: lowercase ASCII, so no two molecules look alike on the page
+        _need(SLUG.fullmatch(slug) is not None and slug != "none",
+              f"molecule key {slug!r} is not a slug ({SLUG.pattern}): it could read as another molecule's")
+    _need(isinstance(study.plan, str) and _writable(study.plan) and _visible(study.plan) and study.plan.strip() != "None",
           f"the study's plan reference {study.plan!r} is not one a page can show")
     for t in study.sites:
         _need(all(isinstance(f, str) and _writable(f) for f in (t.contrast, t.site, t.x, t.y)),
@@ -145,10 +155,11 @@ def _check_plan(plan, sources, audience):
     views = [v for _, vs in ens.values() for v in vs] + list((sources.get("conformers") or {}).values())
     for v in views:
         ver = v.provenance.espmap_version
-        _need(ver is None or (isinstance(ver, str) and _writable(ver)),
-              f"{v.provenance.source}: espmap version {ver!r} is not text a page can carry")
-        _need(isinstance(v.analysis_key, str) and _writable(v.analysis_key) and _visible(v.analysis_key),
-              f"{v.provenance.source}: analysis key {v.analysis_key!r} is not one a page can show")
+        # identifiers have a grammar, so none holds the footer's separators or its "not recorded"
+        _need(ver is None or (isinstance(ver, str) and VERSION.fullmatch(ver) is not None),
+              f"{v.provenance.source}: espmap version {ver!r} is not a version ({VERSION.pattern})")
+        _need(isinstance(v.analysis_key, str) and ANALYSIS_KEY.fullmatch(v.analysis_key) is not None,
+              f"{v.provenance.source}: analysis key {v.analysis_key!r} is not one ({ANALYSIS_KEY.pattern})")
     keys = {v.analysis_key for v in views}
     _need(len(keys) == 1, f"the page's molecules carry {len(keys)} analysis keys; the homework uses one throughout")
     return bundle, study, ens, keys, views
@@ -273,4 +284,11 @@ def page_html(plan, sources, audience="student"):
     bad = _UNCARRIABLE.search(page)
     _need(bad is None, f"a source field holds {bad.group()!r} (near {page[max(0, bad.start() - 40):bad.start()]!r}): "
                        "not text a page can carry" if bad is not None else "")
+    # and every piece of source or plan text shown has something to read and is not the literal
+    # "None", which a reader cannot tell from a missing value (the round-8 probe on #21)
+    for m in re.finditer(r'<span class="verbatim">([^<]*)</span>', page):
+        shown = html.unescape(m.group(1))
+        _need(_visible(shown) and shown.strip() != "None",
+              f"source text {shown!r} is shown (near {html.unescape(page[max(0, m.start() - 60):m.start()])!r}), "
+              "but a reader cannot tell it from a missing value")
     return page
