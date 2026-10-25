@@ -16,7 +16,7 @@ import html
 import re
 import unicodedata
 
-from model import KNOWN_VERDICT_RULES, Refused, compare, protocol, protocol_problems, protocol_words
+from model import KNOWN_VERDICT_RULES, STUDY_KEYS, Refused, compare, protocol, protocol_problems, protocol_words
 
 ACTS = ("A", "B", "C", "D")
 ROLE_WORDS = {"atlas_observed": "Atlas compound",
@@ -182,6 +182,11 @@ def _check_plan(plan, sources, audience):
         _need(v.provenance.xc is not None, f"{key}: the record states no method, and the pair view names it")
     keys = {v.analysis_key for v in views}
     _need(len(keys) == 1, f"the page's molecules carry {len(keys)} analysis keys; the homework uses one throughout")
+    # the records are the study's: its study cards scope its verdicts under its protocol, never
+    # another's (the fresh probe on #21, 565e303)
+    _need(keys == {STUDY_KEYS.get(study.verdict_rule)},
+          f"the page's records are under analysis key {next(iter(keys))}, and {study.verdict_rule} was decided under "
+          f"{STUDY_KEYS.get(study.verdict_rule)}: they are not that study's records")
     return bundle, study, ens, keys, views
 
 
@@ -189,9 +194,12 @@ def _study_context(study, plan, x, y, views):
     # the plan commit only when the reference names exactly one: two are ambiguous, and
     # are never resolved by position (the probe on #21); the card then says it is not recorded
     commits = re.findall(r"@ ([0-9a-f]{7,40})\b", study.plan or "")
-    # every record's protocol is verified and they share one key, so any record names it
+    # every record's protocol is verified and they share the study's key, so any record names the
+    # study's protocol; its solvent is stated, never left "not stated"
     method, solvent = protocol_words(views[0].provenance)
-    lim = {"method": method, "phase": "gas" if solvent is None else "condensed"}
+    lim = {"method": method, "phase": "gas" if solvent is None else "condensed",
+           "solvent": ("none: the gas phase only (solvent effects not studied)" if solvent is None
+                       else f"PCM {solvent} only (other solvents and the gas phase not studied)")}
     return {"provenance": {"results_sha256": study.sha256, "plan_commit": commits[0] if len(commits) == 1 else None},
             "molecules": {s: plan["molecules"][s]["role"] for s in (x, y)}, "limitations": lim}
 

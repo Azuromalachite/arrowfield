@@ -922,6 +922,11 @@ class TeachingCase:
 # The verdict rules Arrowfield knows how to show; a study row under any other
 # rule is refused, never shown as that study's.
 KNOWN_VERDICT_RULES = ("espmap-sesiidae-001/range_partition_sign_v1",)
+# The analysis key each frozen study was decided under. Its results file names none, so it is pinned
+# here, as its rule is: espmap-sesiidae-001's plan (section 3 at Atlas 7e34658) fixes B3LYP/def2-SVP
+# + RI, gas phase, one analysis_key, and its ensembles' indexes carry this one. A page's records under
+# another key are not that study's, and its verdicts are never scoped under their protocol.
+STUDY_KEYS = {"espmap-sesiidae-001/range_partition_sign_v1": "d0f5ed136cda12ada8c6324a79ec9f7e79134d2f"}
 CONDITIONS = ("1_ranges_disjoint", "2_beyond_partition", "3_same_sign")
 
 
