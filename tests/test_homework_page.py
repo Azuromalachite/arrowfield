@@ -320,18 +320,9 @@ def _run(c):
 
 
 # the probe on #21 (fe2fe08), its reruns (318da98, 2a67bdd, 9eae791, 2b87a0a, 23d5ba2, 8fe0749,
-# 64b5fa2, 7fb0bed, b6f7f66, f082152) and the fresh probe on 565e303 are met. The fresh probe on
-# e17af42: 'basis sensitivity: not stated'; member counts other than the study's. Only shrinks.
-XFAIL = {
-    "test_page_output_is_safe[study_members_first_ten_each]",
-    "test_page_output_is_safe[study_members_e3_nineteen]",
-    "test_page_output_is_preferred[study_members_first_ten_each]",
-    "test_page_output_is_preferred[study_members_e3_nineteen]",
-    "test_a_rendered_page_meets_its_requirements[real_plan_student-7]",
-    "test_a_rendered_page_meets_its_requirements[real_plan_student-8]",
-    "test_a_rendered_page_meets_its_requirements[real_plan_instructor-7]",
-    "test_a_rendered_page_meets_its_requirements[real_plan_instructor-8]",
-}
+# 64b5fa2, 7fb0bed, b6f7f66, f082152) and the fresh probes on 565e303 and e17af42: all met; only
+# shrinks.
+XFAIL = set()
 
 
 def _xfail(request, key):

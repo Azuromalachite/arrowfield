@@ -927,6 +927,9 @@ KNOWN_VERDICT_RULES = ("espmap-sesiidae-001/range_partition_sign_v1",)
 # + RI, gas phase, one analysis_key, and its ensembles' indexes carry this one. A page's records under
 # another key are not that study's, and its verdicts are never scoped under their protocol.
 STUDY_KEYS = {"espmap-sesiidae-001/range_partition_sign_v1": "d0f5ed136cda12ada8c6324a79ec9f7e79134d2f"}
+# What each frozen study says it did not run, in its own words, for its study cards' limits: the
+# def2-TZVP check was optional (plan section 6) and its results.md reports it "not run".
+STUDY_LIMITS = {"espmap-sesiidae-001/range_partition_sign_v1": {"basis_sensitivity": "not run (plan §6)"}}
 CONDITIONS = ("1_ranges_disjoint", "2_beyond_partition", "3_same_sign")
 
 

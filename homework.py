@@ -16,7 +16,7 @@ import html
 import re
 import unicodedata
 
-from model import KNOWN_VERDICT_RULES, STUDY_KEYS, Refused, compare, protocol, protocol_problems, protocol_words
+from model import KNOWN_VERDICT_RULES, STUDY_KEYS, STUDY_LIMITS, Refused, compare, protocol, protocol_problems, protocol_words
 
 ACTS = ("A", "B", "C", "D")
 ROLE_WORDS = {"atlas_observed": "Atlas compound",
@@ -187,6 +187,18 @@ def _check_plan(plan, sources, audience):
     _need(keys == {STUDY_KEYS.get(study.verdict_rule)},
           f"the page's records are under analysis key {next(iter(keys))}, and {study.verdict_rule} was decided under "
           f"{STUDY_KEYS.get(study.verdict_rule)}: they are not that study's records")
+    # and each of the study's Atlas molecules is shown on its member count: a count other than the
+    # study's n_ok proves the members are not the study's (the user's decision after the fresh probe
+    # on e17af42). An equal count proves no more than that; the results carry no member ids. The
+    # teaching control is not one of the study's Atlas molecules
+    for slug, m in plan["molecules"].items():
+        if m["role"] != "atlas_observed":
+            continue
+        n_ok = (study.molecules.get(slug) or {}).get("n_ok")
+        _need(isinstance(n_ok, int), f"{slug}: {study.verdict_rule} reports no member count for this molecule")
+        _need(len(ens[slug][1]) == n_ok,
+              f"{slug}: the page's ensemble has {len(ens[slug][1])} members; this study reports {n_ok} for this "
+              "molecule, so its cards would not be the evidence the study decided on")
     return bundle, study, ens, keys, views
 
 
@@ -199,7 +211,8 @@ def _study_context(study, plan, x, y, views):
     method, solvent = protocol_words(views[0].provenance)
     lim = {"method": method, "phase": "gas" if solvent is None else "condensed",
            "solvent": ("none: the gas phase only (solvent effects not studied)" if solvent is None
-                       else f"PCM {solvent} only (other solvents and the gas phase not studied)")}
+                       else f"PCM {solvent} only (other solvents and the gas phase not studied)"),
+           **STUDY_LIMITS.get(study.verdict_rule, {})}
     return {"provenance": {"results_sha256": study.sha256, "plan_commit": commits[0] if len(commits) == 1 else None},
             "molecules": {s: plan["molecules"][s]["role"] for s in (x, y)}, "limitations": lim}
 
