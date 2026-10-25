@@ -1833,6 +1833,1632 @@
    "requires": []
   },
   {
+   "id": "plan_predict_invisible_cgj",
+   "cls": "H7 plan text",
+   "why": "A prediction that is only '͏': nothing to read, so the reveal would come first. Refuse.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      1,
+      "predict"
+     ],
+     "͏"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_predict_invisible_vs16",
+   "cls": "H7 plan text",
+   "why": "A prediction that is only '️': nothing to read, so the reveal would come first. Refuse.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      1,
+      "predict"
+     ],
+     "️"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_predict_invisible_vs17",
+   "cls": "H7 plan text",
+   "why": "A prediction that is only '󠄀': nothing to read, so the reveal would come first. Refuse.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      1,
+      "predict"
+     ],
+     "󠄀"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_predict_invisible_mongolian_fvs1",
+   "cls": "H7 plan text",
+   "why": "A prediction that is only '᠋': nothing to read, so the reveal would come first. Refuse.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      1,
+      "predict"
+     ],
+     "᠋"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_predict_invisible_khmer_aq",
+   "cls": "H7 plan text",
+   "why": "A prediction that is only '឴': nothing to read, so the reveal would come first. Refuse.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      1,
+      "predict"
+     ],
+     "឴"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_predict_invisible_hangul_filler",
+   "cls": "H7 plan text",
+   "why": "A prediction that is only 'ㅤ': nothing to read, so the reveal would come first. Refuse.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      1,
+      "predict"
+     ],
+     "ㅤ"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_predict_invisible_hangul_choseong_filler",
+   "cls": "H7 plan text",
+   "why": "A prediction that is only 'ᅟ': nothing to read, so the reveal would come first. Refuse.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      1,
+      "predict"
+     ],
+     "ᅟ"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_predict_invisible_hangul_jungseong_filler",
+   "cls": "H7 plan text",
+   "why": "A prediction that is only 'ᅠ': nothing to read, so the reveal would come first. Refuse.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      1,
+      "predict"
+     ],
+     "ᅠ"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_predict_invisible_halfwidth_hangul_filler",
+   "cls": "H7 plan text",
+   "why": "A prediction that is only 'ﾠ': nothing to read, so the reveal would come first. Refuse.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      1,
+      "predict"
+     ],
+     "ﾠ"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_predict_invisible_braille_blank",
+   "cls": "H7 plan text",
+   "why": "A prediction that is only '⠀': nothing to read, so the reveal would come first. Refuse.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      1,
+      "predict"
+     ],
+     "⠀"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_predict_invisible_mix",
+   "cls": "H7 plan text",
+   "why": "A prediction that is only 'ㅤ⠀\\u200b \\xa0': nothing to read, so the reveal would come first. Refuse.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      1,
+      "predict"
+     ],
+     "ㅤ⠀​  "
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_predict_invisible_combining_acute",
+   "cls": "H7 plan text",
+   "why": "A prediction that is only '́': nothing to read, so the reveal would come first. Refuse.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      1,
+      "predict"
+     ],
+     "́"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_predict_invisible_private_use",
+   "cls": "H7 plan text",
+   "why": "A prediction that is only '\\U000f0000': nothing to read, so the reveal would come first. Refuse.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      1,
+      "predict"
+     ],
+     "󰀀"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_page_title_invisible_hangul_filler",
+   "cls": "H7 plan text",
+   "why": "The plan's title is 'ㅤ', nothing to read: absent.",
+   "plan_patch": [
+    [
+     [
+      "title"
+     ],
+     "ㅤ"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_act_title_invisible_hangul_filler",
+   "cls": "H7 plan text",
+   "why": "The plan's acts/0/title is 'ㅤ', nothing to read: absent.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "title"
+     ],
+     "ㅤ"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_expected_invisible_hangul_filler",
+   "cls": "H7 plan text",
+   "why": "The plan's acts/2/expected is 'ㅤ', nothing to read: absent.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      2,
+      "expected"
+     ],
+     "ㅤ"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "instructor",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_task_invisible_hangul_filler",
+   "cls": "H7 plan text",
+   "why": "A task 'ㅤ': an empty bullet. Refuse, naming where.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "tasks",
+      "+"
+     ],
+     "ㅤ"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_page_title_invisible_hangul_choseong_filler",
+   "cls": "H7 plan text",
+   "why": "The plan's title is 'ᅟ', nothing to read: absent.",
+   "plan_patch": [
+    [
+     [
+      "title"
+     ],
+     "ᅟ"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_act_title_invisible_hangul_choseong_filler",
+   "cls": "H7 plan text",
+   "why": "The plan's acts/0/title is 'ᅟ', nothing to read: absent.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "title"
+     ],
+     "ᅟ"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_expected_invisible_hangul_choseong_filler",
+   "cls": "H7 plan text",
+   "why": "The plan's acts/2/expected is 'ᅟ', nothing to read: absent.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      2,
+      "expected"
+     ],
+     "ᅟ"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "instructor",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_task_invisible_hangul_choseong_filler",
+   "cls": "H7 plan text",
+   "why": "A task 'ᅟ': an empty bullet. Refuse, naming where.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "tasks",
+      "+"
+     ],
+     "ᅟ"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_page_title_invisible_hangul_jungseong_filler",
+   "cls": "H7 plan text",
+   "why": "The plan's title is 'ᅠ', nothing to read: absent.",
+   "plan_patch": [
+    [
+     [
+      "title"
+     ],
+     "ᅠ"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_act_title_invisible_hangul_jungseong_filler",
+   "cls": "H7 plan text",
+   "why": "The plan's acts/0/title is 'ᅠ', nothing to read: absent.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "title"
+     ],
+     "ᅠ"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_expected_invisible_hangul_jungseong_filler",
+   "cls": "H7 plan text",
+   "why": "The plan's acts/2/expected is 'ᅠ', nothing to read: absent.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      2,
+      "expected"
+     ],
+     "ᅠ"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "instructor",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_task_invisible_hangul_jungseong_filler",
+   "cls": "H7 plan text",
+   "why": "A task 'ᅠ': an empty bullet. Refuse, naming where.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "tasks",
+      "+"
+     ],
+     "ᅠ"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_page_title_invisible_halfwidth_hangul_filler",
+   "cls": "H7 plan text",
+   "why": "The plan's title is 'ﾠ', nothing to read: absent.",
+   "plan_patch": [
+    [
+     [
+      "title"
+     ],
+     "ﾠ"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_act_title_invisible_halfwidth_hangul_filler",
+   "cls": "H7 plan text",
+   "why": "The plan's acts/0/title is 'ﾠ', nothing to read: absent.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "title"
+     ],
+     "ﾠ"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_expected_invisible_halfwidth_hangul_filler",
+   "cls": "H7 plan text",
+   "why": "The plan's acts/2/expected is 'ﾠ', nothing to read: absent.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      2,
+      "expected"
+     ],
+     "ﾠ"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "instructor",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_task_invisible_halfwidth_hangul_filler",
+   "cls": "H7 plan text",
+   "why": "A task 'ﾠ': an empty bullet. Refuse, naming where.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "tasks",
+      "+"
+     ],
+     "ﾠ"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_page_title_invisible_braille_blank",
+   "cls": "H7 plan text",
+   "why": "The plan's title is '⠀', nothing to read: absent.",
+   "plan_patch": [
+    [
+     [
+      "title"
+     ],
+     "⠀"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_act_title_invisible_braille_blank",
+   "cls": "H7 plan text",
+   "why": "The plan's acts/0/title is '⠀', nothing to read: absent.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "title"
+     ],
+     "⠀"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_expected_invisible_braille_blank",
+   "cls": "H7 plan text",
+   "why": "The plan's acts/2/expected is '⠀', nothing to read: absent.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      2,
+      "expected"
+     ],
+     "⠀"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "instructor",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_task_invisible_braille_blank",
+   "cls": "H7 plan text",
+   "why": "A task '⠀': an empty bullet. Refuse, naming where.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "tasks",
+      "+"
+     ],
+     "⠀"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_page_title_invisible_mix",
+   "cls": "H7 plan text",
+   "why": "The plan's title is 'ㅤ⠀\\u200b \\xa0', nothing to read: absent.",
+   "plan_patch": [
+    [
+     [
+      "title"
+     ],
+     "ㅤ⠀​  "
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_act_title_invisible_mix",
+   "cls": "H7 plan text",
+   "why": "The plan's acts/0/title is 'ㅤ⠀\\u200b \\xa0', nothing to read: absent.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "title"
+     ],
+     "ㅤ⠀​  "
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_expected_invisible_mix",
+   "cls": "H7 plan text",
+   "why": "The plan's acts/2/expected is 'ㅤ⠀\\u200b \\xa0', nothing to read: absent.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      2,
+      "expected"
+     ],
+     "ㅤ⠀​  "
+    ]
+   ],
+   "source_ops": [],
+   "audience": "instructor",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_task_invisible_mix",
+   "cls": "H7 plan text",
+   "why": "A task 'ㅤ⠀\\u200b \\xa0': an empty bullet. Refuse, naming where.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "tasks",
+      "+"
+     ],
+     "ㅤ⠀​  "
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_page_title_invisible_combining_acute",
+   "cls": "H7 plan text",
+   "why": "The plan's title is '́', nothing to read: absent.",
+   "plan_patch": [
+    [
+     [
+      "title"
+     ],
+     "́"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_act_title_invisible_combining_acute",
+   "cls": "H7 plan text",
+   "why": "The plan's acts/0/title is '́', nothing to read: absent.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "title"
+     ],
+     "́"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_expected_invisible_combining_acute",
+   "cls": "H7 plan text",
+   "why": "The plan's acts/2/expected is '́', nothing to read: absent.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      2,
+      "expected"
+     ],
+     "́"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "instructor",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_task_invisible_combining_acute",
+   "cls": "H7 plan text",
+   "why": "A task '́': an empty bullet. Refuse, naming where.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "tasks",
+      "+"
+     ],
+     "́"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_page_title_invisible_private_use",
+   "cls": "H7 plan text",
+   "why": "The plan's title is '\\U000f0000', nothing to read: absent.",
+   "plan_patch": [
+    [
+     [
+      "title"
+     ],
+     "󰀀"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_act_title_invisible_private_use",
+   "cls": "H7 plan text",
+   "why": "The plan's acts/0/title is '\\U000f0000', nothing to read: absent.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "title"
+     ],
+     "󰀀"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_expected_invisible_private_use",
+   "cls": "H7 plan text",
+   "why": "The plan's acts/2/expected is '\\U000f0000', nothing to read: absent.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      2,
+      "expected"
+     ],
+     "󰀀"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "instructor",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_task_invisible_private_use",
+   "cls": "H7 plan text",
+   "why": "A task '\\U000f0000': an empty bullet. Refuse, naming where.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "tasks",
+      "+"
+     ],
+     "󰀀"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_title_lone_surrogate",
+   "cls": "H7 plan text",
+   "why": "The plan's title is '\\ud800': not writable text. Refuse, naming where.",
+   "plan_patch": [
+    [
+     [
+      "title"
+     ],
+     "\ud800"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_title_inner_surrogate",
+   "cls": "H7 plan text",
+   "why": "The plan's title is 'A\\ud800B': not writable text. Refuse, naming where.",
+   "plan_patch": [
+    [
+     [
+      "title"
+     ],
+     "A\ud800B"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_predict_inner_surrogate",
+   "cls": "H7 plan text",
+   "why": "The plan's predict is 'Which is \\udfff more negative?': not writable text. Refuse, naming where.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      1,
+      "predict"
+     ],
+     "Which is \udfff more negative?"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_title_nul",
+   "cls": "H7 plan text",
+   "why": "The plan's title is 'Homework\\x00one': not writable text. Refuse, naming where.",
+   "plan_patch": [
+    [
+     [
+      "title"
+     ],
+     "Homework\u0000one"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_title_esc",
+   "cls": "H7 plan text",
+   "why": "The plan's title is 'Homework\\x1b[31m one': not writable text. Refuse, naming where.",
+   "plan_patch": [
+    [
+     [
+      "title"
+     ],
+     "Homework\u001b[31m one"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_task_vt",
+   "cls": "H7 plan text",
+   "why": "The plan's task is 'Compare\\x0bthe two maps.': not writable text. Refuse, naming where.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "tasks",
+      "+"
+     ],
+     "Compare\u000bthe two maps."
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
    "id": "plan_reference_two_commits",
    "cls": "H4 provenance",
    "why": "The study's plan reference names two commits ('@ 7e34658 @ deadbee'): the page cannot tell which froze the plan. It renders with the plan commit marked not recorded, never 'Plan frozen at' either one.",

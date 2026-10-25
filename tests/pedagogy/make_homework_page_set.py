@@ -320,6 +320,40 @@ for bid, blank in (("empty", ""),) + BLANKS:
 case("plan_predict_blank_zwsp", "H7 plan text",
      "A prediction that is only a zero-width space: no prediction, so the reveal would come first. Refuse.",
      REFUSE_F, "REFUSED", plan_patch=[(["acts", 1, "predict"], "​")])
+# the rerun on #21 (2a67bdd): "something to read" is a letter, number, punctuation mark or symbol
+# that is not default-ignorable and not the braille blank. Fillers, variation selectors, a lone
+# combining mark and a lone private-use character have nothing to read.
+INVISIBLE = (("cgj", "͏"), ("vs16", "️"), ("vs17", "\U000e0100"), ("mongolian_fvs1", "᠋"),
+             ("khmer_aq", "឴"), ("hangul_filler", "ㅤ"), ("hangul_choseong_filler", "ᅟ"),
+             ("hangul_jungseong_filler", "ᅠ"), ("halfwidth_hangul_filler", "ﾠ"),
+             ("braille_blank", "⠀"), ("mix", "ㅤ⠀​  "),
+             ("combining_acute", "́"), ("private_use", "\U000f0000"))
+for bid, blank in INVISIBLE:
+    case(f"plan_predict_invisible_{bid}", "H7 plan text",
+         f"A prediction that is only {blank!r}: nothing to read, so the reveal would come first. Refuse.",
+         REFUSE_F, "REFUSED", plan_patch=[(["acts", 1, "predict"], blank)])
+for bid, blank in INVISIBLE[5:]:  # the fillers, the braille blank, the mix, a lone mark, a lone private-use
+    for vid, path, aud in (("page_title", ["title"], "student"),
+                           ("act_title", ["acts", 0, "title"], "student"),
+                           ("expected", ["acts", 2, "expected"], "instructor")):
+        case(f"plan_{vid}_invisible_{bid}", "H7 plan text",
+             f"The plan's {'/'.join(map(str, path))} is {blank!r}, nothing to read: absent.", RENDER, "RENDERED",
+             [check("no_blank_text", "MISLEADING", "every shown piece of plan text has something to read"),
+              ACT_ORDER], plan_patch=[(path, blank)], audience=aud)
+    case(f"plan_task_invisible_{bid}", "H7 plan text",
+         f"A task {blank!r}: an empty bullet. Refuse, naming where.",
+         REFUSE, "REFUSED", plan_patch=[(["acts", 0, "tasks", "+"], blank)])
+# text that cannot be written as UTF-8 (a lone surrogate, which json.loads makes from "\ud800"), or
+# that carries a control character other than tab, newline and carriage return, is not text
+for vid, path, value in (("title_lone_surrogate", ["title"], "\ud800"),
+                         ("title_inner_surrogate", ["title"], "A\ud800B"),
+                         ("predict_inner_surrogate", ["acts", 1, "predict"], "Which is \udfff more negative?"),
+                         ("title_nul", ["title"], "Homework\x00one"),
+                         ("title_esc", ["title"], "Homework\x1b[31m one"),
+                         ("task_vt", ["acts", 0, "tasks", "+"], "Compare\x0bthe two maps.")):
+    case(f"plan_{vid}", "H7 plan text",
+         f"The plan's {path[-1] if path[-1] != '+' else 'task'} is {value!r}: not writable text. Refuse, naming where.",
+         REFUSE, "REFUSED", plan_patch=[(path, value)])
 
 # H4: a plan reference naming two commits is ambiguous: never resolved by position
 case("plan_reference_two_commits", "H4 provenance",
@@ -346,8 +380,11 @@ def document():
             assert sum(k in q for k in ("must", "must_not", "check")) == 1 and q["grade"] in GRADES
             assert "check" not in q or q["check"] in CHECKS
         assert c["audience"] in ("student", "instructor")
-    return json.dumps({"generator": "tests/pedagogy/make_homework_page_set.py", "grades": list(GRADES),
-                       "drop": DROP, "plan": PLAN, "cases": CASES}, indent=1, ensure_ascii=False) + "\n"
+    s = json.dumps({"generator": "tests/pedagogy/make_homework_page_set.py", "grades": list(GRADES),
+                    "drop": DROP, "plan": PLAN, "cases": CASES}, indent=1, ensure_ascii=False) + "\n"
+    # a lone surrogate cannot be written as UTF-8: keep it as a JSON escape, which json.load turns
+    # back into the lone surrogate, the way a plan read from JSON would carry one
+    return re.sub("[\ud800-\udfff]", lambda m: f"\\u{ord(m.group()):04x}", s)
 
 
 if __name__ == "__main__":

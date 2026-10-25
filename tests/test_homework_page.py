@@ -187,13 +187,94 @@ def _run(c):
     return "RENDERED", page
 
 
-# the probe on #21 (fe2fe08) and its reruns (318da98): all met; only shrinks.
-XFAIL = set()
+# the probe on #21 (fe2fe08) and its reruns (318da98) are met. The rerun on 2a67bdd: fillers,
+# the braille blank, a lone mark or private-use character pass as text; a lone surrogate or a raw
+# control character is accepted. Only shrinks.
+XFAIL = {
+    "test_page_output_is_safe[plan_predict_invisible_cgj]",
+    "test_page_output_is_safe[plan_predict_invisible_vs16]",
+    "test_page_output_is_safe[plan_predict_invisible_vs17]",
+    "test_page_output_is_safe[plan_predict_invisible_mongolian_fvs1]",
+    "test_page_output_is_safe[plan_predict_invisible_khmer_aq]",
+    "test_page_output_is_safe[plan_predict_invisible_hangul_filler]",
+    "test_page_output_is_safe[plan_predict_invisible_hangul_choseong_filler]",
+    "test_page_output_is_safe[plan_predict_invisible_hangul_jungseong_filler]",
+    "test_page_output_is_safe[plan_predict_invisible_halfwidth_hangul_filler]",
+    "test_page_output_is_safe[plan_predict_invisible_braille_blank]",
+    "test_page_output_is_safe[plan_predict_invisible_mix]",
+    "test_page_output_is_safe[plan_predict_invisible_combining_acute]",
+    "test_page_output_is_safe[plan_predict_invisible_private_use]",
+    "test_page_output_is_safe[plan_task_invisible_hangul_filler]",
+    "test_page_output_is_safe[plan_task_invisible_hangul_choseong_filler]",
+    "test_page_output_is_safe[plan_task_invisible_hangul_jungseong_filler]",
+    "test_page_output_is_safe[plan_task_invisible_halfwidth_hangul_filler]",
+    "test_page_output_is_safe[plan_task_invisible_braille_blank]",
+    "test_page_output_is_safe[plan_task_invisible_mix]",
+    "test_page_output_is_safe[plan_task_invisible_combining_acute]",
+    "test_page_output_is_safe[plan_task_invisible_private_use]",
+    "test_page_output_is_safe[plan_title_lone_surrogate]",
+    "test_page_output_is_safe[plan_title_inner_surrogate]",
+    "test_page_output_is_safe[plan_predict_inner_surrogate]",
+    "test_page_output_is_safe[plan_title_nul]",
+    "test_page_output_is_safe[plan_title_esc]",
+    "test_page_output_is_safe[plan_task_vt]",
+    "test_page_output_is_preferred[plan_predict_invisible_cgj]",
+    "test_page_output_is_preferred[plan_predict_invisible_vs16]",
+    "test_page_output_is_preferred[plan_predict_invisible_vs17]",
+    "test_page_output_is_preferred[plan_predict_invisible_mongolian_fvs1]",
+    "test_page_output_is_preferred[plan_predict_invisible_khmer_aq]",
+    "test_page_output_is_preferred[plan_predict_invisible_hangul_filler]",
+    "test_page_output_is_preferred[plan_predict_invisible_hangul_choseong_filler]",
+    "test_page_output_is_preferred[plan_predict_invisible_hangul_jungseong_filler]",
+    "test_page_output_is_preferred[plan_predict_invisible_halfwidth_hangul_filler]",
+    "test_page_output_is_preferred[plan_predict_invisible_braille_blank]",
+    "test_page_output_is_preferred[plan_predict_invisible_mix]",
+    "test_page_output_is_preferred[plan_predict_invisible_combining_acute]",
+    "test_page_output_is_preferred[plan_predict_invisible_private_use]",
+    "test_page_output_is_preferred[plan_task_invisible_hangul_filler]",
+    "test_page_output_is_preferred[plan_task_invisible_hangul_choseong_filler]",
+    "test_page_output_is_preferred[plan_task_invisible_hangul_jungseong_filler]",
+    "test_page_output_is_preferred[plan_task_invisible_halfwidth_hangul_filler]",
+    "test_page_output_is_preferred[plan_task_invisible_braille_blank]",
+    "test_page_output_is_preferred[plan_task_invisible_mix]",
+    "test_page_output_is_preferred[plan_task_invisible_combining_acute]",
+    "test_page_output_is_preferred[plan_task_invisible_private_use]",
+    "test_page_output_is_preferred[plan_title_lone_surrogate]",
+    "test_page_output_is_preferred[plan_title_inner_surrogate]",
+    "test_page_output_is_preferred[plan_predict_inner_surrogate]",
+    "test_page_output_is_preferred[plan_title_nul]",
+    "test_page_output_is_preferred[plan_title_esc]",
+    "test_page_output_is_preferred[plan_task_vt]",
+    "test_a_rendered_page_meets_its_requirements[plan_page_title_invisible_hangul_filler-0]",
+    "test_a_rendered_page_meets_its_requirements[plan_act_title_invisible_hangul_filler-0]",
+    "test_a_rendered_page_meets_its_requirements[plan_expected_invisible_hangul_filler-0]",
+    "test_a_rendered_page_meets_its_requirements[plan_page_title_invisible_hangul_choseong_filler-0]",
+    "test_a_rendered_page_meets_its_requirements[plan_act_title_invisible_hangul_choseong_filler-0]",
+    "test_a_rendered_page_meets_its_requirements[plan_expected_invisible_hangul_choseong_filler-0]",
+    "test_a_rendered_page_meets_its_requirements[plan_page_title_invisible_hangul_jungseong_filler-0]",
+    "test_a_rendered_page_meets_its_requirements[plan_act_title_invisible_hangul_jungseong_filler-0]",
+    "test_a_rendered_page_meets_its_requirements[plan_expected_invisible_hangul_jungseong_filler-0]",
+    "test_a_rendered_page_meets_its_requirements[plan_page_title_invisible_halfwidth_hangul_filler-0]",
+    "test_a_rendered_page_meets_its_requirements[plan_act_title_invisible_halfwidth_hangul_filler-0]",
+    "test_a_rendered_page_meets_its_requirements[plan_expected_invisible_halfwidth_hangul_filler-0]",
+    "test_a_rendered_page_meets_its_requirements[plan_page_title_invisible_braille_blank-0]",
+    "test_a_rendered_page_meets_its_requirements[plan_act_title_invisible_braille_blank-0]",
+    "test_a_rendered_page_meets_its_requirements[plan_expected_invisible_braille_blank-0]",
+    "test_a_rendered_page_meets_its_requirements[plan_page_title_invisible_mix-0]",
+    "test_a_rendered_page_meets_its_requirements[plan_act_title_invisible_mix-0]",
+    "test_a_rendered_page_meets_its_requirements[plan_expected_invisible_mix-0]",
+    "test_a_rendered_page_meets_its_requirements[plan_page_title_invisible_combining_acute-0]",
+    "test_a_rendered_page_meets_its_requirements[plan_act_title_invisible_combining_acute-0]",
+    "test_a_rendered_page_meets_its_requirements[plan_expected_invisible_combining_acute-0]",
+    "test_a_rendered_page_meets_its_requirements[plan_page_title_invisible_private_use-0]",
+    "test_a_rendered_page_meets_its_requirements[plan_act_title_invisible_private_use-0]",
+    "test_a_rendered_page_meets_its_requirements[plan_expected_invisible_private_use-0]",
+}
 
 
 def _xfail(request, key):
     if key in XFAIL:
-        request.applymarker(pytest.mark.xfail(strict=True, reason="homework page on 318da98"))
+        request.applymarker(pytest.mark.xfail(strict=True, reason="homework page on 2a67bdd"))
 
 
 @pytest.mark.parametrize("c", CASES, ids=[c["id"] for c in CASES])
@@ -241,6 +322,18 @@ class _Page(HTMLParser):
         return " ".join(d for inside, d in self.text if not (inside & exclude))
 
 
+# Default_Ignorable_Code_Point (Unicode 15.1 DerivedCoreProperties.txt), plus U+2800 BRAILLE
+# PATTERN BLANK, blank by design
+_IGNORABLE = ((0x00AD, 0x00AD), (0x034F, 0x034F), (0x061C, 0x061C), (0x115F, 0x1160), (0x17B4, 0x17B5),
+              (0x180B, 0x180F), (0x200B, 0x200F), (0x202A, 0x202E), (0x2060, 0x206F), (0x2800, 0x2800),
+              (0x3164, 0x3164), (0xFE00, 0xFE0F), (0xFEFF, 0xFEFF), (0xFFA0, 0xFFA0), (0xFFF0, 0xFFF8),
+              (0x1BCA0, 0x1BCA3), (0x1D173, 0x1D17A), (0xE0000, 0xE0FFF))
+
+
+def _ignorable(ch):
+    return any(lo <= ord(ch) <= hi for lo, hi in _IGNORABLE)
+
+
 def _check(what, page, c):
     p = _Page()
     p.feed(page)
@@ -281,11 +374,12 @@ def _check(what, page, c):
         text = p.own({"verbatim", "block"})
         assert not re.search(BRIDGE, text, re.I), re.search(BRIDGE, text, re.I)
     elif what == "no_blank_text":
-        # every verbatim span holds a visible character; whitespace, NBSP and zero-width are not
+        # every verbatim span holds something to read: a letter, number, punctuation mark or symbol
+        # that is neither default-ignorable (Unicode DerivedCoreProperties) nor the braille blank
         for span in re.findall(r'<span class="verbatim">(.*?)</span>', page, re.S):
             s = html.unescape(span)
-            assert any(not ch.isspace() and unicodedata.category(ch) not in ("Cc", "Cf", "Zs", "Zl", "Zp")
-                       for ch in s), f"blank plan text shown: {s!r}"
+            assert any(unicodedata.category(ch)[0] in "LNPS" and not _ignorable(ch) for ch in s), \
+                f"blank plan text shown: {s!r}"
         assert not re.search(r"<h2>Act [A-D]: </h2>", page), "an act heading with nothing after the colon"
     else:
         raise ValueError(what)
