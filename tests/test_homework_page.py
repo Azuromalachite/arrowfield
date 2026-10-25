@@ -51,7 +51,7 @@ def test_allowed_is_exactly_the_safe_outputs(c):
 def test_every_class_has_two_or_more_variants():
     from collections import Counter
     per = Counter(c["cls"].split()[0] for c in CASES)
-    assert sorted(per) == [f"H{i}" for i in range(1, 9)] and min(per.values()) >= 2, per
+    assert sorted(per) == [f"H{i}" for i in range(1, 10)] and min(per.values()) >= 2, per
 
 
 # --- the facts the cases rest on --------------------------------------------------------
@@ -169,7 +169,9 @@ def _sources(c):
         slug, conf = stem.split("/")
         conformers[f"{slug}/{conf}"] = replace(record.load(DATA / "pair" / slug / conf), folded=m["folded"])
     for op in c["source_ops"]:
-        if isinstance(op, list):
+        if isinstance(op, list) and op[0] == "bundle_shorthand":
+            b = replace(b, compounds={**b.compounds, op[1]: replace(b.compounds[op[1]], shorthand=op[2])})
+        elif isinstance(op, list):
             r, ensembles, conformers = _list_op(op, r, ensembles, conformers)
         elif op == "e2_other_key":
             src, views = ensembles["e2_z13_18_oac"]
@@ -230,14 +232,57 @@ def _run(c):
     return "RENDERED", page
 
 
-# the probe on #21 (fe2fe08) and its reruns (318da98, 2a67bdd, 9eae791, 2b87a0a): all met;
-# only shrinks.
-XFAIL = set()
+# the probe on #21 (fe2fe08) and its reruns (318da98, 2a67bdd, 9eae791, 2b87a0a) are met. The
+# rerun on 23d5ba2: bidi overrides, look-alike slugs, separator and sentinel collisions, and
+# 'None' or blank shown text. Only shrinks.
+XFAIL = {
+    "test_page_output_is_safe[bidi_override_study_plan]",
+    "test_page_output_is_safe[bidi_override_espmap_version]",
+    "test_page_output_is_safe[bidi_override_contrast_id]",
+    "test_page_output_is_safe[bidi_override_shorthand]",
+    "test_page_output_is_safe[bidi_override_task]",
+    "test_page_output_is_safe[slug_zwsp_lookalike]",
+    "test_page_output_is_safe[slug_trailing_space]",
+    "test_page_output_is_safe[slug_vs_lookalike]",
+    "test_page_output_is_safe[slug_word_joiner]",
+    "test_page_output_is_safe[slug_cyrillic_lookalike]",
+    "test_page_output_is_safe[slug_literal_none]",
+    "test_page_output_is_safe[espmap_version_sentinel]",
+    "test_page_output_is_safe[espmap_version_comma_space]",
+    "test_page_output_is_safe[espmap_version_comma]",
+    "test_page_output_is_safe[espmap_version_literal_none]",
+    "test_page_output_is_safe[analysis_key_comma]",
+    "test_page_output_is_safe[analysis_key_literal_none]",
+    "test_page_output_is_safe[study_plan_literal_none]",
+    "test_page_output_is_safe[shorthand_literal_none]",
+    "test_page_output_is_safe[shorthand_filler]",
+    "test_page_output_is_preferred[bidi_override_study_plan]",
+    "test_page_output_is_preferred[bidi_override_espmap_version]",
+    "test_page_output_is_preferred[bidi_override_contrast_id]",
+    "test_page_output_is_preferred[bidi_override_shorthand]",
+    "test_page_output_is_preferred[bidi_override_task]",
+    "test_page_output_is_preferred[bidi_isolate_balanced_task]",
+    "test_page_output_is_preferred[slug_zwsp_lookalike]",
+    "test_page_output_is_preferred[slug_trailing_space]",
+    "test_page_output_is_preferred[slug_vs_lookalike]",
+    "test_page_output_is_preferred[slug_word_joiner]",
+    "test_page_output_is_preferred[slug_cyrillic_lookalike]",
+    "test_page_output_is_preferred[slug_literal_none]",
+    "test_page_output_is_preferred[espmap_version_sentinel]",
+    "test_page_output_is_preferred[espmap_version_comma_space]",
+    "test_page_output_is_preferred[espmap_version_comma]",
+    "test_page_output_is_preferred[espmap_version_literal_none]",
+    "test_page_output_is_preferred[analysis_key_comma]",
+    "test_page_output_is_preferred[analysis_key_literal_none]",
+    "test_page_output_is_preferred[study_plan_literal_none]",
+    "test_page_output_is_preferred[shorthand_literal_none]",
+    "test_page_output_is_preferred[shorthand_filler]",
+}
 
 
 def _xfail(request, key):
     if key in XFAIL:
-        request.applymarker(pytest.mark.xfail(strict=True, reason="homework page on 2b87a0a"))
+        request.applymarker(pytest.mark.xfail(strict=True, reason="homework page on 23d5ba2"))
 
 
 @pytest.mark.parametrize("c", CASES, ids=[c["id"] for c in CASES])

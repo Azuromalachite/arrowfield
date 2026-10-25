@@ -4615,6 +4615,515 @@
    "requires": []
   },
   {
+   "id": "bidi_override_study_plan",
+   "cls": "H9 display",
+   "why": "An unterminated RLO in the study plan: the page's own words after it read reversed. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "study_plan",
+     "‮AB @ 7e34658"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "bidi_override_espmap_version",
+   "cls": "H9 display",
+   "why": "An unterminated RLO in the espmap version: the page's own words after it read reversed. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "espmap_version",
+     "z3_z13_18_oac",
+     "‮0.3.0"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "bidi_override_contrast_id",
+   "cls": "H9 display",
+   "why": "An unterminated RLO in the contrast id: the page's own words after it read reversed. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "rename_contrast",
+     "B_stereo",
+     "B‮stereo"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "bidi_override_shorthand",
+   "cls": "H9 display",
+   "why": "An unterminated RLO in the shorthand: the page's own words after it read reversed. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "bundle_shorthand",
+     "spa.cmpd.z3_z13_18_oac",
+     "‮AB"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "bidi_override_task",
+   "cls": "H9 display",
+   "why": "An unterminated RLO in a task: the page's words after it reverse. Refuse.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "tasks",
+      "+"
+     ],
+     "‮AB"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "bidi_isolate_balanced_task",
+   "cls": "H9 display",
+   "why": "A balanced RLI...PDI in a task reorders nothing outside it; refusing it is also safe (the rule is one class of characters, not a balance count).",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "tasks",
+      "+"
+     ],
+     "⁧AB⁩"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "slug_zwsp_lookalike",
+   "cls": "H9 display",
+   "why": "The acetate's slug is 'e3_z13_18_oac\\u200b': it reads as another molecule's name, or as 'None'. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "rename_molecule",
+     "z3_z13_18_oac",
+     "e3_z13_18_oac​"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "slug_trailing_space",
+   "cls": "H9 display",
+   "why": "The acetate's slug is 'e3_z13_18_oac ': it reads as another molecule's name, or as 'None'. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "rename_molecule",
+     "z3_z13_18_oac",
+     "e3_z13_18_oac "
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "slug_vs_lookalike",
+   "cls": "H9 display",
+   "why": "The acetate's slug is 'e3_z13_18_oac️': it reads as another molecule's name, or as 'None'. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "rename_molecule",
+     "z3_z13_18_oac",
+     "e3_z13_18_oac️"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "slug_word_joiner",
+   "cls": "H9 display",
+   "why": "The acetate's slug is '\\u2060e3_z13_18_oac': it reads as another molecule's name, or as 'None'. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "rename_molecule",
+     "z3_z13_18_oac",
+     "⁠e3_z13_18_oac"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "slug_cyrillic_lookalike",
+   "cls": "H9 display",
+   "why": "The acetate's slug is 'e3_z13_18_оас': it reads as another molecule's name, or as 'None'. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "rename_molecule",
+     "z3_z13_18_oac",
+     "e3_z13_18_оас"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "slug_literal_none",
+   "cls": "H9 display",
+   "why": "The acetate's slug is 'None': it reads as another molecule's name, or as 'None'. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "rename_molecule",
+     "z3_z13_18_oac",
+     "None"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "espmap_version_sentinel",
+   "cls": "H9 display",
+   "why": "One acetate record's espmap version is 'not recorded': it reads as another value, or as two. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "espmap_version",
+     "z3_z13_18_oac",
+     "not recorded"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "espmap_version_comma_space",
+   "cls": "H9 display",
+   "why": "One acetate record's espmap version is '0.3.0, 0.3.1': it reads as another value, or as two. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "espmap_version",
+     "z3_z13_18_oac",
+     "0.3.0, 0.3.1"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "espmap_version_comma",
+   "cls": "H9 display",
+   "why": "One acetate record's espmap version is '0.3.0,0.3.1': it reads as another value, or as two. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "espmap_version",
+     "z3_z13_18_oac",
+     "0.3.0,0.3.1"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "espmap_version_literal_none",
+   "cls": "H9 display",
+   "why": "One acetate record's espmap version is 'None': it reads as another value, or as two. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "espmap_version",
+     "z3_z13_18_oac",
+     "None"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "analysis_key_comma",
+   "cls": "H9 display",
+   "why": "Every record's analysis key is 'aaaaaaaa,bbbbbbbb': two keys on a page that has one, or 'None'. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "analysis_key",
+     "aaaaaaaa,bbbbbbbb"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "analysis_key_literal_none",
+   "cls": "H9 display",
+   "why": "Every record's analysis key is 'None': two keys on a page that has one, or 'None'. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "analysis_key",
+     "None"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "study_plan_literal_none",
+   "cls": "H9 display",
+   "why": "study_plan 'None': shown, but nothing a reader can tell from a missing value. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "study_plan",
+     "None"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "shorthand_literal_none",
+   "cls": "H9 display",
+   "why": "bundle_shorthand 'None': shown, but nothing a reader can tell from a missing value. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "bundle_shorthand",
+     "spa.cmpd.z3_z13_18_oac",
+     "None"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "shorthand_filler",
+   "cls": "H9 display",
+   "why": "bundle_shorthand 'ㅤ': shown, but nothing a reader can tell from a missing value. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "bundle_shorthand",
+     "spa.cmpd.z3_z13_18_oac",
+     "ㅤ"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
    "id": "plan_reference_two_commits",
    "cls": "H4 provenance",
    "why": "The study's plan reference names two commits ('@ 7e34658 @ deadbee'): the page cannot tell which froze the plan. It renders with the plan commit marked not recorded, never 'Plan frozen at' either one.",

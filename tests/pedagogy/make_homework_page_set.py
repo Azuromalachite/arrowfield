@@ -427,6 +427,48 @@ for vid, value in (("nul", "B\x00stereo"), ("lone_surrogate", "B\ud800")):
          f"Act B's contrast renamed {value!r} in plan and study: not text a page can carry. Refuse.",
          REFUSE, "REFUSED", source_ops=[["rename_contrast", "B_stereo", value]])
 
+# --- the round-8 probe on #21 (23d5ba2) ------------------------------------------------------------
+# H9 display. A bidi override, embedding or isolate (U+202A-202E, U+2066-2069) in any text reorders
+# the page's own words after it (nothing on the page isolates bidi): not text a page carries.
+for vid, op in (("study_plan", ["study_plan", "‮AB @ 7e34658"]),
+                ("espmap_version", ["espmap_version", OAC, "‮0.3.0"]),
+                ("contrast_id", ["rename_contrast", "B_stereo", "B‮stereo"]),
+                ("shorthand", ["bundle_shorthand", "spa.cmpd.z3_z13_18_oac", "‮AB"])):
+    case(f"bidi_override_{vid}", "H9 display",
+         f"An unterminated RLO in the {vid.replace('_', ' ')}: the page's own words after it read reversed. Refuse.",
+         REFUSE_F, "REFUSED", source_ops=[op])
+case("bidi_override_task", "H9 display", "An unterminated RLO in a task: the page's words after it reverse. Refuse.",
+     REFUSE_F, "REFUSED", plan_patch=[(["acts", 0, "tasks", "+"], "‮AB")])
+case("bidi_isolate_balanced_task", "H9 display",
+     "A balanced RLI...PDI in a task reorders nothing outside it; refusing it is also safe (the rule is one "
+     "class of characters, not a balance count).", {"RENDERED": "SAFE", "REFUSED": "SAFE_REFUSAL"}, "REFUSED",
+     plan_patch=[(["acts", 0, "tasks", "+"], "⁧AB⁩")])
+# identifiers have a grammar: a slug is lowercase ASCII (so no two molecules look alike), an
+# analysis key is hex, an espmap version is a version. None of them holds the page's separators
+# or its "not recorded" sentinel.
+for vid, value in (("zwsp_lookalike", E3 + "​"), ("trailing_space", E3 + " "), ("vs_lookalike", E3 + "️"),
+                   ("word_joiner", "⁠" + E3), ("cyrillic_lookalike", "e3_z13_18_оас"),
+                   ("literal_none", "None")):
+    case(f"slug_{vid}", "H9 display",
+         f"The acetate's slug is {value!r}: it reads as another molecule's name, or as 'None'. Refuse.",
+         REFUSE_F, "REFUSED", source_ops=[["rename_molecule", OAC, value]])
+for vid, value in (("sentinel", "not recorded"), ("comma_space", "0.3.0, 0.3.1"), ("comma", "0.3.0,0.3.1"),
+                   ("literal_none", "None")):
+    case(f"espmap_version_{vid}", "H9 display",
+         f"One acetate record's espmap version is {value!r}: it reads as another value, or as two. Refuse.",
+         REFUSE_F, "REFUSED", source_ops=[["espmap_version", OAC, value]])
+for vid, value in (("comma", "aaaaaaaa,bbbbbbbb"), ("literal_none", "None")):
+    case(f"analysis_key_{vid}", "H9 display",
+         f"Every record's analysis key is {value!r}: two keys on a page that has one, or 'None'. Refuse.",
+         REFUSE_F, "REFUSED", source_ops=[["analysis_key", value]])
+# shown source text with nothing to read, or the literal "None" (which reads as the None-as-absent
+# defect), is refused wherever it reaches the page
+for vid, op in (("study_plan_literal_none", ["study_plan", "None"]),
+                ("shorthand_literal_none", ["bundle_shorthand", "spa.cmpd.z3_z13_18_oac", "None"]),
+                ("shorthand_filler", ["bundle_shorthand", "spa.cmpd.z3_z13_18_oac", "ㅤ"])):
+    case(vid, "H9 display", f"{op[0]} {op[-1]!r}: shown, but nothing a reader can tell from a missing value. Refuse.",
+         REFUSE, "REFUSED", source_ops=[op])
+
 # H4: a plan reference naming two commits is ambiguous: never resolved by position
 case("plan_reference_two_commits", "H4 provenance",
      "The study's plan reference names two commits ('@ 7e34658 @ deadbee'): the page cannot tell which froze "
