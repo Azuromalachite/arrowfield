@@ -186,20 +186,8 @@ def _run(c):
     return "RENDERED", page
 
 
-# the probe on #21 (fe2fe08): non-text plan fields are shown as str(value), and a plan reference
-# naming two commits is resolved by position. Each entry is "test[case]"; only shrinks.
-XFAIL = {
-    "test_page_output_is_safe[plan_task_not_text]",
-    "test_page_output_is_safe[plan_title_not_text]",
-    "test_page_output_is_safe[plan_act_title_not_text]",
-    "test_page_output_is_safe[plan_expected_not_text]",
-    "test_page_output_is_preferred[plan_task_not_text]",
-    "test_page_output_is_preferred[plan_title_not_text]",
-    "test_page_output_is_preferred[plan_act_title_not_text]",
-    "test_page_output_is_preferred[plan_expected_not_text]",
-    "test_a_rendered_page_meets_its_requirements[plan_reference_two_commits-0]",
-    "test_a_rendered_page_meets_its_requirements[plan_reference_two_commits-1]",
-}
+# the probe on #21 (fe2fe08): its 10 pairs are met; only shrinks.
+XFAIL = set()
 
 
 def _xfail(request, key):

@@ -76,7 +76,13 @@ def _check_plan(plan, sources, audience):
     acts = plan["acts"]
     _need(all(isinstance(a, dict) for a in acts) and [a.get("id") for a in acts] == list(ACTS),
           f"the acts must be {', '.join(ACTS)}, in that order and once each")
+    # plan text is authored text: a field that is not text is refused, never shown as str(value)
+    _need(isinstance(plan.get("title", ""), str), "plan.title is not text")
     for a in acts:
+        for field in ("title", "expected"):
+            _need(a.get(field) is None or isinstance(a[field], str), f"act {a['id']}.{field} is not text")
+        _need(isinstance(a.get("tasks", []), list) and all(isinstance(t, str) for t in a.get("tasks", [])),
+              f"act {a['id']}.tasks must be a list of text")
         _need(isinstance(a.get("predict"), str) and a["predict"].strip(),
               f"act {a['id']} has no prediction: the reveal would come first")
         _need(isinstance(a.get("blocks"), list) and isinstance(a.get("contrasts"), list), f"act {a['id']} is malformed")
@@ -89,11 +95,13 @@ def _check_plan(plan, sources, audience):
 
 
 def _study_context(study, plan, x, y, views):
-    m = re.search(r"@ ([0-9a-f]{7,40})", study.plan or "")
+    # the plan commit only when the reference names exactly one: two are ambiguous, and
+    # are never resolved by position (the probe on #21); the card then says it is not recorded
+    commits = re.findall(r"@ ([0-9a-f]{7,40})\b", study.plan or "")
     xc = next((v.provenance for v in views if v.provenance.xc), None)
     lim = {"method": f"{xc.xc}/{xc.basis}" if xc else "method not stated",
            "phase": ("gas" if xc and xc.solvent in (None, "vacuum", "gas") else "condensed") if xc else "not stated"}
-    return {"provenance": {"results_sha256": study.sha256, "plan_commit": m.group(1) if m else None},
+    return {"provenance": {"results_sha256": study.sha256, "plan_commit": commits[0] if len(commits) == 1 else None},
             "molecules": {s: plan["molecules"][s]["role"] for s in (x, y)}, "limitations": lim}
 
 
