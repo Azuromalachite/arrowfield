@@ -39,12 +39,13 @@ def _attr(x):
     return html.escape(str(x), quote=True)
 
 
-# Default_Ignorable_Code_Point (Unicode DerivedCoreProperties), and U+2800 BRAILLE PATTERN BLANK,
-# which is blank by design: characters a reader cannot see
+# Default_Ignorable_Code_Point (Unicode DerivedCoreProperties), and the symbols drawn as nothing
+# by design (U+2800 BRAILLE PATTERN BLANK, U+1D159 MUSICAL SYMBOL NULL NOTEHEAD): characters a
+# reader cannot see
 _BLANK = ((0x00AD, 0x00AD), (0x034F, 0x034F), (0x061C, 0x061C), (0x115F, 0x1160), (0x17B4, 0x17B5),
           (0x180B, 0x180F), (0x200B, 0x200F), (0x202A, 0x202E), (0x2060, 0x206F), (0x2800, 0x2800),
           (0x3164, 0x3164), (0xFE00, 0xFE0F), (0xFEFF, 0xFEFF), (0xFFA0, 0xFFA0), (0xFFF0, 0xFFF8),
-          (0x1BCA0, 0x1BCA3), (0x1D173, 0x1D17A), (0xE0000, 0xE0FFF))
+          (0x1BCA0, 0x1BCA3), (0x1D159, 0x1D159), (0x1D173, 0x1D17A), (0xE0000, 0xE0FFF))
 
 
 def _visible(x):
@@ -58,9 +59,10 @@ def _visible(x):
 
 def _writable(x):
     """Text a page can carry: no lone surrogate (the page could not be written
-    as UTF-8) and no control character but tab, newline and carriage return."""
+    as UTF-8), no control character but tab, newline and carriage return, and no
+    noncharacter (U+FDD0-FDEF, U+xFFFE/xFFFF: an HTML parse error)."""
     return not any(unicodedata.category(ch) == "Cs" or (unicodedata.category(ch) == "Cc" and ch not in "\t\n\r")
-                   for ch in x)
+                   or 0xFDD0 <= ord(ch) <= 0xFDEF or ord(ch) & 0xFFFE == 0xFFFE for ch in x)
 
 
 def _need(cond, why):
@@ -104,6 +106,8 @@ def _check_plan(plan, sources, audience):
     # plan text is authored text: a field that is not text is refused, never shown as str(value)
     _need(plan.get("title") is None or isinstance(plan["title"], str), "plan.title is not text")
     _need(plan.get("title") is None or _writable(plan["title"]), "plan.title holds a character no page can carry")
+    _need(plan.get("case_id") is None or isinstance(plan["case_id"], str), "plan.case_id is not text")
+    _need(plan.get("case_id") is None or _writable(plan["case_id"]), "plan.case_id holds a character no page can carry")
     for a in acts:
         for field in ("title", "expected"):
             _need(a.get(field) is None or isinstance(a[field], str), f"act {a['id']}.{field} is not text")
@@ -234,5 +238,5 @@ def page_html(plan, sources, audience="student"):
                 f"analysis key {_e(', '.join(k[:8] for k in sorted(keys)))}</div>")
     return (f'<!doctype html><html lang="en"><head><meta charset="utf-8">'
             f'<meta name="viewport" content="width=device-width, initial-scale=1">'
-            f"<title>{_e(plan.get('case_id', 'homework'))}</title><style>{V.CSS}</style>"
+            f"<title>{_e(plan['case_id'] if _visible(plan.get('case_id')) else 'homework')}</title><style>{V.CSS}</style>"
             f'<script src="{V.THREEDMOL}"></script></head><body>{"".join(body)}</body></html>')

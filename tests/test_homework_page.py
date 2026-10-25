@@ -187,40 +187,8 @@ def _run(c):
     return "RENDERED", page
 
 
-# the probe on #21 (fe2fe08) and its reruns (318da98, 2a67bdd) are met. The rerun on 9eae791:
-# case_id reaches <title> unchecked; the null notehead passes as text; noncharacters are carried.
-# Only shrinks.
-XFAIL = {
-    "test_page_output_is_safe[plan_title_nonchar_fffe]",
-    "test_page_output_is_safe[plan_title_nonchar_fdd0]",
-    "test_page_output_is_safe[plan_predict_nonchar_10ffff]",
-    "test_page_output_is_safe[plan_predict_invisible_null_notehead]",
-    "test_page_output_is_safe[plan_task_invisible_null_notehead]",
-    "test_page_output_is_safe[plan_predict_invisible_null_notehead_mix]",
-    "test_page_output_is_safe[plan_task_invisible_null_notehead_mix]",
-    "test_page_output_is_safe[plan_case_id_not_text]",
-    "test_page_output_is_safe[plan_case_id_lone_surrogate]",
-    "test_page_output_is_safe[plan_case_id_nul]",
-    "test_page_output_is_safe[plan_case_id_nel]",
-    "test_page_output_is_safe[plan_case_id_nonchar]",
-    "test_page_output_is_preferred[plan_title_nonchar_fffe]",
-    "test_page_output_is_preferred[plan_title_nonchar_fdd0]",
-    "test_page_output_is_preferred[plan_predict_nonchar_10ffff]",
-    "test_page_output_is_preferred[plan_predict_invisible_null_notehead]",
-    "test_page_output_is_preferred[plan_task_invisible_null_notehead]",
-    "test_page_output_is_preferred[plan_predict_invisible_null_notehead_mix]",
-    "test_page_output_is_preferred[plan_task_invisible_null_notehead_mix]",
-    "test_page_output_is_preferred[plan_case_id_not_text]",
-    "test_page_output_is_preferred[plan_case_id_lone_surrogate]",
-    "test_page_output_is_preferred[plan_case_id_nul]",
-    "test_page_output_is_preferred[plan_case_id_nel]",
-    "test_page_output_is_preferred[plan_case_id_nonchar]",
-    "test_a_rendered_page_meets_its_requirements[plan_page_title_invisible_null_notehead-0]",
-    "test_a_rendered_page_meets_its_requirements[plan_page_title_invisible_null_notehead_mix-0]",
-    "test_a_rendered_page_meets_its_requirements[plan_case_id_none-0]",
-    "test_a_rendered_page_meets_its_requirements[plan_case_id_empty-0]",
-    "test_a_rendered_page_meets_its_requirements[plan_case_id_filler-0]",
-}
+# the probe on #21 (fe2fe08) and its reruns (318da98, 2a67bdd, 9eae791): all met; only shrinks.
+XFAIL = set()
 
 
 def _xfail(request, key):
