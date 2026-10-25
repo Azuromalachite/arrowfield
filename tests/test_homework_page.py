@@ -50,7 +50,7 @@ def test_allowed_is_exactly_the_safe_outputs(c):
 def test_every_class_has_two_or_more_variants():
     from collections import Counter
     per = Counter(c["cls"].split()[0] for c in CASES)
-    assert sorted(per) == [f"H{i}" for i in range(1, 7)] and min(per.values()) >= 2, per
+    assert sorted(per) == [f"H{i}" for i in range(1, 8)] and min(per.values()) >= 2, per
 
 
 # --- the facts the cases rest on --------------------------------------------------------
@@ -165,6 +165,10 @@ def _sources(c):
             r = replace(r, verdict_rule="someone-else/v9")
         elif op == "bundle_unknown":
             b = replace(b, atlas_version="unknown")
+        elif op == "plan_two_commits":
+            r = replace(r, plan="Atlas analyses/espmap-sesiidae-001/analysis-plan.md @ 7e34658 @ deadbee")
+        elif op == "plan_no_commit":
+            r = replace(r, plan="Atlas analyses/espmap-sesiidae-001/analysis-plan.md")
         else:
             raise ValueError(op)
     return {"bundle": b, "study": r, "ensembles": ensembles, "conformers": conformers}
@@ -182,14 +186,37 @@ def _run(c):
     return "RENDERED", page
 
 
+# the probe on #21 (fe2fe08): non-text plan fields are shown as str(value), and a plan reference
+# naming two commits is resolved by position. Each entry is "test[case]"; only shrinks.
+XFAIL = {
+    "test_page_output_is_safe[plan_task_not_text]",
+    "test_page_output_is_safe[plan_title_not_text]",
+    "test_page_output_is_safe[plan_act_title_not_text]",
+    "test_page_output_is_safe[plan_expected_not_text]",
+    "test_page_output_is_preferred[plan_task_not_text]",
+    "test_page_output_is_preferred[plan_title_not_text]",
+    "test_page_output_is_preferred[plan_act_title_not_text]",
+    "test_page_output_is_preferred[plan_expected_not_text]",
+    "test_a_rendered_page_meets_its_requirements[plan_reference_two_commits-0]",
+    "test_a_rendered_page_meets_its_requirements[plan_reference_two_commits-1]",
+}
+
+
+def _xfail(request, key):
+    if key in XFAIL:
+        request.applymarker(pytest.mark.xfail(strict=True, reason="homework page on fe2fe08"))
+
+
 @pytest.mark.parametrize("c", CASES, ids=[c["id"] for c in CASES])
-def test_page_output_is_safe(c):
+def test_page_output_is_safe(c, request):
+    _xfail(request, f"test_page_output_is_safe[{c['id']}]")
     out = _run(c)[0]
     assert out in c["allowed"], f"{out}: {c['outcomes'][out]}"
 
 
 @pytest.mark.parametrize("c", [c for c in CASES if c["prefer"]], ids=lambda c: c["id"])
-def test_page_output_is_preferred(c):
+def test_page_output_is_preferred(c, request):
+    _xfail(request, f"test_page_output_is_preferred[{c['id']}]")
     assert _run(c)[0] == c["prefer"]
 
 
@@ -272,7 +299,8 @@ REQ = [(c, i) for c in CASES for i in range(len(c["requires"]))]
 
 
 @pytest.mark.parametrize("c,i", REQ, ids=[f"{c['id']}-{i}" for c, i in REQ])
-def test_a_rendered_page_meets_its_requirements(c, i):
+def test_a_rendered_page_meets_its_requirements(c, i, request):
+    _xfail(request, f"test_a_rendered_page_meets_its_requirements[{c['id']}-{i}]")
     out, page = _run(c)
     if out != "RENDERED":
         return

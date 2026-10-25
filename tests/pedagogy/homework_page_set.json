@@ -965,6 +965,209 @@
      "why": "nothing the page writes joins an ESP difference to a biological result"
     }
    ]
+  },
+  {
+   "id": "plan_task_not_text",
+   "cls": "H7 plan text",
+   "why": "The plan's task given as int 7: not text. Refuse, naming where.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "tasks",
+      "+"
+     ],
+     7
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_predict_not_text",
+   "cls": "H7 plan text",
+   "why": "The plan's predict given as list ['Does changing E to Z', 'matter?']: not text. Refuse, naming where.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      1,
+      "predict"
+     ],
+     [
+      "Does changing E to Z",
+      "matter?"
+     ]
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_title_not_text",
+   "cls": "H7 plan text",
+   "why": "The plan's title given as int 42: not text. Refuse, naming where.",
+   "plan_patch": [
+    [
+     [
+      "title"
+     ],
+     42
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_act_title_not_text",
+   "cls": "H7 plan text",
+   "why": "The plan's title given as float 3.5: not text. Refuse, naming where.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      2,
+      "title"
+     ],
+     3.5
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_expected_not_text",
+   "cls": "H7 plan text",
+   "why": "An expected answer given as a mapping, on the instructor's page: not text. Refuse.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "expected"
+     ],
+     {
+      "answer": "resolved"
+     }
+    ]
+   ],
+   "source_ops": [],
+   "audience": "instructor",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_reference_two_commits",
+   "cls": "H4 provenance",
+   "why": "The study's plan reference names two commits ('@ 7e34658 @ deadbee'): the page cannot tell which froze the plan. It renders with the plan commit marked not recorded, never 'Plan frozen at' either one.",
+   "plan_patch": [],
+   "source_ops": [
+    "plan_two_commits"
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must_not": "Plan frozen at",
+     "grade": "MISLEADING",
+     "why": "no commit picked by position"
+    },
+    {
+     "must": "provenance incomplete",
+     "grade": "MISLEADING",
+     "why": "the gap, said"
+    }
+   ]
+  },
+  {
+   "id": "plan_reference_no_commit",
+   "cls": "H4 provenance",
+   "why": "A plan reference naming no commit: the plan commit is marked not recorded.",
+   "plan_patch": [],
+   "source_ops": [
+    "plan_no_commit"
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must_not": "Plan frozen at",
+     "grade": "MISLEADING",
+     "why": "no commit invented"
+    },
+    {
+     "must": "provenance incomplete",
+     "grade": "MISLEADING",
+     "why": "the gap, said"
+    }
+   ]
   }
  ]
 }

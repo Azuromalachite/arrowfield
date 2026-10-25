@@ -276,7 +276,34 @@ case("plan_text_is_verbatim", "H6 no bridge",
      plan_patch=[(["acts", 0, "tasks", "+"], "Say whether the acetate looks less negative because the ester "
                                             "is a weaker donor.")])
 
-CHECKS = ("block_roles", "act_order", "footer", "study_words_in_study_cards", "no_bridge")
+# --- probe on #21 (fe2fe08): its findings, as cases -------------------------------------------
+# H7: plan text is authored text: a field that is not text is refused, never shown as str(value)
+# (the user's "a validator, not a sanitizer").
+for vid, path, value in (("task_not_text", ["acts", 0, "tasks", "+"], 7),
+                         ("predict_not_text", ["acts", 1, "predict"], ["Does changing E to Z", "matter?"]),
+                         ("title_not_text", ["title"], 42),
+                         ("act_title_not_text", ["acts", 2, "title"], 3.5)):
+    case(f"plan_{vid}", "H7 plan text",
+         f"The plan's {path[-1] if path[-1] != '+' else 'task'} given as {type(value).__name__} {value!r}: not text. "
+         "Refuse, naming where.", REFUSE, "REFUSED", plan_patch=[(path, value)])
+case("plan_expected_not_text", "H7 plan text",
+     "An expected answer given as a mapping, on the instructor's page: not text. Refuse.", REFUSE, "REFUSED",
+     plan_patch=[(["acts", 0, "expected"], {"answer": "resolved"})], audience="instructor")
+
+# H4: a plan reference naming two commits is ambiguous: never resolved by position
+case("plan_reference_two_commits", "H4 provenance",
+     "The study's plan reference names two commits ('@ 7e34658 @ deadbee'): the page cannot tell which froze "
+     "the plan. It renders with the plan commit marked not recorded, never 'Plan frozen at' either one.",
+     {"RENDERED": "SAFE", "REFUSED": "SAFE_REFUSAL"}, "RENDERED",
+     [must_not(r"Plan frozen at", "MISLEADING", "no commit picked by position"),
+      must(r"provenance incomplete", "MISLEADING", "the gap, said")], source_ops=["plan_two_commits"])
+case("plan_reference_no_commit", "H4 provenance",
+     "A plan reference naming no commit: the plan commit is marked not recorded.",
+     {"RENDERED": "SAFE", "REFUSED": "SAFE_REFUSAL"}, "RENDERED",
+     [must_not(r"Plan frozen at", "MISLEADING", "no commit invented"),
+      must(r"provenance incomplete", "MISLEADING", "the gap, said")], source_ops=["plan_no_commit"])
+
+CHECKS =("block_roles", "act_order", "footer", "study_words_in_study_cards", "no_bridge")
 
 
 def document():
