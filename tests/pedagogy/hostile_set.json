@@ -6047,7 +6047,13 @@
    ],
    "prefer": "SHARED_SCALE",
    "requires": [],
-   "why": "Two ESP pictures with different colour scales side by side: the same colour means different kcal/mol, so the eye compares the wrong things."
+   "why": "Two ESP pictures with different colour scales side by side: the same colour means different kcal/mol, so the eye compares the wrong things.",
+   "superseded_by": [
+    "tests/pedagogy/pair_view_set.json#butene_e_vs_z",
+    "tests/pedagogy/pair_view_set.json#ethanol_vs_acetaldehyde",
+    "tests/pedagogy/pair_view_set.json#near_equal_scales",
+    "tests/pedagogy/pair_view_set.json#forged_render_key"
+   ]
   },
   {
    "id": "pair_one_folded",
@@ -6066,7 +6072,12 @@
    ],
    "prefer": "REFUSED",
    "requires": [],
-   "why": "A folded and an extended conformer side by side read as two molecules' shapes, not as one molecule's conformational range."
+   "why": "A folded and an extended conformer side by side read as two molecules' shapes, not as one molecule's conformational range.",
+   "superseded_by": [
+    "tests/pedagogy/pair_view_set.json#two_compounds_folding_differs",
+    "tests/pedagogy/pair_view_set.json#two_compounds_folding_differs_reversed",
+    "tests/pedagogy/pair_view_set.json#one_compound_folded_vs_extended"
+   ]
   }
  ]
 }

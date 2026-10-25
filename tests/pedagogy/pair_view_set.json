@@ -2639,6 +2639,228 @@
    ],
    "prefer": "REFUSED",
    "requires": []
+  },
+  {
+   "id": "rel_methyl_h_swapped",
+   "cls": "R1 relation",
+   "component": "relation",
+   "why": "E3 conf_02 against itself with methyl H22 and H23 exchanging coordinates: one geometry, relabelled (naive RMSD 0.33 A, 0 over symmetry).",
+   "left": {
+    "record": "tests/data/pair/e3_z13_18_oac/conf_02",
+    "patch": [
+     [
+      "folded",
+      false
+     ]
+    ],
+    "surface": null,
+    "geometry": null
+   },
+   "right": {
+    "record": "tests/data/pair/e3_z13_18_oac/conf_02",
+    "patch": [
+     [
+      "folded",
+      false
+     ]
+    ],
+    "surface": null,
+    "geometry": [
+     "swap",
+     22,
+     23
+    ]
+   },
+   "same_object": false,
+   "context": {},
+   "outcomes": {
+    "SAME_GEOMETRY": "SAFE",
+    "CONFORMERS_OF_ONE_COMPOUND": "MISLEADING",
+    "TWO_COMPOUNDS": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "SAME_GEOMETRY"
+   ],
+   "prefer": "SAME_GEOMETRY",
+   "requires": []
+  },
+  {
+   "id": "rel_bonds_shuffled_same",
+   "cls": "R1 relation",
+   "component": "relation",
+   "why": "The same geometry with its bond list reversed and each bond's direction flipped: the answer cannot depend on the list's order.",
+   "left": {
+    "record": "tests/data/pair/e3_z13_18_oac/conf_02",
+    "patch": [
+     [
+      "folded",
+      false
+     ]
+    ],
+    "surface": null,
+    "geometry": null
+   },
+   "right": {
+    "record": "tests/data/pair/e3_z13_18_oac/conf_02",
+    "patch": [
+     [
+      "folded",
+      false
+     ]
+    ],
+    "surface": null,
+    "geometry": "bonds_shuffled"
+   },
+   "same_object": false,
+   "context": {},
+   "outcomes": {
+    "SAME_GEOMETRY": "SAFE",
+    "CONFORMERS_OF_ONE_COMPOUND": "MISLEADING",
+    "TWO_COMPOUNDS": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "SAME_GEOMETRY"
+   ],
+   "prefer": "SAME_GEOMETRY",
+   "requires": []
+  },
+  {
+   "id": "rel_swap_and_shuffle",
+   "cls": "R1 relation",
+   "component": "relation",
+   "why": "Both at once: methyl H swapped on one side, bonds shuffled on the other.",
+   "left": {
+    "record": "tests/data/pair/e3_z13_18_oac/conf_02",
+    "patch": [
+     [
+      "folded",
+      false
+     ]
+    ],
+    "surface": null,
+    "geometry": [
+     "swap",
+     22,
+     23
+    ]
+   },
+   "right": {
+    "record": "tests/data/pair/e3_z13_18_oac/conf_02",
+    "patch": [
+     [
+      "folded",
+      false
+     ]
+    ],
+    "surface": null,
+    "geometry": "bonds_shuffled"
+   },
+   "same_object": false,
+   "context": {},
+   "outcomes": {
+    "SAME_GEOMETRY": "SAFE",
+    "CONFORMERS_OF_ONE_COMPOUND": "MISLEADING",
+    "TWO_COMPOUNDS": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "SAME_GEOMETRY"
+   ],
+   "prefer": "SAME_GEOMETRY",
+   "requires": []
+  },
+  {
+   "id": "rel_bonds_shuffled_conformers",
+   "cls": "R1 relation",
+   "component": "relation",
+   "why": "A true conformer pair (conf_00, conf_02) with one side's bonds shuffled: still two conformers.",
+   "left": {
+    "record": "tests/data/pair/e3_z13_18_oac/conf_00",
+    "patch": [
+     [
+      "folded",
+      true
+     ]
+    ],
+    "surface": null,
+    "geometry": null
+   },
+   "right": {
+    "record": "tests/data/pair/e3_z13_18_oac/conf_02",
+    "patch": [
+     [
+      "folded",
+      false
+     ]
+    ],
+    "surface": null,
+    "geometry": "bonds_shuffled"
+   },
+   "same_object": false,
+   "context": {},
+   "outcomes": {
+    "SAME_GEOMETRY": "MISLEADING",
+    "CONFORMERS_OF_ONE_COMPOUND": "SAFE",
+    "TWO_COMPOUNDS": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "CONFORMERS_OF_ONE_COMPOUND",
+    "REFUSED"
+   ],
+   "prefer": "CONFORMERS_OF_ONE_COMPOUND",
+   "requires": []
+  },
+  {
+   "id": "rel_bond_out_of_range",
+   "cls": "R2 identity not established",
+   "component": "relation",
+   "why": "A bond naming an atom the record does not have: the graph is not established. Refuse, with a plain reason (not a C++ invariant).",
+   "left": {
+    "record": "tests/data/pair/e3_z13_18_oac/conf_02",
+    "patch": [
+     [
+      "folded",
+      false
+     ]
+    ],
+    "surface": null,
+    "geometry": "bond_out_of_range"
+   },
+   "right": {
+    "record": "tests/data/pair/e3_z13_18_oac/conf_00",
+    "patch": [
+     [
+      "folded",
+      true
+     ]
+    ],
+    "surface": null,
+    "geometry": null
+   },
+   "same_object": false,
+   "context": {},
+   "outcomes": {
+    "SAME_GEOMETRY": "FALSE",
+    "CONFORMERS_OF_ONE_COMPOUND": "MISLEADING",
+    "TWO_COMPOUNDS": "FALSE",
+    "REFUSED": "SAFE",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
   }
  ]
 }

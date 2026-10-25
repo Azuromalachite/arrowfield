@@ -166,10 +166,11 @@ def test_component_to_come(c):
 
 
 def test_superseded_cases_point_at_their_replacement():
-    """The abstract evidence cases (B1-B5) are retired, not edited: each names
-    the cases that replaced it (file#case_id), and every one of them exists."""
+    """The abstract evidence (B1-B5) and picture (C1) cases are retired, not
+    edited: each names the cases that replaced it (file#case_id), and every
+    one of them exists."""
     sup = [c for c in CASES if c.get("superseded_by")]
-    assert len(sup) == 9 and all(c["component"] == "evidence_card" for c in sup)
+    assert sorted(c["component"] for c in sup) == ["evidence_card"] * 9 + ["pair_view"] * 2
     for c in sup:
         assert c["superseded_by"], c["id"]
         for ref in c["superseded_by"]:
