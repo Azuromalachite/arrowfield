@@ -31,6 +31,10 @@ ANALYSIS_KEY = re.compile(r"[0-9a-f]{8,64}")
 # a lowercase name; anything else is refused, never interpreted
 METHOD = re.compile(r"[A-Za-z0-9][A-Za-z0-9()*+,._-]*")
 SOLVENT = re.compile(r"[a-z][a-z0-9_-]*")
+# the solvents espmap writes (esp_map.SOLVENTS, v0.2.1 and v0.3.0 alike; None is the gas phase),
+# and "gas", which the views also read as gas: a closed vocabulary, so no synonym is guessed at
+GAS_SOLVENTS = ("vacuum", "gas")
+SOLVENTS = GAS_SOLVENTS + ("water", "dmso", "methanol", "acetonitrile", "chloroform", "toluene", "hexane")
 
 
 def _e(x):
@@ -171,6 +175,15 @@ def _check_plan(plan, sources, audience):
         _need(pv.solvent is None or (isinstance(pv.solvent, str) and SOLVENT.fullmatch(pv.solvent) is not None
                                      and pv.solvent != "none"),
               f"{pv.source}: solvent {pv.solvent!r} is not None or a solvent name ({SOLVENT.pattern})")
+        _need(pv.solvent is None or pv.solvent in SOLVENTS,
+              f"{pv.source}: solvent {pv.solvent!r} is not one espmap writes ({', '.join(SOLVENTS)}, or None for gas)")
+    # one page, one method: every record that states a method states the same one, so the scope
+    # line and the pair caption name it alike (round 10 on #21)
+    stated = {(v.provenance.xc, v.provenance.basis,
+               None if v.provenance.solvent in (None,) + GAS_SOLVENTS else v.provenance.solvent)
+              for v in views if v.provenance.xc is not None}
+    _need(len(stated) <= 1, f"the page's records state {len(stated)} methods ("
+          + "; ".join(f"{x}/{b}, {s or 'gas'}" for x, b, s in sorted(stated, key=str)) + "): it names one")
     for key, v in (sources.get("conformers") or {}).items():
         # the pair view names its records' method: a record it shows must state one
         _need(v.provenance.xc is not None, f"{key}: the record states no method, and the pair view names it")

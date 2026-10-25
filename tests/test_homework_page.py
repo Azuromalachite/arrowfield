@@ -245,40 +245,8 @@ def _run(c):
 
 
 # the probe on #21 (fe2fe08) and its reruns (318da98, 2a67bdd, 9eae791, 2b87a0a, 23d5ba2,
-# 8fe0749) are met. Round 10 on 64b5fa2: a solvent espmap does not write; records stating
-# different methods on one page. Only shrinks.
-XFAIL = {
-    "test_page_output_is_safe[record_solvent_vacuo]",
-    "test_page_output_is_safe[record_solvent_in_vacuo]",
-    "test_page_output_is_safe[record_solvent_gas_phase]",
-    "test_page_output_is_safe[record_solvent_gas_hyphen_phase]",
-    "test_page_output_is_safe[record_solvent_vac]",
-    "test_page_output_is_safe[record_solvent_no_solvent]",
-    "test_page_output_is_safe[record_solvent_isolated]",
-    "test_page_output_is_safe[record_solvent_null]",
-    "test_page_output_is_safe[record_solvent_unknown]",
-    "test_page_output_is_safe[one_method_one_ensemble_pbe0]",
-    "test_page_output_is_safe[one_method_one_ensemble_tzvp]",
-    "test_page_output_is_safe[one_method_one_ensemble_water]",
-    "test_page_output_is_safe[one_method_conformers_pbe0]",
-    "test_page_output_is_safe[one_method_conformers_water]",
-    "test_page_output_is_safe[one_method_ensembles_water]",
-    "test_page_output_is_preferred[record_solvent_vacuo]",
-    "test_page_output_is_preferred[record_solvent_in_vacuo]",
-    "test_page_output_is_preferred[record_solvent_gas_phase]",
-    "test_page_output_is_preferred[record_solvent_gas_hyphen_phase]",
-    "test_page_output_is_preferred[record_solvent_vac]",
-    "test_page_output_is_preferred[record_solvent_no_solvent]",
-    "test_page_output_is_preferred[record_solvent_isolated]",
-    "test_page_output_is_preferred[record_solvent_null]",
-    "test_page_output_is_preferred[record_solvent_unknown]",
-    "test_page_output_is_preferred[one_method_one_ensemble_pbe0]",
-    "test_page_output_is_preferred[one_method_one_ensemble_tzvp]",
-    "test_page_output_is_preferred[one_method_one_ensemble_water]",
-    "test_page_output_is_preferred[one_method_conformers_pbe0]",
-    "test_page_output_is_preferred[one_method_conformers_water]",
-    "test_page_output_is_preferred[one_method_ensembles_water]",
-}
+# 8fe0749, 64b5fa2): all met; only shrinks.
+XFAIL = set()
 
 
 def _xfail(request, key):
