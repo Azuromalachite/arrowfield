@@ -187,13 +187,45 @@ def _run(c):
     return "RENDERED", page
 
 
-# the probe on #21 (fe2fe08) and its reruns (318da98, 2a67bdd): all met; only shrinks.
-XFAIL = set()
+# the probe on #21 (fe2fe08) and its reruns (318da98, 2a67bdd) are met. The rerun on 9eae791:
+# case_id reaches <title> unchecked; the null notehead passes as text; noncharacters are carried.
+# Only shrinks.
+XFAIL = {
+    "test_page_output_is_safe[plan_title_nonchar_fffe]",
+    "test_page_output_is_safe[plan_title_nonchar_fdd0]",
+    "test_page_output_is_safe[plan_predict_nonchar_10ffff]",
+    "test_page_output_is_safe[plan_predict_invisible_null_notehead]",
+    "test_page_output_is_safe[plan_task_invisible_null_notehead]",
+    "test_page_output_is_safe[plan_predict_invisible_null_notehead_mix]",
+    "test_page_output_is_safe[plan_task_invisible_null_notehead_mix]",
+    "test_page_output_is_safe[plan_case_id_not_text]",
+    "test_page_output_is_safe[plan_case_id_lone_surrogate]",
+    "test_page_output_is_safe[plan_case_id_nul]",
+    "test_page_output_is_safe[plan_case_id_nel]",
+    "test_page_output_is_safe[plan_case_id_nonchar]",
+    "test_page_output_is_preferred[plan_title_nonchar_fffe]",
+    "test_page_output_is_preferred[plan_title_nonchar_fdd0]",
+    "test_page_output_is_preferred[plan_predict_nonchar_10ffff]",
+    "test_page_output_is_preferred[plan_predict_invisible_null_notehead]",
+    "test_page_output_is_preferred[plan_task_invisible_null_notehead]",
+    "test_page_output_is_preferred[plan_predict_invisible_null_notehead_mix]",
+    "test_page_output_is_preferred[plan_task_invisible_null_notehead_mix]",
+    "test_page_output_is_preferred[plan_case_id_not_text]",
+    "test_page_output_is_preferred[plan_case_id_lone_surrogate]",
+    "test_page_output_is_preferred[plan_case_id_nul]",
+    "test_page_output_is_preferred[plan_case_id_nel]",
+    "test_page_output_is_preferred[plan_case_id_nonchar]",
+    "test_a_rendered_page_meets_its_requirements[plan_page_title_invisible_null_notehead-0]",
+    "test_a_rendered_page_meets_its_requirements[plan_page_title_invisible_null_notehead_mix-0]",
+    "test_a_rendered_page_meets_its_requirements[plan_case_id_none-0]",
+    "test_a_rendered_page_meets_its_requirements[plan_case_id_empty-0]",
+    "test_a_rendered_page_meets_its_requirements[plan_case_id_filler-0]",
+}
 
 
 def _xfail(request, key):
     if key in XFAIL:
-        request.applymarker(pytest.mark.xfail(strict=True, reason="homework page on 2a67bdd"))
+        request.applymarker(pytest.mark.xfail(strict=True, reason="homework page on 9eae791"))
 
 
 @pytest.mark.parametrize("c", CASES, ids=[c["id"] for c in CASES])
@@ -241,12 +273,12 @@ class _Page(HTMLParser):
         return " ".join(d for inside, d in self.text if not (inside & exclude))
 
 
-# Default_Ignorable_Code_Point (Unicode 15.1 DerivedCoreProperties.txt), plus U+2800 BRAILLE
-# PATTERN BLANK, blank by design
+# Default_Ignorable_Code_Point (Unicode 15.1 DerivedCoreProperties.txt), plus the symbols drawn
+# as nothing by design: U+2800 BRAILLE PATTERN BLANK and U+1D159 MUSICAL SYMBOL NULL NOTEHEAD
 _IGNORABLE = ((0x00AD, 0x00AD), (0x034F, 0x034F), (0x061C, 0x061C), (0x115F, 0x1160), (0x17B4, 0x17B5),
               (0x180B, 0x180F), (0x200B, 0x200F), (0x202A, 0x202E), (0x2060, 0x206F), (0x2800, 0x2800),
               (0x3164, 0x3164), (0xFE00, 0xFE0F), (0xFEFF, 0xFEFF), (0xFFA0, 0xFFA0), (0xFFF0, 0xFFF8),
-              (0x1BCA0, 0x1BCA3), (0x1D173, 0x1D17A), (0xE0000, 0xE0FFF))
+              (0x1BCA0, 0x1BCA3), (0x1D159, 0x1D159), (0x1D173, 0x1D17A), (0xE0000, 0xE0FFF))
 
 
 def _ignorable(ch):
@@ -300,6 +332,12 @@ def _check(what, page, c):
             assert any(unicodedata.category(ch)[0] in "LNPS" and not _ignorable(ch) for ch in s), \
                 f"blank plan text shown: {s!r}"
         assert not re.search(r"<h2>Act [A-D]: </h2>", page), "an act heading with nothing after the colon"
+    elif what == "page_name":
+        names = re.findall(r"<title>(.*?)</title>", page, re.S)
+        assert len(names) == 1, names
+        s = html.unescape(names[0])
+        assert s != "None" and any(unicodedata.category(ch)[0] in "LNPS" and not _ignorable(ch) for ch in s), \
+            f"the page is named {s!r}"
     else:
         raise ValueError(what)
 

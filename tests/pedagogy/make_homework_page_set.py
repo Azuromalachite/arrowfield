@@ -354,6 +354,38 @@ for vid, path, value in (("title_lone_surrogate", ["title"], "\ud800"),
     case(f"plan_{vid}", "H7 plan text",
          f"The plan's {path[-1] if path[-1] != '+' else 'task'} is {value!r}: not writable text. Refuse, naming where.",
          REFUSE, "REFUSED", plan_patch=[(path, value)])
+# the rerun on #21 (9eae791): a noncharacter (U+FDD0-FDEF, U+xFFFE/xFFFF) is an HTML parse error,
+# so text holding one is not text a page can carry
+for vid, path, value in (("title_nonchar_fffe", ["title"], "Real￾text"),
+                         ("title_nonchar_fdd0", ["title"], "Real﷐text"),
+                         ("predict_nonchar_10ffff", ["acts", 1, "predict"], "Which is\U0010ffff more negative?")):
+    case(f"plan_{vid}", "H7 plan text",
+         f"The plan's {path[-1]} is {value!r}: a noncharacter inside text. Refuse, naming where.",
+         REFUSE, "REFUSED", plan_patch=[(path, value)])
+# U+1D159 MUSICAL SYMBOL NULL NOTEHEAD is a symbol drawn as nothing, by design: nothing to read
+for bid, blank in (("null_notehead", "\U0001d159"), ("null_notehead_mix", "\U0001d159ㅤ⠀")):
+    case(f"plan_predict_invisible_{bid}", "H7 plan text",
+         f"A prediction that is only {blank!r}: nothing to read. Refuse.",
+         REFUSE_F, "REFUSED", plan_patch=[(["acts", 1, "predict"], blank)])
+    case(f"plan_page_title_invisible_{bid}", "H7 plan text",
+         f"The page title is {blank!r}, nothing to read: absent.", RENDER, "RENDERED",
+         [check("no_blank_text", "MISLEADING", "every shown piece of plan text has something to read"), ACT_ORDER],
+         plan_patch=[(["title"], blank)])
+    case(f"plan_task_invisible_{bid}", "H7 plan text", f"A task {blank!r}: an empty bullet. Refuse.",
+         REFUSE, "REFUSED", plan_patch=[(["acts", 0, "tasks", "+"], blank)])
+# plan.case_id names the page (its <title>): plan text like any other. None, "" or nothing to read
+# is absent (the page is named "homework"); not text, or not writable, is refused
+for vid, value in (("none", None), ("empty", ""), ("filler", "ㅤ")):
+    case(f"plan_case_id_{vid}", "H7 plan text",
+         f"The plan's case_id is {value!r}: absent, so the page is named 'homework', never 'None' or blank.",
+         RENDER, "RENDERED",
+         [check("page_name", "MISLEADING", "the page's <title> has something to read and is never 'None'"), ACT_ORDER],
+         plan_patch=[(["case_id"], value)])
+for vid, value in (("not_text", 3), ("lone_surrogate", "\ud800"), ("nul", "Case\x00id"), ("nel", "Case\x85id"),
+                   ("nonchar", "Case￾id")):
+    case(f"plan_case_id_{vid}", "H7 plan text",
+         f"The plan's case_id is {value!r}: not text a page can carry. Refuse, naming where.",
+         REFUSE, "REFUSED", plan_patch=[(["case_id"], value)])
 
 # H4: a plan reference naming two commits is ambiguous: never resolved by position
 case("plan_reference_two_commits", "H4 provenance",
@@ -368,7 +400,7 @@ case("plan_reference_no_commit", "H4 provenance",
      [must_not(r"Plan frozen at", "MISLEADING", "no commit invented"),
       must(r"provenance incomplete", "MISLEADING", "the gap, said")], source_ops=["plan_no_commit"])
 
-CHECKS = ("block_roles", "act_order", "footer", "study_words_in_study_cards", "no_bridge", "no_blank_text")
+CHECKS = ("block_roles", "act_order", "footer", "study_words_in_study_cards", "no_bridge", "no_blank_text", "page_name")
 
 
 def document():

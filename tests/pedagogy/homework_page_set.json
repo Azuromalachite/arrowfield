@@ -3459,6 +3459,498 @@
    "requires": []
   },
   {
+   "id": "plan_title_nonchar_fffe",
+   "cls": "H7 plan text",
+   "why": "The plan's title is 'Real\\ufffetext': a noncharacter inside text. Refuse, naming where.",
+   "plan_patch": [
+    [
+     [
+      "title"
+     ],
+     "Real￾text"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_title_nonchar_fdd0",
+   "cls": "H7 plan text",
+   "why": "The plan's title is 'Real\\ufdd0text': a noncharacter inside text. Refuse, naming where.",
+   "plan_patch": [
+    [
+     [
+      "title"
+     ],
+     "Real﷐text"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_predict_nonchar_10ffff",
+   "cls": "H7 plan text",
+   "why": "The plan's predict is 'Which is\\U0010ffff more negative?': a noncharacter inside text. Refuse, naming where.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      1,
+      "predict"
+     ],
+     "Which is􏿿 more negative?"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_predict_invisible_null_notehead",
+   "cls": "H7 plan text",
+   "why": "A prediction that is only '𝅙': nothing to read. Refuse.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      1,
+      "predict"
+     ],
+     "𝅙"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_page_title_invisible_null_notehead",
+   "cls": "H7 plan text",
+   "why": "The page title is '𝅙', nothing to read: absent.",
+   "plan_patch": [
+    [
+     [
+      "title"
+     ],
+     "𝅙"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_task_invisible_null_notehead",
+   "cls": "H7 plan text",
+   "why": "A task '𝅙': an empty bullet. Refuse.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "tasks",
+      "+"
+     ],
+     "𝅙"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_predict_invisible_null_notehead_mix",
+   "cls": "H7 plan text",
+   "why": "A prediction that is only '𝅙ㅤ⠀': nothing to read. Refuse.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      1,
+      "predict"
+     ],
+     "𝅙ㅤ⠀"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_page_title_invisible_null_notehead_mix",
+   "cls": "H7 plan text",
+   "why": "The page title is '𝅙ㅤ⠀', nothing to read: absent.",
+   "plan_patch": [
+    [
+     [
+      "title"
+     ],
+     "𝅙ㅤ⠀"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_task_invisible_null_notehead_mix",
+   "cls": "H7 plan text",
+   "why": "A task '𝅙ㅤ⠀': an empty bullet. Refuse.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "tasks",
+      "+"
+     ],
+     "𝅙ㅤ⠀"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_case_id_none",
+   "cls": "H7 plan text",
+   "why": "The plan's case_id is None: absent, so the page is named 'homework', never 'None' or blank.",
+   "plan_patch": [
+    [
+     [
+      "case_id"
+     ],
+     null
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "page_name",
+     "grade": "MISLEADING",
+     "why": "the page's <title> has something to read and is never 'None'"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_case_id_empty",
+   "cls": "H7 plan text",
+   "why": "The plan's case_id is '': absent, so the page is named 'homework', never 'None' or blank.",
+   "plan_patch": [
+    [
+     [
+      "case_id"
+     ],
+     ""
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "page_name",
+     "grade": "MISLEADING",
+     "why": "the page's <title> has something to read and is never 'None'"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_case_id_filler",
+   "cls": "H7 plan text",
+   "why": "The plan's case_id is 'ㅤ': absent, so the page is named 'homework', never 'None' or blank.",
+   "plan_patch": [
+    [
+     [
+      "case_id"
+     ],
+     "ㅤ"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "page_name",
+     "grade": "MISLEADING",
+     "why": "the page's <title> has something to read and is never 'None'"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_case_id_not_text",
+   "cls": "H7 plan text",
+   "why": "The plan's case_id is 3: not text a page can carry. Refuse, naming where.",
+   "plan_patch": [
+    [
+     [
+      "case_id"
+     ],
+     3
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_case_id_lone_surrogate",
+   "cls": "H7 plan text",
+   "why": "The plan's case_id is '\\ud800': not text a page can carry. Refuse, naming where.",
+   "plan_patch": [
+    [
+     [
+      "case_id"
+     ],
+     "\ud800"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_case_id_nul",
+   "cls": "H7 plan text",
+   "why": "The plan's case_id is 'Case\\x00id': not text a page can carry. Refuse, naming where.",
+   "plan_patch": [
+    [
+     [
+      "case_id"
+     ],
+     "Case\u0000id"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_case_id_nel",
+   "cls": "H7 plan text",
+   "why": "The plan's case_id is 'Case\\x85id': not text a page can carry. Refuse, naming where.",
+   "plan_patch": [
+    [
+     [
+      "case_id"
+     ],
+     "Caseid"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_case_id_nonchar",
+   "cls": "H7 plan text",
+   "why": "The plan's case_id is 'Case\\ufffeid': not text a page can carry. Refuse, naming where.",
+   "plan_patch": [
+    [
+     [
+      "case_id"
+     ],
+     "Case￾id"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
    "id": "plan_reference_two_commits",
    "cls": "H4 provenance",
    "why": "The study's plan reference names two commits ('@ 7e34658 @ deadbee'): the page cannot tell which froze the plan. It renders with the plan commit marked not recorded, never 'Plan frozen at' either one.",
