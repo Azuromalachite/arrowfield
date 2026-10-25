@@ -710,6 +710,50 @@
    ]
   },
   {
+   "id": "one_side_without_protocol",
+   "cls": "P2 one method",
+   "component": "pair_view",
+   "why": "One side's protocol is verified B3LYP with a stale raw 'pbe0'; the other carries no canonical fields and says 'pbe0': the caption cannot name one method for both. Refuse.",
+   "left": {
+    "record": "records/e2_butene__s1",
+    "patch": [
+     [
+      "provenance.xc",
+      "pbe0"
+     ]
+    ],
+    "surface": null,
+    "geometry": null
+   },
+   "right": {
+    "record": "records/z2_butene__s1",
+    "patch": [
+     [
+      "provenance.analysis_fields",
+      null
+     ],
+     [
+      "provenance.xc",
+      "pbe0"
+     ]
+    ],
+    "surface": null,
+    "geometry": null
+   },
+   "same_object": false,
+   "context": {},
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
    "id": "ensemble_vs_pilot_versions",
    "cls": "P2 one method",
    "component": "pair_view",

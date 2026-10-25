@@ -6697,6 +6697,329 @@
    "requires": []
   },
   {
+   "id": "canonical_basis_with_phase",
+   "cls": "H10 canonical protocol",
+   "why": "Every record's canonical basis is 'def2svp, PCM water' (the key re-digested): the caption would read another method or phase, or nothing. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings_ensembles",
+     "solvent",
+     "vacuum"
+    ],
+    [
+     "canonical_rekey",
+     "basis",
+     "def2svp, PCM water"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "canonical_xc_with_slash",
+   "cls": "H10 canonical protocol",
+   "why": "Every record's canonical xc is 'b3lyp/def2tzvp' (the key re-digested): the caption would read another method or phase, or nothing. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings_ensembles",
+     "solvent",
+     "vacuum"
+    ],
+    [
+     "canonical_rekey",
+     "xc",
+     "b3lyp/def2tzvp"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "canonical_xc_literal_none",
+   "cls": "H10 canonical protocol",
+   "why": "Every record's canonical xc is 'None' (the key re-digested): the caption would read another method or phase, or nothing. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings_ensembles",
+     "solvent",
+     "vacuum"
+    ],
+    [
+     "canonical_rekey",
+     "xc",
+     "None"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "canonical_basis_literal_none",
+   "cls": "H10 canonical protocol",
+   "why": "Every record's canonical basis is 'None' (the key re-digested): the caption would read another method or phase, or nothing. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings_ensembles",
+     "solvent",
+     "vacuum"
+    ],
+    [
+     "canonical_rekey",
+     "basis",
+     "None"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "canonical_xc_space",
+   "cls": "H10 canonical protocol",
+   "why": "Every record's canonical xc is ' ' (the key re-digested): the caption would read another method or phase, or nothing. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings_ensembles",
+     "solvent",
+     "vacuum"
+    ],
+    [
+     "canonical_rekey",
+     "xc",
+     " "
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "canonical_xc_filler",
+   "cls": "H10 canonical protocol",
+   "why": "Every record's canonical xc is 'ㅤ' (the key re-digested): the caption would read another method or phase, or nothing. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings_ensembles",
+     "solvent",
+     "vacuum"
+    ],
+    [
+     "canonical_rekey",
+     "xc",
+     "ㅤ"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "canonical_no_solvent_key",
+   "cls": "H10 canonical protocol",
+   "why": "Every record's canonical solvent is '<drop>' (the key re-digested): the caption would read another method or phase, or nothing. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings_ensembles",
+     "solvent",
+     "vacuum"
+    ],
+    [
+     "canonical_rekey",
+     "solvent",
+     "<drop>"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "canonical_libxc_form",
+   "cls": "H10 canonical protocol",
+   "why": "Every record's canonical xc is espmap's key for a functional without a display name (libxc:hyb(0.2,0.08,0)+...): espmap writes it, so the page names it.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings_ensembles",
+     "solvent",
+     "vacuum"
+    ],
+    [
+     "canonical_rekey",
+     "xc",
+     "libxc:hyb(0.2,0.08,0)+1*0.08"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "libxc:hyb\\(0\\.2,0\\.08,0\\)\\+1\\*0\\.08/def2svp",
+     "grade": "MISLEADING",
+     "why": "the protocol's own name"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
    "id": "plan_reference_two_commits",
    "cls": "H4 provenance",
    "why": "The study's plan reference names two commits ('@ 7e34658 @ deadbee'): the page cannot tell which froze the plan. It renders with the plan commit marked not recorded, never 'Plan frozen at' either one.",

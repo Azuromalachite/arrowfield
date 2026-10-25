@@ -243,6 +243,14 @@ case("stale_key_functional", "P2 one method",
      "corrupted provenance label. The protocol decides; the caption names it, never the label.",
      side(E2B), side(Z2B, patch=[("provenance.xc", "pbe0")]), SHOW, "RENDERED",
      [METHOD, must_not(r"pbe0", "MISLEADING", "a raw label is not the protocol")])
+# #21's round 12 (b6f7f66): one side carries its verified canonical protocol, the other none (a
+# MoleculeView built in memory; record.load refuses a file without it). Compared on raw strings,
+# both stale "pbe0" labels agreed and the caption named pbe0 for a record whose protocol is B3LYP
+case("one_side_without_protocol", "P2 one method",
+     "One side's protocol is verified B3LYP with a stale raw 'pbe0'; the other carries no canonical fields and "
+     "says 'pbe0': the caption cannot name one method for both. Refuse.",
+     side(E2B, patch=[("provenance.xc", "pbe0")]),
+     side(Z2B, patch=[("provenance.analysis_fields", None), ("provenance.xc", "pbe0")]), REFUSE_F, "REFUSED")
 case("ensemble_vs_pilot_versions", "P2 one method",
      "A v0.2.1 Atlas conformer beside a v0.1.0 pilot record, both B3LYP/def2-SVP in the gas phase: the "
      "captions would read alike, but the analysis keys differ. The key decides; refuse.",

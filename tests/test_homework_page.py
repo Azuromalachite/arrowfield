@@ -244,7 +244,10 @@ def _list_op(op, r, ensembles, conformers):
             if kind == "drop_canonical":
                 return _with_prov(v, analysis_fields=None)
             f = json.loads(v.provenance.analysis_fields)
-            f[op[1]] = op[2]
+            if op[2] == DROP:
+                del f[op[1]]
+            else:
+                f[op[1]] = op[2]
             s = json.dumps(f, sort_keys=True)
             key = hashlib.sha1(s.encode()).hexdigest() if kind == "canonical_rekey" else v.provenance.analysis_key
             return _with_prov(v, analysis_fields=s, analysis_key=key)
@@ -282,13 +285,29 @@ def _run(c):
 
 
 # the probe on #21 (fe2fe08) and its reruns (318da98, 2a67bdd, 9eae791, 2b87a0a, 23d5ba2,
-# 8fe0749, 64b5fa2, 7fb0bed): all met; only shrinks.
-XFAIL = set()
+# 8fe0749, 64b5fa2, 7fb0bed) are met. Round 12 on b6f7f66: canonical names printed without a
+# grammar; canonical fields with no solvent. Only shrinks.
+XFAIL = {
+    "test_page_output_is_safe[canonical_basis_with_phase]",
+    "test_page_output_is_safe[canonical_xc_with_slash]",
+    "test_page_output_is_safe[canonical_xc_literal_none]",
+    "test_page_output_is_safe[canonical_basis_literal_none]",
+    "test_page_output_is_safe[canonical_xc_space]",
+    "test_page_output_is_safe[canonical_xc_filler]",
+    "test_page_output_is_safe[canonical_no_solvent_key]",
+    "test_page_output_is_preferred[canonical_basis_with_phase]",
+    "test_page_output_is_preferred[canonical_xc_with_slash]",
+    "test_page_output_is_preferred[canonical_xc_literal_none]",
+    "test_page_output_is_preferred[canonical_basis_literal_none]",
+    "test_page_output_is_preferred[canonical_xc_space]",
+    "test_page_output_is_preferred[canonical_xc_filler]",
+    "test_page_output_is_preferred[canonical_no_solvent_key]",
+}
 
 
 def _xfail(request, key):
     if key in XFAIL:
-        request.applymarker(pytest.mark.xfail(strict=True, reason="homework page on 7fb0bed"))
+        request.applymarker(pytest.mark.xfail(strict=True, reason="homework page on b6f7f66"))
 
 
 @pytest.mark.parametrize("c", CASES, ids=[c["id"] for c in CASES])

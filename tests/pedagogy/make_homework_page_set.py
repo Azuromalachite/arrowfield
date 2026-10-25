@@ -566,6 +566,22 @@ for vid, ops in (("digest_mismatch", [["canonical", "solvent", "water"]]),
     case(f"canonical_{vid}", "H10 canonical protocol",
          f"Every record's canonical fields {ops[0]}: the key no longer digests what the record says its protocol "
          "is, or there is none to name. Refuse.", REFUSE_F, "REFUSED", source_ops=ops)
+# round 12 on #21 (b6f7f66): canonical fields that digest correctly but that espmap never writes.
+# The page prints the canonical functional and basis into "xc/basis, phase": a canonical name is
+# readable text with no whitespace or "/" (espmap's keys have neither, its libxc form included),
+# never "None"; and the fields name their solvent (None for gas), never leave it out
+for vid, field, value in (("basis_with_phase", "basis", "def2svp, PCM water"), ("xc_with_slash", "xc", "b3lyp/def2tzvp"),
+                          ("xc_literal_none", "xc", "None"), ("basis_literal_none", "basis", "None"),
+                          ("xc_space", "xc", " "), ("xc_filler", "xc", "ㅤ"), ("no_solvent_key", "solvent", DROP)):
+    case(f"canonical_{vid}", "H10 canonical protocol",
+         f"Every record's canonical {field} is {value!r} (the key re-digested): the caption would read another "
+         "method or phase, or nothing. Refuse.", REFUSE_F, "REFUSED",
+         source_ops=SAME + [["canonical_rekey", field, value]])
+case("canonical_libxc_form", "H10 canonical protocol",
+     "Every record's canonical xc is espmap's key for a functional without a display name "
+     "(libxc:hyb(0.2,0.08,0)+...): espmap writes it, so the page names it.", RENDER, "RENDERED",
+     [must(r"libxc:hyb\(0\.2,0\.08,0\)\+1\*0\.08/def2svp", "MISLEADING", "the protocol's own name"), ACT_ORDER],
+     source_ops=SAME + [["canonical_rekey", "xc", "libxc:hyb(0.2,0.08,0)+1*0.08"]])
 
 # H4: a plan reference naming two commits is ambiguous: never resolved by position
 case("plan_reference_two_commits", "H4 provenance",
