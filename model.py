@@ -14,6 +14,7 @@ show "not comparable" or "not tested" instead of failing or guessing.
 """
 import hashlib
 import json
+import re
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import Callable, Optional
@@ -46,6 +47,10 @@ class Provenance:
         return f"{self.xc}/{self.basis}, {'gas' if gas else 'PCM ' + self.solvent}"
 
 
+# a canonical functional or basis name: printable ASCII with no whitespace and no "/"
+CANONICAL_NAME = re.compile(r"[!-.0-~]+")
+
+
 def analysis_digest(fields):
     """espmap's record_key: the sha1 of the fields' sorted JSON (v0.2.1 and v0.3.0 alike)."""
     return hashlib.sha1(json.dumps(fields, sort_keys=True).encode()).hexdigest()
@@ -72,8 +77,14 @@ def protocol_problems(prov):
     if analysis_digest(f) != prov.analysis_key:
         return [f"{prov.source}: analysis_key {prov.analysis_key} is not the digest of its canonical fields"]
     out = []
-    if not all(isinstance(f.get(k), str) and f[k] for k in ("xc", "basis")):
-        out.append(f"{prov.source}: its canonical fields name no functional and basis")
+    # a caption prints "xc/basis, phase": a canonical name is readable text with no whitespace or
+    # "/" (espmap's xc_key and basis_key, its libxc form included, have neither), never "None"
+    if not all(isinstance(f.get(k), str) and CANONICAL_NAME.fullmatch(f[k]) and f[k].casefold() != "none"
+               for k in ("xc", "basis")):
+        out.append(f"{prov.source}: its canonical fields name no functional and basis a caption can show "
+                   f"({f.get('xc')!r}/{f.get('basis')!r})")
+    if "solvent" not in f:
+        out.append(f"{prov.source}: its canonical fields name no solvent (None is the gas phase)")
     if f.get("solvent") is not None and not isinstance(f["solvent"], str):
         out.append(f"{prov.source}: its canonical solvent {f['solvent']!r} is not a solvent name")
     raw = None if prov.solvent in (None, "vacuum", "gas") else prov.solvent

@@ -285,24 +285,8 @@ def _run(c):
 
 
 # the probe on #21 (fe2fe08) and its reruns (318da98, 2a67bdd, 9eae791, 2b87a0a, 23d5ba2,
-# 8fe0749, 64b5fa2, 7fb0bed) are met. Round 12 on b6f7f66: canonical names printed without a
-# grammar; canonical fields with no solvent. Only shrinks.
-XFAIL = {
-    "test_page_output_is_safe[canonical_basis_with_phase]",
-    "test_page_output_is_safe[canonical_xc_with_slash]",
-    "test_page_output_is_safe[canonical_xc_literal_none]",
-    "test_page_output_is_safe[canonical_basis_literal_none]",
-    "test_page_output_is_safe[canonical_xc_space]",
-    "test_page_output_is_safe[canonical_xc_filler]",
-    "test_page_output_is_safe[canonical_no_solvent_key]",
-    "test_page_output_is_preferred[canonical_basis_with_phase]",
-    "test_page_output_is_preferred[canonical_xc_with_slash]",
-    "test_page_output_is_preferred[canonical_xc_literal_none]",
-    "test_page_output_is_preferred[canonical_basis_literal_none]",
-    "test_page_output_is_preferred[canonical_xc_space]",
-    "test_page_output_is_preferred[canonical_xc_filler]",
-    "test_page_output_is_preferred[canonical_no_solvent_key]",
-}
+# 8fe0749, 64b5fa2, 7fb0bed, b6f7f66): all met; only shrinks.
+XFAIL = set()
 
 
 def _xfail(request, key):

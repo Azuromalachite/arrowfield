@@ -223,13 +223,9 @@ def _run(c):
 
 # the probe on #18 (fa0e676): the relation depends on bond-list order and misses a methyl-H
 # relabelling. Measured on fa0e676; only shrinks.
-# The 3 measured on fa0e676 and the 1 on #21's 7fb0bed are met. #21's round 12 on b6f7f66: a pair
-# with one side's protocol and none on the other compares raw strings. Each entry is "test[case]";
-# only shrinks.
-XFAIL = {
-    "test_view_output_is_safe[one_side_without_protocol]",
-    "test_view_output_is_preferred[one_side_without_protocol]",
-}
+# The 3 measured on fa0e676, the 1 on #21's 7fb0bed and the 1 on its b6f7f66 are met. Each entry
+# is "test[case]"; only shrinks.
+XFAIL = set()
 
 
 def _xfail(request, test, c):

@@ -620,6 +620,11 @@ def pair_view_html(left, right, context=None):
                       "under one protocol")
     pa, pb = left.provenance, right.provenance
     canonical = protocol(pa) is not None and protocol(pb) is not None
+    if (protocol(pa) is None) != (protocol(pb) is None):
+        # #21's round 12: compared on raw strings, two stale labels agreed while one side's verified
+        # protocol said otherwise
+        raise Refused("one record carries its canonical protocol and the other none: the caption cannot "
+                      "name one method for both")
     if canonical:
         # each record's canonical protocol, digested by its key (the user's decision on #21): one
         # key is one protocol, however the runs spelled their settings
