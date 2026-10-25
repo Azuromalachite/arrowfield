@@ -600,6 +600,25 @@ case("canonical_libxc_form", "H10 canonical protocol",
      "(libxc:hyb(0.2,0.08,0)+...): espmap writes it, so the page names it.", RENDER, "RENDERED",
      [must(r"libxc:hyb\(0\.2,0\.08,0\)\+1\*0\.08/def2svp", "MISLEADING", "the protocol's own name"), ACT_ORDER],
      source_ops=SAME + [["canonical_rekey", "xc", "libxc:hyb(0.2,0.08,0)+1*0.08"]])
+# round 13 on #21 (f082152): commas and phase words inside the old name grammar made the caption
+# name another method or phase. espmap's keys (xc_key, basis_key; 50 common inputs checked against
+# v0.2.1) put a comma only inside parentheses and never a phase or solvent word
+for vid, field, value, solvent in (("xc_two_names", "xc", "b3lyp,def2tzvp", None),
+                                   ("xc_two_functionals", "xc", "b3lyp,pbe0", None),
+                                   ("basis_comma_pcm", "basis", "def2svp,PCM", None),
+                                   ("basis_comma_pcm_water", "basis", "def2svp,PCM-water", None),
+                                   ("basis_comma_gas_on_water", "basis", "def2svp,gas", "water"),
+                                   ("basis_paren_gas_on_water", "basis", "def2svp(gas)", "water")):
+    phase = [["canonical_rekey", "solvent", solvent], ["settings", "solvent", solvent]] if solvent else []
+    case(f"canonical_{vid}", "H10 canonical protocol",
+         f"Every record's canonical {field} is {value!r} (re-digested{', in ' + solvent if solvent else ''}): the "
+         "caption would name a second method or another phase. Refuse.", REFUSE_F, "REFUSED",
+         source_ops=SAME + phase + [["canonical_rekey", field, value]])
+case("canonical_basis_with_parenthesised_comma", "H10 canonical protocol",
+     "Every record's canonical basis is espmap's key for 6-311++G(2d,2p): a comma inside parentheses is the "
+     "basis's own name, so the page names it.", RENDER, "RENDERED",
+     [must(r"b3lyp/6311\+\+g\(2d,2p\)", "MISLEADING", "the protocol's own name"), ACT_ORDER],
+     source_ops=SAME + [["canonical_rekey", "basis", "6311++g(2d,2p)"]])
 
 # H4: a plan reference naming two commits is ambiguous: never resolved by position
 case("plan_reference_two_commits", "H4 provenance",

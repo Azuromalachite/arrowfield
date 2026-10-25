@@ -7117,6 +7117,310 @@
    ]
   },
   {
+   "id": "canonical_xc_two_names",
+   "cls": "H10 canonical protocol",
+   "why": "Every record's canonical xc is 'b3lyp,def2tzvp' (re-digested): the caption would name a second method or another phase. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings_ensembles",
+     "solvent",
+     "vacuum"
+    ],
+    [
+     "canonical_rekey",
+     "xc",
+     "b3lyp,def2tzvp"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "canonical_xc_two_functionals",
+   "cls": "H10 canonical protocol",
+   "why": "Every record's canonical xc is 'b3lyp,pbe0' (re-digested): the caption would name a second method or another phase. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings_ensembles",
+     "solvent",
+     "vacuum"
+    ],
+    [
+     "canonical_rekey",
+     "xc",
+     "b3lyp,pbe0"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "canonical_basis_comma_pcm",
+   "cls": "H10 canonical protocol",
+   "why": "Every record's canonical basis is 'def2svp,PCM' (re-digested): the caption would name a second method or another phase. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings_ensembles",
+     "solvent",
+     "vacuum"
+    ],
+    [
+     "canonical_rekey",
+     "basis",
+     "def2svp,PCM"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "canonical_basis_comma_pcm_water",
+   "cls": "H10 canonical protocol",
+   "why": "Every record's canonical basis is 'def2svp,PCM-water' (re-digested): the caption would name a second method or another phase. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings_ensembles",
+     "solvent",
+     "vacuum"
+    ],
+    [
+     "canonical_rekey",
+     "basis",
+     "def2svp,PCM-water"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "canonical_basis_comma_gas_on_water",
+   "cls": "H10 canonical protocol",
+   "why": "Every record's canonical basis is 'def2svp,gas' (re-digested, in water): the caption would name a second method or another phase. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings_ensembles",
+     "solvent",
+     "vacuum"
+    ],
+    [
+     "canonical_rekey",
+     "solvent",
+     "water"
+    ],
+    [
+     "settings",
+     "solvent",
+     "water"
+    ],
+    [
+     "canonical_rekey",
+     "basis",
+     "def2svp,gas"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "canonical_basis_paren_gas_on_water",
+   "cls": "H10 canonical protocol",
+   "why": "Every record's canonical basis is 'def2svp(gas)' (re-digested, in water): the caption would name a second method or another phase. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings_ensembles",
+     "solvent",
+     "vacuum"
+    ],
+    [
+     "canonical_rekey",
+     "solvent",
+     "water"
+    ],
+    [
+     "settings",
+     "solvent",
+     "water"
+    ],
+    [
+     "canonical_rekey",
+     "basis",
+     "def2svp(gas)"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "canonical_basis_with_parenthesised_comma",
+   "cls": "H10 canonical protocol",
+   "why": "Every record's canonical basis is espmap's key for 6-311++G(2d,2p): a comma inside parentheses is the basis's own name, so the page names it.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings_ensembles",
+     "solvent",
+     "vacuum"
+    ],
+    [
+     "canonical_rekey",
+     "basis",
+     "6311++g(2d,2p)"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "b3lyp/6311\\+\\+g\\(2d,2p\\)",
+     "grade": "MISLEADING",
+     "why": "the protocol's own name"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
    "id": "plan_reference_two_commits",
    "cls": "H4 provenance",
    "why": "The study's plan reference names two commits ('@ 7e34658 @ deadbee'): the page cannot tell which froze the plan. It renders with the plan commit marked not recorded, never 'Plan frozen at' either one.",
