@@ -191,6 +191,13 @@ def blk(act, k):
     return ["acts", act, "blocks", k]
 
 
+def blk_of(act, view):
+    """Path to the one block of a kind in act index act, wherever the plan puts it."""
+    ks = [k for k, b in enumerate(PLAN["acts"][act]["blocks"]) if b["view"] == view]
+    assert len(ks) == 1, (act, view, ks)
+    return blk(act, ks[0])
+
+
 # --- H1 the real plan --------------------------------------------------------------------------
 case("real_plan_student", "H1 the real plan",
      "The homework as written, for a student: renders, with every rule below holding at once, and no "
@@ -261,7 +268,7 @@ case("bundle_without_commit", "H4 provenance",
      [must(r"provenance incomplete", "MISLEADING", "said, in the footer"), FOOTER], source_ops=["bundle_unknown"])
 case("conformer_not_in_ensemble", "H4 provenance",
      "The pair view's conformer from outside the molecule's sources: no record to show. Refuse.",
-     REFUSE, "REFUSED", plan_patch=[(blk(1, 2) + ["right", "conformer"], "conf_99")])
+     REFUSE, "REFUSED", plan_patch=[(blk_of(1, "pair_view") + ["right", "conformer"], "conf_99")])
 
 # --- H5 the study / teaching split --------------------------------------------------------------
 case("tested_site_without_study_card", "H5 study and teaching",
