@@ -230,63 +230,9 @@ def _run(c):
     return "RENDERED", page
 
 
-# the probe on #21 (fe2fe08) and its reruns (318da98, 2a67bdd, 9eae791) are met. The rerun on
-# 2b87a0a: slugs, the study's plan reference, espmap versions, analysis keys and contrast ids
-# reach the page unchecked; an unknown difference-card site crashes. Only shrinks.
-XFAIL = {
-    "test_page_output_is_safe[slug_lone_surrogate]",
-    "test_page_output_is_safe[slug_nul]",
-    "test_page_output_is_safe[slug_nel]",
-    "test_page_output_is_safe[slug_nonchar]",
-    "test_page_output_is_safe[slug_filler]",
-    "test_page_output_is_safe[slug_empty]",
-    "test_page_output_is_safe[slug_comma]",
-    "test_page_output_is_safe[difference_card_site_unknown]",
-    "test_page_output_is_safe[difference_card_site_none]",
-    "test_page_output_is_safe[difference_card_site_not_text]",
-    "test_page_output_is_safe[study_plan_none]",
-    "test_page_output_is_safe[study_plan_not_text]",
-    "test_page_output_is_safe[study_plan_nul]",
-    "test_page_output_is_safe[study_plan_nonchar]",
-    "test_page_output_is_safe[study_plan_lone_surrogate]",
-    "test_page_output_is_safe[study_plan_filler]",
-    "test_page_output_is_safe[espmap_version_not_text]",
-    "test_page_output_is_safe[espmap_version_nul]",
-    "test_page_output_is_safe[espmap_version_c1]",
-    "test_page_output_is_safe[espmap_version_lone_surrogate]",
-    "test_page_output_is_safe[analysis_key_not_text]",
-    "test_page_output_is_safe[analysis_key_nul_late]",
-    "test_page_output_is_safe[analysis_key_nul_early]",
-    "test_page_output_is_safe[analysis_key_lone_surrogate]",
-    "test_page_output_is_safe[contrast_id_nul]",
-    "test_page_output_is_safe[contrast_id_lone_surrogate]",
-    "test_page_output_is_preferred[slug_lone_surrogate]",
-    "test_page_output_is_preferred[slug_nul]",
-    "test_page_output_is_preferred[slug_nel]",
-    "test_page_output_is_preferred[slug_nonchar]",
-    "test_page_output_is_preferred[slug_filler]",
-    "test_page_output_is_preferred[slug_empty]",
-    "test_page_output_is_preferred[slug_comma]",
-    "test_page_output_is_preferred[difference_card_site_unknown]",
-    "test_page_output_is_preferred[difference_card_site_none]",
-    "test_page_output_is_preferred[difference_card_site_not_text]",
-    "test_page_output_is_preferred[study_plan_none]",
-    "test_page_output_is_preferred[study_plan_not_text]",
-    "test_page_output_is_preferred[study_plan_nul]",
-    "test_page_output_is_preferred[study_plan_nonchar]",
-    "test_page_output_is_preferred[study_plan_lone_surrogate]",
-    "test_page_output_is_preferred[study_plan_filler]",
-    "test_page_output_is_preferred[espmap_version_not_text]",
-    "test_page_output_is_preferred[espmap_version_nul]",
-    "test_page_output_is_preferred[espmap_version_c1]",
-    "test_page_output_is_preferred[espmap_version_lone_surrogate]",
-    "test_page_output_is_preferred[analysis_key_not_text]",
-    "test_page_output_is_preferred[analysis_key_nul_late]",
-    "test_page_output_is_preferred[analysis_key_nul_early]",
-    "test_page_output_is_preferred[analysis_key_lone_surrogate]",
-    "test_page_output_is_preferred[contrast_id_nul]",
-    "test_page_output_is_preferred[contrast_id_lone_surrogate]",
-}
+# the probe on #21 (fe2fe08) and its reruns (318da98, 2a67bdd, 9eae791, 2b87a0a): all met;
+# only shrinks.
+XFAIL = set()
 
 
 def _xfail(request, key):

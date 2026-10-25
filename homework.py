@@ -61,8 +61,13 @@ def _writable(x):
     """Text a page can carry: no lone surrogate (the page could not be written
     as UTF-8), no control character but tab, newline and carriage return, and no
     noncharacter (U+FDD0-FDEF, U+xFFFE/xFFFF: an HTML parse error)."""
-    return not any(unicodedata.category(ch) == "Cs" or (unicodedata.category(ch) == "Cc" and ch not in "\t\n\r")
-                   or 0xFDD0 <= ord(ch) <= 0xFDEF or ord(ch) & 0xFFFE == 0xFFFE for ch in x)
+    return not _UNCARRIABLE.search(x)
+
+
+# the controls (Cc) but tab, newline and CR; the surrogates (Cs); the noncharacters
+_UNCARRIABLE = re.compile("[\x00-\x08\x0b\x0c\x0e-\x1f\x7f-\x9f\ud800-\udfff﷐-﷯"
+                          + "".join(f"{chr(p * 0x10000 + 0xFFFE)}{chr(p * 0x10000 + 0xFFFF)}" for p in range(17))
+                          + "]")
 
 
 def _need(cond, why):
@@ -82,6 +87,17 @@ def _check_plan(plan, sources, audience):
     _need(study.verdict_rule in KNOWN_VERDICT_RULES,
           f"the study's verdict rule {study.verdict_rule!r} is not one Arrowfield knows: no study card can be shown")
     _need(isinstance(ens, dict) and isinstance(sources.get("conformers", {}), dict), "ensembles and conformers must be mappings")
+    # source text the page shows (the round-7 probe on #21): each is text a page can carry, and
+    # a name or reference has something to read
+    for slug in plan["molecules"]:
+        _need(isinstance(slug, str) and _writable(slug), f"molecule key {slug!r} is not text a page can carry")
+        _need(_visible(slug) and "," not in slug,
+              f"molecule key {slug!r} names no molecule a reader can read, or names two in data-molecules")
+    _need(isinstance(study.plan, str) and _writable(study.plan) and _visible(study.plan),
+          f"the study's plan reference {study.plan!r} is not one a page can show")
+    for t in study.sites:
+        _need(all(isinstance(f, str) and _writable(f) for f in (t.contrast, t.site, t.x, t.y)),
+              f"a study row names {t.contrast!r} / {t.site!r} in text a page cannot carry")
     # roles: one per molecule, from the plan, checked against the data
     for slug, m in plan["molecules"].items():
         _need(isinstance(m, dict) and m.get("role") in ROLE_WORDS,
@@ -122,9 +138,17 @@ def _check_plan(plan, sources, audience):
         _need(_visible(a.get("predict")),
               f"act {a['id']} has no prediction: the reveal would come first")
         _need(isinstance(a.get("blocks"), list) and isinstance(a.get("contrasts"), list), f"act {a['id']} is malformed")
+        _need(all(isinstance(c, str) and _writable(c) and _visible(c) for c in a["contrasts"]),
+              f"act {a['id']} names a contrast in text a page cannot show")
         _need(a["id"] != "D" or not a["blocks"], "act D is about what free-molecule ESP cannot show: it holds no view")
     # one analysis key across the page
     views = [v for _, vs in ens.values() for v in vs] + list((sources.get("conformers") or {}).values())
+    for v in views:
+        ver = v.provenance.espmap_version
+        _need(ver is None or (isinstance(ver, str) and _writable(ver)),
+              f"{v.provenance.source}: espmap version {ver!r} is not text a page can carry")
+        _need(isinstance(v.analysis_key, str) and _writable(v.analysis_key) and _visible(v.analysis_key),
+              f"{v.provenance.source}: analysis key {v.analysis_key!r} is not one a page can show")
     keys = {v.analysis_key for v in views}
     _need(len(keys) == 1, f"the page's molecules carry {len(keys)} analysis keys; the homework uses one throughout")
     return bundle, study, ens, keys, views
@@ -172,7 +196,11 @@ def _block(act, k, plan, bundle, study, ens, sources, views):
                       for b in act["blocks"] if isinstance(b, dict)),
                   f"act {act['id']}: a difference card at {site}, which {k['contrast']} tests, needs that site's "
                   "study card in the act")
-        card = compare(ens[x][1], ens[y][1], site, x, y)
+        _need(isinstance(site, str), f"act {act['id']}: a difference card at site {site!r}, which is not a site name")
+        try:
+            card = compare(ens[x][1], ens[y][1], site, x, y)
+        except KeyError:
+            raise Refused(f"act {act['id']}: a difference card at {site!r}, which {x} and {y} do not carry") from None
         ctx = {"study": study, "contrast": k["contrast"], "x": x, "y": y,
                "roles": {s: mols[s]["role"] for s in (x, y)}}
         return V.card_html(card, ctx), (x, y)
@@ -236,7 +264,13 @@ def page_html(plan, sources, audience="student"):
                 f'data-espmap="{_attr(",".join(versions))}" data-analysis-keys="{_attr(",".join(sorted(keys)))}">'
                 f"{atlas} · results sha256 {_e(study.sha256[:12])}… · espmap {_e(', '.join(versions))} · "
                 f"analysis key {_e(', '.join(k[:8] for k in sorted(keys)))}</div>")
-    return (f'<!doctype html><html lang="en"><head><meta charset="utf-8">'
+    page = (f'<!doctype html><html lang="en"><head><meta charset="utf-8">'
             f'<meta name="viewport" content="width=device-width, initial-scale=1">'
             f"<title>{_e(plan['case_id'] if _visible(plan.get('case_id')) else 'homework')}</title><style>{V.CSS}</style>"
             f'<script src="{V.THREEDMOL}"></script></head><body>{"".join(body)}</body></html>')
+    # the last line: whatever source text no check above names, the page refuses rather than
+    # carry a character it cannot (a crash at the write, or an HTML parse error)
+    bad = _UNCARRIABLE.search(page)
+    _need(bad is None, f"a source field holds {bad.group()!r} (near {page[max(0, bad.start() - 40):bad.start()]!r}): "
+                       "not text a page can carry" if bad is not None else "")
+    return page
