@@ -321,6 +321,16 @@
      "why": "the study's solvent: none, the gas phase"
     },
     {
+     "must_not": "basis sensitivity: not stated",
+     "grade": "MISLEADING",
+     "why": "the study states its basis check"
+    },
+    {
+     "must": "basis sensitivity: not run",
+     "grade": "MISLEADING",
+     "why": "the study's basis check: not run"
+    },
+    {
      "must": "teaching control",
      "grade": "FALSE",
      "why": "the aldehyde named as a teaching control"
@@ -383,6 +393,16 @@
      "must": "solvent: [^.]*gas phase",
      "grade": "MISLEADING",
      "why": "the study's solvent: none, the gas phase"
+    },
+    {
+     "must_not": "basis sensitivity: not stated",
+     "grade": "MISLEADING",
+     "why": "the study states its basis check"
+    },
+    {
+     "must": "basis sensitivity: not run",
+     "grade": "MISLEADING",
+     "why": "the study's basis check: not run"
     },
     {
      "must": "for the instructor",
@@ -7527,6 +7547,99 @@
    ],
    "prefer": "REFUSED",
    "requires": []
+  },
+  {
+   "id": "study_members_first_ten_each",
+   "cls": "H11 the study's protocol",
+   "why": "The page's ensembles hold other member counts than the study's n_ok ([['keep_members', 'z3_z13_18_oac', 10], ['keep_members', 'z3_z13_18_oh', 10], ['keep_members', 'e3_z13_18_oac', 10], ['keep_members', 'e2_z13_18_oac', 10]]): its cards are not the evidence the study cards beside them decided on. Refuse, naming the molecule and both counts.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "keep_members",
+     "z3_z13_18_oac",
+     10
+    ],
+    [
+     "keep_members",
+     "z3_z13_18_oh",
+     10
+    ],
+    [
+     "keep_members",
+     "e3_z13_18_oac",
+     10
+    ],
+    [
+     "keep_members",
+     "e2_z13_18_oac",
+     10
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "study_members_e3_nineteen",
+   "cls": "H11 the study's protocol",
+   "why": "The page's ensembles hold other member counts than the study's n_ok ([['keep_members', 'e3_z13_18_oac', 19]]): its cards are not the evidence the study cards beside them decided on. Refuse, naming the molecule and both counts.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "keep_members",
+     "e3_z13_18_oac",
+     19
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "study_members_control_nineteen",
+   "cls": "H11 the study's protocol",
+   "why": "The aldehyde teaching control with 19 members: not an Atlas molecule of the study, so its count is not the study's to check. Renders.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "keep_members",
+     "z3_z13_18_al",
+     19
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
   },
   {
    "id": "plan_reference_two_commits",

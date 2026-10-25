@@ -242,6 +242,9 @@ def _list_op(op, r, ensembles, conformers):
         r = replace(r, sites=sites, molecules={(new if k == old else k): v for k, v in r.molecules.items()})
     elif kind == "rename_contrast":
         r = replace(r, sites=tuple(replace(t, contrast=op[2]) if t.contrast == op[1] else t for t in r.sites))
+    elif kind == "keep_members":    # one molecule's ensemble cut to its first k members
+        src, vs = ensembles[op[1]]
+        ensembles = {**ensembles, op[1]: (src, list(vs)[:op[2]])}
     elif kind == "study_plan":
         r = replace(r, plan=op[1])
     elif kind == "espmap_version":  # one record of one ensemble
@@ -317,13 +320,23 @@ def _run(c):
 
 
 # the probe on #21 (fe2fe08), its reruns (318da98, 2a67bdd, 9eae791, 2b87a0a, 23d5ba2, 8fe0749,
-# 64b5fa2, 7fb0bed, b6f7f66, f082152) and the fresh probe on 565e303: all met; only shrinks.
-XFAIL = set()
+# 64b5fa2, 7fb0bed, b6f7f66, f082152) and the fresh probe on 565e303 are met. The fresh probe on
+# e17af42: 'basis sensitivity: not stated'; member counts other than the study's. Only shrinks.
+XFAIL = {
+    "test_page_output_is_safe[study_members_first_ten_each]",
+    "test_page_output_is_safe[study_members_e3_nineteen]",
+    "test_page_output_is_preferred[study_members_first_ten_each]",
+    "test_page_output_is_preferred[study_members_e3_nineteen]",
+    "test_a_rendered_page_meets_its_requirements[real_plan_student-7]",
+    "test_a_rendered_page_meets_its_requirements[real_plan_student-8]",
+    "test_a_rendered_page_meets_its_requirements[real_plan_instructor-7]",
+    "test_a_rendered_page_meets_its_requirements[real_plan_instructor-8]",
+}
 
 
 def _xfail(request, key):
     if key in XFAIL:
-        request.applymarker(pytest.mark.xfail(strict=True, reason="homework page on 99901b8"))
+        request.applymarker(pytest.mark.xfail(strict=True, reason="homework page on e17af42"))
 
 
 @pytest.mark.parametrize("c", CASES, ids=[c["id"] for c in CASES])

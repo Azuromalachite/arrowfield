@@ -187,7 +187,11 @@ SOUND = [ROLES_SHOWN, ACT_ORDER, FOOTER, STUDY_SPLIT, NO_BRIDGE]
 # the fresh probe on #21 (565e303): every study card printed "solvent: not stated" beside "gas
 # phase", though the study's protocol is the gas phase and every record says so
 STUDY_SCOPE = [must_not(r"solvent: not stated", "MISLEADING", "the study's protocol states its phase"),
-               must(r"solvent: [^.]*gas phase", "MISLEADING", "the study's solvent: none, the gas phase")]
+               must(r"solvent: [^.]*gas phase", "MISLEADING", "the study's solvent: none, the gas phase"),
+               # the fresh probe on e17af42: "basis sensitivity: not stated", though the study states its
+               # def2-TZVP check was not run (plan section 6; results.md)
+               must_not(r"basis sensitivity: not stated", "MISLEADING", "the study states its basis check"),
+               must(r"basis sensitivity: not run", "MISLEADING", "the study's basis check: not run")]
 
 
 def blk(act, k):
@@ -635,6 +639,21 @@ for vid, field, value, raw in (("water", "solvent", "water", ["settings", "solve
          f"Every record is a {value} run, written as espmap writes one (canonical and settings, one new key): the "
          "page's study cards would say the frozen study decided under it. Refuse.", REFUSE_F, "REFUSED",
          source_ops=SAME + [["canonical_rekey", field, value], raw])
+# the fresh probe on #21 (e17af42): the key names a protocol, not a member set. Each difference card
+# beside a study card sends the student to the study's verdict, decided on the study's members; a
+# card computed on other members (10 of 20, 19 of 20) is not that evidence. A count that differs
+# from the study's n_ok proves the members are not the study's: refuse (the user's decision). An
+# equal count does not prove they are; the results carry no member ids. The teaching control is
+# not one of the study's Atlas molecules, and its count is not checked
+for vid, ops in (("first_ten_each", [["keep_members", slug, 10] for slug in (OAC, OH, E3, E2)]),
+                 ("e3_nineteen", [["keep_members", E3, 19]])):
+    case(f"study_members_{vid}", "H11 the study's protocol",
+         f"The page's ensembles hold other member counts than the study's n_ok ({ops}): its cards are not the "
+         "evidence the study cards beside them decided on. Refuse, naming the molecule and both counts.",
+         REFUSE, "REFUSED", source_ops=ops)
+case("study_members_control_nineteen", "H11 the study's protocol",
+     "The aldehyde teaching control with 19 members: not an Atlas molecule of the study, so its count is not the "
+     "study's to check. Renders.", RENDER, "RENDERED", [ACT_ORDER], source_ops=[["keep_members", AL, 19]])
 
 # H4: a plan reference naming two commits is ambiguous: never resolved by position
 case("plan_reference_two_commits", "H4 provenance",
