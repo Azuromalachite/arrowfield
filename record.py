@@ -60,6 +60,13 @@ class Record:
             if npz_geometry != (self.j.get("geometry") or {}).get("sha1"):
                 raise InvalidRecord(f"{stem.name}: the NPZ beside it was computed on geometry {npz_geometry}, the "
                                     f"record on {(self.j.get('geometry') or {}).get('sha1')}: not this record's surface")
+            # and under the record's protocol: the same geometry under another (a def2-TZVP single
+            # point, say) is another potential (#21's fresh probe on c4ac558)
+            for k in ("analysis_key", "render_key"):
+                got = str(self.z[k]) if k in self.z.files else None
+                if got != self.j.get(k):
+                    raise InvalidRecord(f"{stem.name}: the NPZ beside it states {k} {got}, the record "
+                                        f"{self.j.get(k)}: another run's surface")
 
     def view(self, name=None):
         """The record as Arrowfield's MoleculeView."""

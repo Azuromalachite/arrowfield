@@ -47,6 +47,11 @@ def test_a_record_beside_another_records_surface_is_refused(tmp_path):
     shutil.copy(pair / "conf_02.npz", tmp_path / "swapped.npz")
     with pytest.raises(InvalidRecord):
         Record(tmp_path / "swapped")
+    shutil.copy(pair / "conf_00.json", tmp_path / "rekeyed.json")   # own geometry, another protocol's key
+    z = dict(np.load(pair / "conf_00.npz"))
+    np.savez(tmp_path / "rekeyed.npz", **{**z, "analysis_key": np.array("2b7bee37" + "0" * 32)})
+    with pytest.raises(InvalidRecord):
+        Record(tmp_path / "rekeyed")
     for rec in sorted(REC.glob("*.npz")):                      # every record here carries its own
         Record(rec.with_suffix(""))
 
