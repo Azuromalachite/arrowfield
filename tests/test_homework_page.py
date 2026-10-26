@@ -185,7 +185,10 @@ def _ensemble(slug):
             atoms=(Atom(0, "C", 1),), sites=sites, sites_tile_surface=False, genus=0,
             scale=Scale("diverging", -20.0, 20.0, "vik"),
             provenance=Provenance(m["conformer"], m["analysis_key"], "r", espmap_version="0.2.1"),
-            folded=m["folded"]))
+            folded=m["folded"],
+            # one structure per molecule, as every real ensemble has (sites.identity.mapped_smiles); a
+            # stand-in per slug, since the fixture copies sites, not structures
+            mapped_smiles=f"fixture:{slug}"))
     source = EnsembleSource(mol["atlas_id"], "espmap-sesiidae-001", mol["members"][0]["analysis_key"], "0.2.1",
                             mol["index_sha256"], "shape-diverse")
     return source, views
@@ -242,6 +245,15 @@ def _list_op(op, r, ensembles, conformers):
         r = replace(r, sites=sites, molecules={(new if k == old else k): v for k, v in r.molecules.items()})
     elif kind == "rename_contrast":
         r = replace(r, sites=tuple(replace(t, contrast=op[2]) if t.contrast == op[1] else t for t in r.sites))
+    elif kind == "swap_member":     # member i of one ensemble replaced by member j of another's
+        src, vs = ensembles[op[1]]
+        vs = list(vs)
+        vs[op[2]] = ensembles[op[3]][1][op[4]]
+        ensembles = {**ensembles, op[1]: (src, vs)}
+    elif kind == "swap_all":        # one molecule's ensemble made of another's records
+        ensembles = {**ensembles, op[1]: (ensembles[op[1]][0], list(ensembles[op[2]][1]))}
+    elif kind == "study_n_ok":
+        r = replace(r, molecules={**r.molecules, op[1]: {**r.molecules[op[1]], "n_ok": op[2]}})
     elif kind == "keep_members":    # one molecule's ensemble cut to its first k members
         src, vs = ensembles[op[1]]
         ensembles = {**ensembles, op[1]: (src, list(vs)[:op[2]])}
@@ -320,14 +332,21 @@ def _run(c):
 
 
 # the probe on #21 (fe2fe08), its reruns (318da98, 2a67bdd, 9eae791, 2b87a0a, 23d5ba2, 8fe0749,
-# 64b5fa2, 7fb0bed, b6f7f66, f082152) and the fresh probes on 565e303 and e17af42: all met; only
-# shrinks.
-XFAIL = set()
+# 64b5fa2, 7fb0bed, b6f7f66, f082152) and the fresh probes on 565e303 and e17af42 are met. The
+# fresh probe on 9e2a397: another molecule's records in an ensemble; n_ok true. Only shrinks.
+XFAIL = {
+    "test_page_output_is_safe[ensemble_with_another_molecules_record]",
+    "test_page_output_is_safe[ensemble_of_another_molecule]",
+    "test_page_output_is_safe[study_n_ok_not_a_count]",
+    "test_page_output_is_preferred[ensemble_with_another_molecules_record]",
+    "test_page_output_is_preferred[ensemble_of_another_molecule]",
+    "test_page_output_is_preferred[study_n_ok_not_a_count]",
+}
 
 
 def _xfail(request, key):
     if key in XFAIL:
-        request.applymarker(pytest.mark.xfail(strict=True, reason="homework page on e17af42"))
+        request.applymarker(pytest.mark.xfail(strict=True, reason="homework page on 9e2a397"))
 
 
 @pytest.mark.parametrize("c", CASES, ids=[c["id"] for c in CASES])

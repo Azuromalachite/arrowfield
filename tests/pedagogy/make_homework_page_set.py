@@ -654,6 +654,23 @@ for vid, ops in (("first_ten_each", [["keep_members", slug, 10] for slug in (OAC
 case("study_members_control_nineteen", "H11 the study's protocol",
      "The aldehyde teaching control with 19 members: not an Atlas molecule of the study, so its count is not the "
      "study's to check. Renders.", RENDER, "RENDERED", [ACT_ORDER], source_ops=[["keep_members", AL, 19]])
+# the fresh probe on #21 (9e2a397): a molecule's ensemble holding another molecule's record (one
+# swapped in, or all of them) passes the key and the count, and its cards compare the wrong
+# molecules beside the study's verdict. Every record carries its structure
+# (sites.identity.mapped_smiles); every real ensemble holds exactly one: an ensemble of more than
+# one structure, or two molecules of the page with one structure, are not the plan's molecules.
+# This is chemical identity, which the records state; member identity stays a follow-up
+case("ensemble_with_another_molecules_record", "H11 the study's protocol",
+     "E3 acetate's 20 members include one Z3 acetate record (count and key pass; Z3's record carries every "
+     "site E3's cards show): its cards mix two molecules. Refuse.", REFUSE, "REFUSED",
+     source_ops=[["swap_member", E3, 19, OAC, 19]])
+case("ensemble_of_another_molecule", "H11 the study's protocol",
+     "E3 acetate's ensemble holds Z3 acetate's 20 records: act B compares Z3 with itself beside the study's "
+     "verdict on E3. Refuse.", REFUSE, "REFUSED", source_ops=[["swap_all", E3, OAC]])
+# a count is a number: True is not 1 member
+case("study_n_ok_not_a_count", "H11 the study's protocol",
+     "The results file gives E2's n_ok as true, and E2's ensemble has one member: true is not a count. Refuse.",
+     REFUSE, "REFUSED", source_ops=[["study_n_ok", E2, True], ["keep_members", E2, 1]])
 
 # H4: a plan reference naming two commits is ambiguous: never resolved by position
 case("plan_reference_two_commits", "H4 provenance",

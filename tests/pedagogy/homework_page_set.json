@@ -7642,6 +7642,85 @@
    ]
   },
   {
+   "id": "ensemble_with_another_molecules_record",
+   "cls": "H11 the study's protocol",
+   "why": "E3 acetate's 20 members include one Z3 acetate record (count and key pass; Z3's record carries every site E3's cards show): its cards mix two molecules. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "swap_member",
+     "e3_z13_18_oac",
+     19,
+     "z3_z13_18_oac",
+     19
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "ensemble_of_another_molecule",
+   "cls": "H11 the study's protocol",
+   "why": "E3 acetate's ensemble holds Z3 acetate's 20 records: act B compares Z3 with itself beside the study's verdict on E3. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "swap_all",
+     "e3_z13_18_oac",
+     "z3_z13_18_oac"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "study_n_ok_not_a_count",
+   "cls": "H11 the study's protocol",
+   "why": "The results file gives E2's n_ok as true, and E2's ensemble has one member: true is not a count. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "study_n_ok",
+     "e2_z13_18_oac",
+     true
+    ],
+    [
+     "keep_members",
+     "e2_z13_18_oac",
+     1
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
    "id": "plan_reference_two_commits",
    "cls": "H4 provenance",
    "why": "The study's plan reference names two commits ('@ 7e34658 @ deadbee'): the page cannot tell which froze the plan. It renders with the plan commit marked not recorded, never 'Plan frozen at' either one.",
