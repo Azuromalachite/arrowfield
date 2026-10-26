@@ -930,6 +930,10 @@ STUDY_KEYS = {"espmap-sesiidae-001/range_partition_sign_v1": "d0f5ed136cda12ada8
 # What each frozen study says it did not run, in its own words, for its study cards' limits: the
 # def2-TZVP check was optional (plan section 6) and its results.md reports it "not run".
 STUDY_LIMITS = {"espmap-sesiidae-001/range_partition_sign_v1": {"basis_sensitivity": "not run (plan §6)"}}
+# Each frozen study's rule for "folded", in its own terms (espmap-sesiidae-001's plan section 3, and
+# each Atlas ensemble index's notes): a page that shows its folded / extended labels says what they mean
+STUDY_FOLD_RULES = {"espmap-sesiidae-001/range_partition_sign_v1":
+                    "an intramolecular contact or a surface of genus above zero (plan §3)"}
 CONDITIONS = ("1_ranges_disjoint", "2_beyond_partition", "3_same_sign")
 
 

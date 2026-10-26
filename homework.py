@@ -16,7 +16,7 @@ import html
 import re
 import unicodedata
 
-from model import KNOWN_VERDICT_RULES, STUDY_KEYS, STUDY_LIMITS, Refused, compare, protocol, protocol_problems, protocol_words
+from model import KNOWN_VERDICT_RULES, STUDY_FOLD_RULES, STUDY_KEYS, STUDY_LIMITS, Refused, compare, protocol, protocol_problems, protocol_words
 
 ACTS = ("A", "B", "C", "D")
 ROLE_WORDS = {"atlas_observed": "Atlas compound",
@@ -200,6 +200,18 @@ def _check_plan(plan, sources, audience):
         _need(len(ens[slug][1]) == n_ok,
               f"{slug}: the page's ensemble has {len(ens[slug][1])} members; this study reports {n_ok} for this "
               "molecule, so its cards would not be the evidence the study decided on")
+        # and on the study's folded / extended partition, which its extended-only rows refer to (the
+        # user's decision after the fresh probe on 9e2a397). Equal counts prove no more: the results
+        # carry no per-member flags
+        n_folded = study.molecules[slug].get("n_folded")
+        _need(isinstance(n_folded, int) and not isinstance(n_folded, bool),
+              f"{slug}: {study.verdict_rule} reports no folded count for this molecule ({n_folded!r})")
+        flags = [v.folded for v in ens[slug][1]]
+        _need(all(isinstance(f, bool) for f in flags),
+              f"{slug}: a member's folded state is not stated, so the page cannot count the study's partition")
+        _need(sum(flags) == n_folded,
+              f"{slug}: page has {sum(flags)} folded / {n_ok - sum(flags)} extended members; study reports "
+              f"{n_folded} folded / {n_ok - n_folded} extended")
     # each molecule's ensemble is that molecule's: every record states its structure
     # (sites.identity.mapped_smiles) and an ensemble holds one; two molecules never share one (the
     # fresh probe on 9e2a397). Chemical identity, which the records state; not member identity
@@ -274,7 +286,14 @@ def _block(act, k, plan, bundle, study, ens, sources, views):
         conf = sources.get("conformers") or {}
         keys = [f"{r['slug']}/{r.get('conformer')}" for r in refs]
         _need(all(c in conf for c in keys), f"a pair's conformer is not in the sources ({keys})")
-        return V.pair_view_html(conf[keys[0]], conf[keys[1]], {}), (refs[0]["slug"], refs[1]["slug"])
+        html_ = V.pair_view_html(conf[keys[0]], conf[keys[1]], {})
+        rule = STUDY_FOLD_RULES.get(study.verdict_rule)
+        if rule and any(isinstance(conf[c].folded, bool) for c in keys):
+            # the labels stay "folded" / "extended"; what they mean is the study's rule, said beside them
+            # (the user's browser check of the 9e2a397 preview: the folded conformer looked the longer)
+            html_ += (f'<p class="limits">Folded here is this study\'s rule: {_e(rule)}. It does not mean shorter or '
+                      "more compact.</p>")
+        return html_, (refs[0]["slug"], refs[1]["slug"])
     if view == "evidence_card":
         slug = k.get("molecule")
         _need(slug in mols, f"{slug!r} is not a molecule of the plan")

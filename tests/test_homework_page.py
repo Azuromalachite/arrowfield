@@ -343,23 +343,9 @@ def _run(c):
 
 
 # the probe on #21 (fe2fe08), its reruns (318da98, 2a67bdd, 9eae791, 2b87a0a, 23d5ba2, 8fe0749,
-# 64b5fa2, 7fb0bed, b6f7f66, f082152) and the fresh probes on 565e303, e17af42 and 9e2a397 are
-# met. The user's decisions on fea40aa: the study's folded partition; the fold rule stated. Only
-# shrinks.
-XFAIL = {
-    "test_page_output_is_safe[study_folded_two_folded_now_extended]",
-    "test_page_output_is_safe[study_folded_one_extended_now_folded]",
-    "test_page_output_is_safe[study_folded_unstated]",
-    "test_page_output_is_safe[study_folded_n_folded_not_a_count]",
-    "test_page_output_is_preferred[study_folded_two_folded_now_extended]",
-    "test_page_output_is_preferred[study_folded_one_extended_now_folded]",
-    "test_page_output_is_preferred[study_folded_unstated]",
-    "test_page_output_is_preferred[study_folded_n_folded_not_a_count]",
-    "test_a_rendered_page_meets_its_requirements[real_plan_student-9]",
-    "test_a_rendered_page_meets_its_requirements[real_plan_student-10]",
-    "test_a_rendered_page_meets_its_requirements[real_plan_instructor-9]",
-    "test_a_rendered_page_meets_its_requirements[real_plan_instructor-10]",
-}
+# 64b5fa2, 7fb0bed, b6f7f66, f082152), the fresh probes on 565e303, e17af42 and 9e2a397 and the
+# user's decisions on fea40aa: all met; only shrinks.
+XFAIL = set()
 
 
 def _xfail(request, key):
