@@ -245,6 +245,10 @@ def _sources(c):
             # whose refusal is the page's
             conformers = {**conformers, op[1]: _record_with_npz(op[1], op[2])}
             continue
+        if isinstance(op, list) and op[0] == "npz_rekeyed":
+            # the record's own geometry, its NPZ stating another protocol's key (another run's surface)
+            conformers = {**conformers, op[1]: _record_with_npz(op[1], op[1], analysis_key=op[2])}
+            continue
         if isinstance(op, list) and op[0] == "bundle_shorthand":
             b = replace(b, compounds={**b.compounds, op[1]: replace(b.compounds[op[1]], shorthand=op[2])})
         elif isinstance(op, list):
@@ -372,15 +376,17 @@ def _has_canonical():
 _HAS_CANONICAL = _has_canonical()
 
 
-def _record_with_npz(key, other):
-    """The record named by key, read beside other's NPZ, as a mixed-up assets directory would hold it."""
+def _record_with_npz(key, other, **npz_fields):
+    """The record named by key, read beside other's NPZ (its fields replaced by npz_fields), as a
+    mixed-up assets directory would hold it."""
     import shutil
     import tempfile
     import record
     tmp = Path(tempfile.mkdtemp())
     stem = key.split("/")[1]
     shutil.copy(DATA / "pair" / f"{key}.json", tmp / f"{stem}.json")
-    shutil.copy(DATA / "pair" / f"{other}.npz", tmp / f"{stem}.npz")
+    z = dict(np.load(DATA / "pair" / f"{other}.npz"))
+    np.savez(tmp / f"{stem}.npz", **{**z, **{k: np.array(v) for k, v in npz_fields.items()}})
     return replace(record.load(tmp / stem), folded=MEMBERS[key]["folded"])
 
 
@@ -399,13 +405,17 @@ def _run(c):
 
 # the probe on #21 (fe2fe08), its reruns (318da98, 2a67bdd, 9eae791, 2b87a0a, 23d5ba2, 8fe0749,
 # 64b5fa2, 7fb0bed, b6f7f66, f082152), the fresh probes on 565e303, e17af42, 9e2a397, 844d3a6 and
-# dfeffcc and the user's decisions on fea40aa and dfeffcc: all met; only shrinks.
-XFAIL = set()
+# dfeffcc and the user's decisions on fea40aa and dfeffcc are met. The fresh probe on c4ac558: an
+# NPZ under another protocol. Only shrinks.
+XFAIL = {
+    "test_page_output_is_safe[pair_npz_another_protocol]",
+    "test_page_output_is_preferred[pair_npz_another_protocol]",
+}
 
 
 def _xfail(request, key):
     if key in XFAIL:
-        request.applymarker(pytest.mark.xfail(strict=True, reason="homework page on 55f5f51"))
+        request.applymarker(pytest.mark.xfail(strict=True, reason="homework page on c4ac558"))
 
 
 @pytest.mark.parametrize("c", CASES, ids=[c["id"] for c in CASES])

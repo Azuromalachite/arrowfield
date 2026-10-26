@@ -8033,6 +8033,30 @@
    "requires": []
   },
   {
+   "id": "pair_npz_another_protocol",
+   "cls": "H11 the study's protocol",
+   "why": "E3 conf_00 beside an NPZ of its own geometry stating another analysis key: another protocol's surface under this record's method caption. Refuse at the reader.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "npz_rekeyed",
+     "e3_z13_18_oac/conf_00",
+     "2b7bee3700000000000000000000000000000000"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
    "id": "plan_reference_two_commits",
    "cls": "H4 provenance",
    "why": "The study's plan reference names two commits ('@ 7e34658 @ deadbee'): the page cannot tell which froze the plan. It renders with the plan commit marked not recorded, never 'Plan frozen at' either one.",

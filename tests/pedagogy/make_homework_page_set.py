@@ -730,6 +730,14 @@ case("ensembles_exchanged_between_compounds", "H11 the study's protocol",
      "but the compound's own identity holds, and Z3 acetate's cards would show the alcohol. Refuse.",
      REFUSE, "REFUSED", source_ops=[["swap_both", OAC, OH], ["study_count", OAC, "n_folded", 4],
                                     ["study_count", OH, "n_folded", 9]])
+# the fresh probe on #21 (c4ac558): an NPZ of the record's own geometry under another protocol
+# (plan §6's def2-TZVP single points would be one) passes the geometry check, and the pair draws
+# another protocol's potential under "Both computed with b3lyp/def2svp". The NPZ states its own
+# analysis_key: the reader refuses one that is not the record's
+case("pair_npz_another_protocol", "H11 the study's protocol",
+     "E3 conf_00 beside an NPZ of its own geometry stating another analysis key: another protocol's "
+     "surface under this record's method caption. Refuse at the reader.", REFUSE, "REFUSED",
+     source_ops=[["npz_rekeyed", f"{E3}/conf_00", "2b7bee37" + "0" * 32]])
 
 # H4: a plan reference naming two commits is ambiguous: never resolved by position
 case("plan_reference_two_commits", "H4 provenance",
