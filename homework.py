@@ -195,10 +195,22 @@ def _check_plan(plan, sources, audience):
         if m["role"] != "atlas_observed":
             continue
         n_ok = (study.molecules.get(slug) or {}).get("n_ok")
-        _need(isinstance(n_ok, int), f"{slug}: {study.verdict_rule} reports no member count for this molecule")
+        _need(isinstance(n_ok, int) and not isinstance(n_ok, bool),
+              f"{slug}: {study.verdict_rule} reports no member count for this molecule ({n_ok!r})")
         _need(len(ens[slug][1]) == n_ok,
               f"{slug}: the page's ensemble has {len(ens[slug][1])} members; this study reports {n_ok} for this "
               "molecule, so its cards would not be the evidence the study decided on")
+    # each molecule's ensemble is that molecule's: every record states its structure
+    # (sites.identity.mapped_smiles) and an ensemble holds one; two molecules never share one (the
+    # fresh probe on 9e2a397). Chemical identity, which the records state; not member identity
+    structures = {}
+    for slug, (_, vs) in ens.items():
+        s = {v.mapped_smiles for v in vs}
+        _need(len(s) == 1 and None not in s,
+              f"{slug}: its ensemble's records state {len(s)} structures; one molecule's ensemble states one")
+        structures.setdefault(next(iter(s)), []).append(slug)
+    shared = [slugs for slugs in structures.values() if len(slugs) > 1]
+    _need(not shared, f"{' and '.join(shared[0]) if shared else ''}: two molecules of the page with one structure")
     return bundle, study, ens, keys, views
 
 

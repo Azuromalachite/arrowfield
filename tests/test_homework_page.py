@@ -332,16 +332,9 @@ def _run(c):
 
 
 # the probe on #21 (fe2fe08), its reruns (318da98, 2a67bdd, 9eae791, 2b87a0a, 23d5ba2, 8fe0749,
-# 64b5fa2, 7fb0bed, b6f7f66, f082152) and the fresh probes on 565e303 and e17af42 are met. The
-# fresh probe on 9e2a397: another molecule's records in an ensemble; n_ok true. Only shrinks.
-XFAIL = {
-    "test_page_output_is_safe[ensemble_with_another_molecules_record]",
-    "test_page_output_is_safe[ensemble_of_another_molecule]",
-    "test_page_output_is_safe[study_n_ok_not_a_count]",
-    "test_page_output_is_preferred[ensemble_with_another_molecules_record]",
-    "test_page_output_is_preferred[ensemble_of_another_molecule]",
-    "test_page_output_is_preferred[study_n_ok_not_a_count]",
-}
+# 64b5fa2, 7fb0bed, b6f7f66, f082152) and the fresh probes on 565e303, e17af42 and 9e2a397: all
+# met; only shrinks.
+XFAIL = set()
 
 
 def _xfail(request, key):
