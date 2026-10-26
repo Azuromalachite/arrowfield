@@ -184,7 +184,8 @@ def _ensemble(slug):
             name=f"{slug} {m['conformer']}", symbols=("C",), xyz=np.zeros((1, 3)), bonds=None, charge=0,
             atoms=(Atom(0, "C", 1),), sites=sites, sites_tile_surface=False, genus=0,
             scale=Scale("diverging", -20.0, 20.0, "vik"),
-            provenance=Provenance(m["conformer"], m["analysis_key"], "r", espmap_version="0.2.1"),
+            provenance=Provenance(m["conformer"], m["analysis_key"], "r", espmap_version="0.2.1",
+                                  sha256=m["record_sha256"]),
             folded=m["folded"],
             # one structure per molecule, as every real ensemble has (sites.identity.mapped_smiles); a
             # stand-in per slug, since the fixture copies sites, not structures
@@ -209,6 +210,10 @@ def _sources(c):
     if _HAS_CANONICAL:
         fields = next(iter(conformers.values())).provenance.analysis_fields
         ensembles = {k: (src, [_with_prov(v, analysis_fields=fields) for v in vs]) for k, (src, vs) in ensembles.items()}
+    # a molecule whose records are here (E3, Z3) has its real structure, as its real ensemble does
+    real = {k.split("/")[0]: v.mapped_smiles for k, v in conformers.items()}
+    ensembles = {k: (src, [replace(v, mapped_smiles=real[k]) for v in vs]) if k in real else (src, vs)
+                 for k, (src, vs) in ensembles.items()}
     for op in c["source_ops"]:
         if isinstance(op, list) and op[0] == "bundle_shorthand":
             b = replace(b, compounds={**b.compounds, op[1]: replace(b.compounds[op[1]], shorthand=op[2])})
@@ -250,6 +255,10 @@ def _list_op(op, r, ensembles, conformers):
         vs = list(vs)
         vs[op[2]] = ensembles[op[3]][1][op[4]]
         ensembles = {**ensembles, op[1]: (src, vs)}
+    elif kind == "conformer_folded":   # a pair record passed with another folded flag
+        conformers = {**conformers, op[1]: replace(conformers[op[1]], folded=op[2])}
+    elif kind == "conformer_from":     # a pair key bound to another record
+        conformers = {**conformers, op[1]: conformers[op[2]]}
     elif kind == "swap_all":        # one molecule's ensemble made of another's records
         ensembles = {**ensembles, op[1]: (ensembles[op[1]][0], list(ensembles[op[2]][1]))}
     elif kind in ("study_n_ok", "study_count"):
@@ -344,13 +353,19 @@ def _run(c):
 
 # the probe on #21 (fe2fe08), its reruns (318da98, 2a67bdd, 9eae791, 2b87a0a, 23d5ba2, 8fe0749,
 # 64b5fa2, 7fb0bed, b6f7f66, f082152), the fresh probes on 565e303, e17af42 and 9e2a397 and the
-# user's decisions on fea40aa: all met; only shrinks.
-XFAIL = set()
+# user's decisions on fea40aa are met. The fresh probe on 844d3a6: the pair's records are not
+# tied to the ensembles. Only shrinks.
+XFAIL = {
+    "test_page_output_is_safe[pair_record_flag_flipped]",
+    "test_page_output_is_safe[pair_record_other_molecules_records]",
+    "test_page_output_is_preferred[pair_record_flag_flipped]",
+    "test_page_output_is_preferred[pair_record_other_molecules_records]",
+}
 
 
 def _xfail(request, key):
     if key in XFAIL:
-        request.applymarker(pytest.mark.xfail(strict=True, reason="homework page on fea40aa"))
+        request.applymarker(pytest.mark.xfail(strict=True, reason="homework page on 844d3a6"))
 
 
 @pytest.mark.parametrize("c", CASES, ids=[c["id"] for c in CASES])

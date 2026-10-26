@@ -7871,6 +7871,59 @@
    ]
   },
   {
+   "id": "pair_record_flag_flipped",
+   "cls": "H11 the study's protocol",
+   "why": "Act B's pair: [['conformer_folded', 'e3_z13_18_oac/conf_00', False]]. The pair shows records its molecule's ensemble does not hold, or holds with another folded flag. Refuse, naming the conformer.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "conformer_folded",
+     "e3_z13_18_oac/conf_00",
+     false
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "pair_record_other_molecules_records",
+   "cls": "H11 the study's protocol",
+   "why": "Act B's pair: [['conformer_from', 'e3_z13_18_oac/conf_00', 'z3_z13_18_oac/conf_01'], ['conformer_from', 'e3_z13_18_oac/conf_02', 'z3_z13_18_oac/conf_00']]. The pair shows records its molecule's ensemble does not hold, or holds with another folded flag. Refuse, naming the conformer.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "conformer_from",
+     "e3_z13_18_oac/conf_00",
+     "z3_z13_18_oac/conf_01"
+    ],
+    [
+     "conformer_from",
+     "e3_z13_18_oac/conf_02",
+     "z3_z13_18_oac/conf_00"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
    "id": "plan_reference_two_commits",
    "cls": "H4 provenance",
    "why": "The study's plan reference names two commits ('@ 7e34658 @ deadbee'): the page cannot tell which froze the plan. It renders with the plan commit marked not recorded, never 'Plan frozen at' either one.",

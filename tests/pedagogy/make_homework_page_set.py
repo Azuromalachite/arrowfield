@@ -694,6 +694,16 @@ case("study_folded_opposite_flips", "H11 the study's protocol",
      "Z3 acetate with one folded member flipped to extended and one extended to folded: the counts equal the "
      "study's, which is all the page can check (the results carry no per-member flags). Renders; a follow-up.",
      RENDER, "RENDERED", [ACT_ORDER], source_ops=[["flip_folded", OAC, 1, 1]])
+# the fresh probe on #21 (844d3a6): the pair view's records came from the sources' conformers, which
+# nothing tied to the study's ensembles, so every ensemble check was bypassed through the pair. A
+# pair's record is the member of its molecule's ensemble that it names: the same record file
+# (sha256), the same folded flag, the same structure
+for vid, ops in (("flag_flipped", [["conformer_folded", f"{E3}/conf_00", False]]),
+                 ("other_molecules_records", [["conformer_from", f"{E3}/conf_00", f"{OAC}/conf_01"],
+                                              ["conformer_from", f"{E3}/conf_02", f"{OAC}/conf_00"]])):
+    case(f"pair_record_{vid}", "H11 the study's protocol",
+         f"Act B's pair: {ops}. The pair shows records its molecule's ensemble does not hold, or holds with "
+         "another folded flag. Refuse, naming the conformer.", REFUSE, "REFUSED", source_ops=ops)
 
 # H4: a plan reference naming two commits is ambiguous: never resolved by position
 case("plan_reference_two_commits", "H4 provenance",
