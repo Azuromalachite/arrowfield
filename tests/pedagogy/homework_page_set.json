@@ -331,6 +331,16 @@
      "why": "the study's basis check: not run"
     },
     {
+     "must": "[Ff]olded here[^.]*intramolecular contact[^.]*genus",
+     "grade": "MISLEADING",
+     "why": "the study's fold rule, both parts, beside the pair"
+    },
+    {
+     "must": "not[^.]*(shorter|compact)",
+     "grade": "MISLEADING",
+     "why": "folded is not compactness"
+    },
+    {
      "must": "teaching control",
      "grade": "FALSE",
      "why": "the aldehyde named as a teaching control"
@@ -403,6 +413,16 @@
      "must": "basis sensitivity: not run",
      "grade": "MISLEADING",
      "why": "the study's basis check: not run"
+    },
+    {
+     "must": "[Ff]olded here[^.]*intramolecular contact[^.]*genus",
+     "grade": "MISLEADING",
+     "why": "the study's fold rule, both parts, beside the pair"
+    },
+    {
+     "must": "not[^.]*(shorter|compact)",
+     "grade": "MISLEADING",
+     "why": "folded is not compactness"
     },
     {
      "must": "for the instructor",
@@ -7719,6 +7739,136 @@
    ],
    "prefer": "REFUSED",
    "requires": []
+  },
+  {
+   "id": "study_folded_two_folded_now_extended",
+   "cls": "H11 the study's protocol",
+   "why": "[['flip_folded', 'z3_z13_18_oac', 2, 0]]: the page's folded / extended partition is not the one the study's verdicts refer to, or cannot be counted. Refuse, naming both partitions.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "flip_folded",
+     "z3_z13_18_oac",
+     2,
+     0
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "study_folded_one_extended_now_folded",
+   "cls": "H11 the study's protocol",
+   "why": "[['flip_folded', 'e3_z13_18_oac', 0, 1]]: the page's folded / extended partition is not the one the study's verdicts refer to, or cannot be counted. Refuse, naming both partitions.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "flip_folded",
+     "e3_z13_18_oac",
+     0,
+     1
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "study_folded_unstated",
+   "cls": "H11 the study's protocol",
+   "why": "[['unstate_folded', 'e2_z13_18_oac', 0]]: the page's folded / extended partition is not the one the study's verdicts refer to, or cannot be counted. Refuse, naming both partitions.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "unstate_folded",
+     "e2_z13_18_oac",
+     0
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "study_folded_n_folded_not_a_count",
+   "cls": "H11 the study's protocol",
+   "why": "[['study_count', 'z3_z13_18_oac', 'n_folded', True]]: the page's folded / extended partition is not the one the study's verdicts refer to, or cannot be counted. Refuse, naming both partitions.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "study_count",
+     "z3_z13_18_oac",
+     "n_folded",
+     true
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "study_folded_opposite_flips",
+   "cls": "H11 the study's protocol",
+   "why": "Z3 acetate with one folded member flipped to extended and one extended to folded: the counts equal the study's, which is all the page can check (the results carry no per-member flags). Renders; a follow-up.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "flip_folded",
+     "z3_z13_18_oac",
+     1,
+     1
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
   },
   {
    "id": "plan_reference_two_commits",

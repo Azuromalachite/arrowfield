@@ -191,7 +191,14 @@ STUDY_SCOPE = [must_not(r"solvent: not stated", "MISLEADING", "the study's proto
                # the fresh probe on e17af42: "basis sensitivity: not stated", though the study states its
                # def2-TZVP check was not run (plan section 6; results.md)
                must_not(r"basis sensitivity: not stated", "MISLEADING", "the study states its basis check"),
-               must(r"basis sensitivity: not run", "MISLEADING", "the study's basis check: not run")]
+               must(r"basis sensitivity: not run", "MISLEADING", "the study's basis check: not run"),
+               # the user's browser check of the 9e2a397 preview: act B's "folded" conformer looks the
+               # longer of the two. Folded is the study's frozen rule (plan section 3): an intramolecular
+               # contact or a surface of genus above zero; the page says so, in both parts, and that it is
+               # not compactness. The labels stay "folded" / "extended"
+               must(r"[Ff]olded here[^.]*intramolecular contact[^.]*genus", "MISLEADING",
+                    "the study's fold rule, both parts, beside the pair"),
+               must(r"not[^.]*(shorter|compact)", "MISLEADING", "folded is not compactness")]
 
 
 def blk(act, k):
@@ -671,6 +678,22 @@ case("ensemble_of_another_molecule", "H11 the study's protocol",
 case("study_n_ok_not_a_count", "H11 the study's protocol",
      "The results file gives E2's n_ok as true, and E2's ensemble has one member: true is not a count. Refuse.",
      REFUSE, "REFUSED", source_ops=[["study_n_ok", E2, True], ["keep_members", E2, 1]])
+# the fresh probe on 9e2a397 (OPEN), decided by the user: the study's folded / extended partition is
+# part of the evidence its verdicts refer to (its extended-only rows). A page whose folded count for
+# a study molecule differs from the study's n_folded is refused, as a count other than n_ok is;
+# equal counts are accepted and prove no more (two opposite flips cancel; the results carry no
+# per-member flags). A member whose folded state is not stated cannot be counted: refuse
+for vid, ops in (("two_folded_now_extended", [["flip_folded", OAC, 2, 0]]),
+                 ("one_extended_now_folded", [["flip_folded", E3, 0, 1]]),
+                 ("unstated", [["unstate_folded", E2, 0]]),
+                 ("n_folded_not_a_count", [["study_count", OAC, "n_folded", True]])):
+    case(f"study_folded_{vid}", "H11 the study's protocol",
+         f"{ops}: the page's folded / extended partition is not the one the study's verdicts refer to, or "
+         "cannot be counted. Refuse, naming both partitions.", REFUSE, "REFUSED", source_ops=ops)
+case("study_folded_opposite_flips", "H11 the study's protocol",
+     "Z3 acetate with one folded member flipped to extended and one extended to folded: the counts equal the "
+     "study's, which is all the page can check (the results carry no per-member flags). Renders; a follow-up.",
+     RENDER, "RENDERED", [ACT_ORDER], source_ops=[["flip_folded", OAC, 1, 1]])
 
 # H4: a plan reference naming two commits is ambiguous: never resolved by position
 case("plan_reference_two_commits", "H4 provenance",

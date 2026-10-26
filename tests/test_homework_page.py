@@ -252,8 +252,19 @@ def _list_op(op, r, ensembles, conformers):
         ensembles = {**ensembles, op[1]: (src, vs)}
     elif kind == "swap_all":        # one molecule's ensemble made of another's records
         ensembles = {**ensembles, op[1]: (ensembles[op[1]][0], list(ensembles[op[2]][1]))}
-    elif kind == "study_n_ok":
-        r = replace(r, molecules={**r.molecules, op[1]: {**r.molecules[op[1]], "n_ok": op[2]}})
+    elif kind in ("study_n_ok", "study_count"):
+        field, value = ("n_ok", op[2]) if kind == "study_n_ok" else (op[2], op[3])
+        r = replace(r, molecules={**r.molecules, op[1]: {**r.molecules[op[1]], field: value}})
+    elif kind == "flip_folded":     # the first a folded members to extended, the first b extended to folded
+        src, vs = ensembles[op[1]]
+        folded = [i for i, v in enumerate(vs) if v.folded is True][:op[2]]
+        extended = [i for i, v in enumerate(vs) if v.folded is False][:op[3]]
+        vs = [replace(v, folded=not v.folded) if i in folded + extended else v for i, v in enumerate(vs)]
+        ensembles = {**ensembles, op[1]: (src, vs)}
+    elif kind == "unstate_folded":  # member i's folded state not stated
+        src, vs = ensembles[op[1]]
+        vs = [replace(v, folded=None) if i == op[2] else v for i, v in enumerate(vs)]
+        ensembles = {**ensembles, op[1]: (src, vs)}
     elif kind == "keep_members":    # one molecule's ensemble cut to its first k members
         src, vs = ensembles[op[1]]
         ensembles = {**ensembles, op[1]: (src, list(vs)[:op[2]])}
@@ -332,14 +343,28 @@ def _run(c):
 
 
 # the probe on #21 (fe2fe08), its reruns (318da98, 2a67bdd, 9eae791, 2b87a0a, 23d5ba2, 8fe0749,
-# 64b5fa2, 7fb0bed, b6f7f66, f082152) and the fresh probes on 565e303, e17af42 and 9e2a397: all
-# met; only shrinks.
-XFAIL = set()
+# 64b5fa2, 7fb0bed, b6f7f66, f082152) and the fresh probes on 565e303, e17af42 and 9e2a397 are
+# met. The user's decisions on fea40aa: the study's folded partition; the fold rule stated. Only
+# shrinks.
+XFAIL = {
+    "test_page_output_is_safe[study_folded_two_folded_now_extended]",
+    "test_page_output_is_safe[study_folded_one_extended_now_folded]",
+    "test_page_output_is_safe[study_folded_unstated]",
+    "test_page_output_is_safe[study_folded_n_folded_not_a_count]",
+    "test_page_output_is_preferred[study_folded_two_folded_now_extended]",
+    "test_page_output_is_preferred[study_folded_one_extended_now_folded]",
+    "test_page_output_is_preferred[study_folded_unstated]",
+    "test_page_output_is_preferred[study_folded_n_folded_not_a_count]",
+    "test_a_rendered_page_meets_its_requirements[real_plan_student-9]",
+    "test_a_rendered_page_meets_its_requirements[real_plan_student-10]",
+    "test_a_rendered_page_meets_its_requirements[real_plan_instructor-9]",
+    "test_a_rendered_page_meets_its_requirements[real_plan_instructor-10]",
+}
 
 
 def _xfail(request, key):
     if key in XFAIL:
-        request.applymarker(pytest.mark.xfail(strict=True, reason="homework page on 9e2a397"))
+        request.applymarker(pytest.mark.xfail(strict=True, reason="homework page on fea40aa"))
 
 
 @pytest.mark.parametrize("c", CASES, ids=[c["id"] for c in CASES])
