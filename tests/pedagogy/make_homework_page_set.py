@@ -711,6 +711,25 @@ for vid, ops in (("flag_flipped", [["conformer_folded", f"{E3}/conf_00", False]]
     case(f"pair_record_{vid}", "H11 the study's protocol",
          f"Act B's pair: {ops}. The pair shows records its molecule's ensemble does not hold, or holds with "
          "another folded flag. Refuse, naming the conformer.", REFUSE, "REFUSED", source_ops=ops)
+# the fresh probe on #21 (dfeffcc), reachable from espmap's own files in a mixed-up assets
+# directory: the pair view drew whichever NPZ sat beside a record, so "folded" showed the extended
+# surface. Every NPZ states the geometry it was computed on (geometry_sha1), every record its own
+# (geometry.sha1): the reader refuses a pair that differs
+for vid, ops in (("swapped_within_pair", [["npz_from", f"{E3}/conf_00", f"{E3}/conf_02"],
+                                          ["npz_from", f"{E3}/conf_02", f"{E3}/conf_00"]]),
+                 ("another_molecules", [["npz_from", f"{E3}/conf_00", f"{OAC}/conf_01"]])):
+    case(f"pair_npz_{vid}", "H11 the study's protocol",
+         f"{ops}: a record beside another record's surface. The picture would show another geometry under "
+         "this record's name and fold label. Refuse at the reader.", REFUSE, "REFUSED", source_ops=ops)
+# and a molecule's records are the plan's compound: two Atlas molecules' records exchanged under
+# their sources, with the study's counts exchanged to match, pass every count, key and structure
+# check; the structure check compared ensembles with each other, never with the compound. The
+# bundle states each Atlas compound's InChIKey, the records their structure
+case("ensembles_exchanged_between_compounds", "H11 the study's protocol",
+     "Z3 acetate's and Z3 alcohol's records exchanged, and the study's folded counts with them: every check "
+     "but the compound's own identity holds, and Z3 acetate's cards would show the alcohol. Refuse.",
+     REFUSE, "REFUSED", source_ops=[["swap_both", OAC, OH], ["study_count", OAC, "n_folded", 4],
+                                    ["study_count", OH, "n_folded", 9]])
 
 # H4: a plan reference naming two commits is ambiguous: never resolved by position
 case("plan_reference_two_commits", "H4 provenance",

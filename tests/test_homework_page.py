@@ -33,6 +33,20 @@ DATA = HERE / "tests" / "data"
 SITES = json.loads((DATA / "card_label_sites.json").read_text(encoding="utf-8"))
 MEMBERS = {m["record"][:-5]: m for m in
            json.loads((DATA / "pair" / "members.json").read_text(encoding="utf-8"))["members"]}
+# each molecule's structure, as every one of its ensemble's records states it
+# (sites.identity.mapped_smiles; Atlas 35112e1 and controls/), for the synthetic ensembles
+STRUCTURES = {
+    "z3_z13_18_oac": r"[CH2:1]([CH2:2]/[CH:3]=[CH:4]\[CH2:5][CH2:6][CH2:7][CH2:8][CH2:9][CH2:10][CH2:11][CH2:12]"
+                     r"/[CH:13]=[CH:14]\[CH2:15][CH2:16][CH2:17][CH3:18])[O:31][C:22]([CH3:21])=[O:32]",
+    "e3_z13_18_oac": r"[CH2:1]([CH2:2]/[CH:3]=[CH:4]/[CH2:5][CH2:6][CH2:7][CH2:8][CH2:9][CH2:10][CH2:11][CH2:12]"
+                     r"/[CH:13]=[CH:14]\[CH2:15][CH2:16][CH2:17][CH3:18])[O:31][C:22]([CH3:21])=[O:32]",
+    "e2_z13_18_oac": r"[CH2:1](/[CH:2]=[CH:3]/[CH2:4][CH2:5][CH2:6][CH2:7][CH2:8][CH2:9][CH2:10][CH2:11][CH2:12]"
+                     r"/[CH:13]=[CH:14]\[CH2:15][CH2:16][CH2:17][CH3:18])[O:31][C:22]([CH3:21])=[O:32]",
+    "z3_z13_18_oh": r"[CH2:1]([CH2:2]/[CH:3]=[CH:4]\[CH2:5][CH2:6][CH2:7][CH2:8][CH2:9][CH2:10][CH2:11][CH2:12]"
+                    r"/[CH:13]=[CH:14]\[CH2:15][CH2:16][CH2:17][CH3:18])[OH:31]",
+    "z3_z13_18_al": r"[CH:1]([CH2:2]/[CH:3]=[CH:4]\[CH2:5][CH2:6][CH2:7][CH2:8][CH2:9][CH2:10][CH2:11][CH2:12]"
+                    r"/[CH:13]=[CH:14]\[CH2:15][CH2:16][CH2:17][CH3:18])=[O:32]",
+}
 STUDY_WORDS = r"\bresol(v|ut)\w*|\bunresol(v|ut)\w*|different on average"
 BRIDGE = (r"because|explain\w*|due to|caus\w*|reactiv\w*|attract\w*|\bbind\w*|pheromon\w*|receptor\w*")
 
@@ -103,6 +117,22 @@ def test_the_plan_shows_what_its_tasks_ask_about():
     series = [int(re.match(r"C(\d+)-H", k["site"]).group(1)) for k in a["blocks"]
               if k["view"] == "difference_card" and k["contrast"] == "A_headgroup" and re.match(r"C\d+-H", k["site"])]
     assert series and min(series) == 1 and max(series) >= 12 and len(series) >= 5, series
+
+
+def test_the_structures_are_the_bundles_compounds():
+    """The harness's structures are the Atlas compounds' (their InChIKeys are the bundle's), and the
+    real records state them: E3's and Z3's pair records here, every Atlas record per the probe."""
+    from rdkit import Chem
+    b = load(DATA / "sesiidae-homework-1.bundle.json")
+    for slug, smi in STRUCTURES.items():
+        m = Chem.MolFromSmiles(smi)
+        for a in m.GetAtoms():
+            a.SetAtomMapNum(0)
+        if slug != "z3_z13_18_al":
+            assert Chem.MolToInchiKey(m) == b.compounds[f"spa.cmpd.{slug}"].inchikey, slug
+    for stem in MEMBERS:
+        rec = json.loads((DATA / "pair" / f"{stem}.json").read_text(encoding="utf-8"))
+        assert rec["sites"]["identity"]["mapped_smiles"] == STRUCTURES[stem.split("/")[0]], stem
 
 
 def test_the_data_says_what_the_cases_say():
@@ -187,9 +217,8 @@ def _ensemble(slug):
             provenance=Provenance(m["conformer"], m["analysis_key"], "r", espmap_version="0.2.1",
                                   sha256=m["record_sha256"]),
             folded=m["folded"],
-            # one structure per molecule, as every real ensemble has (sites.identity.mapped_smiles); a
-            # stand-in per slug, since the fixture copies sites, not structures
-            mapped_smiles=f"fixture:{slug}"))
+            # one structure per molecule, as every real ensemble has: its records' own (STRUCTURES)
+            mapped_smiles=STRUCTURES[slug]))
     source = EnsembleSource(mol["atlas_id"], "espmap-sesiidae-001", mol["members"][0]["analysis_key"], "0.2.1",
                             mol["index_sha256"], "shape-diverse")
     return source, views
@@ -210,11 +239,12 @@ def _sources(c):
     if _HAS_CANONICAL:
         fields = next(iter(conformers.values())).provenance.analysis_fields
         ensembles = {k: (src, [_with_prov(v, analysis_fields=fields) for v in vs]) for k, (src, vs) in ensembles.items()}
-    # a molecule whose records are here (E3, Z3) has its real structure, as its real ensemble does
-    real = {k.split("/")[0]: v.mapped_smiles for k, v in conformers.items()}
-    ensembles = {k: (src, [replace(v, mapped_smiles=real[k]) for v in vs]) if k in real else (src, vs)
-                 for k, (src, vs) in ensembles.items()}
     for op in c["source_ops"]:
+        if isinstance(op, list) and op[0] == "npz_from":
+            # a record beside another record's NPZ (a mixed-up assets directory): through the reader,
+            # whose refusal is the page's
+            conformers = {**conformers, op[1]: _record_with_npz(op[1], op[2])}
+            continue
         if isinstance(op, list) and op[0] == "bundle_shorthand":
             b = replace(b, compounds={**b.compounds, op[1]: replace(b.compounds[op[1]], shorthand=op[2])})
         elif isinstance(op, list):
@@ -261,6 +291,9 @@ def _list_op(op, r, ensembles, conformers):
         conformers = {**conformers, op[1]: conformers[op[2]]}
     elif kind == "swap_all":        # one molecule's ensemble made of another's records
         ensembles = {**ensembles, op[1]: (ensembles[op[1]][0], list(ensembles[op[2]][1]))}
+    elif kind == "swap_both":       # two molecules' records exchanged under their sources (atlas_ids)
+        a, b = ensembles[op[1]], ensembles[op[2]]
+        ensembles = {**ensembles, op[1]: (a[0], list(b[1])), op[2]: (b[0], list(a[1]))}
     elif kind in ("study_n_ok", "study_count"):
         field, value = ("n_ok", op[2]) if kind == "study_n_ok" else (op[2], op[3])
         r = replace(r, molecules={**r.molecules, op[1]: {**r.molecules[op[1]], field: value}})
@@ -339,12 +372,25 @@ def _has_canonical():
 _HAS_CANONICAL = _has_canonical()
 
 
+def _record_with_npz(key, other):
+    """The record named by key, read beside other's NPZ, as a mixed-up assets directory would hold it."""
+    import shutil
+    import tempfile
+    import record
+    tmp = Path(tempfile.mkdtemp())
+    stem = key.split("/")[1]
+    shutil.copy(DATA / "pair" / f"{key}.json", tmp / f"{stem}.json")
+    shutil.copy(DATA / "pair" / f"{other}.npz", tmp / f"{stem}.npz")
+    return replace(record.load(tmp / stem), folded=MEMBERS[key]["folded"])
+
+
 def _run(c):
     build = _builder()
     from model import Refused
+    from record import InvalidRecord
     try:
         page = build(_patched_plan(c), _sources(c), audience=c["audience"])
-    except Refused:
+    except (Refused, InvalidRecord):         # the reader's refusal is the page's: it never renders
         return "REFUSED", None
     except Exception:  # noqa: BLE001 - any other error is a crash, graded as such
         return "ERROR", None
@@ -353,13 +399,21 @@ def _run(c):
 
 # the probe on #21 (fe2fe08), its reruns (318da98, 2a67bdd, 9eae791, 2b87a0a, 23d5ba2, 8fe0749,
 # 64b5fa2, 7fb0bed, b6f7f66, f082152), the fresh probes on 565e303, e17af42, 9e2a397 and 844d3a6
-# and the user's decisions on fea40aa and dfeffcc: all met; only shrinks.
-XFAIL = set()
+# and the user's decisions on fea40aa and dfeffcc are met. The fresh probe on dfeffcc: an NPZ
+# beside another record; records under another compound. Only shrinks.
+XFAIL = {
+    "test_page_output_is_safe[pair_npz_swapped_within_pair]",
+    "test_page_output_is_safe[pair_npz_another_molecules]",
+    "test_page_output_is_safe[ensembles_exchanged_between_compounds]",
+    "test_page_output_is_preferred[pair_npz_swapped_within_pair]",
+    "test_page_output_is_preferred[pair_npz_another_molecules]",
+    "test_page_output_is_preferred[ensembles_exchanged_between_compounds]",
+}
 
 
 def _xfail(request, key):
     if key in XFAIL:
-        request.applymarker(pytest.mark.xfail(strict=True, reason="homework page on dfeffcc"))
+        request.applymarker(pytest.mark.xfail(strict=True, reason="homework page on 55f5f51"))
 
 
 @pytest.mark.parametrize("c", CASES, ids=[c["id"] for c in CASES])

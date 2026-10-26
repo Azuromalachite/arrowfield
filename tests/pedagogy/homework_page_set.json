@@ -7944,6 +7944,95 @@
    "requires": []
   },
   {
+   "id": "pair_npz_swapped_within_pair",
+   "cls": "H11 the study's protocol",
+   "why": "[['npz_from', 'e3_z13_18_oac/conf_00', 'e3_z13_18_oac/conf_02'], ['npz_from', 'e3_z13_18_oac/conf_02', 'e3_z13_18_oac/conf_00']]: a record beside another record's surface. The picture would show another geometry under this record's name and fold label. Refuse at the reader.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "npz_from",
+     "e3_z13_18_oac/conf_00",
+     "e3_z13_18_oac/conf_02"
+    ],
+    [
+     "npz_from",
+     "e3_z13_18_oac/conf_02",
+     "e3_z13_18_oac/conf_00"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "pair_npz_another_molecules",
+   "cls": "H11 the study's protocol",
+   "why": "[['npz_from', 'e3_z13_18_oac/conf_00', 'z3_z13_18_oac/conf_01']]: a record beside another record's surface. The picture would show another geometry under this record's name and fold label. Refuse at the reader.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "npz_from",
+     "e3_z13_18_oac/conf_00",
+     "z3_z13_18_oac/conf_01"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "ensembles_exchanged_between_compounds",
+   "cls": "H11 the study's protocol",
+   "why": "Z3 acetate's and Z3 alcohol's records exchanged, and the study's folded counts with them: every check but the compound's own identity holds, and Z3 acetate's cards would show the alcohol. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "swap_both",
+     "z3_z13_18_oac",
+     "z3_z13_18_oh"
+    ],
+    [
+     "study_count",
+     "z3_z13_18_oac",
+     "n_folded",
+     4
+    ],
+    [
+     "study_count",
+     "z3_z13_18_oh",
+     "n_folded",
+     9
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
    "id": "plan_reference_two_commits",
    "cls": "H4 provenance",
    "why": "The study's plan reference names two commits ('@ 7e34658 @ deadbee'): the page cannot tell which froze the plan. It renders with the plan commit marked not recorded, never 'Plan frozen at' either one.",
