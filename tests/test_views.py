@@ -35,6 +35,22 @@ def test_a_record_that_says_it_is_invalid_is_refused(tmp_path):
         Record(tmp_path / "bad")
 
 
+def test_a_record_beside_another_records_surface_is_refused(tmp_path):
+    """The NPZ states the geometry it was computed on (geometry_sha1), the record its own: a record
+    beside another's surface would draw that surface under its name (#21's probe on dfeffcc)."""
+    import shutil
+    pair = HERE / "tests" / "data" / "pair" / "e3_z13_18_oac"
+    shutil.copy(pair / "conf_00.json", tmp_path / "own.json")
+    shutil.copy(pair / "conf_00.npz", tmp_path / "own.npz")
+    assert Record(tmp_path / "own").view().provenance.source == "own"
+    shutil.copy(pair / "conf_00.json", tmp_path / "swapped.json")
+    shutil.copy(pair / "conf_02.npz", tmp_path / "swapped.npz")
+    with pytest.raises(InvalidRecord):
+        Record(tmp_path / "swapped")
+    for rec in sorted(REC.glob("*.npz")):                      # every record here carries its own
+        Record(rec.with_suffix(""))
+
+
 def test_a_record_whose_key_does_not_digest_its_protocol_is_refused(tmp_path):
     """analysis_key is espmap's sha1 of key_fields.analysis (record_key): a
     record whose fields changed under its key, or that has none, does not say

@@ -53,6 +53,13 @@ class Record:
         if analysis_digest(fields) != self.j.get("analysis_key"):
             raise InvalidRecord(f"{stem.name}: analysis_key {self.j.get('analysis_key')} is not the digest of "
                                 "its key_fields.analysis: the key does not describe this record")
+        # the surface beside the record is this record's: the NPZ states the geometry it was computed
+        # on, the record its own (#21's fresh probe on dfeffcc: a swapped NPZ drew another geometry)
+        if self.z is not None:
+            npz_geometry = str(self.z["geometry_sha1"]) if "geometry_sha1" in self.z.files else None
+            if npz_geometry != (self.j.get("geometry") or {}).get("sha1"):
+                raise InvalidRecord(f"{stem.name}: the NPZ beside it was computed on geometry {npz_geometry}, the "
+                                    f"record on {(self.j.get('geometry') or {}).get('sha1')}: not this record's surface")
 
     def view(self, name=None):
         """The record as Arrowfield's MoleculeView."""

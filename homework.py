@@ -224,7 +224,26 @@ def _check_plan(plan, sources, audience):
         structures.setdefault(next(iter(s)), []).append(slug)
     shared = [slugs for slugs in structures.values() if len(slugs) > 1]
     _need(not shared, f"{' and '.join(shared[0]) if shared else ''}: two molecules of the page with one structure")
+    # and an Atlas molecule's records are its compound: their structure's InChIKey is the one the
+    # bundle states (the fresh probe on dfeffcc: two molecules' records exchanged passed every check)
+    for slug, m in plan["molecules"].items():
+        if m["role"] == "atlas_observed":
+            stated = bundle.compounds[m["atlas_id"]].inchikey
+            got = _inchikey(next(iter({v.mapped_smiles for v in ens[slug][1]})))
+            _need(isinstance(stated, str) and got == stated,
+                  f"{slug}: its records' structure has InChIKey {got}; the bundle states {stated} for {m['atlas_id']}")
     return bundle, study, ens, keys, views
+
+
+def _inchikey(mapped_smiles):
+    """The InChIKey of a record's structure (its atom maps dropped), or None if it does not parse."""
+    from rdkit import Chem
+    mol = Chem.MolFromSmiles(mapped_smiles) if isinstance(mapped_smiles, str) else None
+    if mol is None:
+        return None
+    for a in mol.GetAtoms():
+        a.SetAtomMapNum(0)
+    return Chem.MolToInchiKey(mol) or None
 
 
 def _study_context(study, plan, x, y, views):
