@@ -12,6 +12,9 @@ molecules may be compared (`compare`), and the evidence state of an
 observation (`EvidenceState`). They are explicit values here, so a view can
 show "not comparable" or "not tested" instead of failing or guessing.
 """
+import hashlib
+import json
+import re
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import Callable, Optional
@@ -32,14 +35,76 @@ class Provenance:
     espmap_version: Optional[str] = None
     code: Optional[str] = None      # the espmap commit or tag that made it
     sha256: Optional[str] = None    # of the record file
-    xc: Optional[str] = None        # the method, for captions
+    xc: Optional[str] = None        # the settings as the run's command line spelled them
     basis: Optional[str] = None
     solvent: Optional[str] = None   # None or "vacuum": gas phase
+    # key_fields.analysis, as sorted JSON: the canonical protocol analysis_key digests
+    analysis_fields: Optional[str] = None
 
     @property
     def method(self):
         gas = self.solvent in (None, "vacuum", "gas")
         return f"{self.xc}/{self.basis}, {'gas' if gas else 'PCM ' + self.solvent}"
+
+
+# a canonical functional or basis name in the shapes espmap's xc_key and basis_key give (b3lyp,
+# def2svp, 631g**, 6311++g(2d,2p), libxc:hyb(0,0,0)+263*1+267*1): ASCII, no whitespace or "/", a
+# comma only inside parentheses (#21's round 13), and no phase or solvent word anywhere
+_NAME_CHARS = r"[A-Za-z0-9+*.:_-]"
+CANONICAL_NAME = re.compile(rf"(?:{_NAME_CHARS}|\((?:{_NAME_CHARS}|,)*\))+")
+PHASE_WORD = re.compile(r"gas|vacuum|pcm|solv|phase|water|dmso|methanol|acetonitrile|chloroform|toluene|hexane", re.I)
+
+
+def analysis_digest(fields):
+    """espmap's record_key: the sha1 of the fields' sorted JSON (v0.2.1 and v0.3.0 alike)."""
+    return hashlib.sha1(json.dumps(fields, sort_keys=True).encode()).hexdigest()
+
+
+def protocol(prov):
+    """The canonical protocol a record's analysis_key digests (key_fields.analysis), or None.
+    espmap decides what method names mean; Arrowfield reads its canonical fields and never
+    normalises a functional or basis name itself."""
+    try:
+        f = json.loads(prov.analysis_fields) if isinstance(prov.analysis_fields, str) else None
+    except ValueError:
+        return None
+    return f if isinstance(f, dict) else None
+
+
+def protocol_problems(prov):
+    """Why a record's protocol cannot be named, or []: no canonical fields, fields its key does
+    not digest, or raw settings that contradict them where that is checkable without PySCF (the
+    phase; and a solvent stated with no method)."""
+    f = protocol(prov)
+    if f is None:
+        return [f"{prov.source}: no canonical analysis fields (key_fields.analysis) to name its protocol"]
+    if analysis_digest(f) != prov.analysis_key:
+        return [f"{prov.source}: analysis_key {prov.analysis_key} is not the digest of its canonical fields"]
+    out = []
+    # a caption prints "xc/basis, phase": each name in espmap's key shapes, never "None", never
+    # naming a phase
+    if not all(isinstance(f.get(k), str) and CANONICAL_NAME.fullmatch(f[k]) and f[k].casefold() != "none"
+               and not PHASE_WORD.search(f[k]) for k in ("xc", "basis")):
+        out.append(f"{prov.source}: its canonical fields name no functional and basis a caption can show "
+                   f"({f.get('xc')!r}/{f.get('basis')!r})")
+    if "solvent" not in f:
+        out.append(f"{prov.source}: its canonical fields name no solvent (None is the gas phase)")
+    if f.get("solvent") is not None and not isinstance(f["solvent"], str):
+        out.append(f"{prov.source}: its canonical solvent {f['solvent']!r} is not a solvent name")
+    raw = None if prov.solvent in (None, "vacuum", "gas") else prov.solvent
+    if raw != f.get("solvent"):
+        out.append(f"{prov.source}: its settings say solvent {prov.solvent!r}, its protocol "
+                   f"{f.get('solvent') or 'gas phase'}")
+    if prov.solvent is not None and prov.xc is None and prov.basis is None:
+        out.append(f"{prov.source}: its settings state a solvent with no method")
+    return out
+
+
+def protocol_words(prov):
+    """(method, solvent) from the canonical protocol: ("b3lyp/def2svp", None) in the gas phase,
+    else the PCM solvent's name."""
+    f = protocol(prov)
+    return f"{f['xc']}/{f['basis']}", f.get("solvent")
 
 
 # -------------------------------------------------------------- measurements
@@ -302,7 +367,16 @@ def compare(views_a, views_b, label, name_a="A", name_b="B", rule="nearest_nucle
                       range_a=float(max(ma) - min(ma)) if len(ma) > 1 else None,
                       range_b=float(max(mb) - min(mb)) if len(mb) > 1 else None,
                       partition=float(part), extended=extended, diff_other_rule=diff_other,
-                      method=views_a[0].provenance.method if views_a[0].provenance.xc else None)
+                      method=_method_words(views_a[0].provenance))
+
+
+def _method_words(prov):
+    """The method a caption names: the canonical protocol's when the record carries it and its
+    key digests it, else the raw settings (a fixture without key_fields), else None."""
+    if protocol(prov) is not None and not protocol_problems(prov):
+        how, solvent = protocol_words(prov)
+        return f"{how}, {'gas' if solvent is None else 'PCM ' + solvent}"
+    return prov.method if prov.xc else None
 
 
 # ------------------------------------------------------------------ evidence
@@ -848,6 +922,17 @@ class TeachingCase:
 # The verdict rules Arrowfield knows how to show; a study row under any other
 # rule is refused, never shown as that study's.
 KNOWN_VERDICT_RULES = ("espmap-sesiidae-001/range_partition_sign_v1",)
+# The analysis key each frozen study was decided under. Its results file names none, so it is pinned
+# here, as its rule is: espmap-sesiidae-001's plan (section 3 at Atlas 7e34658) fixes B3LYP/def2-SVP
+# + RI, gas phase, one analysis_key, and its ensembles' indexes carry this one. A page's records under
+# another key are not that study's, and its verdicts are never scoped under their protocol.
+STUDY_KEYS = {"espmap-sesiidae-001/range_partition_sign_v1": "d0f5ed136cda12ada8c6324a79ec9f7e79134d2f"}
+# What each frozen study says it did not run, in its own words, for its study cards' limits: the
+# def2-TZVP check was optional (plan section 6) and its results.md reports it "not run".
+STUDY_LIMITS = {"espmap-sesiidae-001/range_partition_sign_v1": {"basis_sensitivity": "not run (plan §6)"}}
+# Each frozen study's rule for "folded", in its own terms (espmap-sesiidae-001's plan section 3, and
+# each Atlas ensemble index's notes): a page that shows its folded / extended labels says what they mean
+STUDY_FOLD_RULES = {"espmap-sesiidae-001/range_partition_sign_v1": "an intramolecular contact or surface genus > 0"}
 CONDITIONS = ("1_ranges_disjoint", "2_beyond_partition", "3_same_sign")
 
 
