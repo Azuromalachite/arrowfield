@@ -219,7 +219,8 @@ def _check_plan(plan, sources, audience):
     for slug, (_, vs) in ens.items():
         s = {v.mapped_smiles for v in vs}
         _need(len(s) == 1 and None not in s,
-              f"{slug}: its ensemble's records state {len(s)} structures; one molecule's ensemble states one")
+              f"{slug}: its ensemble's records state {len(s - {None})} structures"
+              f"{' (and some none)' if None in s else ''}; one molecule's ensemble states one")
         structures.setdefault(next(iter(s)), []).append(slug)
     shared = [slugs for slugs in structures.values() if len(slugs) > 1]
     _need(not shared, f"{' and '.join(shared[0]) if shared else ''}: two molecules of the page with one structure")
@@ -286,6 +287,17 @@ def _block(act, k, plan, bundle, study, ens, sources, views):
         conf = sources.get("conformers") or {}
         keys = [f"{r['slug']}/{r.get('conformer')}" for r in refs]
         _need(all(c in conf for c in keys), f"a pair's conformer is not in the sources ({keys})")
+        # each record is the member of its molecule's ensemble that it names: the same record file,
+        # folded flag and structure, so the ensemble checks hold for the pair too (the fresh probe on
+        # 844d3a6: a flag flipped, or another molecule's records, passed through the pair)
+        for r, c in zip(refs, keys):
+            v = conf[c]
+            m = next((u for u in ens.get(r["slug"], (None, ()))[1] if u.provenance.source == r.get("conformer")), None)
+            _need(m is not None, f"{c}: not a member of {r['slug']}'s ensemble")
+            _need(v.provenance.sha256 is not None and v.provenance.sha256 == m.provenance.sha256,
+                  f"{c}: not the record {r['slug']}'s ensemble holds as {r.get('conformer')}")
+            _need(v.folded is m.folded, f"{c}: folded {v.folded}, where {r['slug']}'s ensemble says {m.folded}")
+            _need(v.mapped_smiles == m.mapped_smiles, f"{c}: another structure than {r['slug']}'s ensemble")
         html_ = V.pair_view_html(conf[keys[0]], conf[keys[1]], {})
         rule = STUDY_FOLD_RULES.get(study.verdict_rule)
         if rule and any(isinstance(conf[c].folded, bool) for c in keys):

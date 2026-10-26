@@ -352,15 +352,9 @@ def _run(c):
 
 
 # the probe on #21 (fe2fe08), its reruns (318da98, 2a67bdd, 9eae791, 2b87a0a, 23d5ba2, 8fe0749,
-# 64b5fa2, 7fb0bed, b6f7f66, f082152), the fresh probes on 565e303, e17af42 and 9e2a397 and the
-# user's decisions on fea40aa are met. The fresh probe on 844d3a6: the pair's records are not
-# tied to the ensembles. Only shrinks.
-XFAIL = {
-    "test_page_output_is_safe[pair_record_flag_flipped]",
-    "test_page_output_is_safe[pair_record_other_molecules_records]",
-    "test_page_output_is_preferred[pair_record_flag_flipped]",
-    "test_page_output_is_preferred[pair_record_other_molecules_records]",
-}
+# 64b5fa2, 7fb0bed, b6f7f66, f082152), the fresh probes on 565e303, e17af42, 9e2a397 and 844d3a6
+# and the user's decisions on fea40aa: all met; only shrinks.
+XFAIL = set()
 
 
 def _xfail(request, key):
