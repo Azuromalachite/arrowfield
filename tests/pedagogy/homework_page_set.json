@@ -336,9 +336,19 @@
      "why": "the study's fold rule, both parts, beside the pair"
     },
     {
-     "must": "not[^.]*(shorter|compact)",
+     "must": "defined by contact, not by length or compactness",
      "grade": "MISLEADING",
-     "why": "folded is not compactness"
+     "why": "folded is defined by contact, not compactness"
+    },
+    {
+     "must": "a folded conformer can look the longer of the two",
+     "grade": "MISLEADING",
+     "why": "why the pair can look backwards"
+    },
+    {
+     "must_not": "does not mean shorter",
+     "grade": "MISLEADING",
+     "why": "the old wording, true only as a definition"
     },
     {
      "must": "teaching control",
@@ -420,9 +430,19 @@
      "why": "the study's fold rule, both parts, beside the pair"
     },
     {
-     "must": "not[^.]*(shorter|compact)",
+     "must": "defined by contact, not by length or compactness",
      "grade": "MISLEADING",
-     "why": "folded is not compactness"
+     "why": "folded is defined by contact, not compactness"
+    },
+    {
+     "must": "a folded conformer can look the longer of the two",
+     "grade": "MISLEADING",
+     "why": "why the pair can look backwards"
+    },
+    {
+     "must_not": "does not mean shorter",
+     "grade": "MISLEADING",
+     "why": "the old wording, true only as a definition"
     },
     {
      "must": "for the instructor",

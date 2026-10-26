@@ -198,7 +198,14 @@ STUDY_SCOPE = [must_not(r"solvent: not stated", "MISLEADING", "the study's proto
                # not compactness. The labels stay "folded" / "extended"
                must(r"[Ff]olded here[^.]*intramolecular contact[^.]*genus", "MISLEADING",
                     "the study's fold rule, both parts, beside the pair"),
-               must(r"not[^.]*(shorter|compact)", "MISLEADING", "folded is not compactness")]
+               # round 17 (OPEN), the user's wording: folded members are more compact on average in all
+               # five ensembles, so "does not mean shorter or more compact" was true only as a definition;
+               # the note says what defines it and why the folded one can look the longer
+               must(r"defined by contact, not by length or compactness", "MISLEADING",
+                    "folded is defined by contact, not compactness"),
+               must(r"a folded conformer can look the longer of the two", "MISLEADING",
+                    "why the pair can look backwards"),
+               must_not(r"does not mean shorter", "MISLEADING", "the old wording, true only as a definition")]
 
 
 def blk(act, k):
