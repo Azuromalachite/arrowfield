@@ -321,10 +321,10 @@ def _block(act, k, plan, bundle, study, ens, sources, views):
         rule = STUDY_FOLD_RULES.get(study.verdict_rule)
         if rule and any(isinstance(conf[c].folded, bool) for c in keys):
             # the labels stay "folded" / "extended"; what they mean is the study's rule, said beside them
-            # (the user's browser check of the 9e2a397 preview: the folded conformer looked the longer; the
-            # user's wording after round 17, since folded members are more compact on average)
-            html_ += (f'<p class="limits">Folded here is this study\'s rule: {_e(rule)}. It is defined by contact, '
-                      "not by length or compactness, so a folded conformer can look the longer of the two.</p>")
+            # (the user's browser check of the 9e2a397 preview: the folded conformer looked the longer). The
+            # user's wording after round 19: the whole rule once, then a reference to it, never a part of it
+            html_ += (f'<p class="limits">Folded means that the conformer meets the study’s prespecified rule: '
+                      f"{_e(rule)}. It is defined by that rule, not by molecular length or overall compactness.</p>")
         return html_, (refs[0]["slug"], refs[1]["slug"])
     if view == "evidence_card":
         slug = k.get("molecule")
