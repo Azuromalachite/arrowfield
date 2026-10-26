@@ -331,24 +331,19 @@
      "why": "the study's basis check: not run"
     },
     {
-     "must": "[Ff]olded here[^.]*intramolecular contact[^.]*genus",
+     "must": "Folded means that the conformer meets the study’s prespecified rule: an intramolecular contact or surface genus > 0\\.",
      "grade": "MISLEADING",
-     "why": "the study's fold rule, both parts, beside the pair"
+     "why": "the study's whole fold rule, once"
     },
     {
-     "must": "defined by contact, not by length or compactness",
+     "must": "It is defined by that rule, not by molecular length or overall compactness\\.",
      "grade": "MISLEADING",
-     "why": "folded is defined by contact, not compactness"
+     "why": "folded is that rule, not compactness"
     },
     {
-     "must": "a folded conformer can look the longer of the two",
+     "must_not": "defined by contact|does not mean shorter",
      "grade": "MISLEADING",
-     "why": "why the pair can look backwards"
-    },
-    {
-     "must_not": "does not mean shorter",
-     "grade": "MISLEADING",
-     "why": "the old wording, true only as a definition"
+     "why": "the earlier wordings: half the rule, or true only as a definition"
     },
     {
      "must": "teaching control",
@@ -425,24 +420,19 @@
      "why": "the study's basis check: not run"
     },
     {
-     "must": "[Ff]olded here[^.]*intramolecular contact[^.]*genus",
+     "must": "Folded means that the conformer meets the study’s prespecified rule: an intramolecular contact or surface genus > 0\\.",
      "grade": "MISLEADING",
-     "why": "the study's fold rule, both parts, beside the pair"
+     "why": "the study's whole fold rule, once"
     },
     {
-     "must": "defined by contact, not by length or compactness",
+     "must": "It is defined by that rule, not by molecular length or overall compactness\\.",
      "grade": "MISLEADING",
-     "why": "folded is defined by contact, not compactness"
+     "why": "folded is that rule, not compactness"
     },
     {
-     "must": "a folded conformer can look the longer of the two",
+     "must_not": "defined by contact|does not mean shorter",
      "grade": "MISLEADING",
-     "why": "why the pair can look backwards"
-    },
-    {
-     "must_not": "does not mean shorter",
-     "grade": "MISLEADING",
-     "why": "the old wording, true only as a definition"
+     "why": "the earlier wordings: half the rule, or true only as a definition"
     },
     {
      "must": "for the instructor",

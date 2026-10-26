@@ -196,16 +196,15 @@ STUDY_SCOPE = [must_not(r"solvent: not stated", "MISLEADING", "the study's proto
                # longer of the two. Folded is the study's frozen rule (plan section 3): an intramolecular
                # contact or a surface of genus above zero; the page says so, in both parts, and that it is
                # not compactness. The labels stay "folded" / "extended"
-               must(r"[Ff]olded here[^.]*intramolecular contact[^.]*genus", "MISLEADING",
-                    "the study's fold rule, both parts, beside the pair"),
-               # round 17 (OPEN), the user's wording: folded members are more compact on average in all
-               # five ensembles, so "does not mean shorter or more compact" was true only as a definition;
-               # the note says what defines it and why the folded one can look the longer
-               must(r"defined by contact, not by length or compactness", "MISLEADING",
-                    "folded is defined by contact, not compactness"),
-               must(r"a folded conformer can look the longer of the two", "MISLEADING",
-                    "why the pair can look backwards"),
-               must_not(r"does not mean shorter", "MISLEADING", "the old wording, true only as a definition")]
+               # round 19 (c4ac558): "defined by contact" dropped the rule's genus branch, and 2 of the
+               # study's 25 folded members (E3 conf_01, OH conf_18) are folded by genus alone. The user's
+               # wording states the whole rule once and then refers to it, so it cannot drift
+               must(r"Folded means that the conformer meets the study’s prespecified rule: an intramolecular "
+                    r"contact or surface genus > 0\.", "MISLEADING", "the study's whole fold rule, once"),
+               must(r"It is defined by that rule, not by molecular length or overall compactness\.", "MISLEADING",
+                    "folded is that rule, not compactness"),
+               must_not(r"defined by contact|does not mean shorter", "MISLEADING",
+                        "the earlier wordings: half the rule, or true only as a definition")]
 
 
 def blk(act, k):
