@@ -33,7 +33,7 @@ jobs:
   # protection requires "manifest and tests (3.12)" only), and allowed to
   # fail: a red canary is drift to look at, not a broken build.
   canary:
-    name: "canary: espmap v0.3.0 (non-blocking)"
+    name: "canary: espmap v0.3.1 (non-blocking)"
     runs-on: ubuntu-latest
     continue-on-error: true
     steps:
@@ -44,7 +44,7 @@ jobs:
           cache: pip
           cache-dependency-path: requirements-ci.txt
       - run: pip install -r requirements-ci.txt
-      - run: git clone --depth 1 --branch v0.3.0 https://github.com/Azuromalachite/espmap "$RUNNER_TEMP/espmap"
+      - run: git clone --depth 1 --branch v0.3.1 https://github.com/Azuromalachite/espmap "$RUNNER_TEMP/espmap"
       - run: pip install "$RUNNER_TEMP/espmap"
       - run: python tests/canary/compute_canary_records.py "$RUNNER_TEMP/espmap" "$RUNNER_TEMP/canary-records"
         env:
@@ -52,5 +52,5 @@ jobs:
       - run: python -m pytest -q tests
         env:
           CANARY_RECORDS: ${{ runner.temp }}/canary-records
-          CANARY_ESPMAP_VERSION: "0.3.0"
+          CANARY_ESPMAP_VERSION: "0.3.1"
           ESPMAP_PATH: ${{ runner.temp }}/espmap

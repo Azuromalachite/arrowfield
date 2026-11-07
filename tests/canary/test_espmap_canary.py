@@ -10,6 +10,9 @@ What it expects of v0.3.0, measured 2026-10-25 on ethanol and acetaldehyde:
 the same espmap.record/1 schema and top-level fields; an analysis key that
 differs from the pinned records' only in margin_bohr (review 7 R7-6 put the
 margin in the key); site means and scales that reproduce the pinned ones.
+v0.3.1 (the canary since 2026-11-07) meets the same expectations unchanged:
+it writes the same analysis keys as v0.3.0 on all three records (both are
+espmap.numeric/1).
 """
 import json
 import math
