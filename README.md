@@ -1,12 +1,17 @@
-# Arrowfield teaching layer: draft designs
+# Arrowfield teaching layer
 
-Status: **draft, 2026-10-23.** Nothing here changes espmap. The repository
-opened once espmap v0.2.0 shipped its P3 fixture records and tag; these are
-the draft designs and working prototype it was seeded with.
+Status: **v0.1.0, the teaching platform (2026-11-08).** Nothing here changes
+espmap. What v0.1.0 contains, and what it does not yet do, is in
+`CHANGELOG.md`. In short: the views, the hostile-pedagogy test sets, the
+Sesiidae homework page builder (tested against real Atlas data) and the
+small-molecule demos run from a checkout. Rendering the Sesiidae homework for
+a class still needs the Atlas inputs fetched by hand and the human check of
+its observations; that is the next milestone (v0.2.0).
 
 | file | what it is |
 | --- | --- |
 | `README.md` | this overview: boundary, principles, how to read a result |
+| `CHANGELOG.md` | what each release contains and what it does not |
 | `AGENTS.md` | the binding rules for any contributor, human or AI: who owns which fact, what never to do, the checks before done |
 | `CONTRIBUTING.md` | setup, where things go, the definition of done, AI-assisted work |
 | `molecules.yaml` | the curated manifest. Never edit it by hand: `build_manifest.py` generates it and checks every entry with RDKit (full maps, charge, E/Z, no open stereo, site atoms exist) |
@@ -16,6 +21,8 @@ the draft designs and working prototype it was seeded with.
 | `notebooks.md` | cell-by-cell outlines of both notebooks and the three views, plus the prototype's status |
 | `model.py` | Arrowfield's own data model (MoleculeView, Comparison, EvidenceStatement, TeachingCase): the only objects views consume |
 | `record.py`, `views.py`, `build_demo.py`, `compute_records.py`, `make_geometries.py`, `tests/` | the working prototype of the three views; see `notebooks.md` |
+| `homework.py`, `study.py`, `bundle.py` | the Sesiidae homework page (`homework.page_html`), the frozen study's results adapter, and the Atlas teaching-bundle reader |
+| `palette.py`, `vendor/` | the pair view's colours: espmap v0.3.1's own vik and lajolla tables, frozen |
 | `records/`, `geometries/` | computed records (small molecules), acetate's DFT geometry |
 | `demo/` | rendered pages, not committed: `python build_demo.py` writes them |
 | `controls/` | espmap records of teaching controls, molecules a lesson needs that the Atlas does not hold, in the Atlas's index format; see `controls/README.md` |
