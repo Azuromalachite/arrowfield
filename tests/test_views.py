@@ -35,6 +35,50 @@ def test_a_record_that_says_it_is_invalid_is_refused(tmp_path):
         Record(tmp_path / "bad")
 
 
+def test_a_record_beside_another_records_surface_is_refused(tmp_path):
+    """The NPZ states the geometry it was computed on (geometry_sha1), the record its own: a record
+    beside another's surface would draw that surface under its name (#21's probe on dfeffcc)."""
+    import shutil
+    pair = HERE / "tests" / "data" / "pair" / "e3_z13_18_oac"
+    shutil.copy(pair / "conf_00.json", tmp_path / "own.json")
+    shutil.copy(pair / "conf_00.npz", tmp_path / "own.npz")
+    assert Record(tmp_path / "own").view().provenance.source == "own"
+    shutil.copy(pair / "conf_00.json", tmp_path / "swapped.json")
+    shutil.copy(pair / "conf_02.npz", tmp_path / "swapped.npz")
+    with pytest.raises(InvalidRecord):
+        Record(tmp_path / "swapped")
+    shutil.copy(pair / "conf_00.json", tmp_path / "rekeyed.json")   # own geometry, another protocol's key
+    z = dict(np.load(pair / "conf_00.npz"))
+    np.savez(tmp_path / "rekeyed.npz", **{**z, "analysis_key": np.array("2b7bee37" + "0" * 32)})
+    with pytest.raises(InvalidRecord):
+        Record(tmp_path / "rekeyed")
+    for rec in sorted(REC.glob("*.npz")):                      # every record here carries its own
+        Record(rec.with_suffix(""))
+
+
+def test_a_record_whose_key_does_not_digest_its_protocol_is_refused(tmp_path):
+    """analysis_key is espmap's sha1 of key_fields.analysis (record_key): a
+    record whose fields changed under its key, or that has none, does not say
+    what protocol its numbers are under (the user's decision on #21)."""
+    j = json.loads((REC / "ethanol__s1.json").read_text())
+    assert Record(REC / "ethanol__s1").view().provenance.analysis_fields is not None
+    for case in ("changed", "missing", "not_a_mapping"):
+        k = json.loads(json.dumps(j))
+        if case == "changed":
+            k["key_fields"]["analysis"]["solvent"] = "water"
+        elif case == "missing":
+            del k["key_fields"]
+        else:
+            k["key_fields"]["analysis"] = "b3lyp/def2svp"
+        (tmp_path / f"{case}.json").write_text(json.dumps(k))
+        with pytest.raises(InvalidRecord):
+            Record(tmp_path / case)
+    k = json.loads(json.dumps(j))
+    k["settings"]["xc"] = "B3LYP"                     # raw spelling is provenance text, not the protocol
+    (tmp_path / "spelled.json").write_text(json.dumps(k))
+    assert Record(tmp_path / "spelled").view().provenance.xc == "B3LYP"
+
+
 def test_a_record_of_another_schema_version_is_refused(tmp_path):
     j = json.loads((REC / "ethanol__s1.json").read_text())
     assert j["schema"] == "espmap.record/1"
@@ -206,13 +250,21 @@ def test_records_that_are_not_comparable_are_shown_as_not_comparable():
 
 
 def test_the_card_names_the_method_of_its_own_measurements():
-    """The scope line takes the method from the measurements' provenance: a
-    hard-coded 'gas phase' would be false on a card comparing PCM records."""
+    """The scope line takes the method from the measurements' canonical
+    protocol (key_fields.analysis, which the key digests), never from the raw
+    settings' spelling: a hard-coded 'gas phase' would be false on a card
+    comparing PCM records."""
+    from model import analysis_digest
     e, z = load_all(REC, "e2_butene"), load_all(REC, "z2_butene")
     h = card_html(difference_card(e, z, "C2"))
-    assert "free molecule (" + e[0].provenance.method + ")" in h
-    pcm = [replace(v, provenance=replace(v.provenance, solvent="water")) for v in e + z]
-    h = card_html(difference_card(pcm[:3], pcm[3:], "C2"))
+    assert e[0].provenance.xc == "b3lyp" and "free molecule (b3lyp/def2svp, gas)" in h
+
+    def pcm(v):
+        f = json.loads(v.provenance.analysis_fields) | {"solvent": "water"}
+        return replace(v, provenance=replace(v.provenance, solvent="water", analysis_key=analysis_digest(f),
+                                             analysis_fields=json.dumps(f, sort_keys=True)))
+    w = [pcm(v) for v in e + z]
+    h = card_html(difference_card(w[:3], w[3:], "C2"))
     assert "PCM water" in h and "gas" not in h.split('class="scope"')[1]
 
 

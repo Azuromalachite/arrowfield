@@ -21,7 +21,7 @@ import sys
 
 import numpy as np
 
-from model import SIGN_TOL, ComparisonStatus, compare
+from model import SIGN_TOL, ComparisonStatus, compare, protocol, protocol_problems, protocol_words
 
 THREEDMOL = "https://cdnjs.cloudflare.com/ajax/libs/3Dmol/2.4.0/3Dmol-min.js"
 STYLE = dict(background="white", outline="black", outline_width=0.03,
@@ -619,7 +619,19 @@ def pair_view_html(left, right, context=None):
         raise Refused("different analysis keys: one colour would mean two methods' kcal/mol; compute both "
                       "under one protocol")
     pa, pb = left.provenance, right.provenance
-    if (pa.xc, pa.basis, _gas(pa.solvent) or pa.solvent) != (pb.xc, pb.basis, _gas(pb.solvent) or pb.solvent):
+    canonical = protocol(pa) is not None and protocol(pb) is not None
+    if (protocol(pa) is None) != (protocol(pb) is None):
+        # #21's round 12: compared on raw strings, two stale labels agreed while one side's verified
+        # protocol said otherwise
+        raise Refused("one record carries its canonical protocol and the other none: the caption cannot "
+                      "name one method for both")
+    if canonical:
+        # each record's canonical protocol, digested by its key (the user's decision on #21): one
+        # key is one protocol, however the runs spelled their settings
+        problems = protocol_problems(pa) + protocol_problems(pb)
+        if problems:
+            raise Refused(f"{problems[0]}: the caption could not name the method both were computed with")
+    elif (pa.xc, pa.basis, _gas(pa.solvent) or pa.solvent) != (pb.xc, pb.basis, _gas(pb.solvent) or pb.solvent):
         raise Refused("the analysis keys match but the provenance behind them does not (functional, basis or "
                       "solvent): a key that disagrees with its own record")
     if left.charge != right.charge:
@@ -639,7 +651,11 @@ def pair_view_html(left, right, context=None):
         direction = "darker = lower (more negative)"
     else:
         direction = "darker = lower (less positive)"
-    method = f"{pa.xc}/{pa.basis}, {'gas phase' if _gas(pa.solvent) else 'PCM ' + str(pa.solvent)}"
+    if canonical:
+        how, solvent = protocol_words(pa)
+        method = f"{how}, {'gas phase' if solvent is None else 'PCM ' + solvent}"
+    else:
+        method = f"{pa.xc}/{pa.basis}, {'gas phase' if _gas(pa.solvent) else 'PCM ' + str(pa.solvent)}"
     notes = [_RELATION_WORDS[rel]]
     if rel == "two_compounds" and "unstated" in folds:
         notes.append("Folded state not stated for at least one of them: shape comparability between the two "

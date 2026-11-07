@@ -16,7 +16,7 @@ from pathlib import Path
 import numpy as np
 
 from model import (RULES, Atom, MoleculeView, Provenance, Scale, SiteMeasurement, Surface,
-                   comparable, same_scale)  # noqa: F401  (re-exported for callers)
+                   analysis_digest, comparable, same_scale)  # noqa: F401  (re-exported for callers)
 
 BOHR = 0.529177210903          # NPZ verts/coords are bohr; geometry.xyz_angstrom is A
 RECORD_SCHEMA = "espmap.record/1"
@@ -46,6 +46,27 @@ class Record:
             # the record says whether it can be used; never infer it
             raise InvalidRecord(f"{stem.name}: validity {v}, sites_reason "
                                 f"{self.j.get('sites_reason')!r}")
+        # the canonical protocol, verified: analysis_key is espmap's digest of key_fields.analysis
+        fields = (self.j.get("key_fields") or {}).get("analysis")
+        if not isinstance(fields, dict):
+            raise InvalidRecord(f"{stem.name}: no canonical analysis fields (key_fields.analysis)")
+        if analysis_digest(fields) != self.j.get("analysis_key"):
+            raise InvalidRecord(f"{stem.name}: analysis_key {self.j.get('analysis_key')} is not the digest of "
+                                "its key_fields.analysis: the key does not describe this record")
+        # the surface beside the record is this record's: the NPZ states the geometry it was computed
+        # on, the record its own (#21's fresh probe on dfeffcc: a swapped NPZ drew another geometry)
+        if self.z is not None:
+            npz_geometry = str(self.z["geometry_sha1"]) if "geometry_sha1" in self.z.files else None
+            if npz_geometry != (self.j.get("geometry") or {}).get("sha1"):
+                raise InvalidRecord(f"{stem.name}: the NPZ beside it was computed on geometry {npz_geometry}, the "
+                                    f"record on {(self.j.get('geometry') or {}).get('sha1')}: not this record's surface")
+            # and under the record's protocol: the same geometry under another (a def2-TZVP single
+            # point, say) is another potential (#21's fresh probe on c4ac558)
+            for k in ("analysis_key", "render_key"):
+                got = str(self.z[k]) if k in self.z.files else None
+                if got != self.j.get(k):
+                    raise InvalidRecord(f"{stem.name}: the NPZ beside it states {k} {got}, the record "
+                                        f"{self.j.get(k)}: another run's surface")
 
     def view(self, name=None):
         """The record as Arrowfield's MoleculeView."""
@@ -88,7 +109,8 @@ class Record:
                 source=self.stem.name, analysis_key=j["analysis_key"], render_key=j["render_key"],
                 record_schema=j.get("schema"), espmap_version=pv.get("espmap_version"),
                 code=pv.get("code"), sha256=self.sha256, xc=st.get("xc"),
-                basis=st.get("basis"), solvent=st.get("solvent")),
+                basis=st.get("basis"), solvent=st.get("solvent"),
+                analysis_fields=json.dumps(j["key_fields"]["analysis"], sort_keys=True)),
             mapped_smiles=s["identity"]["mapped_smiles"],
             surface_loader=None if self.z is None else self._surface)
 

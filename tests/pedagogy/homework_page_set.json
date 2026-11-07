@@ -311,6 +311,41 @@
      "why": "nothing the page writes joins an ESP difference to a biological result"
     },
     {
+     "must_not": "solvent: not stated",
+     "grade": "MISLEADING",
+     "why": "the study's protocol states its phase"
+    },
+    {
+     "must": "solvent: [^.]*gas phase",
+     "grade": "MISLEADING",
+     "why": "the study's solvent: none, the gas phase"
+    },
+    {
+     "must_not": "basis sensitivity: not stated",
+     "grade": "MISLEADING",
+     "why": "the study states its basis check"
+    },
+    {
+     "must": "basis sensitivity: not run",
+     "grade": "MISLEADING",
+     "why": "the study's basis check: not run"
+    },
+    {
+     "must": "Folded means that the conformer meets the study’s prespecified rule: an intramolecular contact or surface genus > 0\\.",
+     "grade": "MISLEADING",
+     "why": "the study's whole fold rule, once"
+    },
+    {
+     "must": "It is defined by that rule, not by molecular length or overall compactness\\.",
+     "grade": "MISLEADING",
+     "why": "folded is that rule, not compactness"
+    },
+    {
+     "must_not": "defined by contact|does not mean shorter",
+     "grade": "MISLEADING",
+     "why": "the earlier wordings: half the rule, or true only as a definition"
+    },
+    {
      "must": "teaching control",
      "grade": "FALSE",
      "why": "the aldehyde named as a teaching control"
@@ -363,6 +398,41 @@
      "check": "no_bridge",
      "grade": "FALSE",
      "why": "nothing the page writes joins an ESP difference to a biological result"
+    },
+    {
+     "must_not": "solvent: not stated",
+     "grade": "MISLEADING",
+     "why": "the study's protocol states its phase"
+    },
+    {
+     "must": "solvent: [^.]*gas phase",
+     "grade": "MISLEADING",
+     "why": "the study's solvent: none, the gas phase"
+    },
+    {
+     "must_not": "basis sensitivity: not stated",
+     "grade": "MISLEADING",
+     "why": "the study states its basis check"
+    },
+    {
+     "must": "basis sensitivity: not run",
+     "grade": "MISLEADING",
+     "why": "the study's basis check: not run"
+    },
+    {
+     "must": "Folded means that the conformer meets the study’s prespecified rule: an intramolecular contact or surface genus > 0\\.",
+     "grade": "MISLEADING",
+     "why": "the study's whole fold rule, once"
+    },
+    {
+     "must": "It is defined by that rule, not by molecular length or overall compactness\\.",
+     "grade": "MISLEADING",
+     "why": "folded is that rule, not compactness"
+    },
+    {
+     "must_not": "defined by contact|does not mean shorter",
+     "grade": "MISLEADING",
+     "why": "the earlier wordings: half the rule, or true only as a definition"
     },
     {
      "must": "for the instructor",
@@ -1060,6 +1130,6983 @@
      "check": "no_bridge",
      "grade": "FALSE",
      "why": "nothing the page writes joins an ESP difference to a biological result"
+    }
+   ]
+  },
+  {
+   "id": "plan_task_not_text",
+   "cls": "H7 plan text",
+   "why": "The plan's task given as int 7: not text. Refuse, naming where.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "tasks",
+      "+"
+     ],
+     7
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_predict_not_text",
+   "cls": "H7 plan text",
+   "why": "The plan's predict given as list ['Does changing E to Z', 'matter?']: not text. Refuse, naming where.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      1,
+      "predict"
+     ],
+     [
+      "Does changing E to Z",
+      "matter?"
+     ]
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_title_not_text",
+   "cls": "H7 plan text",
+   "why": "The plan's title given as int 42: not text. Refuse, naming where.",
+   "plan_patch": [
+    [
+     [
+      "title"
+     ],
+     42
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_act_title_not_text",
+   "cls": "H7 plan text",
+   "why": "The plan's title given as float 3.5: not text. Refuse, naming where.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      2,
+      "title"
+     ],
+     3.5
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_expected_not_text",
+   "cls": "H7 plan text",
+   "why": "An expected answer given as a mapping, on the instructor's page: not text. Refuse.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "expected"
+     ],
+     {
+      "answer": "resolved"
+     }
+    ]
+   ],
+   "source_ops": [],
+   "audience": "instructor",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_act_title_none",
+   "cls": "H7 plan text",
+   "why": "The plan's acts/0/title given as None (synthetic): read as absent. The page renders without it and never prints 'None'.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "title"
+     ],
+     null
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must_not": "(?-i:\\bNone\\b)",
+     "grade": "MISLEADING",
+     "why": "a missing field is not the text 'None'"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_page_title_none",
+   "cls": "H7 plan text",
+   "why": "The plan's title given as None (synthetic): read as absent. The page renders without it and never prints 'None'.",
+   "plan_patch": [
+    [
+     [
+      "title"
+     ],
+     null
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must_not": "(?-i:\\bNone\\b)",
+     "grade": "MISLEADING",
+     "why": "a missing field is not the text 'None'"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_expected_none",
+   "cls": "H7 plan text",
+   "why": "The plan's acts/1/expected given as None (synthetic): read as absent. The page renders without it and never prints 'None'.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      1,
+      "expected"
+     ],
+     null
+    ]
+   ],
+   "source_ops": [],
+   "audience": "instructor",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must_not": "(?-i:\\bNone\\b)",
+     "grade": "MISLEADING",
+     "why": "a missing field is not the text 'None'"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_page_title_blank_spaces",
+   "cls": "H7 plan text",
+   "why": "The plan's title is '   ', no visible character: read as absent, like \"\". No empty heading, no 'Act A:' with nothing after it, no empty instructor box.",
+   "plan_patch": [
+    [
+     [
+      "title"
+     ],
+     "   "
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_act_title_blank_spaces",
+   "cls": "H7 plan text",
+   "why": "The plan's acts/0/title is '   ', no visible character: read as absent, like \"\". No empty heading, no 'Act A:' with nothing after it, no empty instructor box.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "title"
+     ],
+     "   "
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_expected_blank_spaces",
+   "cls": "H7 plan text",
+   "why": "The plan's acts/2/expected is '   ', no visible character: read as absent, like \"\". No empty heading, no 'Act A:' with nothing after it, no empty instructor box.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      2,
+      "expected"
+     ],
+     "   "
+    ]
+   ],
+   "source_ops": [],
+   "audience": "instructor",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_page_title_blank_tab_newline",
+   "cls": "H7 plan text",
+   "why": "The plan's title is '\\n\\t ', no visible character: read as absent, like \"\". No empty heading, no 'Act A:' with nothing after it, no empty instructor box.",
+   "plan_patch": [
+    [
+     [
+      "title"
+     ],
+     "\n\t "
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_act_title_blank_tab_newline",
+   "cls": "H7 plan text",
+   "why": "The plan's acts/0/title is '\\n\\t ', no visible character: read as absent, like \"\". No empty heading, no 'Act A:' with nothing after it, no empty instructor box.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "title"
+     ],
+     "\n\t "
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_expected_blank_tab_newline",
+   "cls": "H7 plan text",
+   "why": "The plan's acts/2/expected is '\\n\\t ', no visible character: read as absent, like \"\". No empty heading, no 'Act A:' with nothing after it, no empty instructor box.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      2,
+      "expected"
+     ],
+     "\n\t "
+    ]
+   ],
+   "source_ops": [],
+   "audience": "instructor",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_page_title_blank_nbsp",
+   "cls": "H7 plan text",
+   "why": "The plan's title is '\\xa0', no visible character: read as absent, like \"\". No empty heading, no 'Act A:' with nothing after it, no empty instructor box.",
+   "plan_patch": [
+    [
+     [
+      "title"
+     ],
+     " "
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_act_title_blank_nbsp",
+   "cls": "H7 plan text",
+   "why": "The plan's acts/0/title is '\\xa0', no visible character: read as absent, like \"\". No empty heading, no 'Act A:' with nothing after it, no empty instructor box.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "title"
+     ],
+     " "
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_expected_blank_nbsp",
+   "cls": "H7 plan text",
+   "why": "The plan's acts/2/expected is '\\xa0', no visible character: read as absent, like \"\". No empty heading, no 'Act A:' with nothing after it, no empty instructor box.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      2,
+      "expected"
+     ],
+     " "
+    ]
+   ],
+   "source_ops": [],
+   "audience": "instructor",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_page_title_blank_zwsp",
+   "cls": "H7 plan text",
+   "why": "The plan's title is '\\u200b', no visible character: read as absent, like \"\". No empty heading, no 'Act A:' with nothing after it, no empty instructor box.",
+   "plan_patch": [
+    [
+     [
+      "title"
+     ],
+     "​"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_act_title_blank_zwsp",
+   "cls": "H7 plan text",
+   "why": "The plan's acts/0/title is '\\u200b', no visible character: read as absent, like \"\". No empty heading, no 'Act A:' with nothing after it, no empty instructor box.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "title"
+     ],
+     "​"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_expected_blank_zwsp",
+   "cls": "H7 plan text",
+   "why": "The plan's acts/2/expected is '\\u200b', no visible character: read as absent, like \"\". No empty heading, no 'Act A:' with nothing after it, no empty instructor box.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      2,
+      "expected"
+     ],
+     "​"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "instructor",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_task_blank_empty",
+   "cls": "H7 plan text",
+   "why": "A task '': nothing to do, and an empty bullet reads as a task left out. Refuse, naming where.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "tasks",
+      "+"
+     ],
+     ""
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_task_blank_spaces",
+   "cls": "H7 plan text",
+   "why": "A task '   ': nothing to do, and an empty bullet reads as a task left out. Refuse, naming where.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "tasks",
+      "+"
+     ],
+     "   "
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_task_blank_tab_newline",
+   "cls": "H7 plan text",
+   "why": "A task '\\n\\t ': nothing to do, and an empty bullet reads as a task left out. Refuse, naming where.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "tasks",
+      "+"
+     ],
+     "\n\t "
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_task_blank_nbsp",
+   "cls": "H7 plan text",
+   "why": "A task '\\xa0': nothing to do, and an empty bullet reads as a task left out. Refuse, naming where.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "tasks",
+      "+"
+     ],
+     " "
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_task_blank_zwsp",
+   "cls": "H7 plan text",
+   "why": "A task '\\u200b': nothing to do, and an empty bullet reads as a task left out. Refuse, naming where.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "tasks",
+      "+"
+     ],
+     "​"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_predict_blank_zwsp",
+   "cls": "H7 plan text",
+   "why": "A prediction that is only a zero-width space: no prediction, so the reveal would come first. Refuse.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      1,
+      "predict"
+     ],
+     "​"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_predict_invisible_cgj",
+   "cls": "H7 plan text",
+   "why": "A prediction that is only '͏': nothing to read, so the reveal would come first. Refuse.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      1,
+      "predict"
+     ],
+     "͏"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_predict_invisible_vs16",
+   "cls": "H7 plan text",
+   "why": "A prediction that is only '️': nothing to read, so the reveal would come first. Refuse.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      1,
+      "predict"
+     ],
+     "️"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_predict_invisible_vs17",
+   "cls": "H7 plan text",
+   "why": "A prediction that is only '󠄀': nothing to read, so the reveal would come first. Refuse.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      1,
+      "predict"
+     ],
+     "󠄀"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_predict_invisible_mongolian_fvs1",
+   "cls": "H7 plan text",
+   "why": "A prediction that is only '᠋': nothing to read, so the reveal would come first. Refuse.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      1,
+      "predict"
+     ],
+     "᠋"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_predict_invisible_khmer_aq",
+   "cls": "H7 plan text",
+   "why": "A prediction that is only '឴': nothing to read, so the reveal would come first. Refuse.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      1,
+      "predict"
+     ],
+     "឴"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_predict_invisible_hangul_filler",
+   "cls": "H7 plan text",
+   "why": "A prediction that is only 'ㅤ': nothing to read, so the reveal would come first. Refuse.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      1,
+      "predict"
+     ],
+     "ㅤ"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_predict_invisible_hangul_choseong_filler",
+   "cls": "H7 plan text",
+   "why": "A prediction that is only 'ᅟ': nothing to read, so the reveal would come first. Refuse.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      1,
+      "predict"
+     ],
+     "ᅟ"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_predict_invisible_hangul_jungseong_filler",
+   "cls": "H7 plan text",
+   "why": "A prediction that is only 'ᅠ': nothing to read, so the reveal would come first. Refuse.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      1,
+      "predict"
+     ],
+     "ᅠ"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_predict_invisible_halfwidth_hangul_filler",
+   "cls": "H7 plan text",
+   "why": "A prediction that is only 'ﾠ': nothing to read, so the reveal would come first. Refuse.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      1,
+      "predict"
+     ],
+     "ﾠ"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_predict_invisible_braille_blank",
+   "cls": "H7 plan text",
+   "why": "A prediction that is only '⠀': nothing to read, so the reveal would come first. Refuse.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      1,
+      "predict"
+     ],
+     "⠀"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_predict_invisible_mix",
+   "cls": "H7 plan text",
+   "why": "A prediction that is only 'ㅤ⠀\\u200b \\xa0': nothing to read, so the reveal would come first. Refuse.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      1,
+      "predict"
+     ],
+     "ㅤ⠀​  "
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_predict_invisible_combining_acute",
+   "cls": "H7 plan text",
+   "why": "A prediction that is only '́': nothing to read, so the reveal would come first. Refuse.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      1,
+      "predict"
+     ],
+     "́"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_predict_invisible_private_use",
+   "cls": "H7 plan text",
+   "why": "A prediction that is only '\\U000f0000': nothing to read, so the reveal would come first. Refuse.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      1,
+      "predict"
+     ],
+     "󰀀"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_page_title_invisible_hangul_filler",
+   "cls": "H7 plan text",
+   "why": "The plan's title is 'ㅤ', nothing to read: absent.",
+   "plan_patch": [
+    [
+     [
+      "title"
+     ],
+     "ㅤ"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_act_title_invisible_hangul_filler",
+   "cls": "H7 plan text",
+   "why": "The plan's acts/0/title is 'ㅤ', nothing to read: absent.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "title"
+     ],
+     "ㅤ"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_expected_invisible_hangul_filler",
+   "cls": "H7 plan text",
+   "why": "The plan's acts/2/expected is 'ㅤ', nothing to read: absent.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      2,
+      "expected"
+     ],
+     "ㅤ"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "instructor",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_task_invisible_hangul_filler",
+   "cls": "H7 plan text",
+   "why": "A task 'ㅤ': an empty bullet. Refuse, naming where.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "tasks",
+      "+"
+     ],
+     "ㅤ"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_page_title_invisible_hangul_choseong_filler",
+   "cls": "H7 plan text",
+   "why": "The plan's title is 'ᅟ', nothing to read: absent.",
+   "plan_patch": [
+    [
+     [
+      "title"
+     ],
+     "ᅟ"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_act_title_invisible_hangul_choseong_filler",
+   "cls": "H7 plan text",
+   "why": "The plan's acts/0/title is 'ᅟ', nothing to read: absent.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "title"
+     ],
+     "ᅟ"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_expected_invisible_hangul_choseong_filler",
+   "cls": "H7 plan text",
+   "why": "The plan's acts/2/expected is 'ᅟ', nothing to read: absent.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      2,
+      "expected"
+     ],
+     "ᅟ"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "instructor",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_task_invisible_hangul_choseong_filler",
+   "cls": "H7 plan text",
+   "why": "A task 'ᅟ': an empty bullet. Refuse, naming where.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "tasks",
+      "+"
+     ],
+     "ᅟ"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_page_title_invisible_hangul_jungseong_filler",
+   "cls": "H7 plan text",
+   "why": "The plan's title is 'ᅠ', nothing to read: absent.",
+   "plan_patch": [
+    [
+     [
+      "title"
+     ],
+     "ᅠ"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_act_title_invisible_hangul_jungseong_filler",
+   "cls": "H7 plan text",
+   "why": "The plan's acts/0/title is 'ᅠ', nothing to read: absent.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "title"
+     ],
+     "ᅠ"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_expected_invisible_hangul_jungseong_filler",
+   "cls": "H7 plan text",
+   "why": "The plan's acts/2/expected is 'ᅠ', nothing to read: absent.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      2,
+      "expected"
+     ],
+     "ᅠ"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "instructor",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_task_invisible_hangul_jungseong_filler",
+   "cls": "H7 plan text",
+   "why": "A task 'ᅠ': an empty bullet. Refuse, naming where.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "tasks",
+      "+"
+     ],
+     "ᅠ"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_page_title_invisible_halfwidth_hangul_filler",
+   "cls": "H7 plan text",
+   "why": "The plan's title is 'ﾠ', nothing to read: absent.",
+   "plan_patch": [
+    [
+     [
+      "title"
+     ],
+     "ﾠ"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_act_title_invisible_halfwidth_hangul_filler",
+   "cls": "H7 plan text",
+   "why": "The plan's acts/0/title is 'ﾠ', nothing to read: absent.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "title"
+     ],
+     "ﾠ"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_expected_invisible_halfwidth_hangul_filler",
+   "cls": "H7 plan text",
+   "why": "The plan's acts/2/expected is 'ﾠ', nothing to read: absent.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      2,
+      "expected"
+     ],
+     "ﾠ"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "instructor",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_task_invisible_halfwidth_hangul_filler",
+   "cls": "H7 plan text",
+   "why": "A task 'ﾠ': an empty bullet. Refuse, naming where.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "tasks",
+      "+"
+     ],
+     "ﾠ"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_page_title_invisible_braille_blank",
+   "cls": "H7 plan text",
+   "why": "The plan's title is '⠀', nothing to read: absent.",
+   "plan_patch": [
+    [
+     [
+      "title"
+     ],
+     "⠀"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_act_title_invisible_braille_blank",
+   "cls": "H7 plan text",
+   "why": "The plan's acts/0/title is '⠀', nothing to read: absent.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "title"
+     ],
+     "⠀"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_expected_invisible_braille_blank",
+   "cls": "H7 plan text",
+   "why": "The plan's acts/2/expected is '⠀', nothing to read: absent.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      2,
+      "expected"
+     ],
+     "⠀"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "instructor",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_task_invisible_braille_blank",
+   "cls": "H7 plan text",
+   "why": "A task '⠀': an empty bullet. Refuse, naming where.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "tasks",
+      "+"
+     ],
+     "⠀"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_page_title_invisible_mix",
+   "cls": "H7 plan text",
+   "why": "The plan's title is 'ㅤ⠀\\u200b \\xa0', nothing to read: absent.",
+   "plan_patch": [
+    [
+     [
+      "title"
+     ],
+     "ㅤ⠀​  "
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_act_title_invisible_mix",
+   "cls": "H7 plan text",
+   "why": "The plan's acts/0/title is 'ㅤ⠀\\u200b \\xa0', nothing to read: absent.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "title"
+     ],
+     "ㅤ⠀​  "
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_expected_invisible_mix",
+   "cls": "H7 plan text",
+   "why": "The plan's acts/2/expected is 'ㅤ⠀\\u200b \\xa0', nothing to read: absent.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      2,
+      "expected"
+     ],
+     "ㅤ⠀​  "
+    ]
+   ],
+   "source_ops": [],
+   "audience": "instructor",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_task_invisible_mix",
+   "cls": "H7 plan text",
+   "why": "A task 'ㅤ⠀\\u200b \\xa0': an empty bullet. Refuse, naming where.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "tasks",
+      "+"
+     ],
+     "ㅤ⠀​  "
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_page_title_invisible_combining_acute",
+   "cls": "H7 plan text",
+   "why": "The plan's title is '́', nothing to read: absent.",
+   "plan_patch": [
+    [
+     [
+      "title"
+     ],
+     "́"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_act_title_invisible_combining_acute",
+   "cls": "H7 plan text",
+   "why": "The plan's acts/0/title is '́', nothing to read: absent.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "title"
+     ],
+     "́"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_expected_invisible_combining_acute",
+   "cls": "H7 plan text",
+   "why": "The plan's acts/2/expected is '́', nothing to read: absent.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      2,
+      "expected"
+     ],
+     "́"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "instructor",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_task_invisible_combining_acute",
+   "cls": "H7 plan text",
+   "why": "A task '́': an empty bullet. Refuse, naming where.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "tasks",
+      "+"
+     ],
+     "́"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_page_title_invisible_private_use",
+   "cls": "H7 plan text",
+   "why": "The plan's title is '\\U000f0000', nothing to read: absent.",
+   "plan_patch": [
+    [
+     [
+      "title"
+     ],
+     "󰀀"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_act_title_invisible_private_use",
+   "cls": "H7 plan text",
+   "why": "The plan's acts/0/title is '\\U000f0000', nothing to read: absent.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "title"
+     ],
+     "󰀀"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_expected_invisible_private_use",
+   "cls": "H7 plan text",
+   "why": "The plan's acts/2/expected is '\\U000f0000', nothing to read: absent.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      2,
+      "expected"
+     ],
+     "󰀀"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "instructor",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_task_invisible_private_use",
+   "cls": "H7 plan text",
+   "why": "A task '\\U000f0000': an empty bullet. Refuse, naming where.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "tasks",
+      "+"
+     ],
+     "󰀀"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_title_lone_surrogate",
+   "cls": "H7 plan text",
+   "why": "The plan's title is '\\ud800': not writable text. Refuse, naming where.",
+   "plan_patch": [
+    [
+     [
+      "title"
+     ],
+     "\ud800"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_title_inner_surrogate",
+   "cls": "H7 plan text",
+   "why": "The plan's title is 'A\\ud800B': not writable text. Refuse, naming where.",
+   "plan_patch": [
+    [
+     [
+      "title"
+     ],
+     "A\ud800B"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_predict_inner_surrogate",
+   "cls": "H7 plan text",
+   "why": "The plan's predict is 'Which is \\udfff more negative?': not writable text. Refuse, naming where.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      1,
+      "predict"
+     ],
+     "Which is \udfff more negative?"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_title_nul",
+   "cls": "H7 plan text",
+   "why": "The plan's title is 'Homework\\x00one': not writable text. Refuse, naming where.",
+   "plan_patch": [
+    [
+     [
+      "title"
+     ],
+     "Homework\u0000one"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_title_esc",
+   "cls": "H7 plan text",
+   "why": "The plan's title is 'Homework\\x1b[31m one': not writable text. Refuse, naming where.",
+   "plan_patch": [
+    [
+     [
+      "title"
+     ],
+     "Homework\u001b[31m one"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_task_vt",
+   "cls": "H7 plan text",
+   "why": "The plan's task is 'Compare\\x0bthe two maps.': not writable text. Refuse, naming where.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "tasks",
+      "+"
+     ],
+     "Compare\u000bthe two maps."
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_title_nonchar_fffe",
+   "cls": "H7 plan text",
+   "why": "The plan's title is 'Real\\ufffetext': a noncharacter inside text. Refuse, naming where.",
+   "plan_patch": [
+    [
+     [
+      "title"
+     ],
+     "Real￾text"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_title_nonchar_fdd0",
+   "cls": "H7 plan text",
+   "why": "The plan's title is 'Real\\ufdd0text': a noncharacter inside text. Refuse, naming where.",
+   "plan_patch": [
+    [
+     [
+      "title"
+     ],
+     "Real﷐text"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_predict_nonchar_10ffff",
+   "cls": "H7 plan text",
+   "why": "The plan's predict is 'Which is\\U0010ffff more negative?': a noncharacter inside text. Refuse, naming where.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      1,
+      "predict"
+     ],
+     "Which is􏿿 more negative?"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_predict_invisible_null_notehead",
+   "cls": "H7 plan text",
+   "why": "A prediction that is only '𝅙': nothing to read. Refuse.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      1,
+      "predict"
+     ],
+     "𝅙"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_page_title_invisible_null_notehead",
+   "cls": "H7 plan text",
+   "why": "The page title is '𝅙', nothing to read: absent.",
+   "plan_patch": [
+    [
+     [
+      "title"
+     ],
+     "𝅙"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_task_invisible_null_notehead",
+   "cls": "H7 plan text",
+   "why": "A task '𝅙': an empty bullet. Refuse.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "tasks",
+      "+"
+     ],
+     "𝅙"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_predict_invisible_null_notehead_mix",
+   "cls": "H7 plan text",
+   "why": "A prediction that is only '𝅙ㅤ⠀': nothing to read. Refuse.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      1,
+      "predict"
+     ],
+     "𝅙ㅤ⠀"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_page_title_invisible_null_notehead_mix",
+   "cls": "H7 plan text",
+   "why": "The page title is '𝅙ㅤ⠀', nothing to read: absent.",
+   "plan_patch": [
+    [
+     [
+      "title"
+     ],
+     "𝅙ㅤ⠀"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "no_blank_text",
+     "grade": "MISLEADING",
+     "why": "every shown piece of plan text has something to read"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_task_invisible_null_notehead_mix",
+   "cls": "H7 plan text",
+   "why": "A task '𝅙ㅤ⠀': an empty bullet. Refuse.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "tasks",
+      "+"
+     ],
+     "𝅙ㅤ⠀"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_case_id_none",
+   "cls": "H7 plan text",
+   "why": "The plan's case_id is None: absent, so the page is named 'homework', never 'None' or blank.",
+   "plan_patch": [
+    [
+     [
+      "case_id"
+     ],
+     null
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "page_name",
+     "grade": "MISLEADING",
+     "why": "the page's <title> has something to read and is never 'None'"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_case_id_empty",
+   "cls": "H7 plan text",
+   "why": "The plan's case_id is '': absent, so the page is named 'homework', never 'None' or blank.",
+   "plan_patch": [
+    [
+     [
+      "case_id"
+     ],
+     ""
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "page_name",
+     "grade": "MISLEADING",
+     "why": "the page's <title> has something to read and is never 'None'"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_case_id_filler",
+   "cls": "H7 plan text",
+   "why": "The plan's case_id is 'ㅤ': absent, so the page is named 'homework', never 'None' or blank.",
+   "plan_patch": [
+    [
+     [
+      "case_id"
+     ],
+     "ㅤ"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "page_name",
+     "grade": "MISLEADING",
+     "why": "the page's <title> has something to read and is never 'None'"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "plan_case_id_not_text",
+   "cls": "H7 plan text",
+   "why": "The plan's case_id is 3: not text a page can carry. Refuse, naming where.",
+   "plan_patch": [
+    [
+     [
+      "case_id"
+     ],
+     3
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_case_id_lone_surrogate",
+   "cls": "H7 plan text",
+   "why": "The plan's case_id is '\\ud800': not text a page can carry. Refuse, naming where.",
+   "plan_patch": [
+    [
+     [
+      "case_id"
+     ],
+     "\ud800"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_case_id_nul",
+   "cls": "H7 plan text",
+   "why": "The plan's case_id is 'Case\\x00id': not text a page can carry. Refuse, naming where.",
+   "plan_patch": [
+    [
+     [
+      "case_id"
+     ],
+     "Case\u0000id"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_case_id_nel",
+   "cls": "H7 plan text",
+   "why": "The plan's case_id is 'Case\\x85id': not text a page can carry. Refuse, naming where.",
+   "plan_patch": [
+    [
+     [
+      "case_id"
+     ],
+     "Caseid"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_case_id_nonchar",
+   "cls": "H7 plan text",
+   "why": "The plan's case_id is 'Case\\ufffeid': not text a page can carry. Refuse, naming where.",
+   "plan_patch": [
+    [
+     [
+      "case_id"
+     ],
+     "Case￾id"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "slug_renamed_plainly",
+   "cls": "H8 source text",
+   "why": "The acetate's slug renamed 'oac_renamed' everywhere: the harness is consistent, so the page renders.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "rename_molecule",
+     "z3_z13_18_oac",
+     "oac_renamed"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "block_roles",
+     "grade": "FALSE",
+     "why": "every block names each molecule's one role, the plan's"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "slug_lone_surrogate",
+   "cls": "H8 source text",
+   "why": "The acetate's slug is 'x\\ud800' everywhere: no name a reader can read, not carriable, or two names in data-molecules for one molecule. Refuse, naming the slug.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "rename_molecule",
+     "z3_z13_18_oac",
+     "x\ud800"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "slug_nul",
+   "cls": "H8 source text",
+   "why": "The acetate's slug is 'x\\x00y' everywhere: no name a reader can read, not carriable, or two names in data-molecules for one molecule. Refuse, naming the slug.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "rename_molecule",
+     "z3_z13_18_oac",
+     "x\u0000y"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "slug_nel",
+   "cls": "H8 source text",
+   "why": "The acetate's slug is 'x\\x85y' everywhere: no name a reader can read, not carriable, or two names in data-molecules for one molecule. Refuse, naming the slug.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "rename_molecule",
+     "z3_z13_18_oac",
+     "xy"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "slug_nonchar",
+   "cls": "H8 source text",
+   "why": "The acetate's slug is 'x\\ufffey' everywhere: no name a reader can read, not carriable, or two names in data-molecules for one molecule. Refuse, naming the slug.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "rename_molecule",
+     "z3_z13_18_oac",
+     "x￾y"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "slug_filler",
+   "cls": "H8 source text",
+   "why": "The acetate's slug is 'ㅤ' everywhere: no name a reader can read, not carriable, or two names in data-molecules for one molecule. Refuse, naming the slug.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "rename_molecule",
+     "z3_z13_18_oac",
+     "ㅤ"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "slug_empty",
+   "cls": "H8 source text",
+   "why": "The acetate's slug is '' everywhere: no name a reader can read, not carriable, or two names in data-molecules for one molecule. Refuse, naming the slug.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "rename_molecule",
+     "z3_z13_18_oac",
+     ""
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "slug_comma",
+   "cls": "H8 source text",
+   "why": "The acetate's slug is 'a,b' everywhere: no name a reader can read, not carriable, or two names in data-molecules for one molecule. Refuse, naming the slug.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "rename_molecule",
+     "z3_z13_18_oac",
+     "a,b"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "difference_card_site_unknown",
+   "cls": "H8 source text",
+   "why": "A difference card at site 'zz_no_such_site', which the acetate and alcohol records do not carry. Refuse.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "blocks",
+      2,
+      "site"
+     ],
+     "zz_no_such_site"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "difference_card_site_none",
+   "cls": "H8 source text",
+   "why": "A difference card at site None, which the acetate and alcohol records do not carry. Refuse.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "blocks",
+      2,
+      "site"
+     ],
+     null
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "difference_card_site_not_text",
+   "cls": "H8 source text",
+   "why": "A difference card at site 31337, which the acetate and alcohol records do not carry. Refuse.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "blocks",
+      2,
+      "site"
+     ],
+     31337
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "study_plan_none",
+   "cls": "H8 source text",
+   "why": "The study's plan reference is None: no plan a reader can read, or not carriable. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "study_plan",
+     null
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "study_plan_not_text",
+   "cls": "H8 source text",
+   "why": "The study's plan reference is 31337: no plan a reader can read, or not carriable. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "study_plan",
+     31337
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "study_plan_nul",
+   "cls": "H8 source text",
+   "why": "The study's plan reference is 'analysis-plan.md @ 7e34658\\x00': no plan a reader can read, or not carriable. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "study_plan",
+     "analysis-plan.md @ 7e34658\u0000"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "study_plan_nonchar",
+   "cls": "H8 source text",
+   "why": "The study's plan reference is 'analysis-plan.md\\ufffe @ 7e34658': no plan a reader can read, or not carriable. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "study_plan",
+     "analysis-plan.md￾ @ 7e34658"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "study_plan_lone_surrogate",
+   "cls": "H8 source text",
+   "why": "The study's plan reference is 'analysis-plan.md\\ud800 @ 7e34658': no plan a reader can read, or not carriable. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "study_plan",
+     "analysis-plan.md\ud800 @ 7e34658"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "study_plan_filler",
+   "cls": "H8 source text",
+   "why": "The study's plan reference is 'ㅤ': no plan a reader can read, or not carriable. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "study_plan",
+     "ㅤ"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "espmap_version_not_text",
+   "cls": "H8 source text",
+   "why": "One acetate record's espmap version is 31337: not text a page can carry. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "espmap_version",
+     "z3_z13_18_oac",
+     31337
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "espmap_version_nul",
+   "cls": "H8 source text",
+   "why": "One acetate record's espmap version is '0.3.0\\x00': not text a page can carry. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "espmap_version",
+     "z3_z13_18_oac",
+     "0.3.0\u0000"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "espmap_version_c1",
+   "cls": "H8 source text",
+   "why": "One acetate record's espmap version is '0.3.0\\x9b': not text a page can carry. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "espmap_version",
+     "z3_z13_18_oac",
+     "0.3.0"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "espmap_version_lone_surrogate",
+   "cls": "H8 source text",
+   "why": "One acetate record's espmap version is '0.3.0\\ud800': not text a page can carry. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "espmap_version",
+     "z3_z13_18_oac",
+     "0.3.0\ud800"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "analysis_key_not_text",
+   "cls": "H8 source text",
+   "why": "Every record's analysis key is 31337: not a key a page can carry. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "analysis_key",
+     31337
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "analysis_key_nul_late",
+   "cls": "H8 source text",
+   "why": "Every record's analysis key is 'd0f5ed13\\x006cda12ada8c6324a79ec9f7e79134d2f': not a key a page can carry. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "analysis_key",
+     "d0f5ed13\u00006cda12ada8c6324a79ec9f7e79134d2f"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "analysis_key_nul_early",
+   "cls": "H8 source text",
+   "why": "Every record's analysis key is 'd0f5\\x00d136cda12ada8c6324a79ec9f7e79134d2f': not a key a page can carry. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "analysis_key",
+     "d0f5\u0000d136cda12ada8c6324a79ec9f7e79134d2f"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "analysis_key_lone_surrogate",
+   "cls": "H8 source text",
+   "why": "Every record's analysis key is 'd0f5\\ud800d136cda12ada8c6324a79ec9f7e79134d2f': not a key a page can carry. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "analysis_key",
+     "d0f5\ud800d136cda12ada8c6324a79ec9f7e79134d2f"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "contrast_id_nul",
+   "cls": "H8 source text",
+   "why": "Act B's contrast renamed 'B\\x00stereo' in plan and study: not text a page can carry. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "rename_contrast",
+     "B_stereo",
+     "B\u0000stereo"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "contrast_id_lone_surrogate",
+   "cls": "H8 source text",
+   "why": "Act B's contrast renamed 'B\\ud800' in plan and study: not text a page can carry. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "rename_contrast",
+     "B_stereo",
+     "B\ud800"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "bidi_override_study_plan",
+   "cls": "H9 display",
+   "why": "An unterminated RLO in the study plan: the page's own words after it read reversed. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "study_plan",
+     "‮AB @ 7e34658"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "bidi_override_espmap_version",
+   "cls": "H9 display",
+   "why": "An unterminated RLO in the espmap version: the page's own words after it read reversed. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "espmap_version",
+     "z3_z13_18_oac",
+     "‮0.3.0"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "bidi_override_contrast_id",
+   "cls": "H9 display",
+   "why": "An unterminated RLO in the contrast id: the page's own words after it read reversed. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "rename_contrast",
+     "B_stereo",
+     "B‮stereo"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "bidi_override_shorthand",
+   "cls": "H9 display",
+   "why": "An unterminated RLO in the shorthand: the page's own words after it read reversed. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "bundle_shorthand",
+     "spa.cmpd.z3_z13_18_oac",
+     "‮AB"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "bidi_override_task",
+   "cls": "H9 display",
+   "why": "An unterminated RLO in a task: the page's words after it reverse. Refuse.",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "tasks",
+      "+"
+     ],
+     "‮AB"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "bidi_isolate_balanced_task",
+   "cls": "H9 display",
+   "why": "A balanced RLI...PDI in a task reorders nothing outside it; refusing it is also safe (the rule is one class of characters, not a balance count).",
+   "plan_patch": [
+    [
+     [
+      "acts",
+      0,
+      "tasks",
+      "+"
+     ],
+     "⁧AB⁩"
+    ]
+   ],
+   "source_ops": [],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "slug_zwsp_lookalike",
+   "cls": "H9 display",
+   "why": "The acetate's slug is 'e3_z13_18_oac\\u200b': it reads as another molecule's name, or as 'None'. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "rename_molecule",
+     "z3_z13_18_oac",
+     "e3_z13_18_oac​"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "slug_trailing_space",
+   "cls": "H9 display",
+   "why": "The acetate's slug is 'e3_z13_18_oac ': it reads as another molecule's name, or as 'None'. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "rename_molecule",
+     "z3_z13_18_oac",
+     "e3_z13_18_oac "
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "slug_vs_lookalike",
+   "cls": "H9 display",
+   "why": "The acetate's slug is 'e3_z13_18_oac️': it reads as another molecule's name, or as 'None'. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "rename_molecule",
+     "z3_z13_18_oac",
+     "e3_z13_18_oac️"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "slug_word_joiner",
+   "cls": "H9 display",
+   "why": "The acetate's slug is '\\u2060e3_z13_18_oac': it reads as another molecule's name, or as 'None'. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "rename_molecule",
+     "z3_z13_18_oac",
+     "⁠e3_z13_18_oac"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "slug_cyrillic_lookalike",
+   "cls": "H9 display",
+   "why": "The acetate's slug is 'e3_z13_18_оас': it reads as another molecule's name, or as 'None'. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "rename_molecule",
+     "z3_z13_18_oac",
+     "e3_z13_18_оас"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "slug_literal_none",
+   "cls": "H9 display",
+   "why": "The acetate's slug is 'None': it reads as another molecule's name, or as 'None'. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "rename_molecule",
+     "z3_z13_18_oac",
+     "None"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "espmap_version_sentinel",
+   "cls": "H9 display",
+   "why": "One acetate record's espmap version is 'not recorded': it reads as another value, or as two. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "espmap_version",
+     "z3_z13_18_oac",
+     "not recorded"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "espmap_version_comma_space",
+   "cls": "H9 display",
+   "why": "One acetate record's espmap version is '0.3.0, 0.3.1': it reads as another value, or as two. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "espmap_version",
+     "z3_z13_18_oac",
+     "0.3.0, 0.3.1"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "espmap_version_comma",
+   "cls": "H9 display",
+   "why": "One acetate record's espmap version is '0.3.0,0.3.1': it reads as another value, or as two. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "espmap_version",
+     "z3_z13_18_oac",
+     "0.3.0,0.3.1"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "espmap_version_literal_none",
+   "cls": "H9 display",
+   "why": "One acetate record's espmap version is 'None': it reads as another value, or as two. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "espmap_version",
+     "z3_z13_18_oac",
+     "None"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "analysis_key_comma",
+   "cls": "H9 display",
+   "why": "Every record's analysis key is 'aaaaaaaa,bbbbbbbb': two keys on a page that has one, or 'None'. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "analysis_key",
+     "aaaaaaaa,bbbbbbbb"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "analysis_key_literal_none",
+   "cls": "H9 display",
+   "why": "Every record's analysis key is 'None': two keys on a page that has one, or 'None'. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "analysis_key",
+     "None"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "study_plan_literal_none",
+   "cls": "H9 display",
+   "why": "study_plan 'None': shown, but nothing a reader can tell from a missing value. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "study_plan",
+     "None"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "shorthand_literal_none",
+   "cls": "H9 display",
+   "why": "bundle_shorthand 'None': shown, but nothing a reader can tell from a missing value. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "bundle_shorthand",
+     "spa.cmpd.z3_z13_18_oac",
+     "None"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "shorthand_filler",
+   "cls": "H9 display",
+   "why": "bundle_shorthand 'ㅤ': shown, but nothing a reader can tell from a missing value. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "bundle_shorthand",
+     "spa.cmpd.z3_z13_18_oac",
+     "ㅤ"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "record_settings_basis_none",
+   "cls": "H9 display",
+   "why": "Every record's settings: [['settings', 'basis', None]]. The method would read with 'None' or nothing in it. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings",
+     "basis",
+     null
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "record_settings_xc_none",
+   "cls": "H9 display",
+   "why": "Every record's settings: [['settings', 'xc', None]]. The method would read with 'None' or nothing in it. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings",
+     "xc",
+     null
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "record_settings_both_none",
+   "cls": "H9 display",
+   "why": "Every record's settings: [['settings', 'xc', None], ['settings', 'basis', None]]. The method would read with 'None' or nothing in it. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings",
+     "xc",
+     null
+    ],
+    [
+     "settings",
+     "basis",
+     null
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "record_settings_basis_literal_none",
+   "cls": "H9 display",
+   "why": "Every record's settings: [['settings', 'basis', 'None']]. The method would read with 'None' or nothing in it. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings",
+     "basis",
+     "None"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "record_settings_xc_literal_none",
+   "cls": "H9 display",
+   "why": "Every record's settings: [['settings', 'xc', 'None']]. The method would read with 'None' or nothing in it. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings",
+     "xc",
+     "None"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "record_settings_xc_filler",
+   "cls": "H9 display",
+   "why": "Every record's settings: [['settings', 'xc', 'ㅤ']]. The method would read with 'None' or nothing in it. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings",
+     "xc",
+     "ㅤ"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "record_settings_xc_empty",
+   "cls": "H9 display",
+   "why": "Every record's settings: [['settings', 'xc', '']]. The method would read with 'None' or nothing in it. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings",
+     "xc",
+     ""
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "record_solvent_Gas",
+   "cls": "H9 display",
+   "why": "Every record's solvent is 'Gas': plainly gas phase, but not a token the page knows, so it would read as 'PCM ...', condensed phase. Refuse, never interpret.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings",
+     "solvent",
+     "Gas"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "record_solvent_GAS",
+   "cls": "H9 display",
+   "why": "Every record's solvent is 'GAS': plainly gas phase, but not a token the page knows, so it would read as 'PCM ...', condensed phase. Refuse, never interpret.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings",
+     "solvent",
+     "GAS"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "record_solvent_gas_space",
+   "cls": "H9 display",
+   "why": "Every record's solvent is 'gas ': plainly gas phase, but not a token the page knows, so it would read as 'PCM ...', condensed phase. Refuse, never interpret.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings",
+     "solvent",
+     "gas "
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "record_solvent_empty",
+   "cls": "H9 display",
+   "why": "Every record's solvent is '': plainly gas phase, but not a token the page knows, so it would read as 'PCM ...', condensed phase. Refuse, never interpret.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings",
+     "solvent",
+     ""
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "record_solvent_literal_none",
+   "cls": "H9 display",
+   "why": "Every record's solvent is 'None': plainly gas phase, but not a token the page knows, so it would read as 'PCM ...', condensed phase. Refuse, never interpret.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings",
+     "solvent",
+     "None"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "record_solvent_Vacuum",
+   "cls": "H9 display",
+   "why": "Every record's solvent is 'Vacuum': plainly gas phase, but not a token the page knows, so it would read as 'PCM ...', condensed phase. Refuse, never interpret.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings",
+     "solvent",
+     "Vacuum"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "record_solvent_water",
+   "cls": "H11 the study's protocol",
+   "why": "Every record computed in PCM water (canonical protocol and settings alike, re-keyed): not the study's protocol, so its study cards would scope the frozen verdict under water (the fresh probe on 565e303). Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "canonical_rekey",
+     "solvent",
+     "water"
+    ],
+    [
+     "settings",
+     "solvent",
+     "water"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "record_solvent_vacuo",
+   "cls": "H9 display",
+   "why": "Every record's solvent is 'vacuo': not a solvent espmap writes; shown, it reads as PCM vacuo, condensed phase. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings",
+     "solvent",
+     "vacuo"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "record_solvent_in_vacuo",
+   "cls": "H9 display",
+   "why": "Every record's solvent is 'in_vacuo': not a solvent espmap writes; shown, it reads as PCM in_vacuo, condensed phase. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings",
+     "solvent",
+     "in_vacuo"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "record_solvent_gas_phase",
+   "cls": "H9 display",
+   "why": "Every record's solvent is 'gas_phase': not a solvent espmap writes; shown, it reads as PCM gas_phase, condensed phase. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings",
+     "solvent",
+     "gas_phase"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "record_solvent_gas_hyphen_phase",
+   "cls": "H9 display",
+   "why": "Every record's solvent is 'gas-phase': not a solvent espmap writes; shown, it reads as PCM gas-phase, condensed phase. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings",
+     "solvent",
+     "gas-phase"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "record_solvent_vac",
+   "cls": "H9 display",
+   "why": "Every record's solvent is 'vac': not a solvent espmap writes; shown, it reads as PCM vac, condensed phase. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings",
+     "solvent",
+     "vac"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "record_solvent_no_solvent",
+   "cls": "H9 display",
+   "why": "Every record's solvent is 'no_solvent': not a solvent espmap writes; shown, it reads as PCM no_solvent, condensed phase. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings",
+     "solvent",
+     "no_solvent"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "record_solvent_isolated",
+   "cls": "H9 display",
+   "why": "Every record's solvent is 'isolated': not a solvent espmap writes; shown, it reads as PCM isolated, condensed phase. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings",
+     "solvent",
+     "isolated"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "record_solvent_null",
+   "cls": "H9 display",
+   "why": "Every record's solvent is 'null': not a solvent espmap writes; shown, it reads as PCM null, condensed phase. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings",
+     "solvent",
+     "null"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "record_solvent_unknown",
+   "cls": "H9 display",
+   "why": "Every record's solvent is 'unknown': not a solvent espmap writes; shown, it reads as PCM unknown, condensed phase. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings",
+     "solvent",
+     "unknown"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "record_solvent_dmso",
+   "cls": "H11 the study's protocol",
+   "why": "Every record computed in PCM dmso (canonical protocol and settings alike, re-keyed): not the study's protocol. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "canonical_rekey",
+     "solvent",
+     "dmso"
+    ],
+    [
+     "settings",
+     "solvent",
+     "dmso"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "record_solvent_gas_renders",
+   "cls": "H9 display",
+   "why": "Every record's settings say solvent 'gas', which the views read as the gas phase, as the protocol says.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings",
+     "solvent",
+     "gas"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "gas phase",
+     "grade": "MISLEADING",
+     "why": "the phase, as recorded"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "one_method_baseline",
+   "cls": "H10 canonical protocol",
+   "why": "Every record states b3lyp/def2-svp in the gas phase: one protocol, named once, canonically.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings_ensembles",
+     "solvent",
+     "vacuum"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "b3lyp/def2svp",
+     "grade": "MISLEADING",
+     "why": "the method, named from the canonical protocol"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "one_protocol_ensembles_upper",
+   "cls": "H10 canonical protocol",
+   "why": "Records under one analysis key, its digest verified, spelling the method differently (['settings_ensembles', 'solvent', 'vacuum']): one protocol. Render, naming it from the canonical fields.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "B3LYP"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-SVP"
+    ],
+    [
+     "settings_ensembles",
+     "solvent",
+     "vacuum"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "b3lyp/def2svp",
+     "grade": "MISLEADING",
+     "why": "the method, named from the canonical protocol"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "one_protocol_conformers_def2svp",
+   "cls": "H10 canonical protocol",
+   "why": "Records under one analysis key, its digest verified, spelling the method differently (['settings_conformers', 'basis', 'def2svp']): one protocol. Render, naming it from the canonical fields.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings_ensembles",
+     "solvent",
+     "vacuum"
+    ],
+    [
+     "settings_conformers",
+     "basis",
+     "def2svp"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "b3lyp/def2svp",
+     "grade": "MISLEADING",
+     "why": "the method, named from the canonical protocol"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "one_protocol_conformers_def2_svp_upper",
+   "cls": "H10 canonical protocol",
+   "why": "Records under one analysis key, its digest verified, spelling the method differently (['settings_conformers', 'basis', 'DEF2_SVP']): one protocol. Render, naming it from the canonical fields.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings_ensembles",
+     "solvent",
+     "vacuum"
+    ],
+    [
+     "settings_conformers",
+     "basis",
+     "DEF2_SVP"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "b3lyp/def2svp",
+     "grade": "MISLEADING",
+     "why": "the method, named from the canonical protocol"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "one_protocol_conformers_libxc_name",
+   "cls": "H10 canonical protocol",
+   "why": "Records under one analysis key, its digest verified, spelling the method differently (['settings_conformers', 'xc', 'HYB_GGA_XC_B3LYP']): one protocol. Render, naming it from the canonical fields.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings_ensembles",
+     "solvent",
+     "vacuum"
+    ],
+    [
+     "settings_conformers",
+     "xc",
+     "HYB_GGA_XC_B3LYP"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "b3lyp/def2svp",
+     "grade": "MISLEADING",
+     "why": "the method, named from the canonical protocol"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "one_protocol_one_ensemble_upper",
+   "cls": "H10 canonical protocol",
+   "why": "Records under one analysis key, its digest verified, spelling the method differently (['settings_ensemble', 'z3_z13_18_oac', 'basis', 'def2-SVP']): one protocol. Render, naming it from the canonical fields.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings_ensembles",
+     "solvent",
+     "vacuum"
+    ],
+    [
+     "settings_ensemble",
+     "z3_z13_18_oac",
+     "xc",
+     "B3LYP"
+    ],
+    [
+     "settings_ensemble",
+     "z3_z13_18_oac",
+     "basis",
+     "def2-SVP"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "b3lyp/def2svp",
+     "grade": "MISLEADING",
+     "why": "the method, named from the canonical protocol"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "one_protocol_custom_functional",
+   "cls": "H10 canonical protocol",
+   "why": "Records under one analysis key, its digest verified, spelling the method differently (['settings', 'solvent', 'vacuum']): one protocol. Render, naming it from the canonical fields.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings",
+     "xc",
+     "0.2*HF + 0.08*LDA + 0.72*B88, 0.81*LYP + 0.19*VWN"
+    ],
+    [
+     "settings",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings",
+     "solvent",
+     "vacuum"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "b3lyp/def2svp",
+     "grade": "MISLEADING",
+     "why": "the method, named from the canonical protocol"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "one_method_one_ensemble_pbe0",
+   "cls": "H10 canonical protocol",
+   "why": "One verified canonical protocol, one raw label changed ([['settings_ensemble', 'z3_z13_18_oac', 'xc', 'pbe0']]): render, naming the protocol's method, never the label.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings_ensembles",
+     "solvent",
+     "vacuum"
+    ],
+    [
+     "settings_ensemble",
+     "z3_z13_18_oac",
+     "xc",
+     "pbe0"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "b3lyp/def2svp",
+     "grade": "MISLEADING",
+     "why": "the method, named from the canonical protocol"
+    },
+    {
+     "must_not": "pbe0",
+     "grade": "MISLEADING",
+     "why": "a raw label is not the protocol"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "one_method_one_ensemble_tzvp",
+   "cls": "H10 canonical protocol",
+   "why": "One verified canonical protocol, one raw label changed ([['settings_ensemble', 'z3_z13_18_oac', 'basis', 'def2-tzvp']]): render, naming the protocol's method, never the label.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings_ensembles",
+     "solvent",
+     "vacuum"
+    ],
+    [
+     "settings_ensemble",
+     "z3_z13_18_oac",
+     "basis",
+     "def2-tzvp"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "b3lyp/def2svp",
+     "grade": "MISLEADING",
+     "why": "the method, named from the canonical protocol"
+    },
+    {
+     "must_not": "tzvp",
+     "grade": "MISLEADING",
+     "why": "a raw label is not the protocol"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "one_method_conformers_pbe0",
+   "cls": "H10 canonical protocol",
+   "why": "One verified canonical protocol, one raw label changed ([['settings_conformers', 'xc', 'pbe0']]): render, naming the protocol's method, never the label.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings_ensembles",
+     "solvent",
+     "vacuum"
+    ],
+    [
+     "settings_conformers",
+     "xc",
+     "pbe0"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must": "b3lyp/def2svp",
+     "grade": "MISLEADING",
+     "why": "the method, named from the canonical protocol"
+    },
+    {
+     "must_not": "pbe0",
+     "grade": "MISLEADING",
+     "why": "a raw label is not the protocol"
+    },
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "one_method_one_ensemble_water",
+   "cls": "H10 canonical protocol",
+   "why": "A record's raw solvent contradicts its canonical protocol, or stands with no method (['settings_ensemble', 'z3_z13_18_oac', 'solvent', 'water']): the phase the page names would be wrong for some record. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings_ensembles",
+     "solvent",
+     "vacuum"
+    ],
+    [
+     "settings_ensemble",
+     "z3_z13_18_oac",
+     "solvent",
+     "water"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "one_method_conformers_water",
+   "cls": "H10 canonical protocol",
+   "why": "A record's raw solvent contradicts its canonical protocol, or stands with no method (['settings_conformers', 'solvent', 'water']): the phase the page names would be wrong for some record. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings_ensembles",
+     "solvent",
+     "vacuum"
+    ],
+    [
+     "settings_conformers",
+     "solvent",
+     "water"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "one_method_ensembles_water",
+   "cls": "H10 canonical protocol",
+   "why": "A record's raw solvent contradicts its canonical protocol, or stands with no method (['settings_ensembles', 'solvent', 'water']): the phase the page names would be wrong for some record. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings_ensembles",
+     "solvent",
+     "vacuum"
+    ],
+    [
+     "settings_ensembles",
+     "solvent",
+     "water"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "one_method_solvent_without_method",
+   "cls": "H10 canonical protocol",
+   "why": "A record's raw solvent contradicts its canonical protocol, or stands with no method (['settings_ensembles', 'solvent', 'water']): the phase the page names would be wrong for some record. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "solvent",
+     "water"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "one_method_canonical_water_raw_vacuum",
+   "cls": "H10 canonical protocol",
+   "why": "A record's raw solvent contradicts its canonical protocol, or stands with no method (['canonical_rekey', 'solvent', 'water']): the phase the page names would be wrong for some record. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "canonical_rekey",
+     "solvent",
+     "water"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "canonical_digest_mismatch",
+   "cls": "H10 canonical protocol",
+   "why": "Every record's canonical fields ['canonical', 'solvent', 'water']: the key no longer digests what the record says its protocol is, or there is none to name. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "canonical",
+     "solvent",
+     "water"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "canonical_digest_mismatch_xc",
+   "cls": "H10 canonical protocol",
+   "why": "Every record's canonical fields ['canonical', 'xc', 'pbe0']: the key no longer digests what the record says its protocol is, or there is none to name. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "canonical",
+     "xc",
+     "pbe0"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "canonical_no_canonical_fields",
+   "cls": "H10 canonical protocol",
+   "why": "Every record's canonical fields ['drop_canonical']: the key no longer digests what the record says its protocol is, or there is none to name. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "drop_canonical"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "canonical_basis_with_phase",
+   "cls": "H10 canonical protocol",
+   "why": "Every record's canonical basis is 'def2svp, PCM water' (the key re-digested): the caption would read another method or phase, or nothing. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings_ensembles",
+     "solvent",
+     "vacuum"
+    ],
+    [
+     "canonical_rekey",
+     "basis",
+     "def2svp, PCM water"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "canonical_xc_with_slash",
+   "cls": "H10 canonical protocol",
+   "why": "Every record's canonical xc is 'b3lyp/def2tzvp' (the key re-digested): the caption would read another method or phase, or nothing. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings_ensembles",
+     "solvent",
+     "vacuum"
+    ],
+    [
+     "canonical_rekey",
+     "xc",
+     "b3lyp/def2tzvp"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "canonical_xc_literal_none",
+   "cls": "H10 canonical protocol",
+   "why": "Every record's canonical xc is 'None' (the key re-digested): the caption would read another method or phase, or nothing. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings_ensembles",
+     "solvent",
+     "vacuum"
+    ],
+    [
+     "canonical_rekey",
+     "xc",
+     "None"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "canonical_basis_literal_none",
+   "cls": "H10 canonical protocol",
+   "why": "Every record's canonical basis is 'None' (the key re-digested): the caption would read another method or phase, or nothing. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings_ensembles",
+     "solvent",
+     "vacuum"
+    ],
+    [
+     "canonical_rekey",
+     "basis",
+     "None"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "canonical_xc_space",
+   "cls": "H10 canonical protocol",
+   "why": "Every record's canonical xc is ' ' (the key re-digested): the caption would read another method or phase, or nothing. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings_ensembles",
+     "solvent",
+     "vacuum"
+    ],
+    [
+     "canonical_rekey",
+     "xc",
+     " "
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "canonical_xc_filler",
+   "cls": "H10 canonical protocol",
+   "why": "Every record's canonical xc is 'ㅤ' (the key re-digested): the caption would read another method or phase, or nothing. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings_ensembles",
+     "solvent",
+     "vacuum"
+    ],
+    [
+     "canonical_rekey",
+     "xc",
+     "ㅤ"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "canonical_no_solvent_key",
+   "cls": "H10 canonical protocol",
+   "why": "Every record's canonical solvent is '<drop>' (the key re-digested): the caption would read another method or phase, or nothing. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings_ensembles",
+     "solvent",
+     "vacuum"
+    ],
+    [
+     "canonical_rekey",
+     "solvent",
+     "<drop>"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "canonical_libxc_form",
+   "cls": "H11 the study's protocol",
+   "why": "Every record's canonical xc is espmap's key for a functional without a display name (libxc:hyb(0.2,0.08,0)+..., re-keyed): a protocol espmap writes, but not the study's. Refuse. (The name rule itself is unit-tested in tests/test_protocol.py.)",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings_ensembles",
+     "solvent",
+     "vacuum"
+    ],
+    [
+     "canonical_rekey",
+     "xc",
+     "libxc:hyb(0.2,0.08,0)+1*0.08"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "canonical_xc_two_names",
+   "cls": "H10 canonical protocol",
+   "why": "Every record's canonical xc is 'b3lyp,def2tzvp' (re-digested): the caption would name a second method or another phase. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings_ensembles",
+     "solvent",
+     "vacuum"
+    ],
+    [
+     "canonical_rekey",
+     "xc",
+     "b3lyp,def2tzvp"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "canonical_xc_two_functionals",
+   "cls": "H10 canonical protocol",
+   "why": "Every record's canonical xc is 'b3lyp,pbe0' (re-digested): the caption would name a second method or another phase. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings_ensembles",
+     "solvent",
+     "vacuum"
+    ],
+    [
+     "canonical_rekey",
+     "xc",
+     "b3lyp,pbe0"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "canonical_basis_comma_pcm",
+   "cls": "H10 canonical protocol",
+   "why": "Every record's canonical basis is 'def2svp,PCM' (re-digested): the caption would name a second method or another phase. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings_ensembles",
+     "solvent",
+     "vacuum"
+    ],
+    [
+     "canonical_rekey",
+     "basis",
+     "def2svp,PCM"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "canonical_basis_comma_pcm_water",
+   "cls": "H10 canonical protocol",
+   "why": "Every record's canonical basis is 'def2svp,PCM-water' (re-digested): the caption would name a second method or another phase. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings_ensembles",
+     "solvent",
+     "vacuum"
+    ],
+    [
+     "canonical_rekey",
+     "basis",
+     "def2svp,PCM-water"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "canonical_basis_comma_gas_on_water",
+   "cls": "H10 canonical protocol",
+   "why": "Every record's canonical basis is 'def2svp,gas' (re-digested, in water): the caption would name a second method or another phase. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings_ensembles",
+     "solvent",
+     "vacuum"
+    ],
+    [
+     "canonical_rekey",
+     "solvent",
+     "water"
+    ],
+    [
+     "settings",
+     "solvent",
+     "water"
+    ],
+    [
+     "canonical_rekey",
+     "basis",
+     "def2svp,gas"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "canonical_basis_paren_gas_on_water",
+   "cls": "H10 canonical protocol",
+   "why": "Every record's canonical basis is 'def2svp(gas)' (re-digested, in water): the caption would name a second method or another phase. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings_ensembles",
+     "solvent",
+     "vacuum"
+    ],
+    [
+     "canonical_rekey",
+     "solvent",
+     "water"
+    ],
+    [
+     "settings",
+     "solvent",
+     "water"
+    ],
+    [
+     "canonical_rekey",
+     "basis",
+     "def2svp(gas)"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "canonical_basis_with_parenthesised_comma",
+   "cls": "H11 the study's protocol",
+   "why": "Every record's canonical basis is espmap's key for 6-311++G(2d,2p) (re-keyed): not the study's protocol. Refuse. (The name rule is unit-tested in tests/test_protocol.py.)",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings_ensembles",
+     "solvent",
+     "vacuum"
+    ],
+    [
+     "canonical_rekey",
+     "basis",
+     "6311++g(2d,2p)"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "study_protocol_water",
+   "cls": "H11 the study's protocol",
+   "why": "Every record is a water run, written as espmap writes one (canonical and settings, one new key): the page's study cards would say the frozen study decided under it. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings_ensembles",
+     "solvent",
+     "vacuum"
+    ],
+    [
+     "canonical_rekey",
+     "solvent",
+     "water"
+    ],
+    [
+     "settings",
+     "solvent",
+     "water"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "study_protocol_pbe0",
+   "cls": "H11 the study's protocol",
+   "why": "Every record is a pbe0 run, written as espmap writes one (canonical and settings, one new key): the page's study cards would say the frozen study decided under it. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings_ensembles",
+     "solvent",
+     "vacuum"
+    ],
+    [
+     "canonical_rekey",
+     "xc",
+     "pbe0"
+    ],
+    [
+     "settings",
+     "xc",
+     "pbe0"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "study_protocol_def2tzvp",
+   "cls": "H11 the study's protocol",
+   "why": "Every record is a def2tzvp run, written as espmap writes one (canonical and settings, one new key): the page's study cards would say the frozen study decided under it. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "settings_ensembles",
+     "xc",
+     "b3lyp"
+    ],
+    [
+     "settings_ensembles",
+     "basis",
+     "def2-svp"
+    ],
+    [
+     "settings_ensembles",
+     "solvent",
+     "vacuum"
+    ],
+    [
+     "canonical_rekey",
+     "basis",
+     "def2tzvp"
+    ],
+    [
+     "settings",
+     "basis",
+     "def2-tzvp"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "FALSE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "study_members_first_ten_each",
+   "cls": "H11 the study's protocol",
+   "why": "The page's ensembles hold other member counts than the study's n_ok ([['keep_members', 'z3_z13_18_oac', 10], ['keep_members', 'z3_z13_18_oh', 10], ['keep_members', 'e3_z13_18_oac', 10], ['keep_members', 'e2_z13_18_oac', 10]]): its cards are not the evidence the study cards beside them decided on. Refuse, naming the molecule and both counts.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "keep_members",
+     "z3_z13_18_oac",
+     10
+    ],
+    [
+     "keep_members",
+     "z3_z13_18_oh",
+     10
+    ],
+    [
+     "keep_members",
+     "e3_z13_18_oac",
+     10
+    ],
+    [
+     "keep_members",
+     "e2_z13_18_oac",
+     10
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "study_members_e3_nineteen",
+   "cls": "H11 the study's protocol",
+   "why": "The page's ensembles hold other member counts than the study's n_ok ([['keep_members', 'e3_z13_18_oac', 19]]): its cards are not the evidence the study cards beside them decided on. Refuse, naming the molecule and both counts.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "keep_members",
+     "e3_z13_18_oac",
+     19
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "study_members_control_nineteen",
+   "cls": "H11 the study's protocol",
+   "why": "The aldehyde teaching control with 19 members: not an Atlas molecule of the study, so its count is not the study's to check. Renders.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "keep_members",
+     "z3_z13_18_al",
+     19
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "ensemble_with_another_molecules_record",
+   "cls": "H11 the study's protocol",
+   "why": "E3 acetate's 20 members include one Z3 acetate record (count and key pass; Z3's record carries every site E3's cards show): its cards mix two molecules. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "swap_member",
+     "e3_z13_18_oac",
+     19,
+     "z3_z13_18_oac",
+     19
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "ensemble_of_another_molecule",
+   "cls": "H11 the study's protocol",
+   "why": "E3 acetate's ensemble holds Z3 acetate's 20 records: act B compares Z3 with itself beside the study's verdict on E3. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "swap_all",
+     "e3_z13_18_oac",
+     "z3_z13_18_oac"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "study_n_ok_not_a_count",
+   "cls": "H11 the study's protocol",
+   "why": "The results file gives E2's n_ok as true, and E2's ensemble has one member: true is not a count. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "study_n_ok",
+     "e2_z13_18_oac",
+     true
+    ],
+    [
+     "keep_members",
+     "e2_z13_18_oac",
+     1
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "study_folded_two_folded_now_extended",
+   "cls": "H11 the study's protocol",
+   "why": "[['flip_folded', 'z3_z13_18_oac', 2, 0]]: the page's folded / extended partition is not the one the study's verdicts refer to, or cannot be counted. Refuse, naming both partitions.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "flip_folded",
+     "z3_z13_18_oac",
+     2,
+     0
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "study_folded_one_extended_now_folded",
+   "cls": "H11 the study's protocol",
+   "why": "[['flip_folded', 'e3_z13_18_oac', 0, 1]]: the page's folded / extended partition is not the one the study's verdicts refer to, or cannot be counted. Refuse, naming both partitions.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "flip_folded",
+     "e3_z13_18_oac",
+     0,
+     1
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "study_folded_unstated",
+   "cls": "H11 the study's protocol",
+   "why": "[['unstate_folded', 'e2_z13_18_oac', 0]]: the page's folded / extended partition is not the one the study's verdicts refer to, or cannot be counted. Refuse, naming both partitions.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "unstate_folded",
+     "e2_z13_18_oac",
+     0
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "study_folded_n_folded_not_a_count",
+   "cls": "H11 the study's protocol",
+   "why": "[['study_count', 'z3_z13_18_oac', 'n_folded', True]]: the page's folded / extended partition is not the one the study's verdicts refer to, or cannot be counted. Refuse, naming both partitions.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "study_count",
+     "z3_z13_18_oac",
+     "n_folded",
+     true
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "study_folded_opposite_flips",
+   "cls": "H11 the study's protocol",
+   "why": "Z3 acetate with one folded member flipped to extended and one extended to folded: the counts equal the study's, which is all the page can check (the results carry no per-member flags). Renders; a follow-up.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "flip_folded",
+     "z3_z13_18_oac",
+     1,
+     1
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "MISLEADING",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "check": "act_order",
+     "grade": "MISLEADING",
+     "why": "acts A-D in order; each act's prediction before its views"
+    }
+   ]
+  },
+  {
+   "id": "pair_record_flag_flipped",
+   "cls": "H11 the study's protocol",
+   "why": "Act B's pair: [['conformer_folded', 'e3_z13_18_oac/conf_00', False]]. The pair shows records its molecule's ensemble does not hold, or holds with another folded flag. Refuse, naming the conformer.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "conformer_folded",
+     "e3_z13_18_oac/conf_00",
+     false
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "pair_record_other_molecules_records",
+   "cls": "H11 the study's protocol",
+   "why": "Act B's pair: [['conformer_from', 'e3_z13_18_oac/conf_00', 'z3_z13_18_oac/conf_01'], ['conformer_from', 'e3_z13_18_oac/conf_02', 'z3_z13_18_oac/conf_00']]. The pair shows records its molecule's ensemble does not hold, or holds with another folded flag. Refuse, naming the conformer.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "conformer_from",
+     "e3_z13_18_oac/conf_00",
+     "z3_z13_18_oac/conf_01"
+    ],
+    [
+     "conformer_from",
+     "e3_z13_18_oac/conf_02",
+     "z3_z13_18_oac/conf_00"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "pair_npz_swapped_within_pair",
+   "cls": "H11 the study's protocol",
+   "why": "[['npz_from', 'e3_z13_18_oac/conf_00', 'e3_z13_18_oac/conf_02'], ['npz_from', 'e3_z13_18_oac/conf_02', 'e3_z13_18_oac/conf_00']]: a record beside another record's surface. The picture would show another geometry under this record's name and fold label. Refuse at the reader.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "npz_from",
+     "e3_z13_18_oac/conf_00",
+     "e3_z13_18_oac/conf_02"
+    ],
+    [
+     "npz_from",
+     "e3_z13_18_oac/conf_02",
+     "e3_z13_18_oac/conf_00"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "pair_npz_another_molecules",
+   "cls": "H11 the study's protocol",
+   "why": "[['npz_from', 'e3_z13_18_oac/conf_00', 'z3_z13_18_oac/conf_01']]: a record beside another record's surface. The picture would show another geometry under this record's name and fold label. Refuse at the reader.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "npz_from",
+     "e3_z13_18_oac/conf_00",
+     "z3_z13_18_oac/conf_01"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "ensembles_exchanged_between_compounds",
+   "cls": "H11 the study's protocol",
+   "why": "Z3 acetate's and Z3 alcohol's records exchanged, and the study's folded counts with them: every check but the compound's own identity holds, and Z3 acetate's cards would show the alcohol. Refuse.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "swap_both",
+     "z3_z13_18_oac",
+     "z3_z13_18_oh"
+    ],
+    [
+     "study_count",
+     "z3_z13_18_oac",
+     "n_folded",
+     4
+    ],
+    [
+     "study_count",
+     "z3_z13_18_oh",
+     "n_folded",
+     9
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "pair_npz_another_protocol",
+   "cls": "H11 the study's protocol",
+   "why": "E3 conf_00 beside an NPZ of its own geometry stating another analysis key: another protocol's surface under this record's method caption. Refuse at the reader.",
+   "plan_patch": [],
+   "source_ops": [
+    [
+     "npz_rekeyed",
+     "e3_z13_18_oac/conf_00",
+     "2b7bee3700000000000000000000000000000000"
+    ]
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "MISLEADING",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED"
+   ],
+   "prefer": "REFUSED",
+   "requires": []
+  },
+  {
+   "id": "plan_reference_two_commits",
+   "cls": "H4 provenance",
+   "why": "The study's plan reference names two commits ('@ 7e34658 @ deadbee'): the page cannot tell which froze the plan. It renders with the plan commit marked not recorded, never 'Plan frozen at' either one.",
+   "plan_patch": [],
+   "source_ops": [
+    "plan_two_commits"
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must_not": "Plan frozen at",
+     "grade": "MISLEADING",
+     "why": "no commit picked by position"
+    },
+    {
+     "must": "provenance incomplete",
+     "grade": "MISLEADING",
+     "why": "the gap, said"
+    }
+   ]
+  },
+  {
+   "id": "plan_reference_no_commit",
+   "cls": "H4 provenance",
+   "why": "A plan reference naming no commit: the plan commit is marked not recorded.",
+   "plan_patch": [],
+   "source_ops": [
+    "plan_no_commit"
+   ],
+   "audience": "student",
+   "outcomes": {
+    "RENDERED": "SAFE",
+    "REFUSED": "SAFE_REFUSAL",
+    "ERROR": "CRASH"
+   },
+   "allowed": [
+    "REFUSED",
+    "RENDERED"
+   ],
+   "prefer": "RENDERED",
+   "requires": [
+    {
+     "must_not": "Plan frozen at",
+     "grade": "MISLEADING",
+     "why": "no commit invented"
+    },
+    {
+     "must": "provenance incomplete",
+     "grade": "MISLEADING",
+     "why": "the gap, said"
     }
    ]
   }
