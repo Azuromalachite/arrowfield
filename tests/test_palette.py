@@ -40,7 +40,6 @@ def _lum(c):
     return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]
 
 
-@pytest.mark.xfail(strict=True, reason="the vendored tables are labelled v0.2.1: the pin move has not happened yet")
 def test_the_tables_name_the_pinned_release():
     assert T["espmap"] == {"version": PIN["version"], "commit": COMMIT, "function": "esp_map.build_maps()[name]"}
 

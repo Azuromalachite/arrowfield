@@ -1,6 +1,6 @@
 # Notebooks and views: outline
 
-Two notebooks on top of espmap pinned to a release (`ESPMAP_REF = "v0.2.1"`,
+Two notebooks on top of espmap pinned to a release (`ESPMAP_REF = "v0.3.1"`,
 never `master`), and three views they share. Neither notebook reimplements
 anything espmap computes.
 
@@ -142,6 +142,6 @@ One notebook, one lesson per section (`lessons.md`). Each section:
 | caller-defined sites by atom map | present (`--sites`) |
 | triangle → atom ownership in the NPZ | present |
 | comparability keys and validity in the record | present (names may change in review 4) |
-| **unspecified E/Z refused** | `--require-stereo`: merged on master (3746cad), not yet in a release; until then the manifest guarantees it |
+| **unspecified E/Z refused** | `--require-stereo`: in v0.3.1 (used by the CYP450 limonene pilot); the manifest also guarantees it |
 | precomputed records for the five C18 compounds | **not computed**: ensembles to live in the Atlas's `computed/espmap/`, exported as a teaching bundle |
-| a tagged release to pin | v0.2.1 (v0.2.0 was the first, after P3) |
+| a tagged release to pin | v0.3.1 since 2026-11-07 (v0.2.1 before it, and still the producer of the Sesiidae study's data) |

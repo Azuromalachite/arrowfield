@@ -1,9 +1,8 @@
-"""What moving the espmap pin from v0.2.1 to v0.3.1 must deliver (expectations
-first: the move itself is a later change).
-
-Strict xfails mark what the repository does not do yet; each comes off in the
-change that makes it pass, never by editing the expectation. The guards
-without a mark hold today and must keep holding through the move.
+"""What moving the espmap pin from v0.2.1 to v0.3.1 must deliver. The
+expectations came first (#24); the move removed their strict xfails without
+editing one. Every check here now holds and must keep holding: the demo
+records name the pinned build, the docs name the pin, the canary is not
+behind it, and the study's control keeps its producer and key.
 """
 import json
 import re
@@ -17,7 +16,6 @@ sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from espmap_pin import PIN, STUDY_PRODUCER  # noqa: E402
 
-PIN_MOVE = "the pin move has not happened yet (espmap v0.2.1 -> v0.3.1)"
 RECORDS = sorted(p.name for p in (HERE / "records").glob("*.json") if not p.name.endswith(".sites.json"))
 
 
@@ -26,7 +24,6 @@ def test_the_demo_records_are_listed():
     assert len(RECORDS) >= 10, RECORDS
 
 
-@pytest.mark.xfail(strict=True, reason="the demo records say espmap 0.1.0, code 'unknown': " + PIN_MOVE)
 @pytest.mark.parametrize("name", RECORDS)
 def test_a_demo_record_names_the_pinned_build(name):
     """records/ are Arrowfield's own demo records: computed with the pinned
@@ -37,19 +34,16 @@ def test_a_demo_record_names_the_pinned_build(name):
     assert prov.get("code") in (PIN["tag"], PIN["commit"]), prov.get("code")
 
 
-@pytest.mark.xfail(strict=True, reason="README still names v0.2.1 as the pin: " + PIN_MOVE)
 def test_the_readme_names_the_pin():
     text = (HERE / "README.md").read_text(encoding="utf-8")
     assert f"pinned to a release (`{PIN['tag']}`" in text
 
 
-@pytest.mark.xfail(strict=True, reason="CONTRIBUTING installs v0.2.1: " + PIN_MOVE)
 def test_contributing_installs_the_pin():
     text = (HERE / "CONTRIBUTING.md").read_text(encoding="utf-8")
     assert f"espmap@{PIN['tag']}\"" in text
 
 
-@pytest.mark.xfail(strict=True, reason="notebooks.md pins v0.2.1: " + PIN_MOVE)
 def test_the_notebooks_pin_the_release():
     text = (HERE / "notebooks.md").read_text(encoding="utf-8")
     assert f'ESPMAP_REF = "{PIN["tag"]}"' in text
