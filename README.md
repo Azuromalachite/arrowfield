@@ -23,7 +23,7 @@ the draft designs and working prototype it was seeded with.
 
 ## Boundary
 
-- **espmap is the instrument**, pinned to a release (`v0.2.1`, never
+- **espmap is the instrument**, pinned to a release (`v0.3.1`, never
   `master`). It computes and records; it knows nothing about lessons.
 - **Arrowfield is the teaching layer.** It chooses molecules (from the
   manifest, never from typed SMILES), names reaction sites, asks for
@@ -36,11 +36,13 @@ the draft designs and working prototype it was seeded with.
   exports. It never restates them by hand. A molecule Arrowfield constructs
   for a lesson is labelled a teaching control.
 - Everything the notebooks need from espmap is in
-  [v0.2.1](https://github.com/Azuromalachite/espmap/releases/tag/v0.2.1)
-  (41a989d), with one exception: `--require-stereo` (an unspecified E/Z or
-  stereocentre becomes a BLOCK). Until it lands, the manifest itself
-  guarantees full stereo: `build_manifest.py` refuses an entry with any
-  unspecified stereo element.
+  [v0.3.1](https://github.com/Azuromalachite/espmap/releases/tag/v0.3.1)
+  (5f6eaad), including `--require-stereo` (an unspecified E/Z or
+  stereocentre becomes a BLOCK); `build_manifest.py` also refuses an entry
+  with any unspecified stereo element. The pin moved from v0.2.1 on
+  2026-11-07. Data computed for a frozen study keep their own producer: the
+  Sesiidae study's records and the aldehyde control stay v0.2.1, under the
+  study's key d0f5ed13.
 
 ## Principles
 

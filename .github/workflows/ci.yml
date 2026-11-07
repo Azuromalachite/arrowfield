@@ -27,7 +27,7 @@ jobs:
       - run: python build_manifest.py molecules.yaml
       - run: git diff --exit-code molecules.yaml
       - run: python -m pytest -q tests
-  # Non-blocking canary: the next espmap release, beside the pinned v0.2.1.
+  # Non-blocking canary: the next espmap release, beside the pinned v0.3.1 (equal to the pin until a newer release exists).
   # It computes three small records with that release, then runs the whole
   # suite plus tests/canary against them. Never a required check (branch
   # protection requires "manifest and tests (3.12)" only), and allowed to

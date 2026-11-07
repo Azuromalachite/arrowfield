@@ -18,7 +18,7 @@ records (`compute_records.py`, `build_p3.py`, `build_demo.py`) also needs
 espmap at the pinned tag:
 
 ```bash
-pip install "espmap @ git+https://github.com/Azuromalachite/espmap@v0.2.1"
+pip install "espmap @ git+https://github.com/Azuromalachite/espmap@v0.3.1"
 ```
 
 ## Where things go

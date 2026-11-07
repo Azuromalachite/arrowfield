@@ -6,8 +6,8 @@ is translated into Arrowfield's own model (model.py) at the door: views and
 lessons receive a MoleculeView and never see the record. A change in
 espmap's layout is a one-file edit. A record of any other version, or none,
 is refused: the key paths below are only known to hold for this one. The
-records in records/ were computed on espmap master 1ef8e28 (2026-10-23);
-recompute them on the v0.2.1 tag before class.
+records in records/ were computed with espmap v0.3.1 (5f6eaad), the pinned
+release, on 2026-11-07 (compute_records.py).
 """
 import hashlib
 import json
