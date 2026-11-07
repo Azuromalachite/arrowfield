@@ -1,6 +1,12 @@
-"""The vendored espmap v0.2.1 colour tables and palette's lookup, tested
-without espmap (CI), plus an exact parity test where espmap at v0.2.1 is
-available (ESPMAP_PATH at commit 41a989d)."""
+"""The vendored espmap colour tables and palette's lookup, tested without
+espmap (CI), plus an exact parity test where espmap at the pinned release is
+available (ESPMAP_PATH at the pin's commit; the canary job's checkout is).
+
+The pin is moving from v0.2.1 to v0.3.1 (tests/espmap_pin.py). The colours do
+not: espmap's colormap code is the same in both releases, and v0.3.1's
+build_maps() reproduces the vendored tables exactly (measured 2026-11-07).
+The regenerated tables must keep the same hashes; only their provenance
+label moves."""
 import hashlib
 import json
 import math
@@ -15,8 +21,15 @@ HERE = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(HERE))
 import palette  # noqa: E402
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from espmap_pin import PIN  # noqa: E402
+
 T = palette.TABLES
-COMMIT = "41a989d6240b56e3c17938dac2084dfc5e1423e4"
+COMMIT = PIN["commit"]
+# the colours themselves, as vendored from v0.2.1 (41a989d) and reproduced by v0.3.1:
+# a regenerated table under the new pin must hash the same
+TABLE_SHA256 = {"vik": "b59dec8cc892e24cff419caed026a372a15ca7a28f018b526994ee8645ac2f92",
+                "lajolla": "b7587774d217ba8391bcf9394eaa984617856a28c42275d1b84dfba69182f08f"}
 
 
 def _sha(rgba):
@@ -27,12 +40,18 @@ def _lum(c):
     return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]
 
 
+@pytest.mark.xfail(strict=True, reason="the vendored tables are labelled v0.2.1: the pin move has not happened yet")
+def test_the_tables_name_the_pinned_release():
+    assert T["espmap"] == {"version": PIN["version"], "commit": COMMIT, "function": "esp_map.build_maps()[name]"}
+
+
 def test_the_tables_are_espmaps_and_unedited():
-    assert T["espmap"] == {"version": "0.2.1", "commit": COMMIT, "function": "esp_map.build_maps()[name]"}
+    assert T["espmap"]["function"] == "esp_map.build_maps()[name]"
     assert sorted(T["maps"]) == ["lajolla", "vik"]
     for name, m in T["maps"].items():
         assert m["N"] == 256 and len(m["rgba"]) == 256, name
         assert m["sha256"] == _sha(m["rgba"]), f"{name}: the table was edited"
+        assert m["sha256"] == TABLE_SHA256[name], f"{name}: the colours changed"
         assert all(len(c) == 4 and all(0.0 <= v <= 1.0 for v in c) for c in m["rgba"]), name
     assert "Fabio Crameri" in T["attribution"] and (HERE / "vendor" / "LICENSE-cmcrameri").is_file()
 
@@ -85,7 +104,7 @@ def test_palette_never_reorients_a_table():
             assert not (isinstance(step, ast.UnaryOp) and isinstance(step.op, ast.USub)), "a negative-step slice"
 
 
-def _espmap_at_v021():
+def _espmap_at_pin():
     root = os.environ.get("ESPMAP_PATH")
     if not root or not (Path(root) / "esp_map.py").is_file():
         return None
@@ -93,12 +112,13 @@ def _espmap_at_v021():
     return root if head == COMMIT else None
 
 
-def test_parity_with_espmap_v021_where_available():
+def test_parity_with_the_pinned_espmap_where_available():
     """Exact equality with the pinned source only: a newer espmap is never
-    authoritative; a difference there is drift to report, not to follow."""
-    root = _espmap_at_v021()
+    authoritative; a difference there is drift to report, not to follow.
+    The canary job's checkout is the pin's commit, so this runs there."""
+    root = _espmap_at_pin()
     if root is None:
-        pytest.skip("espmap at v0.2.1 (41a989d) is not available here")
+        pytest.skip(f"espmap at {PIN['tag']} ({COMMIT[:7]}) is not available here")
     sys.path.insert(0, root)
     import esp_map as em
     built = em.build_maps()
