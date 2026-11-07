@@ -13,6 +13,7 @@ from pathlib import Path
 import pytest
 
 HERE = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from espmap_pin import PIN, STUDY_PRODUCER  # noqa: E402
 
@@ -80,3 +81,24 @@ def test_the_study_control_keeps_its_producer():
         assert ens["espmap"]["version"] == STUDY_PRODUCER["version"], path
         assert ens["espmap"]["commit"] == STUDY_PRODUCER["commit"], path
         assert path.parent.name.endswith(f"espmap-v{STUDY_PRODUCER['version']}"), path
+
+
+# espmap-sesiidae-001's frozen protocol (B3LYP/def2-SVP + RI, gas phase), as its key: written out
+# in full here, not read from model.STUDY_KEYS, so a change to either is caught by the other
+STUDY_KEY = "d0f5ed136cda12ada8c6324a79ec9f7e79134d2f"
+ALDEHYDE_CONTROL = HERE / "controls" / "espmap" / "z3_z13_18_al" / "b3lyp_def2-svp_gas_espmap-v0.2.1"
+
+
+def test_the_aldehyde_control_keeps_the_study_protocol():
+    """The named control stays under the study's frozen key, in its index and
+    in every member: the pin protects the study's protocol, not only its
+    producer. A v0.3.1 rerun of the study is a decision of its own."""
+    import model
+    assert model.STUDY_KEYS["espmap-sesiidae-001/range_partition_sign_v1"] == STUDY_KEY
+    ens = json.loads((ALDEHYDE_CONTROL / "ensemble.json").read_text(encoding="utf-8"))
+    assert ens["analysis_key"] == STUDY_KEY
+    members = sorted((ALDEHYDE_CONTROL / "conformers").glob("conf_*.json"))
+    assert len(members) == 20, len(members)
+    for m in members:
+        rec = json.loads(m.read_text(encoding="utf-8"))
+        assert rec["analysis_key"] == STUDY_KEY, m.name
