@@ -256,7 +256,7 @@ itself.
   study adapter reads them.
 - [ ] Every observation the homework uses checked by a person against its
   paper (a hard gate before class).
-- [ ] `--require-stereo` in a tagged espmap. It is merged on master (3746cad)
-  but not yet released, so the manifest-only guarantee still holds.
+- [x] `--require-stereo` in a tagged espmap: in v0.3.1, Arrowfield's pin since
+  2026-11-07 (the manifest also refuses open stereo).
 - [ ] Biological context from the Atlas teaching bundle, not written here.
 - [ ] McMurry section numbers for the class edition.
